@@ -1,0 +1,2 @@
+User-agent: *
+Disallow: gpu-shop.com/en/admin/

@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('client.main');
 });
+
 Route::get('test', function () {
     return 'hi';
 });

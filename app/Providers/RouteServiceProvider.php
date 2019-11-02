@@ -35,6 +35,10 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function map()
     {
+        $this->mapAdminRoutes();
+
+        $this->mapSellerRoutes();
+
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
@@ -42,6 +46,20 @@ class RouteServiceProvider extends ServiceProvider
         //
     }
 
+    /**
+     * Define the "admin" routes for the application.
+     * These routes all receive session state, CSRF protection, etc.
+     * @return void
+     */
+    protected function mapAdminRoutes()
+    {
+        $locale = app('LaravelLocalization')->setLocale();
+
+        Route::middleware('web')
+            ->prefix($locale)
+            ->namespace($this->namespace)
+            ->group(base_path('routes/admin.php'));
+    }
     /**
      * Define the "web" routes for the application.
      *
@@ -58,6 +76,22 @@ class RouteServiceProvider extends ServiceProvider
             ->namespace($this->namespace)
             ->domain(env('APP_DOMAIN'))
             ->group(base_path('routes/web.php'));
+    }
+
+    /**
+     * Define the "Seller" routes for the application.
+     * These routes all receive session state, CSRF protection, etc.
+     * @return void
+     */
+    protected function mapSellerRoutes()
+    {
+        $locale = app('LaravelLocalization')->setLocale();
+
+        Route::middleware('web')
+            ->prefix($locale)
+            ->namespace($this->namespace)
+            ->domain('sellers.' . env('APP_DOMAIN'))
+            ->group(base_path('routes/seller.php'));
     }
 
     /**
