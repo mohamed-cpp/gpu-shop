@@ -12,7 +12,7 @@ const mix = require('laravel-mix');
  */
 
 // mix.js('resources/js/app.js', 'public/js')
-//     .sass('resources/sass/app.scss', 'public/css');
+//    .sass('resources/sass/app.scss', 'public/css');
 
 mix.styles([
     'resources/templates/GPU-Shop/css/bootstrap.min.css',
@@ -47,3 +47,4 @@ mix.babel([
 
 mix.copy('resources/templates/GPU-Shop/js/vendor/modernizr-2.8.3.min.js',
     'public/GPU-Shop/js/modernizr-2.8.3.min.js');
+
