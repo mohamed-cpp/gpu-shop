@@ -152,7 +152,19 @@
                         <li><a href="#">Default welcome msg!</a></li>
                         <li><a href="register.html">register</a></li>
                         <li><a href="wishlist.html">My Wish List</a></li>
-                        <li><a href="login.html">Sign In </a></li>
+                        @if( Auth::guard('client')->check() )
+                            <li><a href="{{ route('client.logout') }}"
+                                   onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a></li>
+                            <form id="logout-form" action="{{ route('client.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                        @else
+                            <li><a href="{{ route('client.login') }}">{{ __('Login') }} </a></li>
+                        @endif
                     </ul>
                 </div>
             </div>

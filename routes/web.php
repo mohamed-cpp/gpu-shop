@@ -10,20 +10,18 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function () {
-    return view('client.main');
-});
+Route::get("/", 'Client\ClientsHomePageController@homepage')->name('homepage');
 
 Route::group(['middleware' => 'client'], function () {
     Route::get('/home', function () {
         return view('client.main');
     })->name('client.home');
 });
-//// Authentication Routes
-//Route::get("login", "Auth\Client\LoginController@showLoginForm")->name("client.loginForm");
-Route::post("loginn", "Auth\Client\LoginController@login")->name('client.login');
+
+// Authentication Routes
+Route::get("login", "Auth\Client\LoginController@showLoginForm")->name("client.loginForm");
+Route::post("login", "Auth\Client\LoginController@login")->name('client.login');
 Route::post("logout", "Auth\Client\LoginController@logout")->name("client.logout");
-Route::get("logout", "Auth\Client\LoginController@logout");
 
 //
 //// Registration Routes
@@ -32,7 +30,7 @@ Route::get("logout", "Auth\Client\LoginController@logout");
 //Route::get('register/verify', 'Auth\Client\VerificationController@verify')->name('client.email.verifyForm');
 //Route::get('register/verify/resend', 'Auth\Client\VerificationController@resend')->name('client.email.verifyResend');
 //
-//// Password Reset Routes
+// Password Reset Routes
 //Route::get('password/reset', 'Auth\Client\ForgotPasswordController@showLinkRequestForm')
 //    ->name('client.password.request');
 //Route::post('password/email', 'Auth\Client\ForgotPasswordController@sendResetLinkEmail')
@@ -42,4 +40,9 @@ Route::get("logout", "Auth\Client\LoginController@logout");
 //Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
 //    ->name('client.password.update');
 
-Auth::routes();
+//Auth::routes();
+
+
+Route::get('/test', function () {
+    return auth('client')->check() ? auth('client')->user()->email : "sorry";
+});
