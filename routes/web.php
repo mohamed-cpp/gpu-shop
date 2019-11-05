@@ -19,17 +19,15 @@ Route::group(['middleware' => 'client'], function () {
 });
 
 // Authentication Routes
-Route::get("login", "Auth\Client\LoginController@showLoginForm")->name("client.loginForm");
+Route::get("login", "Auth\Client\LoginController@showLoginForm")->name("client.loginForm")->middleware('guest:client');
 Route::post("login", "Auth\Client\LoginController@login")->name('client.login');
 Route::post("logout", "Auth\Client\LoginController@logout")->name("client.logout");
+// Registration Routes
+Route::get('register', 'Auth\Client\RegisterController@showRegistrationForm')->name('client.registerForm');
+Route::post('register', 'Auth\Client\RegisterController@register')->name('client.register');
+Route::get('register/verify', 'Auth\Client\VerificationController@verify')->name('client.email.verifyForm');
+Route::get('register/verify/resend', 'Auth\Client\VerificationController@resend')->name('client.email.verifyResend');
 
-//
-//// Registration Routes
-//Route::get('register', 'Auth\Client\RegisterController@showRegistrationForm')->name('client.registerForm');
-//Route::post('register', 'Auth\Client\RegisterController@register')->name('client.register');
-//Route::get('register/verify', 'Auth\Client\VerificationController@verify')->name('client.email.verifyForm');
-//Route::get('register/verify/resend', 'Auth\Client\VerificationController@resend')->name('client.email.verifyResend');
-//
 // Password Reset Routes
 //Route::get('password/reset', 'Auth\Client\ForgotPasswordController@showLinkRequestForm')
 //    ->name('client.password.request');
@@ -44,5 +42,5 @@ Route::post("logout", "Auth\Client\LoginController@logout")->name("client.logout
 
 
 Route::get('/test', function () {
-    return auth('client')->check() ? auth('client')->user()->email : "sorry";
+    md5( auth('client')->user()->created_at . auth('client')->user()->email . auth('client')->user()->username);
 });

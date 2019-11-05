@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth\Client;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\VerifiesEmails;
+use App\Client;
+use Illuminate\Http\Request;
 
 class VerificationController extends Controller
 {
@@ -34,8 +36,50 @@ class VerificationController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
-        $this->middleware('signed')->only('verify');
-        $this->middleware('throttle:6,1')->only('verify', 'resend');
+//        $this->middleware('auth');
+//        $this->middleware('signed')->only('verify');
+//        $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
+
+    public function verify(Request $request)
+    {
+        if ($client = $this->tokenMatched($request)) {
+
+            $client->markEmailAsVerified();
+            session()->flash('success', '<b>Success</b>, You have verified your email successfully!');
+            return redirect(route("client.home"));
+
+        }
+
+        session()->flash('fail', __("<b>Opps!!</b>, The verification link may not be correct."));
+        return redirect(route("client.home"));
+    }
+
+    /**
+     * @param Request $request
+     * @return bool
+     */
+    private function tokenMatched(Request $request)
+    {
+        $client = Client::whereEmail($request->get('email'))->first();
+
+        if ($client->matchEmailVerificationToken($request->get('token'))) {
+            return $client;
+        }
+
+        return false;
+    }
+
+    public function resend(Request $request)
+    {
+        $request = $request->user('client') ;
+        if ($request->hasVerifiedEmail()) {
+            return redirect($this->redirectPath());
+        }
+
+        $request->sendEmailVerificationNotification();
+
+        return back()->with('resent', true);
+    }
+
 }

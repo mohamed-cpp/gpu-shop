@@ -150,7 +150,6 @@
                     <ul>
                         <li><a href="#">Compare Products </a></li>
                         <li><a href="#">Default welcome msg!</a></li>
-                        <li><a href="register.html">register</a></li>
                         <li><a href="wishlist.html">My Wish List</a></li>
                         @if( Auth::guard('client')->check() )
                             <li><a href="{{ route('client.logout') }}"
@@ -163,6 +162,7 @@
                             </form>
 
                         @else
+                            <li><a href="{{route('client.registerForm')}}">{{ __('Register') }}</a></li>
                             <li><a href="{{ route('client.login') }}">{{ __('Login') }} </a></li>
                         @endif
                     </ul>
