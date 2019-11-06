@@ -51,7 +51,7 @@ class VerificationController extends Controller
 
         }
 
-        session()->flash('fail', __("<b>Opps!!</b>, The verification link may not be correct."));
+        session()->flash('fail', __("<b>Oops!!</b>, The verification link may not be correct."));
         return redirect(route("client.home"));
     }
 

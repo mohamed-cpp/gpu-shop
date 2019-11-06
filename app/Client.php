@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\ClientResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\SendClientVerificationEmailNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -57,6 +58,14 @@ class Client extends Authenticatable implements MustVerifyEmail
     public function extractVerificationToken()
     {
         return md5($this->created_at . $this->email . $this->username);
+    }
+
+    /**
+     * @param string $token
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        return $this->notify(new ClientResetPasswordNotification($this, $token));
     }
 
     /**

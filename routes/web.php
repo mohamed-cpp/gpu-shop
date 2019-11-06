@@ -29,18 +29,18 @@ Route::get('register/verify', 'Auth\Client\VerificationController@verify')->name
 Route::get('register/verify/resend', 'Auth\Client\VerificationController@resend')->name('client.email.verifyResend');
 
 // Password Reset Routes
-//Route::get('password/reset', 'Auth\Client\ForgotPasswordController@showLinkRequestForm')
-//    ->name('client.password.request');
-//Route::post('password/email', 'Auth\Client\ForgotPasswordController@sendResetLinkEmail')
-//    ->name('client.password.email');
-//Route::get('password/reset/{token}', 'Auth\Client\ResetPasswordController@showResetForm')
-//    ->name('client.password.reset');
-//Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
-//    ->name('client.password.update');
+Route::get('password/reset', 'Auth\Client\ForgotPasswordController@showLinkRequestForm')
+    ->name('client.password.request');
+Route::post('password/email', 'Auth\Client\ForgotPasswordController@sendResetLinkEmail')
+    ->name('client.password.email');
+Route::get('password/reset/{token}', 'Auth\Client\ResetPasswordController@showResetForm')
+    ->name('client.password.reset');
+Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
+    ->name('client.password.update');
 
 //Auth::routes();
 
 
 Route::get('/test', function () {
-    md5( auth('client')->user()->created_at . auth('client')->user()->email . auth('client')->user()->username);
+
 });
