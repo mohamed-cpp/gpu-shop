@@ -69,6 +69,51 @@ class Client extends Authenticatable implements MustVerifyEmail
     }
 
     /**
+     * send sms to client
+     *
+     * @param $body
+     * @throws \Twilio\Exceptions\ConfigurationException
+     * @throws \Twilio\Exceptions\TwilioException
+     */
+    public function twilioSMS($body){
+        $client = new \Twilio\Rest\Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        try {
+        $client->messages->create(
+            $this->phone_number,
+            array(
+                'from' => env('TWILIO_NUMBER'),
+                'body' => $body
+            )
+        );
+        } catch (\Exception $e){
+            if($e->getCode() == 400)
+            {
+                $message = $e->getMessage();
+
+                session()->flash('message', $message);
+            }
+        }
+
+    }
+    /**
+     * send message to client via whatsapp
+     *
+     * @param $body
+     * @throws \Twilio\Exceptions\ConfigurationException
+     * @throws \Twilio\Exceptions\TwilioException
+     */
+    public function twilioWhatsApp($body){
+        $twilio = new \Twilio\Rest\Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
+        $twilio->messages
+            ->create("whatsapp:$this->phone_number",
+                array(
+                    "from" => "whatsapp:".env('TWILIO_WHATSAPP'),
+                    "body" => $body
+                )
+            );
+    }
+
+    /**
      * Get the guard to be used during password reset.
      * @param array $guarded
      * @return StatefulGuard

@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -48,23 +47,19 @@ class RegisterController extends Controller
         return view('client.auth.register');
     }
 
-//    public function registered(Request $request, Client $user)
-//    {
-//        if ($user->email_verified_at)
-//        {
-//            if (session("intended.url"))
-//                return redirect(session("intended.url"));
-//
-//            session()
-//                ->flash("success", __("Registration is Complete now try to login"));
-//        } else
-//        {
-//            session()
-//                ->flash("verify",
-//                    __("Please verify your email by checking your inbox and follow our email instructions."));
-//        }
-//        return redirect(route("client.login"));
-//    }
+    /**
+     * @param Request $request
+     * @param Client $user
+     * @throws \Twilio\Exceptions\ConfigurationException
+     * @throws \Twilio\Exceptions\TwilioException
+     */
+    public function registered(Request $request, Client $user)
+    {
+        $name = $request->user('client')->name;
+        $body = "Welcome, $name  \nYou need to verify your phone number,\nGo to profile and verify number. \nRegards, \nGPU-Shop";
+        $user->twilioSMS($body);
+        $user->twilioWhatsApp($body);
+    }
 
     /**
      * Get a validator for an incoming registration request.
@@ -75,10 +70,10 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'username' => ['required', 'string', 'max:255', 'unique:clients'],
+            'name' => ['required', 'string', 'max:20'],
+            'username' => ['required', 'string', 'max:25', 'unique:clients'],
             'phone_number' => ['required', 'numeric', 'regex:/^[0-9-+ ]{7,15}$/', 'unique:clients'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:clients'],
+            'email' => ['sometimes','nullable' ,'string', 'email', 'max:255', 'unique:clients'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
     }

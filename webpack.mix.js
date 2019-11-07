@@ -27,6 +27,8 @@ mix.styles([
     'resources/templates/GPU-Shop/css/responsive.css',
 ], 'public/GPU-Shop/css/main.css')
     .sourceMaps();
+mix.styles('node_modules/intl-tel-input/build/css/intlTelInput.css',
+    'public/GPU-Shop/css/intlTelInput.css');
 
 
 mix.babel([
@@ -47,4 +49,7 @@ mix.babel([
 
 mix.copy('resources/templates/GPU-Shop/js/vendor/modernizr-2.8.3.min.js',
     'public/GPU-Shop/js/modernizr-2.8.3.min.js');
-
+mix.babel('node_modules/intl-tel-input/build/js/intlTelInput.js','public/GPU-Shop/js/intlTelInput.js')
+    .sourceMaps();
+mix.babel('node_modules/intl-tel-input/build/js/utils.js','public/GPU-Shop/js/utils.js')
+    .sourceMaps();

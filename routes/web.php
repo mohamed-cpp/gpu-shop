@@ -42,5 +42,15 @@ Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
 
 
 Route::get('/test', function () {
+    $sid = env('TWILIO_SID');
+    $token = env('TWILIO_AUTH_TOKEN');
 
+    $client = new Twilio\Rest\Client($sid, $token);
+    $message = $client->messages->create(
+        "+201153904374",
+        array(
+            'from' => env('TWILIO_NUMBER'),
+            'body' => "welcome"
+        )
+    );
 });
