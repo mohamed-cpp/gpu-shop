@@ -4,6 +4,7 @@ namespace App\Rules;
 
 use App\Client;
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Session;
 
 class VerifyValidate implements Rule
 {
@@ -26,8 +27,15 @@ class VerifyValidate implements Rule
      */
     public function passes($attribute, $value)
     {
-        $client = Client::where($attribute,$value)->pluck('email_verified_at')->first();
-        return !! $client;
+        $client = Client::where($attribute ,$attribute == 'email' ? $value : 'like', "%$value")->first();
+        if($client){
+            $verified =  $attribute == 'email' ? $client->email_verified_at : $client->phone_verified_at;
+            $attribute = $attribute == 'email' ? 'email' : 'phone number';
+            Session::flash('error',"The $attribute is not validation please connect us.");
+            return !! $verified;
+        }
+        Session::flash('error',"These credentials do not match our records.");
+        return false;
     }
 
     /**
@@ -37,6 +45,5 @@ class VerifyValidate implements Rule
      */
     public function message()
     {
-        return trans('validation.verifyvalidate');
     }
 }

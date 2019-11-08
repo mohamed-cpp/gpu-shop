@@ -37,7 +37,7 @@ class  RegisterClientTest extends TestCase
 
             'name' => $this->client->name,
             'username' => $this->client->username,
-            'phone_number' => '01314759745',
+            'phone_number' => '+201100754972',
             'email' => $this->client->email,
             'password' => 'password',
             'password_confirmation' => 'password'

@@ -42,6 +42,23 @@ class ForgotPasswordController extends Controller
     {
         return view('client.auth.passwords.email');
     }
+
+    public function sendResetLinkEmail(Request $request)
+    {
+
+        if(!strpos($request->email,"@")) {
+            return redirect(route('client.password.reset.phone',['phone_number'=> $request->email ]));
+        }
+
+        $this->validateEmail($request);
+        $response = $this->broker()->sendResetLink(
+            $this->credentials($request)
+        );
+
+        return $response == Password::RESET_LINK_SENT
+            ? $this->sendResetLinkResponse($request, $response)
+            : $this->sendResetLinkFailedResponse($request, $response);
+    }
     /**
      * Validate the email for the given request.
      *

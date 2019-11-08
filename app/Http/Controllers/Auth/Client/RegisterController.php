@@ -55,10 +55,12 @@ class RegisterController extends Controller
      */
     public function registered(Request $request, Client $user)
     {
-        $name = $request->user('client')->name;
-        $body = "Welcome, $name  \nYou need to verify your phone number,\nGo to profile and verify number. \nRegards, \nGPU-Shop";
-        $user->twilioSMS($body);
-        $user->twilioWhatsApp($body);
+        if (!app()->runningUnitTests()) {
+            $name = $request->user('client')->name;
+            $body = "Welcome, $name  \nYou need to verify your phone number,\nGo to profile and verify number. \nRegards, \nGPU-Shop";
+            $user->twilioSMS($body);
+            $user->twilioWhatsApp($body);
+        }
     }
 
     /**

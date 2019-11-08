@@ -15,7 +15,8 @@ const mix = require('laravel-mix');
 //    .sass('resources/sass/app.scss', 'public/css');
 
 mix.styles([
-    'resources/templates/GPU-Shop/css/bootstrap.min.css',
+    // 'resources/templates/GPU-Shop/css/bootstrap.min.css',
+    'resources/templates/GPU-Shop/css/bootstrap4.min.css',
     'resources/templates/GPU-Shop/css/magnific-popup.css',
     'resources/templates/GPU-Shop/css/animate.css',
     'resources/templates/GPU-Shop/css/owl.carousel.min.css',
@@ -34,7 +35,8 @@ mix.styles('node_modules/intl-tel-input/build/css/intlTelInput.css',
 mix.babel([
     'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
     'resources/templates/GPU-Shop/js/popper.js',
-    'resources/templates/GPU-Shop/js/bootstrap.min.js',
+    // 'resources/templates/GPU-Shop/js/bootstrap.min.js',
+    'resources/templates/GPU-Shop/js/bootstrap4.min.js',
     'resources/templates/GPU-Shop/js/jquery.magnific-popup.min.js',
     'resources/templates/GPU-Shop/js/isotope.pkgd.min.js',
     'resources/templates/GPU-Shop/js/imagesloaded.pkgd.min.js',
