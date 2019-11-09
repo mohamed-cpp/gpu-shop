@@ -33,6 +33,22 @@ class  LoginClientTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/home');
     }
+    public function test_can_user_login_via_phone(){
+        $response = $this->post(route('client.login'), [
+            'email' => $this->client->phone_number,
+            'password' => 'password'
+        ]);
+        $response->assertStatus(302);
+        $response->assertRedirect('/home');
+    }
+    public function test_validate_user_login_via_phone(){
+        $response = $this->post(route('client.login'), [
+            'email' => $this->client->phone_number.'0',
+            'password' => 'password'
+        ]);
+        $response->assertSessionHasErrors();
+        $this->assertGuest();
+    }
     public function test_validate_user_login(){
         $response = $this->post(route('client.login'), [
             'email' => $this->client->email,

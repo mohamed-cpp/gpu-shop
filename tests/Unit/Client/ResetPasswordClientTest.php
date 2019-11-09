@@ -26,6 +26,7 @@ class ResetPasswordClientTest extends TestCase
 
         Notification::fake();
         $client = create('App\Client');
+        //dd($client->email);
         $this->post(route('client.password.email'), [
             'email' => $client->email,
         ]);

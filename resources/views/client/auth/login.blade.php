@@ -23,12 +23,13 @@
                             <div class="login-form">
                                 <form action="{{ route('client.login') }}" method="POST">
                                     @csrf
-                                    <input type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address') }}">
+                                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address Or Phone Number') }}">
                                     @error('email')
-                                    <span class="invalid-feedback" role="alert">
+                                    <span class="invalid-feedback" role="alert" style="display: block !important;">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
+
                                     <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">

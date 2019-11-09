@@ -29,7 +29,7 @@ Route::group(['middleware' => 'client'], function () {
 
 // Authentication Routes
 Route::get("login", "Auth\Client\LoginController@showLoginForm")->name("client.loginForm")->middleware('guest:client');
-Route::post("login", "Auth\Client\LoginController@login")->name('client.login');
+Route::post("login", "Auth\Client\LoginController@phoneOrEmail")->name('client.login');
 Route::post("logout", "Auth\Client\LoginController@logout")->name("client.logout");
 // Registration Routes
 Route::get('register', 'Auth\Client\RegisterController@showRegistrationForm')->name('client.registerForm');
@@ -46,30 +46,21 @@ Route::get('password/reset/{token}', 'Auth\Client\ResetPasswordController@showRe
     ->name('client.password.reset');
 Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
     ->name('client.password.update');
-Route::get('password/phone', 'Client\PhoneVerifyClientController@showFormMessage')->name('client.password.reset.phone');
-Route::post('password/phone', 'Client\PhoneVerifyClientController@sendResetCode')->name('client.send.reset.password');
-Route::get('password/phone/code', 'Client\PhoneVerifyClientController@checkCodeForm')->name('client.check.code.password');
-Route::post('password/phone/code', 'Client\PhoneVerifyClientController@checkCode')->name('client.code.password');
-Route::get('password/change/phone', 'Client\PhoneVerifyClientController@changePasswordForm')->name('client.change.password.form');
-Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changePassword')->name('client.change.password.phone');
 
-
-//Auth::routes();
+Route::get('password/phone', 'Client\PhoneVerifyClientController@showFormMessage')
+    ->name('client.password.reset.phone');
+Route::post('password/phone', 'Client\PhoneVerifyClientController@sendResetCode')
+    ->name('client.send.reset.password');
+Route::get('password/phone/code', 'Client\PhoneVerifyClientController@checkCodeForm')
+    ->name('client.check.code.password');
+Route::post('password/phone/code', 'Client\PhoneVerifyClientController@checkCode')
+    ->name('client.code.password');
+Route::get('password/change/phone', 'Client\PhoneVerifyClientController@changePasswordForm')
+    ->name('client.change.password.form');
+Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changePassword')
+    ->name('client.change.password.phone');
 
 
 Route::get('/test', function () {
-
-    $twilio = new \Twilio\Rest\Client(env('TWILIO_SID'), env('TWILIO_AUTH_TOKEN'));
-    $phone =  auth('client')->user()->phone_number;
-
-
-    $twilio->messages
-        ->create("whatsapp:+201000754972",
-            array(
-                "from" => "whatsapp:".env('TWILIO_WHATSAPP'),
-                "body" => "test"
-            )
-        );
-
 
 }) ;

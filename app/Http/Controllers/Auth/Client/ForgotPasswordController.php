@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Client;
 
+use App\Client;
 use App\Http\Controllers\Controller;
 use App\Rules\VerifyValidate;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
@@ -47,7 +48,11 @@ class ForgotPasswordController extends Controller
     {
 
         if(!strpos($request->email,"@")) {
-            return redirect(route('client.password.reset.phone',['phone_number'=> $request->email ]));
+            $request->merge(['phone_number' => $request->email]);
+            $request->validate(['phone_number' => ['required', new VerifyValidate]]);
+            $user = Client::where('phone_number','like',"%".$request->email)
+                ->pluck('phone_number')->first();
+            return redirect(route('client.password.reset.phone',['phone'=> $user ]));
         }
 
         $this->validateEmail($request);

@@ -134,9 +134,7 @@ class PhoneVerifyClientController extends Controller
         //
     }
     public function showFormMessage(Request $request){
-
-        $request->validate(['phone_number' => ['required', new VerifyValidate]]);
-        return view('client.auth.passwords.verify_phone',['phone'=>$request->phone_number]);
+        return view('client.auth.passwords.verify_phone',['phone'=>$request->phone]);
     }
 
     /**

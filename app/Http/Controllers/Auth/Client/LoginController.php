@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Auth\Client;
 
+use App\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\ValidationException;
 
 
 class LoginController extends Controller
@@ -23,6 +26,8 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    public $username;
 
     /**
      * Where to redirect users after login.
@@ -49,6 +54,51 @@ class LoginController extends Controller
     {
         return view('client.auth.login');
     }
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\RedirectResponse|Response
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    public function phoneOrEmail(Request $request){
+
+        if(!strpos($request->email,"@")) {
+            $client = Client::where('phone_number','like','%'.$request->email)
+                ->pluck('phone_number')
+                ->first();
+            $len = str_replace($request->email,'',$client);
+            if( $client == null || strlen($len) > 4 ){
+                return $this->sendFailedLoginResponse($request);
+            }
+            $request->merge(['phone_number' => $client]);
+            $this->username = "phone_number";
+
+        }else{
+            $this->username = "email";
+        }
+        return $this->login($request);
+    }
+
+    /**
+     * Validate the user login request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
+    protected function validateLogin(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|min:7',
+            'password' => 'required|string',
+        ]);
+    }
+    protected function sendFailedLoginResponse(Request $request)
+    {
+        throw ValidationException::withMessages([
+            'email' => [trans('auth.failed')],
+        ]);
+    }
 
     public function logout(Request $request)
     {
@@ -62,6 +112,17 @@ class LoginController extends Controller
         session()->forget("intended.url");
 
         return $intended ?? route('client.home');
+    }
+
+    /**
+     * Get the login username to be used by the controller.
+     *
+     * @param Request $request
+     * @return string
+     */
+    public function username()
+    {
+        return $this->username;
     }
 
     protected function guard()
