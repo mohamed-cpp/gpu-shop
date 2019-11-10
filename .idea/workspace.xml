@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ce1b2ae3-8d8d-4a2c-b09f-6792e641dc15" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/tests/Unit/Client/VerifyPhoneAndRestPasswordViaPhoneTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.env.testing" beforeDir="false" afterPath="$PROJECT_DIR$/.env.testing" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/GPU.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/GPU.iml" afterDir="false" />
@@ -641,6 +640,7 @@
       <change beforePath="$PROJECT_DIR$/tests/Unit/Client/LoginClientTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Client/LoginClientTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Unit/Client/RegisterClientTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Client/RegisterClientTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Unit/Client/ResetPasswordClientTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Client/ResetPasswordClientTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tests/Unit/Client/VerifyPhoneAndRestPasswordViaPhoneTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Client/VerifyPhoneAndRestPasswordViaPhoneTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/Unit/Client/VerifyRegisterClientTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/Unit/Client/VerifyRegisterClientTest.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tests/utilities/functions.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/utilities/functions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/webpack.mix.js" beforeDir="false" afterPath="$PROJECT_DIR$/webpack.mix.js" afterDir="false" />
@@ -658,12 +658,33 @@
     <favorites_list name="GPU" />
   </component>
   <component name="FileEditorManager">
-    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+    <leaf>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/routes/web.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="302">
+              <caret line="61" column="40" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="40" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Client/PhoneVerifyClientController.php">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="472">
+              <caret line="202" column="15" lean-forward="true" selection-start-line="202" selection-start-column="15" selection-end-line="202" selection-end-column="15" />
+              <folding>
+                <element signature="e#47#62#0#PHP" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/tests/Unit/Client/VerifyPhoneAndRestPasswordViaPhoneTest.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="208">
-              <caret line="8" column="44" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="44" />
+            <state relative-caret-position="156">
+              <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
               <folding>
                 <element signature="e#34#89#0#PHP" expanded="true" />
               </folding>
@@ -698,7 +719,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/tests/utilities/functions.php" />
         <option value="$PROJECT_DIR$/composer.json" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/RedirectIfAuthenticated.php" />
         <option value="$PROJECT_DIR$/resources/views/client/layout/_main_side_bar.blade.php" />
@@ -712,7 +732,6 @@
         <option value="$PROJECT_DIR$/app/Http/Middleware/Authenticate.php" />
         <option value="$PROJECT_DIR$/app/Notifications/SendClientVerificationEmailNotification.php" />
         <option value="$PROJECT_DIR$/app/Http/Middleware/RedirectIfEmailNotConfirmed.php" />
-        <option value="$PROJECT_DIR$/tests/Unit/Client/VerifyRegisterClientTest.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/Client/VerificationController.php" />
         <option value="$PROJECT_DIR$/config/auth.php" />
         <option value="$PROJECT_DIR$/app/Notifications/ClientResetPasswordNotification.php" />
@@ -730,7 +749,6 @@
         <option value="$PROJECT_DIR$/app/Http/Kernel.php" />
         <option value="$PROJECT_DIR$/database/migrations/2019_11_03_024125_create_clients_table.php" />
         <option value="$PROJECT_DIR$/resources/views/client/errors/error.blade.php" />
-        <option value="$PROJECT_DIR$/app/Http/Middleware/ValidateCodeMiddleware.php" />
         <option value="$PROJECT_DIR$/resources/views/client/auth/code_phone.blade.php" />
         <option value="$PROJECT_DIR$/resources/views/client/profile.blade.php" />
         <option value="$PROJECT_DIR$/config/laravellocalization.php" />
@@ -740,14 +758,17 @@
         <option value="$PROJECT_DIR$/resources/views/client/auth/passwords/resetViaPhone.blade.php" />
         <option value="$PROJECT_DIR$/app/Client.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/Client/RegisterController.php" />
-        <option value="$PROJECT_DIR$/routes/web.php" />
         <option value="$PROJECT_DIR$/resources/views/client/auth/login.blade.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/Client/LoginController.php" />
-        <option value="$PROJECT_DIR$/app/Http/Controllers/Client/PhoneVerifyClientController.php" />
         <option value="$PROJECT_DIR$/tests/Unit/Client/ResetPasswordClientTest.php" />
+        <option value="$PROJECT_DIR$/tests/Unit/Client/LoginClientTest.php" />
+        <option value="$PROJECT_DIR$/routes/web.php" />
+        <option value="$PROJECT_DIR$/tests/Unit/Client/VerifyRegisterClientTest.php" />
+        <option value="$PROJECT_DIR$/database/factories/CreateClientFactory.php" />
+        <option value="$PROJECT_DIR$/app/Http/Middleware/ValidateCodeMiddleware.php" />
         <option value="$PROJECT_DIR$/app/Http/Controllers/Auth/Client/ForgotPasswordController.php" />
         <option value="$PROJECT_DIR$/app/Rules/VerifyValidate.php" />
-        <option value="$PROJECT_DIR$/tests/Unit/Client/LoginClientTest.php" />
+        <option value="$PROJECT_DIR$/app/Http/Controllers/Client/PhoneVerifyClientController.php" />
         <option value="$PROJECT_DIR$/tests/Unit/Client/VerifyPhoneAndRestPasswordViaPhoneTest.php" />
       </list>
     </option>
@@ -846,7 +867,7 @@
       <path value="$PROJECT_DIR$/vendor/twilio/sdk" />
     </include_path>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="-8" />
     <option name="y" value="-8" />
     <option name="width" value="1382" />
@@ -1127,12 +1148,13 @@
       <workItem from="1573100226997" duration="17706000" />
       <workItem from="1573141663424" duration="18971000" />
       <workItem from="1573188995435" duration="38494000" />
-      <workItem from="1573292412890" duration="18076000" />
+      <workItem from="1573292412890" duration="18677000" />
+      <workItem from="1573374051318" duration="14778000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="197545000" />
+    <option name="totallyTimeSpent" value="212924000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1147,7 +1169,7 @@
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4923077" visible="true" weight="0.24432677" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4923077" weight="0.24810892" />
       <window_info id="Structure" order="1" sideWeight="0.50769234" side_tool="true" weight="0.24432677" />
       <window_info id="npm" order="2" sideWeight="0.50427353" side_tool="true" weight="0.24595469" />
       <window_info id="Favorites" order="3" sideWeight="0.5017836" side_tool="true" weight="0.23543689" />
@@ -1174,20 +1196,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/tests/Unit/Client/RegisterClientTest.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="41" column="37" lean-forward="true" selection-start-line="41" selection-start-column="37" selection-end-line="41" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Controller.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="156">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Client/ClientsHomePageController.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="104">
@@ -1242,16 +1250,6 @@
           <caret line="54" column="8" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="38" />
           <folding>
             <element signature="e#47#62#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="71" column="22" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="22" />
-          <folding>
-            <element signature="e#28#80#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1398,26 +1396,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Client.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="112" selection-start-line="112" selection-end-line="120" selection-end-column="14" />
-          <folding>
-            <element signature="e#23#77#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateCodeMiddleware.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-208">
-          <caret line="9" column="6" selection-start-line="9" selection-start-column="6" selection-end-line="9" selection-end-column="6" />
-          <folding>
-            <element signature="e#39#54#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/client/auth/passwords/code_phone.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="52">
@@ -1467,16 +1445,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/Client/RegisterController.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1378">
-          <caret line="12" column="6" selection-start-line="12" selection-start-column="6" selection-end-line="12" selection-end-column="6" />
-          <folding>
-            <element signature="e#52#88#0#PHP" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/resources/views/client/auth/login.blade.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="78">
@@ -1504,34 +1472,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Client/PhoneVerifyClientController.php">
+    <entry file="file://$PROJECT_DIR$/database/factories/CreateClientFactory.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="91">
-          <caret line="135" column="54" selection-start-line="135" selection-start-column="54" selection-end-line="135" selection-end-column="54" />
+        <state relative-caret-position="338">
+          <caret line="15" column="37" selection-start-line="15" selection-start-column="37" selection-end-line="15" selection-end-column="37" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/Client/RegisterController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="57" column="12" lean-forward="true" selection-start-line="57" selection-start-column="12" selection-end-line="57" selection-end-column="38" />
           <folding>
-            <element signature="e#47#62#0#PHP" expanded="true" />
+            <element signature="e#52#88#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/routes/web.php">
+    <entry file="file://$PROJECT_DIR$/app/Http/Kernel.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="31" column="62" selection-start-line="31" selection-start-column="62" selection-end-line="31" selection-end-column="62" />
+        <state relative-caret-position="442">
+          <caret line="71" column="62" selection-start-line="71" selection-start-column="62" selection-end-line="71" selection-end-column="62" />
+          <folding>
+            <element signature="e#28#80#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/tests/Unit/Client/ResetPasswordClientTest.php">
+    <entry file="file://$PROJECT_DIR$/tests/Unit/Client/VerifyRegisterClientTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="286">
-          <caret line="28" column="10" selection-start-line="28" selection-start-column="10" selection-end-line="28" selection-end-column="10" />
+        <state relative-caret-position="-78">
+          <caret line="46" column="26" selection-start-line="46" selection-start-column="18" selection-end-line="46" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Middleware/ValidateCodeMiddleware.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="31" column="56" lean-forward="true" selection-start-line="31" selection-start-column="40" selection-end-line="31" selection-end-column="60" />
+          <folding>
+            <element signature="e#39#54#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Client.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="133" column="20" selection-start-line="133" selection-start-column="20" selection-end-line="133" selection-end-column="20" />
+          <folding>
+            <element signature="e#23#77#0#PHP" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Rules/VerifyValidate.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="39" column="13" selection-start-line="39" selection-start-column="13" selection-end-line="39" selection-end-column="13" />
+        <state relative-caret-position="286">
+          <caret line="37" selection-start-line="37" selection-end-line="37" />
           <folding>
             <element signature="e#29#44#0#PHP" expanded="true" />
           </folding>
@@ -1540,32 +1538,56 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Auth/Client/ForgotPasswordController.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="628">
-          <caret line="51" column="75" selection-start-line="51" selection-start-column="75" selection-end-line="51" selection-end-column="75" />
+        <state relative-caret-position="286">
+          <caret line="50" column="65" selection-start-line="50" selection-start-column="65" selection-end-line="50" selection-end-column="65" />
           <folding>
             <element signature="e#52#67#0#PHP" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/database/factories/CreateClientFactory.php">
+    <entry file="file://$PROJECT_DIR$/routes/web.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="15" column="23" lean-forward="true" selection-start-line="15" selection-start-column="23" selection-end-line="15" selection-end-column="83" />
+        <state relative-caret-position="302">
+          <caret line="61" column="40" selection-start-line="61" selection-start-column="12" selection-end-line="61" selection-end-column="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/Unit/Client/ResetPasswordClientTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="442">
+          <caret line="64" selection-start-line="64" selection-end-line="65" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Unit/Client/LoginClientTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="498">
-          <caret line="49" column="29" selection-start-line="49" selection-start-column="29" selection-end-line="49" selection-end-column="29" />
+        <state relative-caret-position="-1248">
+          <caret line="8" column="7" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/Http/Controllers/Client/PhoneVerifyClientController.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="472">
+          <caret line="202" column="15" lean-forward="true" selection-start-line="202" selection-start-column="15" selection-end-line="202" selection-end-column="15" />
+          <folding>
+            <element signature="e#47#62#0#PHP" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/tests/Unit/Client/RegisterClientTest.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="12" selection-start-line="12" selection-end-line="15" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/tests/Unit/Client/VerifyPhoneAndRestPasswordViaPhoneTest.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="208">
-          <caret line="8" column="44" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="44" />
+        <state relative-caret-position="156">
+          <caret line="12" column="29" selection-start-line="12" selection-start-column="29" selection-end-line="12" selection-end-column="29" />
           <folding>
             <element signature="e#34#89#0#PHP" expanded="true" />
           </folding>

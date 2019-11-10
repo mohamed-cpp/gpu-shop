@@ -16,7 +16,8 @@ class PhoneVerifyClientController extends Controller
     public function __construct()
     {
         $this->middleware('is_code_valid')->only('show','update');
-        $this->middleware('guest:client')->only('showFormMessage','sendResetCode');
+        $this->middleware('guest:client')
+            ->only('showFormMessage','sendResetCode','checkCodeForm','checkCode','changePasswordForm','changePassword');
     }
 
     /**
@@ -48,10 +49,12 @@ class PhoneVerifyClientController extends Controller
     {
         $code = $user->generateCode();
         $body = "Your GPU-Shop Code is $code";
-        if($request->message == "whatsapp"){
-            $user->twilioWhatsApp($body);
-        }else{
-            $user->twilioSMS($body);
+        if(!app()->runningUnitTests()){
+            if($request->message == "whatsapp"){
+                $user->twilioWhatsApp($body);
+            }else{
+                $user->twilioSMS($body);
+            }
         }
         $dt = \Carbon\Carbon::now();
         $user = $request->user('client');
@@ -118,7 +121,6 @@ class PhoneVerifyClientController extends Controller
             return redirect(route('client.profile'));
         }else{
             Session::flash('error',"Sorry code $request->code not correct, Try again");
-//            session(['error', "Sorry code $request->code not correct, Try again"]);
             return  redirect()->back();
         }
     }
@@ -156,10 +158,12 @@ class PhoneVerifyClientController extends Controller
         ]);
         $user->save();
 
-        if($request->message == "whatsapp"){
-            $client->twilioWhatsApp($body,$user->phone_number);
-        }else{
-            $client->twilioSMS($body,$user->phone_number);
+        if(!app()->runningUnitTests()){
+            if($request->message == "whatsapp"){
+                $client->twilioWhatsApp($body,$user->phone_number);
+            }else{
+                $client->twilioSMS($body,$user->phone_number);
+            }
         }
         return redirect(route('client.check.code.password',['phone'=>$user->phone_number]));
     }

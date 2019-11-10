@@ -19,8 +19,9 @@ Route::group(['middleware' => 'client'], function () {
 
     Route::prefix('profile')->group(function () {
         Route::get('/', 'Client\ProfileClientController@show')->name('client.profile');
+
         Route::get('phone/verify', 'Client\PhoneVerifyClientController@index')->name('verify.phone.client');
-        Route::post('phone/code', 'Client\PhoneVerifyClientController@create')->name('code.phone.client');
+        Route::post('phone/verify', 'Client\PhoneVerifyClientController@create')->name('code.phone.client');
         Route::get('verify/code', 'Client\PhoneVerifyClientController@show')->name('verify.page.client');
         Route::post('verify/code', 'Client\PhoneVerifyClientController@update')->name('verify.code.client');
     });
@@ -46,7 +47,7 @@ Route::get('password/reset/{token}', 'Auth\Client\ResetPasswordController@showRe
     ->name('client.password.reset');
 Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
     ->name('client.password.update');
-
+// Password Reset Routes Via Phone
 Route::get('password/phone', 'Client\PhoneVerifyClientController@showFormMessage')
     ->name('client.password.reset.phone');
 Route::post('password/phone', 'Client\PhoneVerifyClientController@sendResetCode')
