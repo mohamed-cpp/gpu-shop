@@ -56,3 +56,26 @@ mix.babel('node_modules/intl-tel-input/build/js/intlTelInput.js','public/GPU-Sho
     .sourceMaps();
 mix.babel('node_modules/intl-tel-input/build/js/utils.js','public/GPU-Shop/js/utils.js')
     .sourceMaps();
+// Dashboard //
+
+mix.styles([
+    'resources/templates/dashboard/css/sb-admin-2.min.css',
+], 'public/dashboard/css/main.css')
+    .sourceMaps();
+
+mix.babel([
+    'resources/templates/dashboard/js/jquery.min.js',
+    'resources/templates/dashboard/js/jquery-ui.min.js',
+    'resources/templates/dashboard/js/bootstrap.bundle.min.js',
+    'resources/templates/dashboard/js/jquery.easing.min.js',
+    'resources/templates/dashboard/js/sb-admin-2.min.js',
+    'resources/templates/dashboard/js/Chart.min.js',
+], 'public/dashboard/js/app.js').sourceMaps();
+
+mix.babel('resources/templates/dashboard/js/demo/chart-area-demo.js',
+    'public/dashboard/js/demo/chart-area-demo.js')
+    .sourceMaps();
+mix.babel('resources/templates/dashboard/js/demo/chart-pie-demo.js',
+    'public/dashboard/js/demo/chart-pie-demo.js')
+    .sourceMaps();
+

@@ -1,7 +1,7 @@
 <?php
 
 Route::get('/', function () {
-    return 'seller';
+    return view('seller.main');
 });
 
 //Route::get('/robots.txt',function (){
