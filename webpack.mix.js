@@ -34,6 +34,7 @@ mix.styles('node_modules/intl-tel-input/build/css/intlTelInput.css',
 
 mix.babel([
     'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
+    //'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
     'resources/templates/GPU-Shop/js/popper.js',
     // 'resources/templates/GPU-Shop/js/bootstrap.min.js',
     'resources/templates/GPU-Shop/js/bootstrap4.min.js',

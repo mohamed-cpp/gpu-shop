@@ -48,15 +48,15 @@ Route::get('password/reset/{token}', 'Auth\Client\ResetPasswordController@showRe
 Route::post('password/reset', 'Auth\Client\ResetPasswordController@reset')
     ->name('client.password.update');
 // Password Reset Routes Via Phone
-Route::get('password/phone', 'Client\PhoneVerifyClientController@showFormMessage')
+Route::get('password/phone/{phone}', 'Client\PhoneVerifyClientController@showFormMessage')
     ->name('client.password.reset.phone');
 Route::post('password/phone', 'Client\PhoneVerifyClientController@sendResetCode')
     ->name('client.send.reset.password');
-Route::get('password/phone/code', 'Client\PhoneVerifyClientController@checkCodeForm')
+Route::get('password/phone/code/{phone}', 'Client\PhoneVerifyClientController@checkCodeForm')
     ->name('client.check.code.password');
 Route::post('password/phone/code', 'Client\PhoneVerifyClientController@checkCode')
     ->name('client.code.password');
-Route::get('password/change/phone', 'Client\PhoneVerifyClientController@changePasswordForm')
+Route::get('password/change/phone/{phone}/{code}', 'Client\PhoneVerifyClientController@changePasswordForm')
     ->name('client.change.password.form');
 Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changePassword')
     ->name('client.change.password.phone');
