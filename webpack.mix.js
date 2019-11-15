@@ -72,6 +72,8 @@ mix.babel([
     'resources/templates/dashboard/js/Chart.min.js',
 ], 'public/dashboard/js/app.js').sourceMaps();
 
+mix.js('resources/js/seller/app.js', 'public/dashboard/js/vue.js');
+
 mix.babel('resources/templates/dashboard/js/demo/chart-area-demo.js',
     'public/dashboard/js/demo/chart-area-demo.js')
     .sourceMaps();
