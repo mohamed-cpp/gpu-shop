@@ -81,6 +81,12 @@
                                     </span>
                                     @enderror
                                 </div>
+                                <div class="custom-control custom-checkbox">
+                                    <input class="custom-control-input @error('agree') is-invalid @enderror" type="checkbox" name="agree" id="invalidCheck" {{ old('agree') ? 'checked' : '' }} required>
+                                    <label class="custom-control-label" for="invalidCheck">
+                                        {{__('Agree to terms and conditionst')}}
+                                    </label>
+                                </div>
 
                                 <div class="button-box">
                                     <button type="submit" class="default-btn floatright">{{ __('Register') }}</button>

@@ -16,17 +16,19 @@ class VerifyRegisterClientTest extends TestCase
 
     function test_email_register_client()
     {
+        $this->withoutExceptionHandling();
         Notification::fake();
         $client = make('App\Client');
         $this->post(route('client.register'), [
-            'name' => $client->name,
-            'username' => $client->username,
+            'name' => 'JohnDeo123',
+            'username' => 'JohnDeo123',
             'phone_number' => '01314759745',
             'email' => $client->email,
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
+            'agree' => 'on',
         ]);
-        $client = Client::where('username',$client->username)->first();
+        $client = Client::where('username','JohnDeo123')->first();
         Notification::assertSentTo([$client],SendClientVerificationEmailNotification::class);
     }
     function test_verify_email_client()

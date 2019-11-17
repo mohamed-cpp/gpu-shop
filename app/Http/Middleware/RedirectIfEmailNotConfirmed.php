@@ -6,14 +6,15 @@ class RedirectIfEmailNotConfirmed
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Closure  $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure $next
+     * @param string $guard
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next, $guard = 'client')
     {
         //dd($request->all());
-        if (! $request->user('client')->email_verified_at) {
+        if (! $request->user($guard)->email_verified_at) {
             return redirect('/')
                 ->with('flash', 'You must first confirm your email address.');
         }

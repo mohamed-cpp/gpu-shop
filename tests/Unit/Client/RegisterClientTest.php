@@ -35,15 +35,16 @@ class  RegisterClientTest extends TestCase
         //$this->withoutExceptionHandling();
         $response = $this->post(route('client.register'), [
 
-            'name' => $this->client->name,
-            'username' => $this->client->username,
+            'name' => 'johnDeo123',
+            'username' => 'johnDeo123',
             'phone_number' => '+201100754972',
             'email' => $this->client->email,
             'password' => 'password',
-            'password_confirmation' => 'password'
+            'password_confirmation' => 'password',
+            'agree' => 'on',
         ]);
         $response->assertStatus(302);
-        $this->assertDatabaseHas('clients', [ 'username' => $this->client->username ]);
+        $this->assertDatabaseHas('clients', [ 'username' => 'johnDeo123', ]);
         $response->assertRedirect('/home');
 
 

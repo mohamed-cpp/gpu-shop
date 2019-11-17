@@ -46,7 +46,7 @@ class SellerResetPasswordNotification extends Notification
     {
         return (new MailMessage)
             ->line(__('Please reset your password from the link bellow.'))
-            ->action(__('Reset Password'), route('client.password.reset', [
+            ->action(__('Reset Password'), route('seller.password.reset', [
                 'token' => $this->token,
                 'email' => $this->seller->email
             ]))

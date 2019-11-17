@@ -7,7 +7,7 @@
                 <label class="custom-control-label" for="customRadioInline1">Individual</label>
             </div>
             <div class="custom-control custom-radio custom-control-inline">
-                <input type="radio" id="customRadioInline2" name="group" class="custom-control-input" :checked="show" @click="show = false">
+                <input type="radio" id="customRadioInline2" name="group" class="custom-control-input" :checked="!show" @click="show = false">
                 <label class="custom-control-label" for="customRadioInline2">Organization</label>
             </div>
         </div>
@@ -45,6 +45,12 @@
                     <strong>Passport Photo/National ID </strong>
                     <input type="file" accept="image/*" name="passport_or_id" >
                 </div>
+            </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input " type="checkbox" name="agree" id="invalidCheck" :checked="old.agree" v-bind:class="{ 'is-invalid': errors.agree }">
+                <label class="custom-control-label" for="invalidCheck">
+                    Agree to terms and conditionst
+                </label>
             </div>
             <hr>
             <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
@@ -97,6 +103,12 @@
                     <input type="file" name="tax" multiple>
                 </div>
             </div>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input " type="checkbox" name="agree" id="invalidCheck" :checked="old.agree" v-bind:class="{ 'is-invalid': errors.agree }">
+                <label class="custom-control-label" for="invalidCheck">
+                    Agree to terms and conditionst
+                </label>
+            </div>
             <hr>
             <button type="submit" class="btn btn-primary btn-user btn-block">Register Account</button>
         </form>
@@ -112,10 +124,8 @@
                 show:true,
             }
         },
-        created() {
-            if(this.old.company_or_individual){
-                this.show = true;
-            }else{
+        mounted() {
+            if(this.old.company_or_individual === false){
                 this.show = false;
             }
         }

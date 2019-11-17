@@ -86,22 +86,24 @@ class RegisterController extends Controller
         if($data['company_or_individual'] == true){
             return Validator::make($data, [
                 'name' => ['required', 'string', 'min:8', 'max:30'],
-                'username' => ['required', 'string', 'min:8','max:30', 'unique:sellers'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:sellers'],
-                'phone_number' => ['required', 'numeric', 'regex:/^[+][0-9-+ ]{7,15}$/', 'unique:sellers'],
+                'username' => ['required', 'string', 'min:8','max:30', 'unique:sellers','unique:clients'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:sellers','unique:clients'],
+                'phone_number' => ['required', 'numeric', 'regex:/^[+][0-9-+ ]{7,15}$/', 'unique:sellers','unique:clients'],
                 'password' => ['required', 'string', 'min:8', 'confirmed', 'regex:/[a-z]/' ,'regex:/[A-Z]/' ,'regex:/[0-9]/'],
                 'passport_or_id' => ['required', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'agree' => ['required'],
             ]);
         }else{
             return Validator::make($data, [
                 'name' => ['required', 'string', 'min:8', 'max:30'],
-                'username' => ['required', 'string', 'min:8','max:30', 'unique:sellers'],
-                'email' => ['required', 'string', 'email', 'max:255', 'unique:sellers'],
-                'phone_number' => ['required', 'numeric', 'regex:/^[+][0-9-+ ]{7,15}$/', 'unique:sellers'],
+                'username' => ['required', 'string', 'min:8','max:30', 'unique:sellers','unique:clients'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:sellers','unique:clients'],
+                'phone_number' => ['required', 'numeric', 'regex:/^[+][0-9-+ ]{7,15}$/', 'unique:sellers','unique:clients'],
                 'password' => ['required', 'string', 'min:8', 'regex:/[a-z]/' ,'regex:/[A-Z]/' ,'regex:/[0-9]/', 'confirmed'],
                 'passport_or_id' => ['required', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'tax' => ['required', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
                 'company_logo' => ['required', 'mimes:jpeg,png,jpg,gif,svg', 'max:2048'],
+                'agree' => ['required'],
             ]);
         }
 

@@ -9,6 +9,12 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * App\Models\Client
+ *
+ * @method static Builder|Client whereEmail($value)
+ */
+
 class Seller extends Authenticatable implements MustVerifyEmail
 {
 
