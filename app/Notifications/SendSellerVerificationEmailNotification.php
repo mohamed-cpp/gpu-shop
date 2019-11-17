@@ -44,7 +44,7 @@ class SendSellerVerificationEmailNotification extends Notification
         return (new MailMessage)
             ->line("Welcome Mr/Ms {$this->seller->name},")
             ->line('Thanks for signing up GPU-Shop, please click the link to verify your account!')
-            ->action('Verify Email', route("client.email.verifyForm", [
+            ->action('Verify Email', route("seller.email.verifyForm", [
                 "email" => $this->seller->email,
                 "token" => $token
             ]));

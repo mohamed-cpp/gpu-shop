@@ -11,3 +11,5 @@ Route::post("logout", "Auth\Seller\LoginController@logout")->name("seller.logout
 // Registration Routes
 Route::get('register', 'Auth\Seller\RegisterController@showRegistrationForm')->name('seller.registerForm')->middleware('guest:seller');
 Route::post('register', 'Auth\Seller\RegisterController@register')->name('seller.register')->middleware('guest:seller');
+Route::get('register/verify', 'Auth\Seller\VerificationController@verify')->name('seller.email.verifyForm');
+Route::get('register/verify/resend', 'Auth\Seller\VerificationController@resend')->name('seller.email.verifyResend');

@@ -31,14 +31,16 @@ class VerifyRegisterClientTest extends TestCase
     }
     function test_verify_email_client()
     {
+        $this->withoutExceptionHandling();
         $client = create('App\Client',['email_verified_at'=> null ]);
         $this->assertNull($client->email_verified_at);
         $token = md5($client->created_at . $client->email . $client->username);
 
-        $this->get(route('client.email.verifyForm', [
-            "email" => $client->email,
-            "token" => $token
-        ]))->assertRedirect(route('client.home'));
+        $this
+            ->get(route('client.email.verifyForm', [
+                "email" => $client->email,
+                "token" => $token
+            ]))->assertRedirect(route('client.home'));
 
         tap($client->fresh(), function ($user) {
             $this->assertNotNull($user->email_verified_at);

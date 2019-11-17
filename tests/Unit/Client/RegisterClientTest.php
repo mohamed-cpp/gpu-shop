@@ -32,7 +32,7 @@ class  RegisterClientTest extends TestCase
      */
     public function test_a_user_can_register()
     {
-        $this->withoutExceptionHandling();
+        //$this->withoutExceptionHandling();
         $response = $this->post(route('client.register'), [
 
             'name' => $this->client->name,
