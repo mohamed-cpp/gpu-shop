@@ -2,6 +2,9 @@
 
 Route::get('/', function () {
     return view('seller.main');
+})->name('home.seller');
+Route::get('/dashboard', function () {
+    return view('seller.main');
 });
 
 // Authentication Routes

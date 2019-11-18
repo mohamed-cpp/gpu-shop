@@ -60,7 +60,7 @@ class RegisterController extends Controller
 
     public function register(Request $request)
     {
-         $request->company_or_individual == 'true'
+        $request->company_or_individual == 'true'
              ? $request->merge(['company_or_individual' => true])
              : $request->merge(['company_or_individual' => false]) ;
 
