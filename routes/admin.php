@@ -5,5 +5,9 @@ Route::group(['prefix' => 'admin'], function () {
         return view('admin.main');
     });
 
+    Route::get('/test', function () {
+        return time();
+    });
+
 
 });

@@ -23,16 +23,16 @@
 
 <!-- Page Wrapper -->
 <div id="wrapper">
-    @include('seller.layout._sidebar')
+    @include('admin.layout._sidebar')
 
     <!-- Content Wrapper -->
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
-            @include('seller.layout._main_content')
+            @include('admin.layout._main_content')
         </div>
         <!-- End of Main Content -->
-        @include('seller.layout._footer')
+        @include('admin.layout._footer')
     </div>
     <!-- End of Content Wrapper -->
 
@@ -45,7 +45,7 @@
 <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>
 </a>
-@include('seller.layout.logout_modal')
+@include('admin.layout.logout_modal')
 
 
 <script src="{{asset('dashboard/js/app.js')}}"></script>
