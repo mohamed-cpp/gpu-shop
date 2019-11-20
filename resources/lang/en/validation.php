@@ -135,7 +135,7 @@ return [
             'rule-name' => 'custom-message',
         ],
         'email' => [
-            'exists' => 'Sorry your account not approved',
+            'exists' => 'Sorry your account not approved or the email you entered is wrong',
         ]
     ],
 
