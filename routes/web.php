@@ -37,6 +37,9 @@ Route::get('register', 'Auth\Client\RegisterController@showRegistrationForm')->n
 Route::post('register', 'Auth\Client\RegisterController@register')->name('client.register');
 Route::get('register/verify', 'Auth\Client\VerificationController@verify')->name('client.email.verifyForm');
 Route::get('register/verify/resend', 'Auth\Client\VerificationController@resend')->name('client.email.verifyResend');
+// Facebook Login
+Route::get('login/facebook', 'Auth\Client\LoginController@redirectToProvider')->name('login.facebook');
+Route::get('login/facebook/callback', 'Auth\Client\LoginController@handleProviderCallback')->name('callback.facebook');
 
 // Password Reset Routes
 Route::get('password/reset', 'Auth\Client\ForgotPasswordController@showLinkRequestForm')
