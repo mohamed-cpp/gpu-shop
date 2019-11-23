@@ -12,6 +12,9 @@
 */
 Route::get("/", 'Client\ClientsHomePageController@homepage')->name('homepage');
 
+Route::get('cat', 'CategoryController@index');
+
+
 Route::group(['middleware' => 'client'], function () {
     Route::get('/home', function () {
         return view('client.main');

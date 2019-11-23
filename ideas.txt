@@ -1,0 +1,3 @@
+$categories = factory('App\Category',5)->create()
+
+factory('App\Category',5)->create()->each(function ($category) {factory('App\SubCategory',10)->create(['category_id'=>$category->id]); });
