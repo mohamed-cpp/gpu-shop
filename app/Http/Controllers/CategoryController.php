@@ -17,15 +17,7 @@ class CategoryController extends Controller
     public function index()
     {
 
-        $programStatus =
-            Category::with(array('subCategories' => function($query){
-                $query->where('status','=',1)->orderBy('sort','DESC');
-            }))
-                ->where('categories.status', '=', '1')
-                ->orderBy('categories.sort','DESC')
-                ->get();
-
-        return $programStatus;
+        \Cache::forget('categories');
     }
 
     /**

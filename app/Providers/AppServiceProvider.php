@@ -15,8 +15,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \View::composer('_sideBar', function ($view) {
-            $categories = \Cache::rememberForever('channels', function () {
+        \View::composer('client.layout._sideBar', function ($view) {
+            $categories = \Cache::rememberForever('categories', function () {
 
                 return Category::with(array('subCategories' => function($query){
                     $query->where('status','=',1)->orderBy('sort','DESC');

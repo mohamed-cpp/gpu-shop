@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 
 class Category extends Model
 {
@@ -21,5 +22,12 @@ class Category extends Model
     public function subCategories()
     {
         return $this->hasMany(SubCategory::class);
+    }
+
+    public function getNameAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "name_" . $locale;
+        return $this->{$column};
     }
 }
