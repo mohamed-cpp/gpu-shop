@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Category;
-use App\SubCategory;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CategoryController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
+     * @param Category $category
      * @return \Illuminate\Support\Collection
      */
     public function index()
     {
-
-        \Cache::forget('categories');
+        $category = Category::all()->sortBy('created_at');
+        return view('admin.categories.index_category',[
+            'categories' => $category
+        ]);
     }
 
     /**
@@ -27,18 +29,28 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.categories.create_category');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \Illuminate\Http\Request $request
+     * @return void
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'sort'    => 'required|numeric|min:0',
+            'status'  => 'required|boolean',
+        ];
+        $this->validate($request, $rules);
+        Category::create($request->toArray());
+        \Cache::forget('categories');
+        return redirect(route('categories.index'))->with('flash','The Category Added Successfully');
     }
 
     /**
@@ -78,11 +90,23 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Category  $category
+     * @param \App\Category $category
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Category $category)
     {
-        //
+        $category->delete();
+        \Cache::forget('categories');
+        return redirect(route('categories.index'))->with('flash','The Category Deleted Successfully');
+    }
+
+    public function quickButtons(Category $category){
+        $category->update([
+            'status' => !$category->status
+        ]);
+        $category->save();
+        \Cache::forget('categories');
+        return back();
     }
 }
