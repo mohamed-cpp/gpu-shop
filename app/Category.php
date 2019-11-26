@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\App;
 
 class Category extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'name_en','name_ar','sort','status'
     ];

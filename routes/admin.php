@@ -10,7 +10,8 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('categories','Admin\CategoryController');
         Route::patch("categorises/quick/{category}", "Admin\CategoryController@quickButtons")->name("quick.buttons");
 
-
+        Route::resource('subcategories','Admin\SubCategoryController');
+        Route::patch("subcategories/quick/{subcategory}", "Admin\SubCategoryController@quickButtons")->name("sub.quick.buttons");
     });
 
 
@@ -19,7 +20,7 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post("logout", "Auth\Admin\LoginController@logout")->name("admin.logout");
 
     Route::get('/test', function () {
-        return ;
+
     });
 
 

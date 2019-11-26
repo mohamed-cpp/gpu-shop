@@ -61,7 +61,11 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        //
+        $subCategories = $category->subCategories()->get();
+        return view('admin.categories.index_sub_category',[
+            'subCategories' => $subCategories,
+            'category' => [ 'name' => $category->name, 'categoryId' => $category->id,]
+        ]);
     }
 
     /**
@@ -72,19 +76,31 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('admin.categories.edit_category',[
+            'category' => $category
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Category  $category
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Category $category
      * @return \Illuminate\Http\Response
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $rules = [
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'sort'    => 'required|numeric|min:0',
+            'status'  => 'required|boolean',
+        ];
+        $this->validate($request, $rules);
+        $category->update($request->toArray());
+        \Cache::forget('categories');
+        return redirect(route('categories.index'))->with('flash',"$category->name Updated Successfully");
     }
 
     /**

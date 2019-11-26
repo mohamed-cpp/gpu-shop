@@ -3,12 +3,15 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 
 class SubCategory extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
-        'name_en'
+        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image'
     ];
 
     protected $casts = [
@@ -24,6 +27,9 @@ class SubCategory extends Model
         return $this->belongsTo(Category::class,'category_id');
     }
 
+    public function subCategoryPath(){
+        return 'storage/admin/subcategory/images/';
+    }
     public function getNameAttribute()
     {
         $locale = App::getLocale();

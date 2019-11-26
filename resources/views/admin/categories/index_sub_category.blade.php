@@ -188,13 +188,11 @@
     transition: left .25s;
     }
 
-    button.btn:hover,
     a.btn:hover {
         -webkit-transform: scale(1);
         -moz-transform: scale(1);
         -o-transform: scale(1);
     }
-    button.btn,
     a.btn {
         -webkit-transform: scale(0.8);
         -moz-transform: scale(0.8);
@@ -209,15 +207,14 @@
 @section('content')
     <div class="container-fluid">
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Categories</h1>
+        <h1 class="h3 mb-2 text-gray-800">Subcategories</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary d-inline" >All Categories</h6>
-
-            <a href="{{route('categories.create')}}" class="btn btn-primary a-btn-slide-text float-right">
+            <h6 class="m-0 font-weight-bold text-primary d-inline" >Subcategories Of {{$category['name']}}</h6>
+            <a href="{{route('subcategories.create',['category_id'=>$category['categoryId']])}}" class="btn btn-primary a-btn-slide-text float-right">
                 <span class="fa fa-plus" aria-hidden="true"></span>
-                <span><strong>{{__('Add')}}</strong></span>
+                <span><strong>{{__('Add Subcategory')}}</strong></span>
             </a>
 
         </div>
@@ -234,35 +231,33 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($categories as $category)
-                        @php $status = $category->status  @endphp
+                    @foreach($subCategories as $subcategory)
+                        @php $status = $subcategory->status  @endphp
                     <tr>
-                        <td>{{$category->name}}</td>
-                        <td>{{$category->sort}}</td>
+                        <td>{{$subcategory->name}}</td>
+                        <td>{{$subcategory->sort}}</td>
                         <td>{{$status == 1 ? __('Enabled') : __('Disabled') }}</td>
-                        <td width="20%">
-                            {!! Form::model(['method'=>'PATCH' ],['route' => ['quick.buttons',$category] ,'class'=>'d-inline'] ) !!}
+                        <td width="15%">
+                            {!! Form::model(['method'=>'PATCH' ],['route' => ['sub.quick.buttons',$subcategory] ,'class'=>'d-inline'] ) !!}
                             @method('PATCH')
-                            <button type="button"  onclick="myFunction({{$category->id}})" class="btn btn-sm btn-toggle {{$status == 1 ? 'active' : ''}}" data-toggle="button" aria-pressed="true" autocomplete="off">
+                            <button type="button"  onclick="myFunction({{$subcategory->id}})" class="btn btn-sm btn-toggle {{$status == 1 ? 'active' : ''}}" data-toggle="button" aria-pressed="true" autocomplete="off">
                                 <div class="handle"></div>
                             </button>
-                            {!! Form::submit ("",['hidden','id'=>$category->id]) !!}
+                            {!! Form::submit ("",['hidden','id'=>$subcategory->id]) !!}
                             {!! Form::close() !!}
 
-                            <form class="d-inline" method="post" action="{{route('categories.destroy',$category)}}">
+                            <form class="d-inline" method="post" action="{{route('subcategories.destroy',$subcategory)}}">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger btn-circle">
                                 <i class="fas fa-trash"></i>
                                 </button>
                             </form>
-                            <a href="{{route('categories.show',[$category])}}" class="btn btn-info btn-circle">
-                                <i class="fa fa-eye"></i>
-                            </a>
+
                         </td>
                         <td width="15%">
                             <div class=" text-center">
-                            <a href="{{route('categories.edit',[$category])}}" class="btn btn-primary a-btn-slide-text">
+                            <a href="{{route('subcategories.edit',[$subcategory])}}" class="btn btn-primary a-btn-slide-text">
                                 <span class="fa fa-wrench" aria-hidden="true"></span>
                                 <span><strong>Edit</strong></span>
                             </a>
