@@ -8430,7 +8430,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     });
   }, e;
 }), function (t, e) {
-  "function" == typeof define && define.amd ? define("isotope/js/layout-mode", ["get-size/get-size", "outlayer/outlayer"], e) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(require("get-size"), require("outlayer")) : (t.Isotope = t.Isotope || {}, t.Isotope.LayoutMode = e(t.getSize, t.Outlayer));
+  "function" == typeof define && define.amd ? define("isotope/js/includes-mode", ["get-size/get-size", "outlayer/outlayer"], e) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(require("get-size"), require("outlayer")) : (t.Isotope = t.Isotope || {}, t.Isotope.LayoutMode = e(t.getSize, t.Outlayer));
 }(window, function (t, e) {
   "use strict";
 
@@ -8563,7 +8563,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return this.getContainerWidth(), t != this.containerWidth;
   }, i;
 }), function (t, e) {
-  "function" == typeof define && define.amd ? define("isotope/js/layout-modes/masonry", ["../layout-mode", "masonry/masonry"], e) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(require("../layout-mode"), require("masonry-layout")) : e(t.Isotope.LayoutMode, t.Masonry);
+  "function" == typeof define && define.amd ? define("isotope/js/includes-modes/masonry", ["../includes-mode", "masonry/masonry"], e) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(require("../includes-mode"), require("masonry-includes")) : e(t.Isotope.LayoutMode, t.Masonry);
 }(window, function (t, e) {
   "use strict";
 
@@ -8590,7 +8590,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     return "fitWidth" == t ? void 0 !== this.options.isFitWidth ? this.options.isFitWidth : this.options.fitWidth : a.apply(this.isotope, arguments);
   }, i;
 }), function (t, e) {
-  "function" == typeof define && define.amd ? define("isotope/js/layout-modes/fit-rows", ["../layout-mode"], e) : "object" == (typeof exports === "undefined" ? "undefined" : _typeof(exports)) ? module.exports = e(require("../layout-mode")) : e(t.Isotope.LayoutMode);
+  "function" == typeof define && define.amd ? define("isotope/js/includes-modes/fit-rows", ["../includes-mode"], e) : "object" == (typeof exports === "undefined" ? "undefined" : _typeof(exports)) ? module.exports = e(require("../includes-mode")) : e(t.Isotope.LayoutMode);
 }(window, function (t) {
   "use strict";
 
@@ -8614,7 +8614,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
   }, e;
 }), function (t, e) {
-  "function" == typeof define && define.amd ? define("isotope/js/layout-modes/vertical", ["../layout-mode"], e) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(require("../layout-mode")) : e(t.Isotope.LayoutMode);
+  "function" == typeof define && define.amd ? define("isotope/js/includes-modes/vertical", ["../includes-mode"], e) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(require("../includes-mode")) : e(t.Isotope.LayoutMode);
 }(window, function (t) {
   "use strict";
 
@@ -8638,9 +8638,9 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
     };
   }, e;
 }), function (t, e) {
-  "function" == typeof define && define.amd ? define(["outlayer/outlayer", "get-size/get-size", "desandro-matches-selector/matches-selector", "fizzy-ui-utils/utils", "isotope/js/item", "isotope/js/layout-mode", "isotope/js/layout-modes/masonry", "isotope/js/layout-modes/fit-rows", "isotope/js/layout-modes/vertical"], function (i, n, o, s, r, a) {
+  "function" == typeof define && define.amd ? define(["outlayer/outlayer", "get-size/get-size", "desandro-matches-selector/matches-selector", "fizzy-ui-utils/utils", "isotope/js/item", "isotope/js/includes-mode", "isotope/js/includes-modes/masonry", "isotope/js/includes-modes/fit-rows", "isotope/js/includes-modes/vertical"], function (i, n, o, s, r, a) {
     return e(t, i, n, o, s, r, a);
-  }) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(t, require("outlayer"), require("get-size"), require("desandro-matches-selector"), require("fizzy-ui-utils"), require("isotope/js/item"), require("isotope/js/layout-mode"), require("isotope/js/layout-modes/masonry"), require("isotope/js/layout-modes/fit-rows"), require("isotope/js/layout-modes/vertical")) : t.Isotope = e(t, t.Outlayer, t.getSize, t.matchesSelector, t.fizzyUIUtils, t.Isotope.Item, t.Isotope.LayoutMode);
+  }) : "object" == (typeof module === "undefined" ? "undefined" : _typeof(module)) && module.exports ? module.exports = e(t, require("outlayer"), require("get-size"), require("desandro-matches-selector"), require("fizzy-ui-utils"), require("isotope/js/item"), require("isotope/js/includes-mode"), require("isotope/js/includes-modes/masonry"), require("isotope/js/includes-modes/fit-rows"), require("isotope/js/includes-modes/vertical")) : t.Isotope = e(t, t.Outlayer, t.getSize, t.matchesSelector, t.fizzyUIUtils, t.Isotope.Item, t.Isotope.LayoutMode);
 }(window, function (t, e, i, n, o, s, r) {
   function a(t, e) {
     return function (i, n) {
@@ -8841,7 +8841,7 @@ function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterat
   }, l._mode = function () {
     var t = this.options.layoutMode,
         e = this.modes[t];
-    if (!e) throw new Error("No layout mode: " + t);
+    if (!e) throw new Error("No includes mode: " + t);
     return e.options = this.options[t], e;
   }, l._resetLayout = function () {
     e.prototype._resetLayout.call(this), this._mode()._resetLayout();
@@ -13540,7 +13540,7 @@ jQuery.fn.slinky = function (e) {
       meanScreenWidth: "480",
       // set the screen width you want meanmenu to kick in at
       meanNavPush: "",
-      // set a height here in px, em or % if you want to budge your layout now the navigation is missing.
+      // set a height here in px, em or % if you want to budge your includes now the navigation is missing.
       meanShowChildren: true,
       // true to show children in the menu, false to hide them
       meanExpandableChildren: true,
@@ -13671,7 +13671,7 @@ jQuery.fn.slinky = function (e) {
 
               jQuery(this).removeAttr("id");
             });
-          } // push in a holder div (this can be used if removal of nav is causing layout issues)
+          } // push in a holder div (this can be used if removal of nav is causing includes issues)
 
 
           jQuery(meanMenu).before('<div class="mean-push" />');

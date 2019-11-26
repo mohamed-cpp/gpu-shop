@@ -29,6 +29,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
+            @include('admin.layout._nav')
             @yield('content')
         </div>
         <!-- End of Main Content -->
@@ -50,8 +51,8 @@
 
 <script src="{{asset('dashboard/js/app.js')}}"></script>
 <!-- Page level custom scripts -->
-<script src="{{asset('dashboard/js/demo/chart-area-demo.js')}}"></script>
-<script src="{{asset('dashboard/js/demo/chart-pie-demo.js')}}"></script>
+{{--<script src="{{asset('dashboard/js/demo/chart-area-demo.js')}}"></script>--}}
+{{--<script src="{{asset('dashboard/js/demo/chart-pie-demo.js')}}"></script>--}}
 
 @stack('scripts')
 @yield('extra-scripts')

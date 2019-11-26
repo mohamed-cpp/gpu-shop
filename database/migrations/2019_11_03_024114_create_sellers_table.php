@@ -29,6 +29,7 @@ class CreateSellersTable extends Migration
             $table->string('company_logo')->nullable();
             $table->string('id_or_passport');
             $table->string('tax')->nullable();
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
             $table->unsignedInteger('company_id')->nullable();

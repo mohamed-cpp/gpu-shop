@@ -29,6 +29,7 @@ class CreateAdminsTable extends Migration
             $table->string('password');
             $table->string('id_or_passport');
             $table->string('profile_picture');
+            $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();
         });

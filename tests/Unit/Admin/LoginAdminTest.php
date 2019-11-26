@@ -18,8 +18,13 @@ class LoginAdminTest extends TestCase
     }
 
     public function test_can_user_see_home_page(){
-        $response = $this->get(route('admin.home'));
+        $response = $this->actingAs($this->admin,'web')->get(route('admin.home'));
         $response->assertStatus(200);
+    }
+    public function test_can_user_need_to_auth_see_home_page(){
+        $response = $this->get(route('admin.home'));
+        $response->assertStatus(302);
+        $this->assertGuest();
     }
     public function test_can_user_see_login_page(){
         $response = $this->get(route('admin.loginForm'));
