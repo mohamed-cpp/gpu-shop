@@ -20,7 +20,15 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post("logout", "Auth\Admin\LoginController@logout")->name("admin.logout");
 
     Route::get('/test', function () {
-
+        //return auth('web')->user()->assignRole('super-admin');
+        //return auth('web')->user()->givePermissionTo('categories');
+//        auth('web')->user()->givePermissionTo('categories');
+        //return \App\Admin::role('super-admin')->get();
+//    $role = Spatie\Permission\Models\Role::create(['name' => 'admin']);
+        //    $role = Spatie\Permission\Models\Role::create(['name' => 'Super Admin']);
+//    $permission = Spatie\Permission\Models\Permission::create(['name' => 'categories']);
+//    $role->givePermissionTo($permission);
+//        return auth('web')->user()->revokePermissionTo('categories');
     });
 
 

@@ -38,8 +38,10 @@
                 <h6 class="collapse-header">Custom Components:</h6>
                 <a class="collapse-item" href="buttons.html">Buttons</a>
                 <a class="collapse-item" href="cards.html">Cards</a>
+                @can('categories')
                 <hr>
                 <a class="collapse-item" href="{{route('categories.index')}}">Categories</a>
+                @endcan
             </div>
         </div>
     </li>

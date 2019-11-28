@@ -66,7 +66,5 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
 
 
 Route::get('/test', function () {
-     $test = asset('storage/seller/image/5954a82320532ed606eccbf097155353.jpg') ;
-
-     return "<img src='$test'></img>";
+    //
 }) ;
