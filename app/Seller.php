@@ -52,7 +52,9 @@ class Seller extends Authenticatable implements MustVerifyEmail
         'company_or_individual' => 'boolean',
     ];
 
-
+    public function products(){
+        return $this->hasMany(Product::class,'seller_id');
+    }
 
     /**
      * Send an email with a verification code for the client
@@ -145,6 +147,10 @@ class Seller extends Authenticatable implements MustVerifyEmail
     public function guard(array $guarded)
     {
         return Auth::guard('seller');
+    }
+
+    public function hello(){
+        return 'hello';
     }
 
 }

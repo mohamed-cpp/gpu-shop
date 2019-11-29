@@ -1,3 +1,15 @@
 $categories = factory('App\Category',5)->create()
 
 factory('App\Category',5)->create()->each(function ($category) {factory('App\SubCategory',10)->create(['category_id'=>$category->id]); });
+
+
+
+@section("SEO")
+    <meta name="description" content="{{ $program->brief }}">
+    <meta property=”og:type” content=”product”/>
+    <meta property=”og:title” content=”{{ $program->name }}”/>
+    <meta property=”og:description” content=”{{ $program->brief }}”/>
+    <meta property=”og:image” content=”{{ $program->mainImage->smallUrl }}”/>
+    <meta property=”og:url” content=”{{ $program->url }}”/>
+    <meta property=”og:site_name” content=”{{ __("Travilio") }}”/>
+@endsection

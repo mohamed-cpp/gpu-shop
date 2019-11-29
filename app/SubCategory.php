@@ -27,6 +27,10 @@ class SubCategory extends Model
         return $this->belongsTo(Category::class,'category_id');
     }
 
+    public function products(){
+        return $this->hasMany(SubcatProduct::class,'subcategoryable_id');
+    }
+
     public function subCategoryPath(){
         return 'storage/admin/subcategory/images/';
     }

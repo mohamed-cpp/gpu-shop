@@ -19,8 +19,9 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post("login", "Auth\Admin\LoginController@login")->name('admin.login');
     Route::post("logout", "Auth\Admin\LoginController@logout")->name("admin.logout");
 
-    Route::get('/test', function () {
-        //return auth('web')->user()->assignRole('super-admin');
+    Route::get('/test2', function () {
+//        Spatie\Permission\Models\Role::create(['name' => 'Super Admin']);
+//        return auth('web')->user()->assignRole('Super Admin');
         //return auth('web')->user()->givePermissionTo('categories');
 //        auth('web')->user()->givePermissionTo('categories');
         //return \App\Admin::role('super-admin')->get();
@@ -30,6 +31,8 @@ Route::group(['prefix' => 'admin'], function () {
 //    $role->givePermissionTo($permission);
 //        return auth('web')->user()->revokePermissionTo('categories');
     });
+
+    Route::get("test", "Test@test");
 
 
 });
