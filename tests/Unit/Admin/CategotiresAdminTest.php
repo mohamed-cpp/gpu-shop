@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 
 use App\SubCategory;
+use App\Admin;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
@@ -16,7 +17,7 @@ class CategotiresAdminTest extends TestCase
 
     public function setUp()  :void {
         parent::setUp();
-        $this->admin = create('App\Admin');
+        $this->admin = Admin::first();
         $this->category = create('App\Category');
         $this->subcategory = create('App\SubCategory');
 

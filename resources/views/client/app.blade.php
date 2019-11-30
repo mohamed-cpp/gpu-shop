@@ -20,6 +20,7 @@
     @yield('content')
     @include('client.layout._footer')
     @include('client.layout._sideBar')
+    @stack('includes')
 </div>
 <!-- all js here -->
 <script src="{{asset('GPU-Shop/js/app.js')}}"></script>

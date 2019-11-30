@@ -65,6 +65,9 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
     ->name('client.change.password.phone');
 
 
+Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
+
+
 Route::get('/test', function () {
     //
 }) ;

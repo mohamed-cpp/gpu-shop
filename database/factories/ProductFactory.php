@@ -4,7 +4,7 @@
 
 use Faker\Generator as Faker;
 
-$factory->define(\App\Product::class, function (Faker $faker) {
+$factory->define(\App\Product::class, function (Faker $faker,$id = null) {
     return [
         'name_en' => $faker->text,
         'name_ar' => $faker->text,
@@ -16,31 +16,31 @@ $factory->define(\App\Product::class, function (Faker $faker) {
         'description_meta_en' => $faker->paragraph,
         'slug_en' => $faker->slug,
         'slug_ar' => $faker->slug,
-        'main_image' => $faker->image('public/storage/product/images/',100,100, null, false),
+        'main_image' => $faker->image('public/storage/product/images/',400,400, null, false),
         'status' => 1,
         'price_egp' => rand(100,500),
         'price_usd' => rand(100,500),
-        'seller_id' => factory('App\Seller')->create()->id,
+        'seller_id' => $id ? $id : null,
         'quantity'  => rand(1,50),
     ];
 });
 
-$factory->define(\App\Image::class, function (Faker $faker) {
+$factory->define(\App\Image::class, function (Faker $faker,$id = null) {
 
-    $product = factory('App\Product')->create();
+    //$product = factory('App\Product')->create();
     return [
-        'path' => 'public/storage/product/images/'.$faker->image('public/storage/product/images',100,100, null, false),
-        'imageable_type' => get_class($product),
-        'imageable_id' => $product->id
+        'path' => 'public/storage/product/images/'.$faker->image('public/storage/product/images',400,400, null, false),
+        'imageable_type' => 'App\Product',
+        'imageable_id' => $id ? $id : null
     ];
 });
 
-$factory->define(\App\SubcatProduct::class, function (Faker $faker) {
-    $subcat = \App\SubCategory::first();
-    $product = factory('App\Product')->create();
+$factory->define(\App\SubcatProduct::class, function (Faker $faker,$id = null, $idSub = null) {
+//    $subcat = $idSub ? $idSub : factory('App\SubCategory')->create()->id;
+//    $product = factory('App\Product')->create();
     return [
-        'subcategoryable_id' => $subcat ? $subcat->id : factory('App\SubCategory')->create()->id,
-        'productable_type' => get_class($product),
-        'productable_id' => $product->id
+        'subcategoryable_id' => $idSub ,
+        'productable_type' => 'App\Product' ,
+        'productable_id' => $id ? $id : $idSub
     ];
 });

@@ -47,4 +47,15 @@ class SubCategory extends Model
         $column = "slug_" . $locale;
         return $this->{$column};
     }
+
+    /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        $locale = App::getLocale();
+        return "slug_" . $locale;
+    }
 }

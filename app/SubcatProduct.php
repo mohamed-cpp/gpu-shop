@@ -11,6 +11,8 @@ class SubcatProduct extends Model
 
     protected $fillable = ['productable_id', 'productable_type', 'subcategoryable_id'];
 
+    public $with = ['productable'];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */

@@ -18,7 +18,7 @@
                 <li><a href="/">{{$category->name}}</a>
                     <ul class="dropdown">
                         @foreach($category->subCategories as $sub_category )
-                            <li><a href="{{$sub_category->slug}}">{{$sub_category->name}}</a></li>
+                            <li><a href="{{route('show.product',$sub_category)}}">{{$sub_category->name}}</a></li>
                         @endforeach
                     </ul>
                 </li>
