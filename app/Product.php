@@ -22,6 +22,9 @@ class Product extends Model
         'slug_en', 'slug_ar', 'main_image', 'status', 'price_egp', 'price_usd', 'seller_id', 'quantity',
     ];
 
+    protected $casts = [
+        'status' => 'boolean',
+    ];
     public $with = ['images','seller'];
 
     public static function boot()

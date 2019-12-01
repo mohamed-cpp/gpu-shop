@@ -15,6 +15,7 @@ class CreateClientsTable extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->increments('id');
+            $table->boolean('approved')->default(1);
             $table->integer('provider_id')->nullable();
             $table->string('name', 30);
             $table->string('username', 30)->unique();

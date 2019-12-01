@@ -122,10 +122,17 @@ class CategoryController extends Controller
     }
 
     public function quickButtons(Category $category){
+        $status = !$category->status;
         $category->update([
-            'status' => !$category->status
+            'status' => $status
         ]);
         $category->save();
+        $category->subCategories()->each(function ($item, $key) use ($status) {
+            $item->update([
+                'status' => $status
+            ]);
+            $item->save();
+        });
         \Cache::forget('categories');
         return back();
     }

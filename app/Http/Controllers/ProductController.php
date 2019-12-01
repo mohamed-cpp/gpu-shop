@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Product;
+use App\SubCategory;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -24,7 +25,8 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $subcategories = SubCategory::where('status',true)->get();
+        return view('seller.product.create',['subcategories' => $subcategories]);
     }
 
     /**
@@ -35,7 +37,7 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        return $request->images;
     }
 
     /**

@@ -29,6 +29,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
         <!-- Main Content -->
         <div id="content">
+            @include('seller.layout._nav')
             @yield('content')
         </div>
         <!-- End of Main Content -->

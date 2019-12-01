@@ -160,9 +160,6 @@
                 <div class="shop-bar-area pb-60">
                     <div class="shop-bar">
                         <div class="shop-found-selector">
-                            <div class="shop-found">
-                                <p><span>23</span> Product Found of <span>{{count($products)}}</span></p>
-                            </div>
                             <div class="shop-selector">
                                 <label>Sort By : </label>
                                 <select name="select">
@@ -195,7 +192,7 @@
                     <div id="grid-5-col1" class="tab-pane fade  {{ $horizontal ? '' : 'active show'  }}">
                         <div class="row custom-row">
                             @foreach($products as $product)
-
+                                @if($product->productable)
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
@@ -225,6 +222,7 @@
                                     </div>
                                 </div>
                             </div>
+                             @endif
                             @endforeach
 
 
@@ -241,6 +239,7 @@
 
 
                             @foreach($products as $product)
+                                @if($product->productable)
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
@@ -267,6 +266,7 @@
                                     </div>
                                 </div>
                             </div>
+                                @endif
                             @endforeach
 
                         </div>
