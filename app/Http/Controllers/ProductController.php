@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductCreateRequest;
 use App\Product;
 use App\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -32,12 +35,42 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param ProductCreateRequest $request
+     * @return void
      */
-    public function store(Request $request)
+    public function store(ProductCreateRequest $request)
     {
-        return $request->images;
+        $input = $request->all();
+
+        $image = $request->file('main_image');
+
+        $input['main_image'] = $this->moveImage($image,$request);
+
+        $product = auth('seller')->user()->products()->create($input);
+
+        $images = [];
+        foreach ($request->file('images') as $requestImage){
+            $images[] = new \App\Image(['path' => $this->moveImage($requestImage,$request)]) ;
+        }
+
+        $subcategories = [];
+        foreach ($input['subcategories'] as $subcategor){
+            $subcategories[] = new \App\SubcatProduct(['subcategoryable_id' => $subcategor]);
+        }
+
+        $product->images()->saveMany($images);
+        $product->subcategories()->saveMany($subcategories);
+
+        return redirect('/');
+
+
+//        $test =$this->moveImage($image,$request);
+//
+//        $img = Image::make(public_path($test));
+//        $img->resize(320, 240);
+//        $img->save('bar.jpg');
+//
+//        dd('done');
     }
 
     /**
@@ -83,5 +116,11 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function moveImage($image,$request){
+        $path = 'storage/product/images/';
+        $image->move(public_path($path),$name = md5(Str::random(5).$request->image).'.'.$image->getClientOriginalExtension());
+        return $name;
     }
 }

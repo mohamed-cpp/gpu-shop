@@ -26,8 +26,8 @@ Route::get('password/reset/{token}', 'Auth\Seller\ResetPasswordController@showRe
 Route::post('password/reset', 'Auth\Seller\ResetPasswordController@reset')
     ->name('seller.password.update');
 
-Route::get("product/create", "ProductController@create")->name("create.product")->middleware('auth:seller');
-Route::post("product/store", "ProductController@store")->name("store.product")->middleware('auth:seller');
+Route::get("product/create", "ProductController@create")->name("create.product")->middleware('seller');
+Route::post("product/create", "ProductController@store")->name("store.product")->middleware('seller');
 
 Route::get('/test', function () {
     return 'welcome';

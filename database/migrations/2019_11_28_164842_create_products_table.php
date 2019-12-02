@@ -30,8 +30,8 @@ class CreateProductsTable extends Migration
             $table->boolean('approved')->default(0);
             $table->float('price_egp')->default(0);
             $table->float('price_usd')->default(0);
-            $table->float('offer_price_egp')->default(0);
-            $table->float('offer_price_usd')->default(0);
+            $table->float('offer_price_egp')->nullable();
+            $table->float('offer_price_usd')->nullable();
             $table->timestamp('offer_start_at')->nullable();
             $table->timestamp('offer_end_at')->nullable();
             $table->unsignedInteger('seller_id');

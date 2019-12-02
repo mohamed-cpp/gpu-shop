@@ -26,7 +26,8 @@ class SubcatProduct extends Model
     public function productFrontEndClient()
     {
         return $this->morphTo('productable', 'productable_type', 'productable_id')
-            ->where('products.status','=',1);
+            ->where('products.status','=',1)
+            ->where('products.approved','=',1);
     }
 
     /**

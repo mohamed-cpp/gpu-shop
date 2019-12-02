@@ -3,6 +3,7 @@
 namespace App\Http;
 
 use App\Http\Middleware\AdminMiddlewareAuth;
+use App\Http\Middleware\SellerMiddlewareAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 use App\Http\Middleware\ClientMiddleware;
 
@@ -65,6 +66,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'client'        => ClientMiddleware::class,
         'admin'         => AdminMiddlewareAuth::class,
+        'seller'         => SellerMiddlewareAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,

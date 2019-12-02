@@ -57,6 +57,14 @@
         @csrf
     <div class="container-fluid">
         <h6 class="m-0 font-weight-bold text-primary d-inline" >Add Product</h6>
+        @if($errors)
+            <ul class="list-group">
+                @foreach($errors->all() as $key => $message)
+                    <li class="list-group-item list-group-item-danger" style="margin-bottom: 2px;"><span>{{$key + 1}}. </span>{{$message}}</li>
+                @endforeach
+            </ul>
+            <hr>
+        @endif
         <hr>
         <ul class="nav nav-tabs" id="myTab" role="tablist">
             <li class="nav-item">
@@ -219,6 +227,11 @@
                             <option value="{{$subcategory->id}}">{{$subcategory->name}}</option>
                         @endforeach
                     </select>
+                    @error('subcategories')
+                    <span class="invalid-feedback"  style="display: inline !important;" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                 </div>
                 <hr>
                 <div class="form-group">
@@ -243,7 +256,7 @@
                         <input class="form-control" name="offer_start_at" value="{{old('offer_start_at')}}" type="datetime-local" id="datetimeStart">
                     </div>
                     @error('offer_start_at')
-                    <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" style="display: inline !important;" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -252,7 +265,7 @@
                         <input class="form-control" name="offer_end_at" value="{{old('offer_end_at')}}" type="datetime-local" id="datetimeEnd">
                     </div>
                     @error('offer_end_at')
-                    <span class="invalid-feedback" role="alert">
+                    <span class="invalid-feedback" style="display: inline !important;" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
@@ -315,7 +328,7 @@
     <script type="text/javascript">
         $("#file-1").fileinput({
             theme: 'fa',
-            allowedFileExtensions: ['jpg', 'png', 'gif'],
+            allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],
             overwriteInitial: false,
             maxFileSize:2000,
             maxFilesNum: 10,
