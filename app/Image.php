@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Image extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = ['path', 'imageable_type', 'imageable_id'];
 

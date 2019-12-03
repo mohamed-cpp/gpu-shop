@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SubcatProduct extends Model
 {
-    use SoftDeletes;
 
     protected $fillable = ['productable_id', 'productable_type', 'subcategoryable_id'];
 

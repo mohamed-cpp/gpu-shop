@@ -39,7 +39,7 @@
                 <a class="collapse-item" href="buttons.html">Buttons</a>
                 <a class="collapse-item" href="cards.html">Cards</a>
                 <hr>
-                <a class="collapse-item" href="{{route('create.product')}}">Products</a>
+                <a class="collapse-item" href="{{route('product.index')}}">Products</a>
             </div>
         </div>
     </li>

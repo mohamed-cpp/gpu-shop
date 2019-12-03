@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductCreateRequest;
+use App\Http\Requests\ProductUpdateRequest;
 use App\Product;
 use App\SubCategory;
 use Illuminate\Http\Request;
@@ -18,7 +19,9 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        return view('seller.product.index',[
+            'products' => auth('seller')->user()->products()->paginate(15),
+        ]);
     }
 
     /**
@@ -76,30 +79,75 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        //
+        $subcategories = SubCategory::where('status',true)->get();
+        return view('seller.product.edit',[
+            'product' => $product,
+            'subcategories' => $subcategories,
+            'subcategories_id' => $product->subcategories_ids->toArray(),
+        ]);
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
+     * @param ProductUpdateRequest $request
+     * @param Product $product
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     * @throws \Exception
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        //
+        $input = $request->all();
+        if($image = $request->file('main_image')){
+            $input['main_image'] = $this->moveImage($image,$request);
+        }
+        $product->update($input);
+        if ($request->deleteImages){
+            foreach ($request->deleteImages as $deleteImage){
+                $product->images()->find($deleteImage)->delete();
+            }
+        }
+        foreach ($product->subcategories_ids as $id){
+            if (! in_array($id,$input['subcategories'])){
+                $product->subcategories()->whereIn('subcategoryable_id',[$id])->delete();
+            }
+        }
+        $subcategories = [];
+        foreach ($input['subcategories'] as $subcategory){
+            if(! in_array($subcategory,$product->subcategories_ids->toArray())){
+                $subcategories[] = new \App\SubcatProduct(['subcategoryable_id' => $subcategory]);
+            }
+        }
+        $product->subcategories()->saveMany($subcategories);
+        if ($request->file('images')){
+            $images = [];
+            foreach ($request->file('images') as $requestImage){
+                $images[] = new \App\Image(['path' => $this->moveImage($requestImage,$request)]) ;
+            }
+            $product->images()->saveMany($images);
+        }
+
+        return redirect(route('product.index'))->with('flash','The Product Updated Successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Product  $product
+     * @param \App\Product $product
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
+        return back()->with('flash','The Product Deleted Successfully');
+    }
+
+    public function quickButtons(Product $product){
+        $product->update([
+            'status' => !$product->status
+        ]);
+        $product->save();
+        $status = $product->status == true ? 'Enabled' : 'Disabled';
+        return back()->with('flash',"The Product $status Successfully");
     }
 
     public function moveImage($image,$request){

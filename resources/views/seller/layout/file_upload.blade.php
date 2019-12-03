@@ -9,6 +9,7 @@
             margin: 0 auto;
             width: 100%;
             max-width: 600px;
+            margin-top: 10px;
         }
         .uploader label {
             float: left;

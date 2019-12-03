@@ -26,7 +26,9 @@ class Product extends Model
     protected $casts = [
         'status' => 'boolean',
     ];
-    public $with = ['images','seller'];
+    public $with = ['images'];
+
+    protected $appends = ['subcategories_ids'];
 
     public static function boot()
     {
@@ -47,10 +49,6 @@ class Product extends Model
         return $this->morphMany(Image::class, 'imageable');
     }
 
-    /**
-     * Images
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
     public function subcategories()
     {
         return $this->morphMany(SubcatProduct::class, 'productable');
@@ -58,6 +56,11 @@ class Product extends Model
 
     public function seller(){
         return $this->belongsTo(Seller::class, 'seller_id');
+    }
+
+    public function getSubcategoriesIdsAttribute()
+    {
+        return $this->subcategories()->pluck('subcategoryable_id');
     }
 
     public function getNameAttribute()
