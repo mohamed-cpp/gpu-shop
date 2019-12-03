@@ -196,7 +196,7 @@
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
-                                        <a href="{{$product->productable->slug}}"><img src="{{asset('storage/product/images/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
+                                        <a href="{{$product->productable->slug}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
                                         <div class="product-action">
                                             <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
                                             <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
@@ -243,7 +243,7 @@
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
-                                        <a href="{{$product->productable->slug}}"><img src="{{asset('storage/product/images/'.$product->productable->main_image)}}" alt={{$product->productable->name}}""></a>
+                                        <a href="{{$product->productable->slug}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt={{$product->productable->name}}""></a>
                                         <div class="product-action">
                                             <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
                                         </div>

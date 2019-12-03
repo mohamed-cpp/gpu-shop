@@ -41,36 +41,20 @@ class ProductController extends Controller
     public function store(ProductCreateRequest $request)
     {
         $input = $request->all();
-
         $image = $request->file('main_image');
-
         $input['main_image'] = $this->moveImage($image,$request);
-
         $product = auth('seller')->user()->products()->create($input);
-
         $images = [];
         foreach ($request->file('images') as $requestImage){
             $images[] = new \App\Image(['path' => $this->moveImage($requestImage,$request)]) ;
         }
-
         $subcategories = [];
         foreach ($input['subcategories'] as $subcategor){
             $subcategories[] = new \App\SubcatProduct(['subcategoryable_id' => $subcategor]);
         }
-
         $product->images()->saveMany($images);
         $product->subcategories()->saveMany($subcategories);
-
         return redirect('/');
-
-
-//        $test =$this->moveImage($image,$request);
-//
-//        $img = Image::make(public_path($test));
-//        $img->resize(320, 240);
-//        $img->save('bar.jpg');
-//
-//        dd('done');
     }
 
     /**
@@ -120,7 +104,10 @@ class ProductController extends Controller
 
     public function moveImage($image,$request){
         $path = 'storage/product/images/';
-        $image->move(public_path($path),$name = md5(Str::random(5).$request->image).'.'.$image->getClientOriginalExtension());
+        $image->move(public_path($path),$name = md5(Str::random(10).$request->image).'.'.$image->getClientOriginalExtension());
+        $img = Image::make(public_path($path.$name));
+        $img->resize(365, 302);
+        $img->save('storage/product/images/thumbnail/'.$name);
         return $name;
     }
 }
