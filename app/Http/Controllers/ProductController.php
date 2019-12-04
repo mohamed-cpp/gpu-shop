@@ -45,11 +45,11 @@ class ProductController extends Controller
     {
         $input = $request->all();
         $image = $request->file('main_image');
-        $input['main_image'] = $this->moveImage($image,$request);
+        $input['main_image'] = $this->moveImage($image);
         $product = auth('seller')->user()->products()->create($input);
         $images = [];
         foreach ($request->file('images') as $requestImage){
-            $images[] = new \App\Image(['path' => $this->moveImage($requestImage,$request)]) ;
+            $images[] = new \App\Image(['path' => $this->moveImage($requestImage)]) ;
         }
         $subcategories = [];
         foreach ($input['subcategories'] as $subcategor){
@@ -57,7 +57,7 @@ class ProductController extends Controller
         }
         $product->images()->saveMany($images);
         $product->subcategories()->saveMany($subcategories);
-        return redirect('/');
+        return redirect(route('product.index'))->with('flash','The Product Added Successfully');
     }
 
     /**
@@ -97,34 +97,25 @@ class ProductController extends Controller
     {
         $input = $request->all();
         if($image = $request->file('main_image')){
-            $input['main_image'] = $this->moveImage($image,$request);
+            $input['main_image'] = $this->moveImage($image);
         }
         $product->update($input);
-        if ($request->deleteImages){
-            foreach ($request->deleteImages as $deleteImage){
-                $product->images()->find($deleteImage)->delete();
-            }
-        }
-        foreach ($product->subcategories_ids as $id){
-            if (! in_array($id,$input['subcategories'])){
-                $product->subcategories()->whereIn('subcategoryable_id',[$id])->delete();
-            }
-        }
+        $product->subcategories()->whereIn('subcategoryable_id',array_diff($product->subcategories_ids->toArray(),$input['subcategories']))->delete();
         $subcategories = [];
-        foreach ($input['subcategories'] as $subcategory){
-            if(! in_array($subcategory,$product->subcategories_ids->toArray())){
-                $subcategories[] = new \App\SubcatProduct(['subcategoryable_id' => $subcategory]);
-            }
+        foreach (array_diff($input['subcategories'], $product->subcategories_ids->toArray()) as $new ){
+            $subcategories[] = ['subcategoryable_id'=>$new];
         }
-        $product->subcategories()->saveMany($subcategories);
+        $product->subcategories()->createMany($subcategories);
+        if ($request->deleteImages){
+            $product->images()->findMany($request->deleteImages)->each->delete();
+        }
         if ($request->file('images')){
             $images = [];
             foreach ($request->file('images') as $requestImage){
-                $images[] = new \App\Image(['path' => $this->moveImage($requestImage,$request)]) ;
+                $images[] = ['path' => $this->moveImage($requestImage)];
             }
-            $product->images()->saveMany($images);
+            $product->images()->createMany($images);
         }
-
         return redirect(route('product.index'))->with('flash','The Product Updated Successfully');
     }
 
@@ -150,12 +141,12 @@ class ProductController extends Controller
         return back()->with('flash',"The Product $status Successfully");
     }
 
-    public function moveImage($image,$request){
+    public function moveImage($image){
         $path = 'storage/product/images/';
-        $image->move(public_path($path),$name = md5(Str::random(10).$request->image).'.'.$image->getClientOriginalExtension());
+        $image->move(public_path($path),$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
         $img = Image::make(public_path($path.$name));
         $img->resize(365, 302);
-        $img->save('storage/product/images/thumbnail/'.$name);
+        $img->save(public_path('storage/product/images/thumbnail/').$name);
         return $name;
     }
 }
