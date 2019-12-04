@@ -21,6 +21,8 @@ mix.styles([
     'resources/templates/GPU-Shop/css/animate.css',
     'resources/templates/GPU-Shop/css/owl.carousel.min.css',
     'resources/templates/GPU-Shop/css/slinky.min.css',
+    'resources/templates/GPU-Shop/css/meanmenu.min.css',
+    'resources/templates/GPU-Shop/css/easyzoom.css',
     'resources/templates/GPU-Shop/css/slick.css',
     'resources/templates/GPU-Shop/css/ionicons.min.css',
     'resources/templates/GPU-Shop/css/bundle.css',

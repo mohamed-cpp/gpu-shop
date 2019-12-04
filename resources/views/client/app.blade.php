@@ -12,6 +12,7 @@
     <!-- all css here -->
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
     @stack('styles')
+    <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
 </head>
 <body>
 <!-- header start -->

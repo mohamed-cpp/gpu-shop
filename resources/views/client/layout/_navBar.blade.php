@@ -124,7 +124,7 @@
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="#">EUR  Euro</a></li>
+                        <li><a href="/usd">EUR  Euro</a></li>
                     </ul>
                 </div>
             </div>

@@ -26,8 +26,8 @@ Route::get('password/reset/{token}', 'Auth\Seller\ResetPasswordController@showRe
 Route::post('password/reset', 'Auth\Seller\ResetPasswordController@reset')
     ->name('seller.password.update');
 
-Route::resource('product','ProductController')->middleware('seller');
-Route::patch("product/quick/{product}", "ProductController@quickButtons")->name("product.quick.buttons");
+Route::resource('product','Seller\ProductController')->middleware('seller');
+Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons")->middleware('seller');
 
 Route::get('/test', function () {
     return 'welcome';
