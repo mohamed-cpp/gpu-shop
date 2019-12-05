@@ -74,6 +74,13 @@ class CreateProductTest extends TestCase
             ->assertViewIs('seller.product.edit');
     }
 
+    public function test_can_not_another_seller_edit_product(){
+        $seller = create('App\Seller');
+        $this->actingAs($seller,'seller');
+        $this->get(route('product.edit',[$this->product]))
+            ->assertStatus(403);
+    }
+
     public function test_update_a_products(){
         $this->actingAs($this->seller,'seller');
         $arrayProduct = array_merge( $this->product->toArray(),['images'=>[],'subcategories'=>[6,5]]);

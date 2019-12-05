@@ -19,13 +19,12 @@ class SellerProductPolicy
      */
     public function __construct()
     {
-        //response()->view('seller.errors.403',[ 'errorMessage'=> 'asdasd'])
+
     }
 
     public function update(?Seller $seller, Product $product)
     {
-//        return auth('seller')->user()->id === $product->seller_id;
-        return false;
+        return auth('seller')->user()->id === $product->seller_id;
     }
 
 }
