@@ -196,7 +196,7 @@
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
-                                        <a href="{{$product->productable->slug}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
+                                        <a href="{{route('show.product.client', $product->productable->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
                                         <div class="product-action">
                                             <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
                                             <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
@@ -205,7 +205,7 @@
                                     <div class="product-content">
                                         <div class="product-title-price">
                                             <div class="product-title">
-                                                <h4><a href="{{$product->productable->slug}}">{{$product->productable->name}}</a></h4>
+                                                <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{$product->productable->name}}</a></h4>
                                             </div>
                                             <div class="product-price">
                                                 <span>${{$product->productable->price_egp}}</span>
@@ -243,7 +243,7 @@
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
-                                        <a href="{{$product->productable->slug}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt={{$product->productable->name}}""></a>
+                                        <a href="{{route('show.product.client', $product->productable->slug)}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt={{$product->productable->name}}""></a>
                                         <div class="product-action">
                                             <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
                                         </div>
@@ -251,7 +251,7 @@
 
                                     <div class="product-content-list">
                                         <div class="product-list-info">
-                                            <h4><a href="{{$product->productable->slug}}">{{ Str::limit($product->productable->name, $limit = 50, $end = '...')}}</a></h4>
+                                            <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{ Str::limit($product->productable->name, $limit = 50, $end = '...')}}</a></h4>
                                             <span>${{$product->productable->price_egp}}</span>
                                             <p>{{ Str::limit($product->productable->description, $limit = 70, $end = '...') }}</p>
                                         </div>

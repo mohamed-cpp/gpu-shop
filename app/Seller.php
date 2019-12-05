@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Traits\HasRoles;
 
 /**
  * App\Models\Client
@@ -19,6 +20,7 @@ class Seller extends Authenticatable implements MustVerifyEmail
 {
 
     use Notifiable;
+    use HasRoles;
 
     /**
      * The attributes that are mass assignable.

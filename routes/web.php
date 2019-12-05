@@ -12,10 +12,6 @@
 */
 Route::get("/", 'Client\ClientsHomePageController@homepage')->name('homepage');
 
-Route::get('/p', function () {
-    return view('client.products.show_product');
-});
-
 Route::group(['middleware' => 'client'], function () {
     Route::get('/home', function () {
         return view('client.main');
@@ -70,16 +66,18 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
 
 
 Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
+Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
 
 
-Route::get('/test', function () {
-//   cookie('price', 'GPU', 1440);
-//    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'GPU', 1440));
-    return Illuminate\Support\Facades\Cookie::get('price');
-}) ;
-Route::get('/usd', function () {
-//   cookie('price', 'GPU', 1440);
-    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'EGP', 1440));
+
+//Route::get('/test', function () {
+////   cookie('price', 'GPU', 1440);
+////    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'GPU', 1440));
 //    return Illuminate\Support\Facades\Cookie::get('price');
-    return back();
-}) ;
+//}) ;
+//Route::get('/usd', function () {
+////   cookie('price', 'GPU', 1440);
+//    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'EGP', 1440));
+////    return Illuminate\Support\Facades\Cookie::get('price');
+//    return back();
+//}) ;

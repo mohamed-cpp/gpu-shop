@@ -30,5 +30,5 @@ Route::resource('product','Seller\ProductController')->middleware('seller');
 Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons")->middleware('seller');
 
 Route::get('/test', function () {
-    return 'welcome';
-})->middleware('email_verified:seller') ;
+    return ;
+}) ;

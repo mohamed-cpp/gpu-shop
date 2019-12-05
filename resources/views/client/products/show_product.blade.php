@@ -5,10 +5,6 @@
         .product-details-small.main-product-details a > img {
             width: 132px;
         }
-
-        .easyzoom-flyout {
-            z-index: 0;
-        }
     </style>
 @endpush
 @section('content')
