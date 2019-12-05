@@ -120,11 +120,12 @@
         <div class="cur-lang-acc-all">
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Currency: <span>USD </span></h4>
+                    <h4>Currency: <span>{{ $currency =Cookie::get('currency') == 'EGP' ? 'EGP' : 'USD' }} </span></h4>
                 </div>
+                @php $currency = $currency == 'USD' ? 'EGP' : 'USD' @endphp
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="/usd">EUR  Euro</a></li>
+                        <li><a href="{{route('currency.product.client',[$currency])}}">{{$currency}}</a></li>
                     </ul>
                 </div>
             </div>

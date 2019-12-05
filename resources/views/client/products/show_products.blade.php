@@ -2,6 +2,21 @@
 @push('styles')
 
     <style>
+        .oldprice{
+            text-decoration-line: line-through;
+            color: darkred !important;
+            padding-right: 5px !important;
+        }
+        .offer2,
+        .offer{
+            color: red !important;
+            font-size: 15px;
+        }
+        .price{
+            color: rgba(0, 7, 255, 0.8) !important;
+            font-size: 15px;
+            font-weight: 550;
+        }
         .breadcrumb-content h2 {
             color: #fff;
         }
@@ -188,7 +203,7 @@
                 </div>
 
                 <div class="shop-product-content tab-content">
-
+                    @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
                     <div id="grid-5-col1" class="tab-pane fade  {{ $horizontal ? '' : 'active show'  }}">
                         <div class="row custom-row">
                             @foreach($products as $product)
@@ -197,6 +212,7 @@
                                 <div class="single-product mb-35">
                                     <div class="product-img">
                                         <a href="{{route('show.product.client', $product->productable->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
+                                        @if($isOffer = $product->productable->isOffer == true) <span>sale</span> @endif
                                         <div class="product-action">
                                             <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
                                             <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
@@ -208,7 +224,8 @@
                                                 <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{$product->productable->name}}</a></h4>
                                             </div>
                                             <div class="product-price">
-                                                <span>${{$product->productable->price_egp}}</span>
+                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->productable->offerPrice(false)}}</span></div>
+                                                @if($isOffer)<span class="offer" >{{$currency}}{{$product->productable->offerPrice()}}</span>@endif
                                             </div>
                                         </div>
                                         <div class="product-cart-categori">
@@ -252,7 +269,8 @@
                                     <div class="product-content-list">
                                         <div class="product-list-info">
                                             <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{ Str::limit($product->productable->name, $limit = 50, $end = '...')}}</a></h4>
-                                            <span>${{$product->productable->price_egp}}</span>
+                                            <div><span class="{{ $isOffer = $product->productable->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$product->productable->offerPrice(false)}}</span></div>
+                                            @if($isOffer)<span class="offer2" >{{$currency}}{{$product->productable->offerPrice()}}</span>@endif
                                             <p>{{ Str::limit($product->productable->description, $limit = 70, $end = '...') }}</p>
                                         </div>
                                         <div class="product-list-cart-wishlist">
@@ -285,5 +303,23 @@
 @push('includes')
     @include('client.layout._quickView')
 @endpush
+@push('scripts')
+    <script>
+        $(document).ready(function(){
+            $(function animateByMe(time = 500) {
+                $('.offer').animate({
+                    fontWeight:'300',
+                    fontSize:'15px',
+                },time, function () {
+                    $(this).animate({
+                        fontWeight:'1000',
+                        fontSize:'16px',
+                    },time);
+                });
+                setTimeout(animateByMe, 200);
+            }());
 
+        });
+    </script>
+@endpush
 

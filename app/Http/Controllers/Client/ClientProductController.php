@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Client;
 use App\Product;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Redis\RedisManager;
+use Illuminate\Support\Facades\Cookie;
 
 class ClientProductController extends Controller
 {
@@ -47,7 +49,7 @@ class ClientProductController extends Controller
      */
     public function show(Product $product)
     {
-        return $product;
+        return view('client.products.show_product',['product'=>$product]);
     }
 
     /**
@@ -82,5 +84,10 @@ class ClientProductController extends Controller
     public function destroy(Product $product)
     {
         //
+    }
+
+    public function currency($currency){
+        Cookie::queue(Cookie::make('currency', $currency, 10080));
+        return back();
     }
 }

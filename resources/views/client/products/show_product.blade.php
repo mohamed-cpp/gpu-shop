@@ -12,9 +12,8 @@
         <div class="container">
             <div class="breadcrumb-content-2">
                 <ul>
-                    <li><a class="active" href="#">home</a></li>
-                    <li><a class="active" href="#">Shop </a></li>
-                    <li>Product Name</li>
+                    <li><a class="active" href="/">home</a></li>
+                    <li>{{$product->name}}</li>
                 </ul>
             </div>
         </div>
@@ -24,65 +23,67 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="product-details-btn">
-                        <a href="#"><i class="ion-arrow-left-c"></i></a>
-                        <a class="active" href="#"><i class="ion-arrow-right-c"></i></a>
+                        <a class="active" href="{{ URL::previous() }}"><i class="ion-arrow-left-c"></i></a>
                     </div>
                 </div>
             </div>
+
+
             <div class="row">
                 <div class="col-md-12 col-lg-7 col-12">
                     <div class="product-details-img-content">
                         <div class="product-details-tab mr-70">
+
+
+
                             <div class="product-details-large tab-content">
-                                <div class="tab-pane active show fade" id="pro-details1" role="tabpanel">
+
+                                <div class="tab-pane active show fade" id="pro-details99" role="tabpanel">
                                     <div class="easyzoom easyzoom--overlay">
-                                        <a href="{{asset('storage/product/images/00a895f5e1312ea97fcb3db219fefb75.jpg')}}">
-                                            <img src="{{asset('storage/product/images/00a895f5e1312ea97fcb3db219fefb75.jpg')}}" alt="">
+                                        <a href="{{asset('storage/product/images/'.$product->main_image)}}">
+                                            <img height="570" width="665" src="{{asset('storage/product/images/'.$product->main_image)}}" alt="">
                                         </a>
                                     </div>
                                 </div>
-                                <div class="tab-pane fade" id="pro-details2" role="tabpanel">
-                                    <div class="easyzoom easyzoom--overlay">
-                                        <a href="/assets/img/product-details/bl2.jpg">
-                                            <img src="/assets/img/product-details/l2.jpg" alt="">
-                                        </a>
+                            @foreach($product->images as $x => $val)
+
+                                    <div class="tab-pane fade" id="pro-details{{$x}}" role="tabpanel">
+                                        <div class="easyzoom easyzoom--overlay">
+                                            <a href="{{asset('storage/product/images/'.$val->path)}}">
+                                                <img height="570" width="665" src="{{asset('storage/product/images/'.$val->path)}}" alt="">
+                                            </a>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="tab-pane fade" id="pro-details3" role="tabpanel">
-                                    <div class="easyzoom easyzoom--overlay">
-                                        <a href="/assets/img/product-details/bl3.jpg">
-                                            <img src="/assets/img/product-details/l3.jpg" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                                <div class="tab-pane fade" id="pro-details4" role="tabpanel">
-                                    <div class="easyzoom easyzoom--overlay">
-                                        <a href="/assets/img/product-details/bl4.jpg">
-                                            <img src="/assets/img/product-details/l4.jpg" alt="">
-                                        </a>
-                                    </div>
-                                </div>
+                            @endforeach
+
                             </div>
+
+
                             <div class="product-details-small nav mt-12 main-product-details" role=tablist>
-                                <a class="active mr-12" href="#pro-details1" data-toggle="tab" role="tab" aria-selected="true">
-                                    <img src="{{asset('storage/product/images/00a895f5e1312ea97fcb3db219fefb75.jpg')}}" alt="">
+
+
+                                <a class="active mr-12" href="#pro-details99" data-toggle="tab" role="tab" aria-selected="true">
+                                    <img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="">
                                 </a>
-                                <a class="mr-12" href="#pro-details2" data-toggle="tab" role="tab" aria-selected="true">
-                                    <img src="/assets/img/product-details/s2.jpg" alt="">
-                                </a>
-                                <a class="mr-12" href="#pro-details3" data-toggle="tab" role="tab" aria-selected="true">
-                                    <img src="/assets/img/product-details/s3.jpg" alt="">
-                                </a>
-                                <a class="mr-12" href="#pro-details4" data-toggle="tab" role="tab" aria-selected="true">
-                                    <img src="/assets/img/product-details/s4.jpg" alt="">
-                                </a>
+
+                                @foreach($product->images as $x => $val)
+
+                                    <a class="mr-12" href="#pro-details{{$x}}" data-toggle="tab" role="tab" aria-selected="true">
+                                        <img src="{{asset('storage/product/images/thumbnail/'.$val->path)}}" alt="">
+                                    </a>
+
+                                @endforeach
+
+
+
+
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-12 col-lg-5 col-12">
                     <div class="product-details-content">
-                        <h3>Handcrafted Supper Mug</h3>
+                        <h3>{{$product->name}}</h3>
                         <div class="rating-number">
                             <div class="quick-view-rating">
                                 <i class="ion-ios-star red-star"></i>
@@ -96,9 +97,10 @@
                             </div>
                         </div>
                         <div class="details-price">
-                            <span>$120.00</span>
+                            @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
+                            <span>{{ $currency }}{{$product->offerPrice()}}</span>
                         </div>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmol tempor incidid ut labore et dolore magna aliqua. Ut enim ad minim veni quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in</p>
+                        <p>{{$product->description}}</p>
                         <div class="quick-view-select">
                             <div class="select-option-part">
                                 <label>Size*</label>
@@ -194,7 +196,7 @@
                 </div>
                 <div class="description-review-text tab-content">
                     <div class="tab-pane active show fade" id="pro-dec" role="tabpanel">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in</p>
+                        <p>{{$product->description}}</p>
                     </div>
                     <div class="tab-pane fade" id="pro-review" role="tabpanel">
                         <a href="#">Be the first to write your review!</a>

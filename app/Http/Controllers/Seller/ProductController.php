@@ -149,9 +149,14 @@ class ProductController extends Controller
     public function moveImage($image){
         $path = 'storage/product/images/';
         $image->move(public_path($path),$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
-        $img = Image::make(public_path($path.$name));
-        $img->resize(365, 302);
-        $img->save(public_path('storage/product/images/thumbnail/').$name);
+        $this->addWatermark($name);
+        $this->addWatermark($name,'storage/product/images/thumbnail/',true);
         return $name;
+    }
+    protected function addWatermark($name,$path = 'storage/product/images/',$thumbnail=false){
+        $img = Image::make(public_path('storage/product/images/'.$name));
+        $img->insert(public_path('assets/img/logo/watermark.png'), 'bottom-left', 10, 10);
+        if($thumbnail === true) {$img->resize(365, 302);}
+        $img->save(public_path($path.$name));
     }
 }
