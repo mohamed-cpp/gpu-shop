@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductUpdateRequest extends FormRequest
+class AdminProductUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,10 +13,7 @@ class ProductUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        if (auth('web')->check()){
-            return true;
-        }
-        return auth('seller')->check();
+        return auth('web')->check();
     }
 
     /**

@@ -122,6 +122,9 @@ class ProductController extends Controller
             }
             $product->images()->createMany($images);
         }
+        if (auth('web')->check()){
+            return redirect(route('products.index'))->with('flash','The Product Updated Successfully');
+        }
         return redirect(route('product.index'))->with('flash','The Product Updated Successfully');
     }
 

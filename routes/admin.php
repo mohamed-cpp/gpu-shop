@@ -12,6 +12,10 @@ Route::group(['prefix' => 'admin'], function () {
 
         Route::resource('subcategories','Admin\SubCategoryController');
         Route::patch("subcategories/quick/{subcategory}", "Admin\SubCategoryController@quickButtons")->name("sub.quick.buttons");
+
+        Route::resource('products','Admin\AdminProductController');
+        Route::patch("products/quick/{product}", "Admin\AdminProductController@quickButtons")->name("products.quick.buttons");
+        Route::patch("products/rejected/{product}", "Admin\AdminProductController@rejected")->name("products.rejected.button");
     });
 
 

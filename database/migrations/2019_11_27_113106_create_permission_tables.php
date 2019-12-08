@@ -82,6 +82,9 @@ class CreatePermissionTables extends Migration
         app('cache')
             ->store(config('permission.cache.store') != 'default' ? config('permission.cache.store') : null)
             ->forget(config('permission.cache.key'));
+
+        Spatie\Permission\Models\Role::create(['name' => 'Super Admin']);
+        \App\Admin::find(1)->assignRole('Super Admin');
     }
 
     /**
