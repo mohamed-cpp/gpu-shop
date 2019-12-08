@@ -17,8 +17,8 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->string('name_en');
             $table->string('name_ar');
-            $table->string('description_en');
-            $table->string('description_ar');
+            $table->longText('description_en');
+            $table->longText('description_ar');
             $table->string('title_meta_en')->nullable();
             $table->string('title_meta_ar')->nullable();
             $table->string('description_meta_en')->nullable();
@@ -35,7 +35,8 @@ class CreateProductsTable extends Migration
             $table->timestamp('offer_start_at')->nullable();
             $table->timestamp('offer_end_at')->nullable();
             $table->unsignedInteger('seller_id');
-            $table->unsignedTinyInteger('quantity');
+            $table->unsignedSmallInteger('quantity');
+            $table->unsignedSmallInteger('quantity_offer')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

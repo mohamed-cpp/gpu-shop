@@ -3,6 +3,8 @@
 @push('styles')
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
+    <script src="//cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script>
     <style>
     .input-group-append .btn,
     .input-group-prepend .btn {
@@ -186,7 +188,7 @@
         @method('PATCH')
         @csrf
     <div class="container-fluid">
-        <h6 class="m-0 font-weight-bold text-primary d-inline" >Add Product</h6>
+        <h6 class="m-0 font-weight-bold text-primary d-inline" >Edit Product</h6>
         @if($errors)
             <ul class="list-group">
                 @foreach($errors->all() as $key => $message)
@@ -225,7 +227,7 @@
                     @enderror
 
                     <label for="descriptionAr">Arabic Description of Product</label>
-                    <input type="text" class="form-control @error('description_ar') is-invalid @enderror" name="description_ar" id="descriptionAr" value="{{$product->description_ar}}" placeholder="هاتف هاواوى نوفا 3i.....">
+                    <textarea name="description_ar" id="descriptionAr">{{ old('description_ar') ? old('description_ar') : $product->description_ar }}</textarea>
                     @error('description_ar')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -278,7 +280,7 @@
                     @enderror
 
                     <label for="descriptionEn">English Description of Product</label>
-                    <input type="text" class="form-control @error('description_en') is-invalid @enderror" name="description_en" id="descriptionEn" value="{{ $product->description_en }}" placeholder="huawei nova 3i...">
+                    <textarea name="description_en" id="descriptionEn">{{ old('description_en') ? old('description_en') : $product->description_en }}</textarea>
                     @error('description_en')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -385,10 +387,18 @@
             </div>
 
             <div class="tab-pane fade" id="discount" role="tabpanel" aria-labelledby="discount-tab">
+                @if($product->offer_start_at)
+                    <div class="shadow-lg p-3 mb-4 bg-white rounded">
+                    <h5>Last offer you added start at {{$product->offer_start_at}} to {{$product->offer_end_at}}.</h5>
+                    <h5>Price's offer EGP {{$product->offer_price_egp}}/ USD {{$product->offer_price_usd}}.</h5>
+                    <h5>Quantity's offer {{$product->quantity_offer}}.</h5>
+                    @if(\Carbon\Carbon::now() > $product->offer_end_at) <p style="color: red">The offer ended</p> @elseif(\Carbon\Carbon::now() > $product->offer_start_at) <p style="color: #17a673">The offer started</p> @else <p style="color: #191919">The offer not started yet</p> @endif
+                    </div>
+                @endif
                 <div class="form-group row">
                     <label for="datetimeStart" class="col-2 col-form-label">Start Discount At:</label>
                     <div class="col-10">
-                        <input class="form-control" name="offer_start_at" value="{{ $product->offer_start_at ? \Carbon\Carbon::parse($product->offer_start_at)->format('Y-m-d\TH:i') : '' }}" type="datetime-local" id="datetimeStart">
+                        <input type="text" class="form-control datetimepicker-input" name="offer_start_at" value="{{ old('offer_start_at') }}" id="datetimepicker5" data-toggle="datetimepicker" data-target="#datetimepicker5"/>
                     </div>
                     @error('offer_start_at')
                     <span class="invalid-feedback" style="display: inline !important;" role="alert">
@@ -397,7 +407,7 @@
                     @enderror
                     <label for="datetimeEnd" class="col-2 col-form-label">End Discount At:</label>
                     <div class="col-10">
-                        <input class="form-control" name="offer_end_at" value="{{ $product->offer_end_at ? \Carbon\Carbon::parse($product->offer_end_at)->format('Y-m-d\TH:i') : ''}}" type="datetime-local" id="datetimeEnd">
+                        <input type="text" class="form-control datetimepicker-input" name="offer_end_at" value="{{ old('offer_end_at') }}" id="datetimepicker4" data-toggle="datetimepicker" data-target="#datetimepicker4"/>
                     </div>
                     @error('offer_end_at')
                     <span class="invalid-feedback" style="display: inline !important;" role="alert">
@@ -407,15 +417,22 @@
                 </div>
                 <div class="form-group">
                     <label for="offerPriceEgp">Offer Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{$product->offer_price_usd}}">
+                    <input type="number" min="1" class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
                     @error('offer_price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                     <label for="offerPriceUSD">Offer Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{$product->offer_price_usd}}">
+                    <input type="number" min="1" class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
                     @error('offer_price_usd')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                    <label for="offerQuantity">Quantity of Offer</label>
+                    <input type="number" min="1" class="form-control @error('quantity_offer') is-invalid @enderror" id="offerQuantity" name="quantity_offer" value="{{old('quantity_offer') ?old('quantity_offer') : $product->quantity_offer}}">
+                    @error('quantity_offer')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -443,8 +460,6 @@
 
                                 </li>
                             </ul>
-
-{{--                                <input type="checkbox" class="custom-control-input checkBoxes" name="checkBoxArray[]" value="{{$image->id}}">--}}
                         </div>
                     @endforeach
                     <div>
@@ -484,7 +499,7 @@
                 </div>
             </div>
             @include('seller.layout.file_upload')
-        <button type="submit" class="btn btn-primary btn-user btn-block">{{ __('Add New Product') }}</button>
+        <button type="submit" class="btn btn-primary btn-user btn-block">{{ __('Update Product') }}</button>
     </div>
     </div>
     </form>
@@ -495,10 +510,21 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/js/fileinput.js" type="text/javascript"></script>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/themes/fa/theme.js" type="text/javascript"></script>
 
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/js/tempusdominus-bootstrap-4.min.js"></script>
     <script type="text/javascript">
+        CKEDITOR.replace( 'description_en' );
+        CKEDITOR.replace( 'description_ar' );
+        $(function () {
+            $('#datetimepicker5').datetimepicker({
+                defaultDate: '{{$product->offer_start_at}}',
+            });
+            $('#datetimepicker4').datetimepicker({
+                defaultDate: '{{$product->offer_end_at}}',
+            });
+        });
         $("#file-1").fileinput({
             theme: 'fa',
             allowedFileExtensions: ['jpg', 'jpeg', 'png', 'gif'],

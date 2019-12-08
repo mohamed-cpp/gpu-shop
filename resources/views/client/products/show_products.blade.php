@@ -271,7 +271,7 @@
                                             <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{ Str::limit($product->productable->name, $limit = 50, $end = '...')}}</a></h4>
                                             <div><span class="{{ $isOffer = $product->productable->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$product->productable->offerPrice(false)}}</span></div>
                                             @if($isOffer)<span class="offer2" >{{$currency}}{{$product->productable->offerPrice()}}</span>@endif
-                                            <p>{{ Str::limit($product->productable->description, $limit = 70, $end = '...') }}</p>
+                                            <p>{!! Str::limit($product->productable->description, $limit = 70, $end = '...') !!}</p>
                                         </div>
                                         <div class="product-list-cart-wishlist">
                                             <div class="product-list-cart">

@@ -269,7 +269,7 @@
                                 <i class="fas fa-trash"></i>
                                 </button>
                             </form>
-                            <a href="{{route('product.show',[$product])}}" class="btn btn-info btn-circle">
+                            <a href="{{route('show.product.client',[$product])}}" class="btn btn-info btn-circle">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </td>

@@ -100,6 +100,7 @@ class ProductController extends Controller
      */
     public function update(ProductUpdateRequest $request, Product $product)
     {
+//        dd(strip_tags($request->description_en));
         $input = $request->all();
         if($image = $request->file('main_image')){
             $input['main_image'] = $this->moveImage($image);

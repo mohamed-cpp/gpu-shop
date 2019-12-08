@@ -5,6 +5,20 @@
         .product-details-small.main-product-details a > img {
             width: 132px;
         }
+        .oldprice{
+            text-decoration-line: line-through;
+            color: darkred !important;
+            padding-right: 5px !important;
+        }
+        .offer{
+            color: red !important;
+            font-size: 15px;
+        }
+        .price{
+            color: rgba(255, 0, 36, 0.8) !important;
+            font-size: 15px;
+            font-weight: 550;
+        }
     </style>
 @endpush
 @section('content')
@@ -98,9 +112,9 @@
                         </div>
                         <div class="details-price">
                             @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
-                            <span>{{ $currency }}{{$product->offerPrice()}}</span>
+                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPrice(false)}}</span></div>
+                            @if($isOffer)<span class="offer" >{{$currency}}{{$product->offerPrice()}}</span>@endif
                         </div>
-                        <p>{{$product->description}}</p>
                         <div class="quick-view-select">
                             <div class="select-option-part">
                                 <label>Size*</label>
@@ -196,7 +210,7 @@
                 </div>
                 <div class="description-review-text tab-content">
                     <div class="tab-pane active show fade" id="pro-dec" role="tabpanel">
-                        <p>{{$product->description}}</p>
+                        {!! $product->description !!}
                     </div>
                     <div class="tab-pane fade" id="pro-review" role="tabpanel">
                         <a href="#">Be the first to write your review!</a>
