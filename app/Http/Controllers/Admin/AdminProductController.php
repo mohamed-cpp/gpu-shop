@@ -58,13 +58,13 @@ class AdminProductController extends ProductController
     }
 
     public function quickButtons(Product $product){
-        $approved = $product->approved == 0 ? 1 : 0 ;
+        $approved = $product->approved == 1 ? 0 : 1 ;
         $product->update([
             'approved' => $approved
         ]);
         $product->save();
         $approved = $product->approved == 1 ? 'Approved' : 'Not Approved';
-        return back()->with('flash',"The Product $approved Successfully");
+        return back()->with('flash',"$product->name $approved Successfully");
     }
 
     public function rejected(Product $product){
@@ -72,7 +72,7 @@ class AdminProductController extends ProductController
             'approved' => 2
         ]);
         $product->save();
-        return back()->with('flash',"The Product Rejected Successfully");
+        return back()->with('flash',"$product->name Rejected Successfully");
     }
 
 }

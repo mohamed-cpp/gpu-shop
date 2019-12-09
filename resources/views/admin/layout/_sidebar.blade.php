@@ -42,6 +42,7 @@
                 <hr>
                 <a class="collapse-item" href="{{route('categories.index')}}">Categories</a>
                 @endcan
+                <a class="collapse-item" href="{{route('products.index')}}">Products</a>
             </div>
         </div>
     </li>
