@@ -16,6 +16,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::resource('products','Admin\AdminProductController');
         Route::patch("products/quick/{product}", "Admin\AdminProductController@quickButtons")->name("products.quick.buttons");
         Route::patch("products/rejected/{product}", "Admin\AdminProductController@rejected")->name("products.rejected.button");
+        Route::get("filter/products", "Admin\AdminProductController@filter")->name("products.filter");
     });
 
 

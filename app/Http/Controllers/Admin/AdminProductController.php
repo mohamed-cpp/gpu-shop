@@ -11,6 +11,7 @@ use App\Image;
 use App\Product;
 use App\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 class AdminProductController extends ProductController
@@ -75,4 +76,20 @@ class AdminProductController extends ProductController
         return back()->with('flash',"$product->name Rejected Successfully");
     }
 
+    public function filter(Request $request){
+        $column = "name_" . App::getLocale();
+        $username = $request->username;
+        $products = Product::with('seller')->without('images')->where([
+            [$column, 'LIKE', '%' . $request->name . '%'],
+            ['price_'.$request->currency, 'LIKE', '%' . $request->price . '%'],
+            ['approved', 'LIKE', '%' . $request->status . '%'],
+        ])->whereHas('seller', function ($q) use ($username){
+            $q->where('username', 'LIKE',  $username );
+        })->paginate(15);
+
+        return view('admin.product.index',[
+            'products' => $products,
+            'request' => $request
+        ]);
+    }
 }

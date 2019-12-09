@@ -222,7 +222,44 @@
                 <span class="fa fa-plus" aria-hidden="true"></span>
                 <span><strong>{{__('Add')}}</strong></span>
             </a>
-
+            @php $filter = !empty($request) ? $request : null @endphp
+            <form method="GET" action="{{ route('products.filter') }}">
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="inputName">Name of Product</label>
+                        <input type="text" class="form-control" value="{{ $filter ? $filter->name : ''}}" id="inputName" name="name" placeholder="Name">
+                    </div>
+                    <div class="form-group col-md-5">
+                        <label for="Username">Seller Username</label>
+                        <input type="text" class="form-control" id="Username"  value="{{$filter ? $filter->username : ''}}" name="username" placeholder="Username">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-5">
+                        <label for="Price">Price</label>
+                        <input type="number" class="form-control" id="Price" value="{{$filter ? $filter->price : ''}}" name="price" placeholder="Price">
+                    </div>
+                    <div class="form-group col-md-1.5">
+                        @php $select = !empty($request) ? $request->currency : null @endphp
+                        <label for="currency">Currency</label>
+                        <select id="currency" name="currency" class="form-control">
+                            <option value="egp" selected>EGP</option>
+                            <option value="usd" {{$select == 'usd' ? 'selected' : '' }}>USD</option>
+                        </select>
+                    </div>
+                    @php $select = !empty($request) ? $request->status : null @endphp
+                    <div class="form-group col-md-4">
+                        <label for="inputState">Status</label>
+                        <select id="inputState" name="status" class="form-control">
+                            <option  selected></option>
+                            <option value="1" {{$select == 1 ? 'selected' : '' }}>Approved</option>
+                            <option value="0" {{$select === 0 ? 'selected' : '' }}>Not Approved</option>
+                            <option value="2" {{$select == 2 ? 'selected' : '' }}>Rejected</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-search"></i></button>
+            </form>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -232,7 +269,7 @@
                         <th>Name</th>
                         <th>Approved</th>
                         <th>Price</th>
-                        <th>Seller Name</th>
+                        <th>Seller Username</th>
                         <th>Quick Buttons</th>
                         <th>Edit</th>
                     </tr>
@@ -249,7 +286,7 @@
                             <p>{{$product->price_egp}} <span>EGP</span></p>
                             <p>{{$product->price_usd}} <span>USD</span></p>
                         </td>
-                        <td>{{$product->seller->name }}</td>
+                        <td>{{$product->seller->username }}</td>
                         <td width="25%">
                             {!! Form::model(['method'=>'PATCH' ],['route' => ['products.quick.buttons',$product] ,'class'=>'d-inline'] ) !!}
                             @method('PATCH')

@@ -70,6 +70,7 @@ class LoginController extends Controller
                 return $this->sendFailedLoginResponse($request);
             }
             $request->merge(['phone_number' => $client]);
+            $request->merge(['email' => $client]);
             $this->username = "phone_number";
 
         }else{
@@ -89,7 +90,7 @@ class LoginController extends Controller
     protected function validateLogin(Request $request)
     {
         $request->validate([
-            'email' => 'required|string|min:7',
+            'email' => "required|string|min:7|exists:clients,$this->username,approved,1",
             'password' => 'required|string',
         ]);
     }
