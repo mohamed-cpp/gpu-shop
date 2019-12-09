@@ -40,6 +40,7 @@
                         <li><a href="register.html">register</a></li>
                         <li><a href="wishlist.html">My Wish List</a></li>
                         <li><a href="login.html">Sign In </a></li>
+
                     </ul>
                 </div>
             </div>

@@ -177,7 +177,7 @@ d.slice(e-c+1,e+c+2).addClass("slick-active").attr("aria-hidden","false")),0===a
 						meanRevealPositionDistance: "0", // Tweak the position of the menu
 						meanRevealColour: "", // override CSS colours for the reveal background
 						meanScreenWidth: "480", // set the screen width you want meanmenu to kick in at
-						meanNavPush: "", // set a height here in px, em or % if you want to budge your layout now the navigation is missing.
+						meanNavPush: "", // set a height here in px, em or % if you want to budge your includes now the navigation is missing.
 						meanShowChildren: true, // true to show children in the menu, false to hide them
 						meanExpandableChildren: true, // true to allow expand/collapse children
 						meanExpand: "+", // single character you want to represent the expand for ULs
@@ -303,7 +303,7 @@ d.slice(e-c+1,e+c+2).addClass("slick-active").attr("aria-hidden","false")),0===a
 										});
 									}
 
-									// push in a holder div (this can be used if removal of nav is causing layout issues)
+									// push in a holder div (this can be used if removal of nav is causing includes issues)
 									jQuery(meanMenu).before('<div class="mean-push" />');
 									jQuery('.mean-push').css("margin-top",meanNavPush);
 

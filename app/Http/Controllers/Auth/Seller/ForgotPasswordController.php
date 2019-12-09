@@ -1,0 +1,65 @@
+<?php
+
+namespace App\Http\Controllers\Auth\Seller;
+
+use App\Http\Controllers\Controller;
+use App\Rules\VerifyValidateSellerAndAdmin;
+use Illuminate\Contracts\Auth\PasswordBroker;
+use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Password;
+
+class ForgotPasswordController extends Controller
+{
+    /*
+    |--------------------------------------------------------------------------
+    | Password Reset Controller
+    |--------------------------------------------------------------------------
+    |
+    | This controller is responsible for handling password reset emails and
+    | layouts a trait which assists in sending these notifications from
+    | your application to your users. Feel free to explore this trait.
+    |
+    */
+
+    use SendsPasswordResetEmails;
+
+    /**
+     * Create a new controller instance.
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest:seller');
+    }
+
+    /**
+     * Display the form to request a password reset link.
+     * @return Response
+     */
+    public function showLinkRequestForm()
+    {
+        return view('seller.auth.passwords.email');
+    }
+
+    /**
+     * Validate the email for the given request.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return void
+     */
+    protected function validateEmail(Request $request)
+    {
+        $request->validate(['email' => ['required', 'email', new VerifyValidateSellerAndAdmin('sellers')]]);
+    }
+
+    /**
+     * Get the broker to be used during password reset
+     * @return PasswordBroker
+     */
+    public function broker()
+    {
+        return Password::broker('sellers');
+    }
+}

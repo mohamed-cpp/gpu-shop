@@ -120,11 +120,12 @@
         <div class="cur-lang-acc-all">
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Currency: <span>USD </span></h4>
+                    <h4>Currency: <span>{{ $currency =Cookie::get('currency') == 'EGP' ? 'EGP' : 'USD' }} </span></h4>
                 </div>
+                @php $currency = $currency == 'USD' ? 'EGP' : 'USD' @endphp
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="#">EUR  Euro</a></li>
+                        <li><a href="{{route('currency.product.client',[$currency])}}">{{$currency}}</a></li>
                     </ul>
                 </div>
             </div>
@@ -150,9 +151,21 @@
                     <ul>
                         <li><a href="#">Compare Products </a></li>
                         <li><a href="#">Default welcome msg!</a></li>
-                        <li><a href="register.html">register</a></li>
                         <li><a href="wishlist.html">My Wish List</a></li>
-                        <li><a href="login.html">Sign In </a></li>
+                        @if( Auth::guard('client')->check() )
+                            <li><a href="{{ route('client.logout') }}"
+                                   onclick="event.preventDefault();
+                            document.getElementById('logout-form').submit();">
+                                    {{ __('Logout') }}
+                                </a></li>
+                            <form id="logout-form" action="{{ route('client.logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+
+                        @else
+                            <li><a href="{{route('client.registerForm')}}">{{ __('Register') }}</a></li>
+                            <li><a href="{{ route('client.login') }}">{{ __('Login') }} </a></li>
+                        @endif
                     </ul>
                 </div>
             </div>

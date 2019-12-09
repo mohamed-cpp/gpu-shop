@@ -117,6 +117,7 @@ return [
     'uploaded' => 'The :attribute failed to upload.',
     'url' => 'The :attribute format is invalid.',
     'uuid' => 'The :attribute must be a valid UUID.',
+    'verifyvalidate' => 'The :attribute is not validation please connect us.',
 
     /*
     |--------------------------------------------------------------------------
@@ -133,6 +134,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'email' => [
+            'exists' => 'Sorry your account not approved or the email you entered is wrong',
+        ]
     ],
 
     /*

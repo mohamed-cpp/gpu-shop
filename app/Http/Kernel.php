@@ -2,7 +2,10 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminMiddlewareAuth;
+use App\Http\Middleware\SellerMiddlewareAuth;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
+use App\Http\Middleware\ClientMiddleware;
 
 class Kernel extends HttpKernel
 {
@@ -61,11 +64,19 @@ class Kernel extends HttpKernel
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
         'cache.headers' => \Illuminate\Http\Middleware\SetCacheHeaders::class,
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
+        'client'        => ClientMiddleware::class,
+        'admin'         => AdminMiddlewareAuth::class,
+        'seller'         => SellerMiddlewareAuth::class,
         'guest' => \App\Http\Middleware\RedirectIfAuthenticated::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'email_verified' => \App\Http\Middleware\RedirectIfEmailNotConfirmed::class,
+        'is_code_valid' => \App\Http\Middleware\ValidateCodeMiddleware::class,
+        'role' => \Spatie\Permission\Middlewares\RoleMiddleware::class,
+        'permission' => \Spatie\Permission\Middlewares\PermissionMiddleware::class,
+        'role_or_permission' => \Spatie\Permission\Middlewares\RoleOrPermissionMiddleware::class,
     ];
 
     /**
