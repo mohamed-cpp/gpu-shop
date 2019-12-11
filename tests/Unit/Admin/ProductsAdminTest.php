@@ -57,7 +57,7 @@ class ProductsAdminTest extends TestCase
 
     public function test_update_a_subcategories(){
         $this->actingAs($this->admin,'web');
-        $arrayProduct = array_merge( $this->product->toArray(),['images'=>[],'subcategories'=>[6,5]]);
+        $arrayProduct = array_merge( $this->product->toArray(),['images'=>[],'subcategories'=>[6,5],'tags'=>'Hard,SSD,Memory']);
         unset($arrayProduct['main_image']);
         $arrayProduct['name_en'] = 'New Name2';
         $this->patch(route('products.update',[$this->product]),$arrayProduct)

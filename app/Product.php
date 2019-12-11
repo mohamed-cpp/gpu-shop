@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
+use Cviebrock\EloquentTaggable\Taggable;
 
 class Product extends Model
 {
     use SoftDeletes;
+    use Taggable;
 
     // Status Product
     const PUBLISHED = 0;

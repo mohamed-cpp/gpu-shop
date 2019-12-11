@@ -49,6 +49,7 @@ class ProductUpdateRequest extends FormRequest
             'main_image'   => 'sometimes|mimes:jpeg,png,jpg',
             'images.*'  => 'required|mimes:jpeg,png,jpg',
             'subcategories.*' => 'required|numeric',
+            'tags' => 'required|string'
         ];
     }
 }

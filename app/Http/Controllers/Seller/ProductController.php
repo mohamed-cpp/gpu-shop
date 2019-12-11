@@ -52,6 +52,7 @@ class ProductController extends Controller
         $image = $request->file('main_image');
         $input['main_image'] = $this->moveImage($image);
         $product = auth('seller')->user()->products()->create($input);
+        $product->tag($input['tags']);
         $images = [];
         foreach ($request->file('images') as $requestImage){
             $images[] = new \App\Image(['path' => $this->moveImage($requestImage)]) ;
@@ -106,6 +107,10 @@ class ProductController extends Controller
             $input['main_image'] = $this->moveImage($image);
         }
         $product->update($input);
+        if ($input['tags'] != $product->tagList){
+            $product->detag();
+            $product->tag($input['tags']);
+        }
         $product->subcategories()->whereIn('subcategoryable_id',array_diff($product->subcategories_ids->toArray(),$input['subcategories']))->delete();
         $subcategories = [];
         foreach (array_diff($input['subcategories'], $product->subcategories_ids->toArray()) as $new ){

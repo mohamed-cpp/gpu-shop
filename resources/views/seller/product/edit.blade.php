@@ -351,7 +351,16 @@
                     @enderror
                 </div>
                 <hr>
-
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control @error('tags') is-invalid @enderror" id="tags" name="tags" value="{{$product->tagList }}" placeholder="Hard,SSD,Memory">
+                    @error('tags')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <hr>
                 <div class="form-group">
                     <h5>Select Subcategories You Want</h5>
                     <select class="selectpicker" multiple="multiple" data-live-search="true" name="subcategories[]">

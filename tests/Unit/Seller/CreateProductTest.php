@@ -39,7 +39,7 @@ class CreateProductTest extends TestCase
         $file = UploadedFile::fake()->image('product.jpg',400,400);
         $file2 = UploadedFile::fake()->image('product2.jpg',400,400);
         $product = make('App\Product',['main_image'=>$file]);
-        $arrayProduct = array_merge( $product->toArray(),['images'=>[$file2],'subcategories'=>[6,5]]);
+        $arrayProduct = array_merge( $product->toArray(),['images'=>[$file2],'subcategories'=>[6,5],'tags'=>'Hard,SSD,Memory']);
         $this->post(route('product.store'),$arrayProduct)
             ->assertStatus(302)
             ->assertRedirect(route('product.index'));
