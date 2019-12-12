@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\AddProductDetailsRequest;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Product;
@@ -63,18 +64,59 @@ class ProductController extends Controller
         }
         $product->images()->saveMany($images);
         $product->subcategories()->saveMany($subcategories);
+        if ($request->agree){
+            return redirect(route('product.details.create',$product->slug));
+        }
         return redirect(route('product.index'))->with('flash','The Product Added Successfully');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
+    public function addDetails(Product $product)
     {
-        //
+        return view('seller.product.further',[
+            'product' => $product->withoutRelations(),
+        ]);
+    }
+
+    public function storeDetails(AddProductDetailsRequest $request, Product $product)
+    {
+        $input = $request->all();
+        $finalValues = [];
+        foreach ( $input['quantity_details'] as $i => $quantity){
+            $finalValues[] =[
+                'name_en' => $input['name_en_details'][$i],
+                'name_ar' => $input['name_ar_details'][$i],
+                'price_egp'=> $input['price_egp_details'][$i],
+                'price_usd'=> $input['price_usd_details'][$i],
+                'quantity' =>  $quantity,
+            ];
+        }
+        if ($request->file()){
+            $Allimages = [];
+            foreach ($request->file() as $i => $requestImages){
+                $this->validate($request, ["$i.*" => 'sometimes|mimes:jpeg,png,jpg']);
+                $images = [];
+                foreach ($requestImages as $requestImage) {
+
+                    $images[] = ['path' => $this->moveImage($requestImage)];
+                }
+                $Allimages[] = $images;
+            }
+        }
+        $details = $product->details()->create(['name_en' => $input['main_name_en_details'],'name_ar' => $input['main_name_ar_details']]);
+        try {
+            $subdetails = $details->subDetails()->createMany($finalValues);
+        } catch (\Illuminate\Database\QueryException $e) {
+            dd($e->getMessage(), $e->errorInfo,'here');
+        }
+        if(!empty($Allimages)) {
+            $subdetails->each(function ($item, $key) use ($Allimages) {
+                $item->images()->createMany($Allimages[$key]);
+            });
+        }
+        if ($request->agree){
+            return redirect(route('product.details.create',$product->slug));
+        }
+        return redirect(route('product.index'))->with('flash','The Product Added Successfully');
     }
 
     /**

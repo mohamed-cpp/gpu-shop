@@ -25,6 +25,9 @@
     .subcategory{
         display: inline;
     }
+    .inputDetails input{
+            margin-bottom: 5px;
+    }
 </style>
 
     <style type="text/css">
@@ -321,6 +324,13 @@
                         </div>
                     </div>
                 </div>
+            </div>
+            <hr>
+            <div class="custom-control custom-checkbox">
+                <input class="custom-control-input " type="checkbox" name="agree" id="invalidCheck">
+                <label class="custom-control-label" for="invalidCheck">
+                    Add details
+                </label>
             </div>
             <hr>
             <h3>Main Image of The Product</h3>

@@ -46,6 +46,10 @@ class Product extends Model
 
     }
 
+    public function details()
+    {
+        return $this->hasMany(ProductDetails::class);
+    }
     /**
      * Images
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

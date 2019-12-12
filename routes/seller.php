@@ -28,6 +28,8 @@ Route::post('password/reset', 'Auth\Seller\ResetPasswordController@reset')
 
 Route::resource('product','Seller\ProductController')->middleware('seller');
 Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons")->middleware('seller');
+Route::get("product/{product}/details", "Seller\ProductController@addDetails")->name("product.details.create")->middleware('seller');
+Route::post("product/{product}/details", "Seller\ProductController@storeDetails")->name("product.details.store")->middleware('seller');
 
 Route::get('/test', function () {
     return ;
