@@ -49,14 +49,19 @@ class ClientProductController extends Controller
      */
     public function show(Product $product)
     {
-        $relatedProduct = $product->withAnyTags($product->tagList
-        )->take(11)->orderBy('created_at','desc')->get();
+        $relatedProduct = $product->withAnyTags($product->tagList)
+            ->where('approved',1)->where('status',true)
+            ->take(11)->orderBy('created_at','desc')->get();
 
         $filtered = $relatedProduct->reject(function ($value) use($product) {
             return $value->id == $product->id;
         });
 
-        return view('client.products.show_product',['product'=>$product,'relatedProducts' => $filtered]);
+        $price = [
+            'normalPrice' => $product->offerPrice(false),
+            'offerPrice' => $product->offerPrice()
+        ];
+        return view('client.products.show_product',['product'=>$product->with('details')->first(),'relatedProducts' => $filtered,'price'=>$price]);
     }
 
     /**

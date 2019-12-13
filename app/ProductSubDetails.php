@@ -11,7 +11,7 @@ class ProductSubDetails extends Model
         'details_id','name_en','name_ar','price_egp','price_usd','quantity'
     ];
 
-//    public $with = ['images'];
+    public $with = ['images'];
 
     public function images()
     {

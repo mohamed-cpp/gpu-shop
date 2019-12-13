@@ -2,8 +2,39 @@
 @section('title', $product->name)
 @push('styles')
     <style>
+        .btn-outline {
+            color: #336deed1;
+            background-color: #ffffff;
+            border-color: #336deed1;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .btn-outline {
+            color: #336deed1;
+            background-color: #ffffff;
+            border-color: #336deed1;
+            font-weight: bold;
+            border-radius: 0;
+        }
+        .btn-outline:hover,
+        .btn-outline:active,
+        .btn-outline:focus,
+        .btn-outline.active {
+            background: #336deed1;
+            color: #ffffff;
+            border-color: #336deed1;
+
+        }
+    </style>
+    <style>
+        .detail{
+            margin-bottom: 20px;
+        }
         .product-share{
             margin-top: 25px;
+        }
+        .space{
+            margin-left: 5px;
         }
 
         input::-webkit-outer-spin-button,
@@ -17,7 +48,7 @@
         }
 
         .product-details-small.main-product-details a > img {
-            width: 132px;
+            width: 129px;
         }
         .oldprice{
             text-decoration-line: line-through;
@@ -55,140 +86,8 @@
                     </div>
                 </div>
             </div>
-
-
-            <div class="row">
-                <div class="col-md-12 col-lg-7 col-12">
-                    <div class="product-details-img-content">
-                        <div class="product-details-tab mr-70">
-
-
-
-                            <div class="product-details-large tab-content">
-
-                                <div class="tab-pane active show fade" id="pro-details99" role="tabpanel">
-                                    <div class="easyzoom easyzoom--overlay">
-                                        <a href="{{asset('storage/product/images/'.$product->main_image)}}">
-                                            <img height="570" width="665" src="{{asset('storage/product/images/'.$product->main_image)}}" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            @foreach($product->images as $x => $val)
-
-                                    <div class="tab-pane fade" id="pro-details{{$x}}" role="tabpanel">
-                                        <div class="easyzoom easyzoom--overlay">
-                                            <a href="{{asset('storage/product/images/'.$val->path)}}">
-                                                <img height="570" width="665" src="{{asset('storage/product/images/'.$val->path)}}" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                            @endforeach
-
-                            </div>
-
-
-                            <div class="product-details-small nav mt-12 main-product-details" role=tablist>
-
-
-                                <a class="active mr-12" href="#pro-details99" data-toggle="tab" role="tab" aria-selected="true">
-                                    <img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="">
-                                </a>
-
-                                @foreach($product->images as $x => $val)
-
-                                    <a class="mr-12" href="#pro-details{{$x}}" data-toggle="tab" role="tab" aria-selected="true">
-                                        <img src="{{asset('storage/product/images/thumbnail/'.$val->path)}}" alt="">
-                                    </a>
-
-                                @endforeach
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-5 col-12">
-                    <div class="product-details-content">
-                        <h3>{{$product->name}}</h3>
-                        <div class="rating-number">
-                            <div class="quick-view-rating">
-                                <i class="ion-ios-star red-star"></i>
-                                <i class="ion-ios-star red-star"></i>
-                                <i class="ion-android-star-outline"></i>
-                                <i class="ion-android-star-outline"></i>
-                                <i class="ion-android-star-outline"></i>
-                            </div>
-                            <div class="quick-view-number">
-                                <span>2 Ratting (S)</span>
-                            </div>
-                        </div>
-                        <div class="details-price">
-                            @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
-                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPrice(false)}}</span></div>
-                            @if($isOffer)<span class="offer" >{{$currency}}{{$product->offerPrice()}}</span>@endif
-                        </div>
-                        <div class="quick-view-select">
-                            <div class="select-option-part">
-                                <label>Size*</label>
-                                <select class="select">
-                                    <option value="">- Please Select -</option>
-                                    <option value="">xl</option>
-                                    <option value="">ml</option>
-                                    <option value="">m</option>
-                                    <option value="">sl</option>
-                                </select>
-                            </div>
-                            <div class="select-option-part">
-                                <label>Color*</label>
-                                <select class="select">
-                                    <option value="">- Please Select -</option>
-                                    <option value="">orange</option>
-                                    <option value="">pink</option>
-                                    <option value="">yellow</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="quickview-plus-minus">
-                            <div class="cart-plus-minus">
-                                <input type="number" value="1" class="cart-plus-minus-box">
-                            </div>
-                            <div class="quickview-btn-cart">
-                                <a class="btn-hover-black" href="#">add to cart</a>
-                            </div>
-                            <div class="quickview-btn-wishlist">
-                                <a class="btn-hover" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            </div>
-                        </div>
-
-                        <div class="product-share">
-                            <ul>
-                                <li class="categories-title">Share :</li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-tumblr"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-instagram-outline"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div id="app">
+                <client_product  :product="{{ json_encode($product) }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :price="{{ json_encode($price) }}" currencyprop="{{ Cookie::get('currency') }}"></client_product>
             </div>
         </div>
     </div>
@@ -221,7 +120,7 @@
             </div>
             <div class="row">
                 <div class="new-collection-slider owl-carousel">
-
+                    @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
                     @foreach($relatedProducts as $relatedProduct)
                     <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
                         <div class="single-product mb-35">
@@ -262,9 +161,11 @@
         </div>
     </div>
 
-
+    <script src="{{asset('GPU-Shop/js/vueProduct.js')}}"></script>
 @endsection
 @push('includes')
     @include('client.layout._quickView')
+@endpush
+@push('scripts')
 @endpush
 

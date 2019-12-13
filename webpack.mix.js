@@ -58,6 +58,9 @@ mix.babel('node_modules/intl-tel-input/build/js/intlTelInput.js','public/GPU-Sho
     .sourceMaps();
 mix.babel('node_modules/intl-tel-input/build/js/utils.js','public/GPU-Shop/js/utils.js')
     .sourceMaps();
+
+mix.js('resources/js/client/app.js', 'public/GPU-Shop/js/vueProduct.js');
+
 // Dashboard //
 
 mix.styles([
