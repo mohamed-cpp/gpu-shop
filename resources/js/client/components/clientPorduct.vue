@@ -51,24 +51,25 @@
                 </div>
             </div>
             <div class="details-price">
-                <div><span class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{price.normalPrice}}</span></div>
-                <span v-if="product.isOffer" class="offer" >{{currency}}{{price.offerPrice}}</span>
+                <div><span class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</span></div>
+                <span v-if="product.isOffer" class="offer" >{{currency}}{{offerPrice}}</span>
             </div>
 
-            <div v-for="detail in product.details" class="detail">
+            <section v-for="(detail, index) in product.details">
                 <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
-                <a v-for="sub_detail in detail.sub_details" href="#" v-on:click="details(sub_detail)" class="btn btn-outline space">
-                    <span v-if="locale">{{sub_detail.name_ar}}</span>
-                    <span v-else>{{sub_detail.name_en}}</span>
-                </a>
+            <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
+                <input :id="detail.name_en+index" :name="detail.name_en" type="radio" v-on:click="details(sub_detail,detail.name_en)">
+                <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
+                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                <div class="toggle-button__icon"></div>
             </div>
 
+            </section>
 
 
 
-
-
+            <h4>Quantity: <span>{{quantity}}</span></h4>
             <div class="quickview-plus-minus">
                 <div class="cart-plus-minus">
                     <input type="number" value="1" class="cart-plus-minus-box">
@@ -119,6 +120,10 @@
             return{
                 images: this.product.images,
                 currency : '',
+                normalPrice: this.price.normalPrice,
+                offerPrice: this.price.offerPrice,
+                quantity: this.product.quantity,
+                detailsArray: [],
             }
         },
         mounted() {
@@ -127,11 +132,42 @@
             }else{
                 this.currency = '$';
             }
+            if(this.product.isOffer){
+                if (this.product.quantity_offer){
+                    this.quantity = this.product.quantity_offer;
+                }
+            }
         },
         methods:{
-            details(subdetails){
+            details(subdetails,detailName){
+                if(this.detailsArray.length != 0){
+                    var normalPrice = parseInt(this.normalPrice);
+                    var offerPrice = parseInt(this.offerPrice);
+                    this.detailsArray.forEach(function(item, index, object) {
+                        if(item.indexOf(detailName) === 0){
+                            var mystring = item.split(detailName).join('');
+                            normalPrice = normalPrice - parseInt(mystring);
+                            offerPrice = offerPrice - parseInt(mystring);
+                            object.splice(index, 1);
+                        }
+                    });
+                    this.normalPrice = normalPrice;
+                    this.offerPrice = normalPrice;
+                }
+                if( this.currencyprop === 'EGP' ){
+                    this.detailsArray.push(detailName+subdetails.price_egp);
+                    this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails.price_egp);
+                    this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails.price_egp);
+                }else{
+                    this.detailsArray.push(detailName+subdetails.price_usd);
+                    this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails.price_usd);
+                    this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails.price_usd);
+                }
                 if(subdetails.images.length != 0){
                     this.images = subdetails.images;
+                }
+                if(subdetails.quantity.length != 0){
+                    this.quantity = subdetails.quantity;
                 }
             }
         }

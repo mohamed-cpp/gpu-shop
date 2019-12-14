@@ -61,7 +61,7 @@ class ClientProductController extends Controller
             'normalPrice' => $product->offerPrice(false),
             'offerPrice' => $product->offerPrice()
         ];
-        return view('client.products.show_product',['product'=>$product->with('details')->first(),'relatedProducts' => $filtered,'price'=>$price]);
+        return view('client.products.show_product',['product'=>$product->with('details')->find($product->id),'relatedProducts' => $filtered,'price'=>$price]);
     }
 
     /**
