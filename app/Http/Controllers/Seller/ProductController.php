@@ -85,8 +85,8 @@ class ProductController extends Controller
             $finalValues[] =[
                 'name_en' => $input['name_en_details'][$i],
                 'name_ar' => $input['name_ar_details'][$i],
-                'price_egp'=> $input['price_egp_details'][$i],
-                'price_usd'=> $input['price_usd_details'][$i],
+                'price_egp'=> $i == 0 ? 0 : $input['price_egp_details'][$i],
+                'price_usd'=> $i == 0 ? 0 : $input['price_usd_details'][$i],
                 'quantity' =>  $quantity,
             ];
         }

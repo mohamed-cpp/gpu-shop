@@ -14,7 +14,14 @@
                             </a>
                         </div>
                     </div>
-                    <div class="tab-pane fade"  v-for="(image, index) in images" :id="'pro-details'+index" role="tabpanel">
+                    <div class="tab-pane fade"  v-for="(image, mainIndex) in product.images" :id="'pro-details'+mainIndex" role="tabpanel">
+                        <div class="easyzoom easyzoom--overlay">
+                            <a :href="'/storage/product/images/'+ image.path">
+                                <img height="570" width="665" :src="'/storage/product/images/'+ image.path" alt="">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade"  v-for="(image, detailsIndex) in images" :id="'pro-details'+detailsIndex+imagesLength" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
                             <a :href="'/storage/product/images/'+ image.path">
                                 <img height="570" width="665" :src="'/storage/product/images/'+ image.path" alt="">
@@ -26,7 +33,10 @@
                     <a class="active mr-12" href="#pro-details99" data-toggle="tab" role="tab" aria-selected="true">
                         <img :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
                     </a>
-                    <a class="mr-12" v-for="(image, index) in images"  :href="'#pro-details'+index" data-toggle="tab" role="tab" aria-selected="true">
+                    <a class="mr-12" v-for="(image, mainIndex2) in product.images"  :href="'#pro-details'+mainIndex2" data-toggle="tab" role="tab" aria-selected="true">
+                        <img :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                    </a>
+                    <a class="mr-12" v-for="(image, detailsIndex2) in images"  :href="'#pro-details'+detailsIndex2+imagesLength" data-toggle="tab" role="tab" aria-selected="true">
                         <img :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                     </a>
                 </div>
@@ -59,7 +69,7 @@
                 <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
-                <input :id="detail.name_en+index" :name="detail.name_en" type="radio" v-on:click="details(sub_detail,detail.name_en)">
+                <input v-bind:class="{'click': index == 0 }" :id="detail.name_en+index" :name="detail.name_en" type="radio" v-on:click="details(sub_detail,detail.name_en)">
                 <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                 <div class="toggle-button__icon"></div>
@@ -118,7 +128,8 @@
         props:['product','locale','currencyprop','price'],
         data(){
             return{
-                images: this.product.images,
+                images: [],
+                imagesLength: this.product.images.length,
                 currency : '',
                 normalPrice: this.price.normalPrice,
                 offerPrice: this.price.offerPrice,
@@ -137,6 +148,7 @@
                     this.quantity = this.product.quantity_offer;
                 }
             }
+            $('.click').click();
         },
         methods:{
             details(subdetails,detailName){

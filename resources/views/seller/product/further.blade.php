@@ -41,8 +41,8 @@
         <div class="form-group inputDetails" id="inputDetails1">
             <input type="text" placeholder="English Name of details" class="form-control form-control-sm @error('name_en_details') is-invalid @enderror" id="name_en_details" name="name_en_details[]">
             <input type="text" placeholder="Arabic Name of details" class="form-control form-control-sm @error('name_ar_details') is-invalid @enderror" id="name_ar_details" name="name_ar_details[]"  >
-            <input type="number" min="1" placeholder="Offer Price of Product EGP" class="form-control form-control-sm @error('price_egp_details') is-invalid @enderror" id="price_egp_details" name="price_egp_details[]">
-            <input type="number" min="1" placeholder="Offer Price of Product USD" class="form-control form-control-sm @error('price_usd_details') is-invalid @enderror" id="offerPriceUSD" name="price_usd_details[]" >
+            <input type="number" hidden min="1" placeholder="Offer Price of Product EGP" class="form-control form-control-sm @error('price_egp_details') is-invalid @enderror disabled" id="price_egp_details" name="price_egp_details[]">
+            <input type="number" hidden min="1" placeholder="Offer Price of Product USD" class="form-control form-control-sm @error('price_usd_details') is-invalid @enderror disabled" id="offerPriceUSD" name="price_usd_details[]" >
             <input type="number" min="1" placeholder="Quantity" class="form-control form-control-sm @error('quantity_details') is-invalid @enderror" id="quantity_details" name="quantity_details[]" >
         </div>
         <input type="file" id="images_details1" class="form-control margin @error('images_details') is-invalid @enderror"  name="images_details1[]" multiple>
@@ -73,7 +73,8 @@
                 var newDiv = $($div).clone().prop('id','inputDetails'+numDiv).insertAfter($input);
                 $($input).clone().prop('id','images_details'+numDiv).prop('name','images_details'+numDiv+'[]').insertAfter(newDiv);
 
-
+                event.preventDefault();
+                $('div[id^="inputDetails"]:last .disabled').removeAttr("hidden");
                 // var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
                 // var $inputDetails = $div.clone().prop('id', 'inputDetails'+num );
             });
