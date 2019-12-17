@@ -83,7 +83,7 @@ class CreateProductTest extends TestCase
 
     public function test_update_a_products(){
         $this->actingAs($this->seller,'seller');
-        $arrayProduct = array_merge( $this->product->toArray(),['images'=>[],'subcategories'=>[6,5]]);
+        $arrayProduct = array_merge( $this->product->toArray(),['images'=>[],'subcategories'=>[6,5],'tags'=>'SDD,APPLE']);
         unset($arrayProduct['main_image']);
         $arrayProduct['name_en'] = 'New Name';
         $this->patch(route('product.update',[$this->product]),$arrayProduct)
