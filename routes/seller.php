@@ -26,10 +26,16 @@ Route::get('password/reset/{token}', 'Auth\Seller\ResetPasswordController@showRe
 Route::post('password/reset', 'Auth\Seller\ResetPasswordController@reset')
     ->name('seller.password.update');
 
-Route::resource('product','Seller\ProductController')->middleware('seller');
-Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons")->middleware('seller');
-Route::get("product/{product}/details", "Seller\ProductController@addDetails")->name("product.details.create")->middleware('seller');
-Route::post("product/{product}/details", "Seller\ProductController@storeDetails")->name("product.details.store")->middleware('seller');
+Route::group(['middleware' => 'seller'], function (){
+    Route::resource('product','Seller\ProductController');
+    Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons");
+    Route::get("product/{product}/details", "Seller\ProductController@addDetails")->name("product.details.create");
+    Route::post("product/{product}/details", "Seller\ProductController@storeDetails")->name("product.details.store");
+    Route::get("details/{details}/edit", "Seller\ProductController@editDetails")->name("product.details.edit");
+    Route::post("details/{details}/edit", "Seller\ProductController@updateDetails")->name("product.details.update");
+    Route::delete("details/{details}/delete", "Seller\ProductController@destroyDetails")->name("product.details.delete");
+});
+
 
 Route::get('/test', function () {
     return ;

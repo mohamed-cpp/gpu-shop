@@ -13,6 +13,15 @@ class ProductSubDetails extends Model
 
     public $with = ['images'];
 
+
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($subDetails) {
+            $subDetails->images()->delete();
+        });
+
+    }
     public function images()
     {
         return $this->morphMany(Image::class, 'imageable');

@@ -27,4 +27,9 @@ class SellerProductPolicy
         return auth('seller')->user()->id === $product->seller_id;
     }
 
+    public function editDetails(?Seller $seller, Product $product)
+    {
+        return auth('seller')->user()->id === $product->seller_id;
+    }
+
 }

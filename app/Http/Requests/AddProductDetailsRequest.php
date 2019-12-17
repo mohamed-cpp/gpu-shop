@@ -26,11 +26,11 @@ class AddProductDetailsRequest extends FormRequest
         return [
             "main_name_en_details" => 'required|string',
             "main_name_ar_details"=> 'required|string',
-            "name_en_details"=> 'required',
-            "name_ar_details"=> 'required',
-            "price_egp_details"=> 'sometimes',
-            "price_usd_details"=> 'sometimes',
-            "quantity_details"=> 'sometimes',
+            "name_en_details.*"=> 'required|string',
+            "name_ar_details.*"=> 'required|string',
+            "price_egp_details.*"=> 'sometimes',
+            "price_usd_details.*"=> 'sometimes',
+            "quantity_details.*"=> 'sometimes',
         ];
     }
 }

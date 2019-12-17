@@ -13,11 +13,26 @@ class ProductDetails extends Model
 
     public $with = ['subDetails'];
 
+    public static function boot()
+    {
+        parent::boot();
+        static::deleting(function($details) {
+            $details->subDetails()->get()->each(function ($item) {
+                $item->delete();
+            });
+        });
+
+    }
+
     public function subDetails()
     {
         return $this->hasMany(ProductSubDetails::class,'details_id');
     }
 
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 
     public function getNameAttribute()
     {

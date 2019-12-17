@@ -7,8 +7,11 @@ use App\Http\Requests\AddProductDetailsRequest;
 use App\Http\Requests\ProductCreateRequest;
 use App\Http\Requests\ProductUpdateRequest;
 use App\Product;
+use App\ProductDetails;
+use App\ProductSubDetails;
 use App\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
@@ -16,7 +19,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:update,product')->except('index','create','store');
+        $this->middleware('can:update,product')->except('index','create','store','editDetails','updateDetails','destroyDetails');
     }
     /**
      * Display a listing of the resource.
@@ -96,8 +99,7 @@ class ProductController extends Controller
                 $this->validate($request, ["$i.*" => 'sometimes|mimes:jpeg,png,jpg']);
                 $images = [];
                 foreach ($requestImages as $requestImage) {
-
-                    $images[] = ['path' => $this->moveImage($requestImage)];
+                    $images[] = ['path' => $this->moveImage($requestImage),'imagesNumber'=> $i];
                 }
                 $Allimages[] = $images;
             }
@@ -110,7 +112,11 @@ class ProductController extends Controller
         }
         if(!empty($Allimages)) {
             $subdetails->each(function ($item, $key) use ($Allimages) {
-                $item->images()->createMany($Allimages[$key]);
+                $plus = $key+1;
+                $images = $this->searchImages($Allimages , "images_details$plus");
+                if(!empty($images)){
+                    $item->images()->createMany($images);
+                }
             });
         }
         if ($request->agree){
@@ -119,6 +125,60 @@ class ProductController extends Controller
         return redirect(route('product.index'))->with('flash','The Product Added Successfully');
     }
 
+    public function editDetails(ProductDetails $details)
+    {
+        $this->authorize('editDetails', $details->product()->without('images')->first());
+        return view('seller.product.edit_further',[
+            'details' => $details,
+        ]);
+    }
+
+    public function updateDetails(AddProductDetailsRequest $request, ProductDetails $details){
+        $this->authorize('editDetails', $details->product()->without('images')->first());
+        $input = $request->all();
+
+        $subdetails = $details->subDetails();
+        $subdetailsIDs = $subdetails->pluck('id')->toArray();
+        $details->update(['name_en' => $input['main_name_en_details'],'name_ar' => $input['main_name_ar_details']]);
+        foreach ( $input['quantity_details'] as $i => $quantity){
+            $finalValues =[
+                'name_en' => $input['name_en_details'][$i],
+                'name_ar' => $input['name_ar_details'][$i],
+                'price_egp'=> $i == 0 ? 0 : $input['price_egp_details'][$i],
+                'price_usd'=> $i == 0 ? 0 : $input['price_usd_details'][$i],
+                'quantity' =>  $quantity,
+            ];
+            $id = !empty($subdetailsIDs[$i]) ? $subdetailsIDs[$i] : null;
+            $details->subDetails()->updateOrCreate(['id'=>$id],$finalValues);
+        }
+        if ($request->deleteSubDetails){
+            $subdetails->findMany($request->deleteSubDetails)->each->delete();
+        }
+        if ($request->file()){
+            $Allimages = [];
+            foreach ($request->file() as $i => $requestImages){
+                $this->validate($request, ["$i.*" => 'sometimes|mimes:jpeg,png,jpg']);
+                $images = [];
+                foreach ($requestImages as $requestImage) {
+
+                    $images[] = ['path' => $this->moveImage($requestImage),'imagesNumber'=> $i];
+                }
+                $Allimages[] = $images;
+            }
+        }
+        if(!empty($Allimages)) {
+            $subdetails->get()->each(function ($item, $key) use ($Allimages) {
+                $plus = $key+1;
+                $images = $this->searchImages($Allimages , "images_details$plus");
+                $imageItem = $item->images();
+                if (!empty($images)){
+                    $item->images()->delete();
+                    $imageItem->createMany($images);
+                }
+            });
+        }
+        return redirect(route('product.index'))->with('flash','The Product Added Successfully');
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -175,6 +235,13 @@ class ProductController extends Controller
         return redirect(route('product.index'))->with('flash','The Product Updated Successfully');
     }
 
+    public function destroyDetails(ProductDetails $details)
+    {
+        $this->authorize('editDetails', $details->product()->without('images')->first());
+        $details->delete();
+        return redirect(route('product.index'))->with('flash','The Product Updated Successfully');
+    }
+
     /**
      * Remove the specified resource from storage.
      *
@@ -209,5 +276,14 @@ class ProductController extends Controller
         $img->insert(public_path('assets/img/logo/watermark.png'), 'bottom-left', 10, 10);
         if($thumbnail === true) {$img->resize(365, 302);}
         $img->save(public_path($path.$name));
+    }
+    protected function searchImages($imagesArray , $value){
+        foreach ($imagesArray as $key => $val) {
+            if ($val[0]['imagesNumber'] == $value) {
+                unset($val[0]['imagesNumber']);
+                return $val;
+            }
+        }
+        return null;
     }
 }
