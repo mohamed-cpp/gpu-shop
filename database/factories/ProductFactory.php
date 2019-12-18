@@ -45,3 +45,19 @@ $factory->define(\App\SubcatProduct::class, function (Faker $faker,$id = null, $
         'productable_id' => $id ? $id : $idSub
     ];
 });
+
+$factory->define(\App\ProductDetails::class, function (Faker $faker) {
+    return [
+        'product_id' => factory('App\Product')->create()->id,
+        'name_en' => 'Name En',
+        'name_ar' => 'Name Ar',
+    ];
+});
+
+$factory->define(\App\ProductSubDetails::class, function (Faker $faker) {
+    return [
+        'details_id' => factory('App\ProductDetails')->create()->id,
+        'name_en' => 'Name En',
+        'name_ar' => 'Name Ar',
+    ];
+});

@@ -84,13 +84,13 @@ class ProductController extends Controller
     {
         $input = $request->all();
         $finalValues = [];
-        foreach ( $input['quantity_details'] as $i => $quantity){
+        foreach ( $input['name_en_details'] as $i => $nameEn){
             $finalValues[] =[
-                'name_en' => $input['name_en_details'][$i],
+                'name_en' => $nameEn,
                 'name_ar' => $input['name_ar_details'][$i],
                 'price_egp'=> $i == 0 ? 0 : $input['price_egp_details'][$i],
                 'price_usd'=> $i == 0 ? 0 : $input['price_usd_details'][$i],
-                'quantity' =>  $quantity,
+                'quantity' =>  $input['quantity_details'][$i],
             ];
         }
         if ($request->file()){
