@@ -178,7 +178,7 @@
                 if(subdetails.images.length != 0){
                     this.images = subdetails.images;
                 }
-                if(subdetails.quantity.length != 0){
+                if(subdetails.quantity > 0){
                     this.quantity = subdetails.quantity;
                 }
             }

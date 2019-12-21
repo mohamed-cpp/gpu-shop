@@ -85,11 +85,15 @@ class ProductController extends Controller
         $input = $request->all();
         $finalValues = [];
         foreach ( $input['name_en_details'] as $i => $nameEn){
+            if ($input['price_egp_details'][$i] === null || $i == 0 ){
+                $input['price_egp_details'][$i] = 0;
+                $input['price_usd_details'][$i] = 0;
+            }
             $finalValues[] =[
                 'name_en' => $nameEn,
                 'name_ar' => $input['name_ar_details'][$i],
-                'price_egp'=> $i == 0 ? 0 : $input['price_egp_details'][$i],
-                'price_usd'=> $i == 0 ? 0 : $input['price_usd_details'][$i],
+                'price_egp'=> $input['price_egp_details'][$i],
+                'price_usd'=> $input['price_usd_details'][$i],
                 'quantity' =>  $input['quantity_details'][$i],
             ];
         }
