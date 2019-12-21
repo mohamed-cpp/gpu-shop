@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class ApiProductController extends Controller
 {
     public function index(Product $slug){
-        if (request()->wantsJson()) {
+        if (request()->wantsJson() && $slug) {
             return $slug->setHidden(['id','status','approved','seller_id']);
         }
     }

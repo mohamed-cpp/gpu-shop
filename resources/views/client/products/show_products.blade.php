@@ -40,10 +40,6 @@
         .page-link{
             color: #0c5460;
         }
-        .quick-view-tab-content .tab-pane > img{
-            width: 320px;
-        }
-
     </style>
 
 @endpush
