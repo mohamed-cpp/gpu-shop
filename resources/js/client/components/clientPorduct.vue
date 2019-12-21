@@ -164,17 +164,14 @@
                         }
                     });
                     this.normalPrice = normalPrice;
-                    this.offerPrice = normalPrice;
+                    this.offerPrice = offerPrice;
                 }
-                if( this.currencyprop === 'EGP' ){
-                    this.detailsArray.push(detailName+subdetails.price_egp);
-                    this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails.price_egp);
-                    this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails.price_egp);
-                }else{
-                    this.detailsArray.push(detailName+subdetails.price_usd);
-                    this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails.price_usd);
-                    this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails.price_usd);
-                }
+
+                var price = 'price_'+this.currencyprop.toLowerCase();
+                this.detailsArray.push(detailName+subdetails[price]);
+                this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails[price]);
+                this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails[price]);
+
                 if(subdetails.images.length != 0){
                     this.images = subdetails.images;
                 }

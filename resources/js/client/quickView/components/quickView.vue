@@ -17,6 +17,9 @@
                                 <div class="tab-pane fade"  v-for="(image, index) in product.images" :id="'modal'+index" role="tabpanel">
                                     <img height="380" width="320" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                                 </div>
+                                <div class="tab-pane fade"  v-for="(image, index) in images" :id="'modalDetails'+index" role="tabpanel">
+                                    <img height="380" width="320" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                                </div>
                             </div>
                         </div>
                         <div class="quick-view-list nav" role="tablist">
@@ -25,6 +28,9 @@
                                 <img height="100" width="80" :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
                             </a>
                             <a v-for="(image, index) in product.images" :href="'#modal'+index"  data-toggle="tab" role="tab" aria-selected="true" aria-controls="home1">
+                                <img height="100" width="80" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                            </a>
+                            <a v-for="(image, index) in images" :href="'#modalDetails'+index"  data-toggle="tab" role="tab" aria-selected="true" aria-controls="home1">
                                 <img height="100" width="80" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                             </a>
 
@@ -50,7 +56,21 @@
                                     <span>2 Ratting (S)</span>
                                 </div>
                             </div>
+
                             <div style="width: 363px; height: 314px; overflow: auto;" v-show="description" v-html="locale ? product.description_ar : product.description_en "></div>
+                            <section v-if="!description" v-for="(detail, index) in detailsArray">
+                                <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
+                                <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
+                                <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
+                                    <input :checked="index === 0" :id="detail.name_en+index" :name="detail.name_en" type="radio" v-on:click="details(sub_detail,detail.name_en)">
+                                    <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
+                                    <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                                    <div class="toggle-button__icon"></div>
+                                </div>
+                            </section>
+
+
+
                             <h5>Quantity: <span v-if="product.isOffer">{{quantity_offer ? quantity_offer : quantity}}</span> <span v-else>{{quantity}}</span></h5>
                             <div>
                                 <div class="quickview-plus-minus">
@@ -93,6 +113,9 @@
                 quantity: null,
                 quantity_offer: null,
                 description: true,
+                images: [],
+                detailsArray: [],
+                detailsPriceArray: [],
             }
         },
         mounted() {
@@ -124,9 +147,40 @@
                 this.description = true;
             },
             viewDetails(){
+                this.callDetails(this.$productId);
                 this.description = false;
+            },
+            callDetails(slug){
+                this.detailsArray = axios.get('/api/details/'+slug)
+                    .then(response => this.detailsArray = response.data);
+            },
+            details(subdetails,detailName){
+                if(this.detailsPriceArray.length != 0){
+                    var normalPrice = parseInt(this.normalPrice);
+                    var offerPrice = parseInt(this.offerPrice);
+                    this.detailsPriceArray.forEach(function(item, index, object) {
+                        if(item.indexOf(detailName) === 0){
+                            var mystring = item.split(detailName).join('');
+                            normalPrice = normalPrice - parseInt(mystring);
+                            offerPrice = offerPrice - parseInt(mystring);
+                            object.splice(index, 1);
+                        }
+                    });
+                    this.normalPrice = normalPrice;
+                    this.offerPrice = offerPrice;
+                }
+                var price = 'price_'+this.currencyprop.toLowerCase();
+                this.detailsPriceArray.push(detailName+subdetails[price]);
+                this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails[price]);
+                this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails[price]);
 
-            }
+                if(subdetails.images.length != 0){
+                    this.images = subdetails.images;
+                }
+                if(subdetails.quantity > 0){
+                    this.quantity = subdetails.quantity;
+                }
+            },
         },
         // beforeCreate: function () {
         //     console.log(this.$productId)

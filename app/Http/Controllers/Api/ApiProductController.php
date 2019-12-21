@@ -13,4 +13,9 @@ class ApiProductController extends Controller
             return $slug->setHidden(['id','status','approved','seller_id']);
         }
     }
+    public function detailsIndex(Product $slug){
+        if (request()->wantsJson() && $slug) {
+            return $slug->withoutRelations()->details()->get();
+        }
+    }
 }
