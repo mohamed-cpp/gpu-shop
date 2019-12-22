@@ -141,6 +141,7 @@
             if( this.currencyprop === 'EGP' ){
                 this.currency =  '£';
             }else{
+                this.currencyprop = 'USD';
                 this.currency = '$';
             }
             if(this.product.isOffer){

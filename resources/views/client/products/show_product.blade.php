@@ -256,18 +256,18 @@
             <div class="section-title text-center mb-55">
                 <h2>Related products</h2>
             </div>
-            <div class="row">
+            <div class="row" id="appView">
                 <div class="new-collection-slider owl-carousel">
                     @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
                     @foreach($relatedProducts as $relatedProduct)
-                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
+                        <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
                         <div class="single-product mb-35">
                             <div class="product-img">
                                 <a href="{{route('show.product.client', $relatedProduct->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$relatedProduct->main_image)}}" height="270" alt="{{$relatedProduct->name}}"></a>
                                 @if($isOffer = $relatedProduct->isOffer == true) <span>sale</span> @endif
                                 <div class="product-action">
                                     <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
+                                    <click_quick_view slugproduct="{{$relatedProduct->slug_en}}"></click_quick_view>
                                 </div>
                             </div>
                             <div class="product-content">
@@ -292,18 +292,18 @@
                         </div>
                     </div>
                     @endforeach
-
-
                 </div>
+                <quick_view locale="@if(app()->getLocale() == 'ar') 'ar' @endif" currencyprop="{{ Cookie::get('currency') }}"></quick_view>
             </div>
         </div>
     </div>
 
     <script src="{{asset('GPU-Shop/js/vueProduct.js')}}"></script>
+    <script src="{{asset('GPU-Shop/js/vueQuickView.js')}}"></script>
 @endsection
-@push('includes')
-    @include('client.layout._quickView')
-@endpush
+{{--@push('includes')--}}
+{{--    @include('client.layout._quickView')--}}
+{{--@endpush--}}
 @push('scripts')
 @endpush
 

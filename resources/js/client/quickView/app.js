@@ -2,7 +2,7 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 
-Vue.config.productionTip = false;
+// Vue.config.productionTip = false;
 
 
 let globalData = new Vue({

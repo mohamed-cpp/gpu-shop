@@ -11,27 +11,27 @@
                         <div class="quick-view-learg-img">
                             <div class="quick-view-tab-content tab-content">
 
-                                <div class="tab-pane active show fade" id="modal99" role="tabpanel">
-                                    <img height="380" width="320" :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
+                                <div class="tab-pane active show fade" id="mainImage" role="tabpanel">
+                                    <img height="380" :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
                                 </div>
                                 <div class="tab-pane fade"  v-for="(image, index) in product.images" :id="'modal'+index" role="tabpanel">
-                                    <img height="380" width="320" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                                    <img height="380" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                                 </div>
                                 <div class="tab-pane fade"  v-for="(image, index) in images" :id="'modalDetails'+index" role="tabpanel">
-                                    <img height="380" width="320" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                                    <img height="380" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                                 </div>
                             </div>
                         </div>
-                        <div class="quick-view-list nav" role="tablist">
+                        <div class="quick-view-list nav quick-view-thumbnail" role="tablist">
 
-                            <a class="active" href="#modal99" data-toggle="tab" role="tab" aria-selected="true" aria-controls="home1">
-                                <img height="100" width="80" :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
+                            <a class="active" href="#mainImage" data-toggle="tab" role="tab" aria-selected="true" aria-controls="home1">
+                                <img height="80" width="80" :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
                             </a>
                             <a v-for="(image, index) in product.images" :href="'#modal'+index"  data-toggle="tab" role="tab" aria-selected="true" aria-controls="home1">
-                                <img height="100" width="80" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                                <img height="80" width="80" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                             </a>
                             <a v-for="(image, index) in images" :href="'#modalDetails'+index"  data-toggle="tab" role="tab" aria-selected="true" aria-controls="home1">
-                                <img height="100" width="80" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                                <img height="80" width="80" :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
                             </a>
 
                         </div>
@@ -123,6 +123,7 @@
             if( this.currencyprop === 'EGP' ){
                 this.currency =  '£';
             }else{
+                this.currencyprop = 'USD';
                 this.currency = '$';
             }
         },
@@ -196,9 +197,16 @@
     }
     .quickview-btn-cart > a{
         letter-spacing: -0.92px;
+        margin: 0 6px;
     }
     .quick-view-tab-content .tab-pane > img{
-        width: 320px;
+        width: 350px;
+    }
+    a img{
+        margin-bottom: 5px;
+    }
+    .quick-view-thumbnail{
+        width: 360px;
     }
 </style>
 
