@@ -355,7 +355,7 @@
                                         @if($isOffer = $product->productable->isOffer == true) <span>sale</span> @endif
                                         <div class="product-action">
                                             <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                            <click_quick_view idproduct="{{$product->productable->slug_en}}"></click_quick_view>
+                                            <click_quick_view slugproduct="{{$product->productable->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>
                                     <div class="product-content">
@@ -403,7 +403,7 @@
                                         <a href="{{route('show.product.client', $product->productable->slug)}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
                                         <div class="product-action">
 {{--                                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>--}}
-                                            <click_quick_view idproduct="{{$product->productable->slug_en}}"></click_quick_view>
+                                            <click_quick_view slugproduct="{{$product->productable->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>
 

@@ -4,15 +4,15 @@
 
 <script>
     export default {
-        props:['idproduct'],
+        props:['slugproduct'],
     data(){
             return{
-                id: this.idproduct,
+                slug: this.slugproduct,
             }
         },
         methods:{
             productSlug(){
-                this.$productId = this.id;
+                this.$productSlug = this.slug;
             }
         }
     };

@@ -97,7 +97,7 @@
     export default {
         props:['locale','currencyprop'],
         watch: {
-            $productId: function(newVal, oldVal) {
+            $productSlug: function(newVal, oldVal) {
                 if (newVal != oldVal){
                     this.show(newVal);
                 }
@@ -116,6 +116,7 @@
                 images: [],
                 detailsArray: [],
                 detailsPriceArray: [],
+                id:null,
             }
         },
         mounted() {
@@ -144,14 +145,15 @@
                 product.then(result => this.offerPrice = result['offer_price_'+this.currencyprop.toLowerCase()]);
                 product.then(result => this.quantity = result['quantity']);
                 product.then(result => this.quantity_offer = result['quantity_offer']);
+                product.then(result => this.id = result['id']);
                 this.description = true;
             },
             viewDetails(){
-                this.callDetails(this.$productId);
+                this.callDetails();
                 this.description = false;
             },
-            callDetails(slug){
-                this.detailsArray = axios.get('/api/details/'+slug)
+            callDetails(){
+                this.detailsArray = axios.get('/api/details/'+this.id)
                     .then(response => this.detailsArray = response.data);
             },
             details(subdetails,detailName){

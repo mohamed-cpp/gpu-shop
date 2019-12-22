@@ -1,33 +1,19 @@
-//
-//
-// require('./bootstrap');
-//
-// window.Vue = require('vue');
-//
-// //Vue.config.productionTip = false;
-//
-//
-
-//
-//
-// const app = new Vue({
-//     el: '#app',
-// });
-
-
 require('./bootstrap');
 
 window.Vue = require('vue');
 
+Vue.config.productionTip = false;
+
+
 let globalData = new Vue({
-    data: { $productId: null }
+    data: { $productSlug: null }
 });
 
 Vue.mixin({
     computed: {
-        $productId: {
-            get: function () { return globalData.$data.$productId },
-            set: function (newId) { globalData.$data.$productId = newId; }
+        $productSlug: {
+            get: function () { return globalData.$data.$productSlug },
+            set: function (newSlug) { globalData.$data.$productSlug = newSlug; }
         }
     }
 })

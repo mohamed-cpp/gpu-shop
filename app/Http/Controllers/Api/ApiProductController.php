@@ -4,18 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Product;
+use App\ProductDetails;
 use Illuminate\Http\Request;
 
 class ApiProductController extends Controller
 {
     public function index(Product $slug){
         if (request()->wantsJson() && $slug) {
-            return $slug->setHidden(['id','status','approved','seller_id']);
+            return $slug->setHidden(['status','approved','seller_id']);
         }
     }
-    public function detailsIndex($slug){
-        if (request()->wantsJson() && $slug) {
-            return Product::where('slug_en',$slug)->without('images')->first()->details()->get();
+    public function detailsIndex($id){
+        if (request()->wantsJson() && $id) {
+            return ProductDetails::where('product_id',$id)->get();
         }
     }
 }
