@@ -34,6 +34,7 @@ Route::group(['middleware' => 'seller'], function (){
     Route::get("details/{details}/edit", "Seller\ProductController@editDetails")->name("product.details.edit");
     Route::post("details/{details}/edit", "Seller\ProductController@updateDetails")->name("product.details.update");
     Route::delete("details/{details}/delete", "Seller\ProductController@destroyDetails")->name("product.details.delete");
+    Route::get("filter/product", "Seller\ProductController@filter")->name("products.filter.seller");
 });
 
 

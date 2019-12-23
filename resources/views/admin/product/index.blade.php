@@ -253,7 +253,7 @@
                         <select id="inputState" name="status" class="form-control">
                             <option  selected></option>
                             <option value="1" {{$select == 1 ? 'selected' : '' }}>Approved</option>
-                            <option value="0" {{$select === 0 ? 'selected' : '' }}>Not Approved</option>
+                            <option value="0" {{$select == 0 ? 'selected' : '' }}>Not Approved</option>
                             <option value="2" {{$select == 2 ? 'selected' : '' }}>Rejected</option>
                         </select>
                     </div>

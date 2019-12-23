@@ -11,6 +11,7 @@ use App\ProductDetails;
 use App\ProductSubDetails;
 use App\SubCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -19,7 +20,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('can:update,product')->except('index','create','store','editDetails','updateDetails','destroyDetails');
+        $this->middleware('can:update,product')->except('index','filter','create','store','editDetails','updateDetails','destroyDetails');
     }
     /**
      * Display a listing of the resource.
@@ -30,6 +31,22 @@ class ProductController extends Controller
     {
         return view('seller.product.index',[
             'products' => auth('seller')->user()->products()->paginate(15),
+        ]);
+    }
+
+    public function filter(Request $request){
+        $column = "name_" . App::getLocale();
+        $products = Product::where([
+            ['seller_id', auth('seller')->user()->id],
+            [$column, 'LIKE', $request->name ],
+            ['price_'.$request->currency, 'LIKE', '%' . $request->price . '%'],
+            ['approved', 'LIKE', '%' . $request->approved . '%'],
+            ['status', 'LIKE', '%' . $request->status . '%' ],
+        ])->without('images')->paginate(15);
+
+        return view('seller.product.index',[
+            'products' => $products,
+            'request' => $request
         ]);
     }
 
