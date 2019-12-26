@@ -1,5 +1,6 @@
 @extends('client.app')
 @push('styles')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
     <style>
         @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
         *, *::after, *::before {
@@ -12,7 +13,7 @@
             padding: 6em 0; }
         .section__title {
             font-size: 1.1em;
-            text-transform: uppercase;
+            /*text-transform: uppercase;*/
             letter-spacing: 4px;
             color: #fff;
             margin-bottom: 3em; }
@@ -24,7 +25,7 @@
             margin: 0 20px; }
         .toggle-button label {
             display: inline-block;
-            text-transform: uppercase;
+            /*text-transform: uppercase;*/
             cursor: pointer;
             text-align: left; }
         .toggle-button input {
@@ -139,6 +140,10 @@
 
     </style>
     <style>
+        .overflowScroll{
+            overflow: auto;
+            scroll-behavior: smooth;
+        }
         [v-cloak] {
             display: none;
         }
@@ -178,7 +183,98 @@
             color: #0c5460;
         }
     </style>
+    <style>
+        .ui-slider {
+            font-size: 0.6em;
+            width: calc(100% - 2.4em);
+            margin-left: 1.2em;
+            /*Slider-range darker*/
+        }
+        .ui-slider .ui-slider-handle {
+            background-color: #ff3243;
+            background-blend-mode: multiply;
+            font-size: 2em;
+            margin-top: -3px;
+            border-radius: 1px;
+            border-color: rgba(169, 169, 169, 0.65);
+        }
+        .ui-slider .ui-slider-range {
+            background-color: #c6c6c6;
+            background-blend-mode: multiply;
+        }
 
+        .filters_price .price-filters * {
+            font-size: 1.4em;
+            padding: 0.5em 0.7em;
+        }
+        .filters_price .price-filters input {
+            border: 1px solid lightgray;
+            padding-left: 1em;
+            text-align: center;
+            width: 49%;
+        }
+        .filters_price .price-filters label {
+            position: absolute;
+        }
+        span.ui-slider-handle.ui-state-default.ui-corner-all:first-of-type {
+            border-radius: 1px 50% 50% 1px;
+        }
+        span.ui-slider-handle.ui-state-default.ui-corner-all:last-of-type {
+            border-radius: 50% 1px 1px 50%;
+        }
+        #slider-range{
+            margin-bottom: 10px;
+        }
+
+    </style>
+    <style>
+        .section_niitty {
+            height: 100%;
+            margin: 0 auto;
+        }
+        .toggle-button--niitty label {
+            margin-right: 50px;
+            line-height: 20px; }
+
+        .toggle-button--niitty input[type=radio]:checked ~ .toggle-button__icon {
+            background: #d2d2d2; }
+        .toggle-button--niitty input[type=radio]:checked ~ .toggle-button__icon:before, .toggle-button--niitty input[type=radio]:checked ~ .toggle-button__icon:after {
+            opacity: 1; }
+
+        .toggle-button--niitty .toggle-button__icon {
+            display: inline-block;
+            float: left;
+            position: relative;
+            width: 20px;
+            height: 20px;
+            transition: all 0.2s;
+            margin-right: 10px;
+            border: 2px solid rgba(171, 1, 0, 0.73);
+            border-radius: 50%;
+            box-shadow: 0 1px 0 rgba(255, 0, 37, 0.1);
+            text-shadow: 0 1px 0 rgba(255, 0, 37, 0.1); }
+        .toggle-button--niitty .toggle-button__icon:before, .toggle-button--niitty .toggle-button__icon:after {
+            top: 5px;
+            left: 2px;
+            width: 12px;
+            height: 2px;
+            border-radius: 3px;
+            background: rgba(225, 225, 225, 0.51);
+            box-shadow: 0 1px 0 rgba(24, 138, 229, 0.1);
+            top: 35%;
+            background: rgba(0, 95, 255, 0.62);
+            opacity: 0;
+            transform-origin: left center; }
+        .toggle-button--niitty .toggle-button__icon:before {
+            transform: translate(0, 0) rotate(45deg) scale(0.6, 1); }
+        .toggle-button--niitty .toggle-button__icon:after {
+            transform: translate(4px, 6px) rotate(-45deg); }
+
+        .toggle-button--niitty:hover input[type=radio]:not(:checked) ~ .toggle-button__icon {
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
+
+    </style>
 @endpush
 @section('content')
     <div id="appView">
@@ -194,36 +290,64 @@
             </div>
         </div>
     </div>
-
+        @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$'; $sortBlade =  !empty($sort) ? $sort : null @endphp
 <div class="shop-page-wrapper hidden-items padding-filter">
         <div class="container-fluid">
-            <div class="shop-filters-left">
+            <div class="shop-filters-left overflowScroll">
                 <div class="shop-sidebar">
-                    <div class="sidebar-widget mb-50">
-                        <h3 class="sidebar-title">Search Products</h3>
-                        <div class="sidebar-search">
-                            <form action="#">
-                                <input placeholder="Search Products..." type="text">
-                                <button><i class="ion-ios-search-strong"></i></button>
-                            </form>
-                        </div>
-                    </div>
-
-
-                    <div class="sidebar-widget mb-40">
-                        <h3 class="sidebar-title">Filter by Price</h3>
-                        <div class="price_filter">
-                            <div id="slider-range"></div>
-                            <div class="price_slider_amount">
-                                <div class="label-input">
-                                    <label>price : </label>
-                                    <input type="text" id="amount" name="price"  placeholder="Add Your Price" />
+                    <form action="{{route('filter.product.client', $subcategory)}}" method="GET">
+                        <div class="sidebar-widget mb-50">
+                            <h3 class="sidebar-title">Search Products</h3>
+                            <div class="sidebar-search">
+                                <div>
+                                    <input name="keywords" value="{{$sortBlade?  $sortBlade['keywords'] : ''}}" placeholder="Search Products..." type="text">
+                                    <button type="submit"><i class="ion-ios-search-strong"></i></button>
                                 </div>
-                                <button type="button">Filter</button>
                             </div>
                         </div>
+                        <div class="sidebar-widget mb-30">
+                        <h3 class="sidebar-title">Filter by Price</h3>
+                        <div class="filters_price">
+                        <div id="slider-range" data-price-min="{{$sortBlade ? $sortBlade['min']: $priceMinMax['min_price']}}" data-price-max="{{$sortBlade ? $sortBlade['max']: $priceMinMax['max_price']}}"></div>
+                        <p class="price-filters">
+                            <label for="price-filter-min">{{$currency}}</label>
+                            <input type="number" id="price-filter-min" name="min" placeholder={{$sortBlade ? $sortBlade['min']: $priceMinMax['min_price']}} aria-label="Minimum price for filtering products" >
+                            <label for="price-filter-max" aria-label="Maximum price for filtering products">{{$currency}}</label>
+                            <input type="number" id="price-filter-max" name="max" placeholder={{$sortBlade ? $sortBlade['max']: $priceMinMax['max_price']}} >
+                        </p>
+                        </div>
                     </div>
-
+                        <div class="sidebar-widget mb-30">
+                            <h3 class="sidebar-title">Sort By :</h3>
+                            <section class="section_niitty section--niitty">
+                                <div class="toggle-button toggle-button--niitty">
+                                    <input id="toggleButton13" name="sort" value="D" type="radio" checked>
+                                    <label for="toggleButton13">Default</label>
+                                    <div class="toggle-button__icon"></div>
+                                </div>
+                                <div class="toggle-button toggle-button--niitty">
+                                    <input id="toggleButton14" {{$sortBlade?  $sortBlade['sort'] == 'A' ? 'checked' :'' : ''}} name="sort" value="A" type="radio">
+                                    <label for="toggleButton14">A to Z</label>
+                                    <div class="toggle-button__icon"></div>
+                                </div>
+                                <div class="toggle-button toggle-button--niitty">
+                                    <input id="toggleButton15" {{$sortBlade?  $sortBlade['sort'] == 'Z' ? 'checked' :'' : ''}} name="sort" value="Z" type="radio">
+                                    <label for="toggleButton15">Z to A</label>
+                                    <div class="toggle-button__icon"></div>
+                                </div>
+                                <div class="toggle-button toggle-button--niitty">
+                                    <input id="toggleButton16" {{$sortBlade?  $sortBlade['sort'] == 'L' ? 'checked' :'' : ''}} name="sort" value="L" type="radio">
+                                    <label for="toggleButton16">Low to High</label>
+                                    <div class="toggle-button__icon"></div>
+                                </div>
+                                <div class="toggle-button toggle-button--niitty">
+                                    <input id="toggleButton17" name="sort" {{$sortBlade?  $sortBlade['sort'] == 'H' ? 'checked' :'' : ''}} value="H" type="radio">
+                                    <label for="toggleButton17">High to Low</label>
+                                    <div class="toggle-button__icon"></div>
+                                </div>
+                            </section>
+                        </div>
+                    </form>
                     <div class="sidebar-widget mb-50">
                         <h3 class="sidebar-title">Top rated products</h3>
                         <div class="sidebar-top-rated-all">
@@ -315,16 +439,7 @@
                 <div class="shop-bar-area pb-60">
                     <div class="shop-bar">
                         <div class="shop-found-selector">
-                            <div class="shop-selector">
-                                <label>Sort By : </label>
-                                <select name="select">
-                                    <option value="">Default</option>
-                                    <option value="">A to Z</option>
-                                    <option value=""> Z to A</option>
-                                    <option value="">Low to High</option>
-                                    <option value="">High to Low</option>
-                                </select>
-                            </div>
+{{--I wont leave it empty :D--}}
                         </div>
                         <div class="shop-filter-tab">
                             <div class="shop-filter">
@@ -343,29 +458,29 @@
                 </div>
 
                 <div class="shop-product-content tab-content">
-                    @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
                     <div id="grid-5-col1" class="tab-pane fade  {{ $horizontal ? '' : 'active show'  }}">
                         <div class="row custom-row">
                             @foreach($products as $product)
-                                @if($product->productable)
+                                @php !empty($product->productable) ? $product = $product->productable : $product = $product @endphp
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
-                                        <a href="{{route('show.product.client', $product->productable->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
-                                        @if($isOffer = $product->productable->isOffer == true) <span>sale</span> @endif
+                                        <a href="{{route('show.product.client', $product->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name}}"></a>
+                                        @if($isOffer = $product->isOffer == true) <span>sale</span> @endif
                                         <div class="product-action">
                                             <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                            <click_quick_view slugproduct="{{$product->productable->slug_en}}"></click_quick_view>
+                                            <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>
                                     <div class="product-content">
                                         <div class="product-title-price">
                                             <div class="product-title">
-                                                <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{$product->productable->name}}</a></h4>
+                                                <h4><a href="{{route('show.product.client', $product->slug)}}">{{$product->name}}</a></h4>
                                             </div>
+                                            @php $price = $product->offerPriceold ? true : false; @endphp
                                             <div class="product-price">
-                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->productable->offerPrice(false)}}</span></div>
-                                                @if($isOffer)<span class="offer" >{{$currency}}{{$product->productable->offerPrice()}}</span>@endif
+                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{ $price ? $product->offerPriceold : $product->offerPrice(false) }}</span></div>
+                                                @if($isOffer)<span class="offer" >{{$currency}}{{$price ? $product->offerPrice : $product->offerPrice()}}</span>@endif
                                             </div>
                                         </div>
                                         <div class="product-cart-categori">
@@ -379,14 +494,17 @@
                                     </div>
                                 </div>
                             </div>
-                             @endif
                             @endforeach
 
 
                         </div>
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-5">
-                                {{$products->appends(['horizontal' => false])->links() }}
+                                @if(!empty($sort))
+                                    {{$products->appends(['horizontal' => false,"keywords" => $sort['keywords'] ? $sort['keywords'] : false,"min" => $sort['min'],"max" => $sort['max'],"sort" => $sort['sort'],])->links() }}
+                                @else
+                                    {{$products->appends(['horizontal' => false])->links() }}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -396,23 +514,23 @@
 
 
                             @foreach($products as $product)
-                                @if($product->productable)
+                                @php !empty($product->productable) ? $product = $product->productable: $product = $product @endphp
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
-                                        <a href="{{route('show.product.client', $product->productable->slug)}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->productable->main_image)}}" alt="{{$product->productable->name}}"></a>
+                                        <a href="{{route('show.product.client', $product->slug)}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name}}"></a>
                                         <div class="product-action">
 {{--                                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>--}}
-                                            <click_quick_view slugproduct="{{$product->productable->slug_en}}"></click_quick_view>
+                                            <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>
-
+                                    @php $price = $product->offerPriceold  ? true : false @endphp
                                     <div class="product-content-list">
                                         <div class="product-list-info">
-                                            <h4><a href="{{route('show.product.client', $product->productable->slug)}}">{{ Str::limit($product->productable->name, $limit = 50, $end = '...')}}</a></h4>
-                                            <div><span class="{{ $isOffer = $product->productable->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$product->productable->offerPrice(false)}}</span></div>
-                                            @if($isOffer)<span class="offer2" >{{$currency}}{{$product->productable->offerPrice()}}</span>@endif
-                                            <p>{!! Str::limit($product->productable->description, $limit = 70, $end = '...') !!}</p>
+                                            <h4><a href="{{route('show.product.client', $product->slug)}}">{{ Str::limit($product->name, $limit = 50, $end = '...')}}</a></h4>
+                                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$price ? $product->offerPriceold : $product->offerPrice(false)}}</span></div>
+                                            @if($isOffer)<span class="offer2" >{{$currency}}{{$price ? $product->offerPrice : $product->offerPrice()}}</span>@endif
+                                            <p>{!! Str::limit($product->description, $limit = 70, $end = '...') !!}</p>
                                         </div>
                                         <div class="product-list-cart-wishlist">
                                             <div class="product-list-cart">
@@ -425,13 +543,16 @@
                                     </div>
                                 </div>
                             </div>
-                                @endif
                             @endforeach
 
                         </div>
                         <div class="row">
                             <div class="col-sm-6 col-sm-offset-5">
-                                {{ $products->appends(['horizontal' => true])->links() }}
+                                @if(!empty($sort))
+                                    {{$products->appends(['horizontal' => true,"keywords" => $sort['keywords'] ? $sort['keywords'] : false,"min" => $sort['min'],"max" => $sort['max'],"sort" => $sort['sort'],])->links() }}
+                                @else
+                                    {{$products->appends(['horizontal' => true])->links() }}
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -443,11 +564,8 @@
     </div>
     <script src="{{asset('GPU-Shop/js/vueQuickView.js')}}"></script>
 @endsection
-@push('includes')
-
-{{--    @include('client.layout._quickView')--}}
-@endpush
 @push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
     <script>
         $(document).ready(function(){
             $(function animateByMe(time = 500) {
@@ -464,6 +582,101 @@
             }());
 
         });
+    </script>
+    <script>
+        $(function() {
+            var $slider = $("#slider-range");
+            //Get min and max values
+            var priceMin = $slider.attr("data-price-min"),
+                priceMax = $slider.attr("data-price-max");
+
+            //Set min and max values where relevant
+            $("#price-filter-min, #price-filter-max").map(function(){
+                $(this).attr({
+                    "min": priceMin,
+                    "max": priceMax
+                });
+            });
+            $("#price-filter-min").attr({
+                "placeholder": "min " + priceMin,
+                "value": priceMin
+            });
+            $("#price-filter-max").attr({
+                "placeholder": "max " + priceMax,
+                "value": priceMax
+            });
+
+            $slider.slider({
+                range: true,
+                min: Math.max(priceMin, 0),
+                max: priceMax,
+                values: [priceMin, priceMax],
+                slide: function(event, ui) {
+                    // $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+                    $("#price-filter-min").val(ui.values[0]);
+                    $("#price-filter-max").val(ui.values[1]);
+                }
+            });
+
+            // Amount is a read only field for textual representation of the range
+            //$("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
+
+            //this code was an attempt to stop entering wrong values - but I think this is better ux...
+            // $("#price-filter-min, #price-filter-max").map(function(){
+            // $(this).on("keypress", function(e) {
+            // 	if ($(this).val() > priceMax && e.keyCode != 46 && e.keyCode != 8) {
+            // 		// e.preventDefault();
+            // 		$(this).val(priceMax);
+            // 	} else if ($(this).val() < priceMin && e.keyCode != 46 && e.keyCode != 8) {
+            // 		// e.preventDefault();
+            // 		$(this).val(priceMin);
+            // 	}
+            // });
+            // });
+
+            $("#price-filter-min, #price-filter-max").map(function(){
+                $(this).on("input", function() {
+                    // let pmin = $("#price-filter-min").val(),
+                    // 	 pmax = $("#price-filter-max").val();
+                    // if(
+                    // 	pmin >= priceMin //bigger than min
+                    // 	&& pmin <= pmax && pmax <= priceMax //smaller than max
+                    // ) {
+                    // 	updateSlider();
+                    // }
+                    updateSlider();
+                });
+            });
+            function updateSlider(){
+                $slider.slider("values", [$("#price-filter-min").val(), $("#price-filter-max").val()]);
+            }
+
+
+            //Only once on load, add classes to checklists
+            $( ".checklist" ).map(function(){
+                let $list = $(this);
+                if($list.children().length > 3){
+                    $list.addClass('collapsed');
+                }
+                //function to remove class (once) when more is clicked
+                function handleMore(e){
+                    if($(e.target).is('ul')){
+                        $(this).removeClass('collapsed');
+                        $(this).addClass('revealed');
+
+                        //make it two columns if items are not long and there's many
+                        if($(this).hasClass("short") && $(this).children().length >= 5){
+                            $(this).addClass('columns');
+                        }
+                        //remove event handler
+                        $(this).off('click.moreButton');
+                    }
+                }
+                //and attached event handler to ul
+                $list.on('click.moreButton', handleMore);
+            });
+        });
+
     </script>
 @endpush
 

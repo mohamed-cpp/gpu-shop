@@ -18,6 +18,7 @@ $factory->define(\App\Product::class, function (Faker $faker,$id = null) {
         'slug_ar' => $faker->slug,
         'main_image' => $faker->image('public/storage/product/images/',400,400, null, false),
         'status' => 1,
+        'approved' => 1,
         'price_egp' => rand(100,500),
         'price_usd' => rand(100,500),
         'seller_id' => $id ? $id : create('App\Seller')->id,

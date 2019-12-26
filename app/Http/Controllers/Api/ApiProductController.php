@@ -11,6 +11,8 @@ class ApiProductController extends Controller
 {
     public function index(Product $slug){
         if (request()->wantsJson() && $slug) {
+            $images = $slug->images()->get();
+            $slug['images'] = $images;
             return $slug->setHidden(['status','approved','seller_id']);
         }
     }

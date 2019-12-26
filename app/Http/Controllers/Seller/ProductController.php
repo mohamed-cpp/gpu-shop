@@ -42,7 +42,7 @@ class ProductController extends Controller
             ['price_'.$request->currency, 'LIKE', '%' . $request->price . '%'],
             ['approved', 'LIKE', '%' . $request->approved . '%'],
             ['status', 'LIKE', '%' . $request->status . '%' ],
-        ])->without('images')->paginate(15);
+        ])->paginate(15);
 
         return view('seller.product.index',[
             'products' => $products,

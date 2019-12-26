@@ -32,7 +32,7 @@ class Product extends Model
         'offer_start_at' =>'datetime',
         'offer_end_at' =>'datetime',
     ];
-    public $with = ['images'];
+//    public $with = ['images'];
 
     protected $appends = ['subcategories_ids','isOffer'];
 
