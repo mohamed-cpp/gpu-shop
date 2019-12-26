@@ -439,7 +439,9 @@
                 <div class="shop-bar-area pb-60">
                     <div class="shop-bar">
                         <div class="shop-found-selector">
-{{--I wont leave it empty :D--}}
+                            <div class="shop-found">
+                                <p><span>{{$count[0][0]}}</span> Product Found of <span>{{$count[1][0]}}</span></p>
+                            </div>
                         </div>
                         <div class="shop-filter-tab">
                             <div class="shop-filter">

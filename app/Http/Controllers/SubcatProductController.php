@@ -54,12 +54,12 @@ class SubcatProductController extends Controller
     public function show(SubCategory $subcategory)
     {
         if($subcategory->status){
-            $products = $subcategory->products();
-            $cachePrice = $this->minMaxPriceCache($subcategory->slug_en,$products);
+            $products = $subcategory->products()->paginate(15);
             return view('client.products.show_products',[
-                'products' => $products->paginate(15),
+                'products' => $products,
                 'subcategory' => $subcategory,
-                'priceMinMax' => $cachePrice
+                'priceMinMax' => $this->minMaxPriceCache($subcategory),
+                'count'=>$this->count($products),
             ]);
         }
         return response()->view('client.errors.error',['errorCode' => 404,
@@ -116,23 +116,24 @@ class SubcatProductController extends Controller
                      ['products.price_'.$currency, '>=',  $request->min ],])
             ->orderBy($sort[1][0], $sort[0][0])
             ->select('products.*')
-            ->paginate(5);
-        $cachePrice = Cache::get($subcategory->slug_en) ;
+            ->paginate(15);
         return view('client.products.show_products',[
             'products' => $this->changeKeyLocale($products),
             'subcategory' => $subcategory,
-            'priceMinMax' => $cachePrice,
+            'priceMinMax' => $this->minMaxPriceCache($subcategory),
             'sort'=>$request->all(),
+            'count'=>$this->count($products),
         ]);
 
     }
 
-    protected function minMaxPriceCache($slug,$products){
-        if ($cachePrice =  Cache::get($slug)){
+    protected function minMaxPriceCache($subcategory){
+        $products = $subcategory->products();
+        if ($cachePrice =  Cache::get($subcategory->slug_en)){
             return $cachePrice;
         }
         $currency = Cookie::get('currency') ?strtolower(Cookie::get('currency')) : 'usd';
-        $prices = Cache::remember($slug, 900, function() use ($products,$currency) {
+        $prices = Cache::remember($subcategory->slug_en, 900, function() use ($products,$currency) {
             $productsPrices = $products->get()
                 ->pluck('productable');
             return ['min_price' =>  $productsPrices->min("price_$currency")
@@ -194,5 +195,16 @@ class SubcatProductController extends Controller
         }
         $price = "price_$currency";
         return $product->$price;
+    }
+    public function count($products){
+        if( $products->perPage() != count($products->items()) ){
+            $count = $products->currentPage() * $products->perPage();
+            $currentItems = $products->perPage() - count($products->items());
+            $countArray[] = [$count - $currentItems];
+        }else{
+            $countArray[] = [$products->currentPage() * count($products->items())];
+        }
+        $countArray[] = [$products->total()];
+        return $countArray;
     }
 }
