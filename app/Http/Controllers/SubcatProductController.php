@@ -109,8 +109,8 @@ class SubcatProductController extends Controller
         $products = DB::table('subcat_products')
             ->where('subcategoryable_id',$subcategory->id)
             ->join('products', 'products.id', '=', 'subcat_products.productable_id')
-            ->where('status', '=', 1)
-            ->where('approved', '=', 1)
+            ->where('products.status', '=', 1)
+            ->where('products.approved', '=', 1)
             ->where([[$column, 'LIKE', '%' . $keywords . '%' ],
                      ['products.price_'.$currency, '<=',  $request->max ],
                      ['products.price_'.$currency, '>=',  $request->min ],])

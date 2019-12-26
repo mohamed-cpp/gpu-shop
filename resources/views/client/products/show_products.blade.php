@@ -464,6 +464,7 @@
                         <div class="row custom-row">
                             @foreach($products as $product)
                                 @php !empty($product->productable) ? $product = $product->productable : $product = $product @endphp
+                                @if($product->name_en)
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
@@ -496,6 +497,7 @@
                                     </div>
                                 </div>
                             </div>
+                                @endif
                             @endforeach
 
 
@@ -517,6 +519,7 @@
 
                             @foreach($products as $product)
                                 @php !empty($product->productable) ? $product = $product->productable: $product = $product @endphp
+                                @if($product->name_en)
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
@@ -545,6 +548,7 @@
                                     </div>
                                 </div>
                             </div>
+                                @endif
                             @endforeach
 
                         </div>
