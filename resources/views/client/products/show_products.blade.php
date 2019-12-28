@@ -320,12 +320,12 @@
                         <div class="sidebar-widget mb-30">
                         <h3 class="sidebar-title">Filter by Price</h3>
                         <div class="filters_price">
-                        <div id="slider-range" data-price-min="{{$sortBlade ? $sortBlade['min']: $priceMinMax['min_price']}}" data-price-max="{{$sortBlade ? $sortBlade['max']: $priceMinMax['max_price']}}"></div>
+                        <div id="slider-range" data-price-min="{{$priceMinMax['min_price']}}" data-price-max="{{$priceMinMax['max_price']}}"></div>
                         <p class="price-filters">
                             <label for="price-filter-min">{{$currency}}</label>
-                            <input type="number" id="price-filter-min" name="min" placeholder={{$sortBlade ? $sortBlade['min']: $priceMinMax['min_price']}} aria-label="Minimum price for filtering products" >
+                            <input type="number" id="price-filter-min" name="min"  aria-label="Minimum price for filtering products" >
                             <label for="price-filter-max" aria-label="Maximum price for filtering products">{{$currency}}</label>
-                            <input type="number" id="price-filter-max" name="max" placeholder={{$sortBlade ? $sortBlade['max']: $priceMinMax['max_price']}} >
+                            <input type="number" id="price-filter-max" name="max"  >
                         </p>
                         </div>
                     </div>
@@ -538,7 +538,6 @@
                                             <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>
-                                    @php $price = $product->offerPriceold  ? true : false @endphp
                                     <div class="product-content-list">
                                         <div class="product-list-info">
                                             <h4><a href="{{route('show.product.client', $product->slug)}}">{{ Str::limit($product->name, $limit = 50, $end = '...')}}</a></h4>
@@ -667,31 +666,23 @@
             function updateSlider(){
                 $slider.slider("values", [$("#price-filter-min").val(), $("#price-filter-max").val()]);
             }
+            @if($sortBlade)
+                var minPrice = {{$sortBlade['min']}},
+                    maxPrice = {{$sortBlade['max']}};
+                $slider.slider("values", [minPrice, maxPrice]);
+                $("#price-filter-min").attr({
+                    "placeholder": "min " + minPrice,
+                    "value": minPrice
+                });
+                $("#price-filter-max").attr({
+                    "placeholder": "max " + maxPrice,
+                    "value": maxPrice
+                });
+            @endif
 
 
-            //Only once on load, add classes to checklists
-            $( ".checklist" ).map(function(){
-                let $list = $(this);
-                if($list.children().length > 3){
-                    $list.addClass('collapsed');
-                }
-                //function to remove class (once) when more is clicked
-                function handleMore(e){
-                    if($(e.target).is('ul')){
-                        $(this).removeClass('collapsed');
-                        $(this).addClass('revealed');
 
-                        //make it two columns if items are not long and there's many
-                        if($(this).hasClass("short") && $(this).children().length >= 5){
-                            $(this).addClass('columns');
-                        }
-                        //remove event handler
-                        $(this).off('click.moreButton');
-                    }
-                }
-                //and attached event handler to ul
-                $list.on('click.moreButton', handleMore);
-            });
+
         });
 
     </script>
