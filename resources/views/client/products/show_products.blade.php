@@ -140,6 +140,17 @@
 
     </style>
     <style>
+        .offBox{
+            padding: 0 6px;
+            height: 20px;
+            line-height: 20px;
+            width: 62px;
+            background-color: rgba(180, 0, 90, 0.89);
+            color: #fff;
+            font-size: 12px;
+            border-radius: 3px;
+            margin-top:5px;
+        }
         .overflowScroll{
             overflow: auto;
             scroll-behavior: smooth;
@@ -161,6 +172,7 @@
             color: rgba(0, 7, 255, 0.8) !important;
             font-size: 15px;
             font-weight: 550;
+            /*margin-left: 55px;*/
         }
         .breadcrumb-content h2 {
             color: #fff;
@@ -463,8 +475,6 @@
                     <div id="grid-5-col1" class="tab-pane fade  {{ $horizontal ? '' : 'active show'  }}">
                         <div class="row custom-row">
                             @foreach($products as $product)
-                                @php !empty($product->productable) ? $product = $product->productable : $product = $product @endphp
-                                @if($product->name_en)
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
@@ -480,10 +490,12 @@
                                             <div class="product-title">
                                                 <h4><a href="{{route('show.product.client', $product->slug)}}">{{$product->name}}</a></h4>
                                             </div>
-                                            @php $price = $product->offerPriceold ? true : false; @endphp
-                                            <div class="product-price">
-                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{ $price ? $product->offerPriceold : $product->offerPrice(false) }}</span></div>
-                                                @if($isOffer)<span class="offer" >{{$currency}}{{$price ? $product->offerPrice : $product->offerPrice()}}</span>@endif
+                                            <div class="product-price" >
+                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPriceold }}</span></div>
+                                                @if($isOffer)
+                                                    <span class="offer" >{{$currency}}{{$product->offerPrice}}</span>
+                                                    <div style="" class="offBox"><span>{{round(($product->offerPriceold - $product->offerPrice) / $product->offerPriceold * 100) }}% Off</span></div>
+                                                @endif
                                             </div>
                                         </div>
                                         <div class="product-cart-categori">
@@ -497,7 +509,6 @@
                                     </div>
                                 </div>
                             </div>
-                                @endif
                             @endforeach
 
 
@@ -518,8 +529,6 @@
 
 
                             @foreach($products as $product)
-                                @php !empty($product->productable) ? $product = $product->productable: $product = $product @endphp
-                                @if($product->name_en)
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
@@ -533,8 +542,11 @@
                                     <div class="product-content-list">
                                         <div class="product-list-info">
                                             <h4><a href="{{route('show.product.client', $product->slug)}}">{{ Str::limit($product->name, $limit = 50, $end = '...')}}</a></h4>
-                                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$price ? $product->offerPriceold : $product->offerPrice(false)}}</span></div>
-                                            @if($isOffer)<span class="offer2" >{{$currency}}{{$price ? $product->offerPrice : $product->offerPrice()}}</span>@endif
+                                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$oldOffer =  $product->offerPriceold }}</span></div>
+                                            @if($isOffer)
+                                                <span class="offer2" >{{$currency}}{{$newOffer = $product->offerPrice }}</span>
+                                                <div class="offBox"><span>{{round(($oldOffer - $newOffer) / $oldOffer * 100) }}% Off</span></div>
+                                            @endif
                                             <p>{!! Str::limit($product->description, $limit = 70, $end = '...') !!}</p>
                                         </div>
                                         <div class="product-list-cart-wishlist">
@@ -548,7 +560,6 @@
                                     </div>
                                 </div>
                             </div>
-                                @endif
                             @endforeach
 
                         </div>

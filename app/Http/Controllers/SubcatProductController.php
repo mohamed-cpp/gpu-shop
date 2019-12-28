@@ -54,9 +54,17 @@ class SubcatProductController extends Controller
     public function show(SubCategory $subcategory)
     {
         if($subcategory->status){
-            $products = $subcategory->products()->paginate(15);
+            $currency = Cookie::get('currency') ? strtolower(Cookie::get('currency')) : 'usd';
+            $column = "products.name_" . App::getLocale();
+            $products = DB::table('subcat_products')
+                ->where('subcategoryable_id',$subcategory->id)
+                ->join('products', 'products.id', '=', 'subcat_products.productable_id')
+                ->where('products.status', '=', 1)
+                ->where('products.approved', '=', 1)
+                ->select('products.*')
+                ->paginate(15);
             return view('client.products.show_products',[
-                'products' => $products,
+                'products' => $this->changeKeyLocale($products),
                 'subcategory' => $subcategory,
                 'priceMinMax' => $this->minMaxPriceCache($subcategory),
                 'count'=>$this->count($products),
@@ -196,7 +204,7 @@ class SubcatProductController extends Controller
         $price = "price_$currency";
         return $product->$price;
     }
-    public function count($products){
+    protected function count($products){
         if( $products->perPage() != count($products->items()) ){
             $count = $products->currentPage() * $products->perPage();
             $currentItems = $products->perPage() - count($products->items());
