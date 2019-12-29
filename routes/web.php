@@ -68,6 +68,7 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
 Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
 Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
+Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
 Route::get('currency/{currency}', 'Client\ClientProductController@currency')->name('currency.product.client');
 
 

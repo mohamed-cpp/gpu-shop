@@ -54,8 +54,6 @@ class SubcatProductController extends Controller
     public function show(SubCategory $subcategory)
     {
         if($subcategory->status){
-            $currency = Cookie::get('currency') ? strtolower(Cookie::get('currency')) : 'usd';
-            $column = "products.name_" . App::getLocale();
             $products = DB::table('subcat_products')
                 ->where('subcategoryable_id',$subcategory->id)
                 ->join('products', 'products.id', '=', 'subcat_products.productable_id')
@@ -113,26 +111,51 @@ class SubcatProductController extends Controller
         $currency = Cookie::get('currency') ? strtolower(Cookie::get('currency')) : 'usd';
         $column = "products.name_" . App::getLocale();
         $keywords = $request->keywords ?  $request->keywords : null ;
-        $sort = $this->sort($request->sort,$column,$currency);
+        $isOfferPage = $request->offer ? ['offer_',
+            [['products.offer_start_at', '<', Carbon::now()],
+            ['products.offer_end_at', '>', Carbon::now()]]] : ['',null];
+        $sort = $this->sort($request->sort,$column,$currency,$isOfferPage[0]);
         $products = DB::table('subcat_products')
             ->where('subcategoryable_id',$subcategory->id)
             ->join('products', 'products.id', '=', 'subcat_products.productable_id')
             ->where('products.status', '=', 1)
             ->where('products.approved', '=', 1)
             ->where([[$column, 'LIKE', '%' . $keywords . '%' ],
-                     ['products.price_'.$currency, '<=',  $request->max ],
-                     ['products.price_'.$currency, '>=',  $request->min ],])
+                     ["products.{$isOfferPage[0]}price_".$currency, '<=',  $request->max ],
+                     ["products.{$isOfferPage[0]}price_".$currency, '>=',  $request->min ],])
+            ->where($isOfferPage[1])
             ->orderBy($sort[1][0], $sort[0][0])
             ->select('products.*')
             ->paginate(15);
         return view('client.products.show_products',[
             'products' => $this->changeKeyLocale($products),
             'subcategory' => $subcategory,
-            'priceMinMax' => $this->minMaxPriceCache($subcategory),
+            'priceMinMax' => $request->offer ? $this->minMaxPriceOffer($subcategory) : $this->minMaxPriceCache($subcategory),
             'sort'=>$request->all(),
             'count'=>$this->count($products),
         ]);
 
+    }
+    public function showOffers(SubCategory $subcategory){
+        if($subcategory->status){
+            $products = DB::table('subcat_products')
+                ->where('subcategoryable_id',$subcategory->id)
+                ->join('products', 'products.id', '=', 'subcat_products.productable_id')
+                ->where('products.status', '=', 1)
+                ->where('products.approved', '=', 1)
+                ->where([['products.offer_start_at', '<', Carbon::now()],
+                        ['products.offer_end_at', '>', Carbon::now()]])
+                ->select('products.*')
+                ->paginate(15);
+            return view('client.products.show_products',[
+                'products' => $this->changeKeyLocale($products),
+                'subcategory' => $subcategory,
+                'priceMinMax' => $this->minMaxPriceOffer($subcategory),
+                'count'=>$this->count($products),
+            ]);
+        }
+        return response()->view('client.errors.error',['errorCode' => 404,
+            'errorMessage'=>'Not Found']);
     }
 
     protected function minMaxPriceCache($subcategory){
@@ -149,7 +172,13 @@ class SubcatProductController extends Controller
         });
         return $prices;
     }
-    protected function sort($sort,$name,$currency){
+    protected function minMaxPriceOffer($subcategory){
+        $currency = Cookie::get('currency') ?strtolower(Cookie::get('currency')) : 'usd';
+        $products = $subcategory->products()->get()->pluck('productable');
+        return ['min_price' =>  $products->min("offer_price_$currency")
+            ,'max_price' =>  $products->max("offer_price_$currency")];
+    }
+    protected function sort($sort,$name,$currency,$offer){
         $sortArray = [];
         if ($sort=='Z' || $sort=='H'){
             $sortArray[] =['desc'];
@@ -157,7 +186,7 @@ class SubcatProductController extends Controller
             $sortArray[] =['asc'];
         }
         if ($sort=='L' || $sort=='H'){
-            $sortArray[] =[ "products.price_" . $currency];
+            $sortArray[] =[ "products.{$offer}price_" . $currency];
         }elseif($sort=='A' || $sort=='Z'){
             $sortArray[] =[$name];
 

@@ -287,6 +287,158 @@
             text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); }
 
     </style>
+    <style>
+        .boton {
+            width: 200px;
+            height: 50px;
+            margin: 15px auto;
+            display: block;
+            position: relative;
+        }
+
+        .botontext {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            z-index: 1;
+            text-align: center;
+            line-height: 50px;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            text-transform: uppercase;
+        }
+
+        .twist {
+            display: block;
+            height: 100%;
+            width: 25%;
+            position: relative;
+            float: left;
+            margin-left: -4px;
+        }
+
+        .twist:before {
+            content: "";
+            width: 100%;
+            height: 100%;
+            background: #fed5a9;
+            bottom: 100%;
+            position: absolute;
+            transform-origin: center bottom 0px;
+            transform: matrix3d(1, 0, 0, 0,
+            0, 0, -1, -0.003,
+            0, 1, 0, 0,
+            0, 0, 0, 1);
+
+            -webkit-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -moz-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -o-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995); /* custom */
+        }
+
+        .twist:after {
+            content: "";
+            position: absolute;
+            width: 100%;
+            top: 100%;
+            height: 100%;
+            background: rgb(96, 99, 94);
+            transform-origin: center top 0px;
+            transform: matrix3d(1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, -0.003,
+            0, -50, 0, 1);
+
+            -webkit-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -moz-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -o-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995); /* custom */
+        }
+
+        .boton:hover .twist:before {
+            background: #ff3243;
+            transform: matrix3d(1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0.003,
+            0, 50, 0, 1);
+        }
+
+        .boton:hover .twist:after {
+            background: #50484d;
+            transform: matrix3d(1, 0, 0, 0,
+            0, 0, -1, 0.003,
+            0, 1, 0, 0,
+            0, 0, 0, 1);
+        }
+
+        .boton .twist:nth-of-type(1) {
+            margin-left: 0;
+        }
+
+        .boton .twist:nth-of-type(1):before,
+        .boton .twist:nth-of-type(1):after {
+            transition-delay: 0s;
+        }
+
+        .boton .twist:nth-of-type(2):before,
+        .boton .twist:nth-of-type(2):after {
+            transition-delay: 0.1s;
+        }
+
+        .boton .twist:nth-of-type(3):before,
+        .boton .twist:nth-of-type(3):after {
+            transition-delay: 0.2s;
+        }
+
+        .boton .twist:nth-of-type(4):before,
+        .boton .twist:nth-of-type(4):after {
+            transition-delay: 0.3s;
+        }
+
+        .boton .botontext:nth-of-type(1) {
+            color: #fff;
+            bottom: 100%;
+            transform-origin: center bottom 0px;
+            transform: matrix3d(1, 0, 0, 0,
+            0, 0, -1, -0.003,
+            0, 1, 0, 0,
+            0, 0, 0, 1);
+
+            -webkit-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -moz-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -o-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995); /* custom */
+        }
+
+        .boton:hover .botontext:nth-of-type(1) {
+            transform: matrix3d(1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0.003,
+            0, 50, 0, 1);
+        }
+
+        .boton .botontext:nth-of-type(2) {
+            color: #fff;
+            top: 100%;
+            transform-origin: center top 0px;
+            transform: matrix3d(1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, -0.003,
+            0, -50, 0, 1);
+
+            -webkit-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -moz-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            -o-transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995);
+            transition: all 500ms cubic-bezier(0.970, 0.000, 0.395, 0.995); /* custom */
+        }
+
+        .boton:hover .botontext:nth-of-type(2) {
+            transform: matrix3d(1, 0, 0, 0,
+            0, 0, -1, 0.003,
+            0, 1, 0, 0,
+            0, 0, 0, 1);
+        }
+    </style>
 @endpush
 @section('content')
     <div id="appView">
@@ -307,7 +459,11 @@
         <div class="container-fluid">
             <div class="shop-filters-left overflowScroll">
                 <div class="shop-sidebar">
+                    <a href="{{route('offers.product.client',$subcategory)}}" class="boton">
+                        Show ALL Offers &#128516;
+                    </a>
                     <form action="{{route('filter.product.client', $subcategory)}}" method="GET">
+                        <input type="hidden" name="offer" value="{{Request::is('*/offer/*') ? Request::is('*/offer/*') : Request::get('offer')}}">
                         <div class="sidebar-widget mb-50">
                             <h3 class="sidebar-title">Search Products</h3>
                             <div class="sidebar-search">
@@ -680,6 +836,13 @@
                 });
             @endif
 
+            $(".boton").wrapInner('<div class=botontext></div>');
+
+            $(".botontext").clone().appendTo( $(".boton") );
+
+            $(".boton").append('<span class="twist"></span><span class="twist"></span><span class="twist"></span><span class="twist"></span>');
+
+            $(".twist").css("width", "25%").css("width", "+=3px");
 
 
 
