@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Category;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
 use Mcamara\LaravelLocalization\LaravelLocalization;
 
@@ -33,10 +35,9 @@ class AppServiceProvider extends ServiceProvider
             return new LaravelLocalization();
         });
 
-        if($this->app->isLocal()){
+        if($this->app->isLocal() || env('DEBUGBAR_ENABLED')){
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
         }
-
     }
 
     /**
@@ -46,6 +47,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 }

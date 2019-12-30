@@ -43,6 +43,9 @@ class Kernel extends HttpKernel
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
             \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+
+            \App\Http\Middleware\HttpsProtocolMiddleware::class,
+
         ],
 
         'api' => [
