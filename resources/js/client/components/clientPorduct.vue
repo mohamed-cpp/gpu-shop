@@ -88,7 +88,7 @@
                     <a class="btn-hover-black" href="#">add to cart</a>
                 </div>
                 <div class="quickview-btn-wishlist">
-                    <a class="btn-hover" href="#"><i class="ion-ios-heart-outline"></i></a>
+                    <a class="btn-hover" :href="'/wishlist/'+product.id"><i class="ion-ios-heart-outline"></i></a>
                 </div>
             </div>
 

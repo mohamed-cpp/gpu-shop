@@ -62,3 +62,10 @@ $factory->define(\App\ProductSubDetails::class, function (Faker $faker) {
         'name_ar' => 'Name Ar',
     ];
 });
+
+$factory->define(\App\Wishlist::class, function (Faker $faker) {
+    return [
+        'product_id' => \App\Product::first() ? \App\Product::first()->id : factory('App\Product')->create()->id,
+        'client_id' => \App\Client::first() ? \App\Client::first()->id : factory('App\Client')->create()->id,
+    ];
+});

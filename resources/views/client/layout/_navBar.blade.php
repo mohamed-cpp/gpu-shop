@@ -149,10 +149,9 @@
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="#">Compare Products </a></li>
-                        <li><a href="#">Default welcome msg!</a></li>
-                        <li><a href="wishlist.html">My Wish List</a></li>
                         @if( Auth::guard('client')->check() )
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="{{route('show.wishlist.client')}}">My Wish List</a></li>
                             <li><a href="{{ route('client.logout') }}"
                                    onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">

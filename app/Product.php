@@ -50,6 +50,11 @@ class Product extends Model
     {
         return $this->hasMany(ProductDetails::class);
     }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
     /**
      * Images
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany

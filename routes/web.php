@@ -26,6 +26,9 @@ Route::group(['middleware' => 'client'], function () {
         Route::post('verify/code', 'Client\PhoneVerifyClientController@update')->name('verify.code.client');
     });
 
+    Route::get('wishlist', 'Client\ClientWishlistController@show')->name('show.wishlist.client');
+    Route::get('wishlist/{id}', 'Client\ClientWishlistController@store')->name('wishlist.product.client');
+
 });
 
 // Authentication Routes
