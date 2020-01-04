@@ -22,6 +22,7 @@ Vue.mixin({
 
 Vue.component('click_quick_view', require('./components/clickQuickView.vue').default);
 Vue.component('quick_view', require('./components/quickView.vue').default);
+Vue.component('add_wishlist', require('./components/addWishlist.vue').default);
 
 // const routes = [
 //     { path: '/clickQuickView', component: require('./components/clickQuickView.vue') },

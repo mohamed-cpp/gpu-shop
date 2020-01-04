@@ -3,17 +3,20 @@
 namespace App\Http\Controllers\Client;
 
 use App\Http\Controllers\Controller;
+use App\Wishlist;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClientWishlistController extends Controller
 {
 
     public function show(){
-        auth('client')->user()->wishlist()
+        $wishlist = auth('client')->user()->wishlist()
+            ->with('products')
             ->orderBy('sort','desc')
             ->orderBy('id','desc')
             ->paginate(15);
-        return view('client.products.wishlist');
+        return view('client.products.wishlist',['wishlistProducts'=> $wishlist]);
     }
 
     public function store($id){
@@ -33,7 +36,21 @@ class ClientWishlistController extends Controller
         catch (\Illuminate\Database\QueryException $e){
             return back();
         }
+    }
 
+    public function destroy(Wishlist $wishlist)
+    {
+        $wishlist->delete();
+        return back();
+    }
+
+    public function visibility(Wishlist $wishlist)
+    {
+        $wishlist->update([
+            'public' => !$wishlist->public
+        ]);
+        $wishlist->save();
+        return back();
     }
 
 }

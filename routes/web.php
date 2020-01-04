@@ -27,7 +27,9 @@ Route::group(['middleware' => 'client'], function () {
     });
 
     Route::get('wishlist', 'Client\ClientWishlistController@show')->name('show.wishlist.client');
-    Route::get('wishlist/{id}', 'Client\ClientWishlistController@store')->name('wishlist.product.client');
+//    Route::get('wishlist/{id}', 'Client\ClientWishlistController@store')->name('wishlist.product.client');
+    Route::get('wishlist/visibility/{wishlist}', 'Client\ClientWishlistController@visibility')->name('wishlist.visibility.client');
+    Route::delete('wishlist/{wishlist}', 'Client\ClientWishlistController@destroy')->name('destroy.wishlist.client');
 
 });
 

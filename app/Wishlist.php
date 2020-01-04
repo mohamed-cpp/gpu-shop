@@ -25,7 +25,7 @@ class Wishlist extends Model
         'public' => 'boolean',
     ];
 
-    protected $with = ['products'];
+//    protected $with = ['products'];
 
     public function products()
     {

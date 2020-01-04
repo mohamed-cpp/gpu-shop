@@ -13,6 +13,14 @@
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
+    @if(auth('client')->check())
+        <script>
+            window.App = {!! json_encode(['csrfToken' => csrf_token(),'user' => Auth::guard('client')->user()->username]) !!};
+        </script>
+    @endif
+    <script>
+        window.signed = {!! json_encode(['signedIn' => Auth::guard('client')->check() ]) !!};
+    </script>
 </head>
 <body>
 <!-- header start -->

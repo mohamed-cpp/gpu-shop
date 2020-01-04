@@ -223,9 +223,8 @@
                         <a class="active" href="{{ URL::previous() }}"><i class="ion-arrow-left-c"></i></a>
                     </div>
                 </div>
-            </div>
             <div id="app">
-                <client_product  :product="{{ json_encode($product) }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :price="{{ json_encode($price) }}" currencyprop="{{ Cookie::get('currency') }}"></client_product>
+                <client_product wishlistadded="{{$addedWishlist}}" :product="{{ json_encode($product) }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :price="{{ json_encode($price) }}" currencyprop="{{ Cookie::get('currency') }}"></client_product>
             </div>
         </div>
     </div>
@@ -266,7 +265,7 @@
                                 <a href="{{route('show.product.client', $relatedProduct->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$relatedProduct->main_image)}}" height="270" alt="{{$relatedProduct->name}}"></a>
                                 @if($isOffer = $relatedProduct->isOffer == true) <span>sale</span> @endif
                                 <div class="product-action">
-                                    <a title="Wishlist" class="animate-left" href="{{route('wishlist.product.client',$relatedProduct->id)}}"><i class="ion-ios-heart-outline"></i></a>
+                                    <add_wishlist idproduct="{{$relatedProduct->id}}"></add_wishlist>
                                     <click_quick_view slugproduct="{{$relatedProduct->slug_en}}"></click_quick_view>
                                 </div>
                             </div>

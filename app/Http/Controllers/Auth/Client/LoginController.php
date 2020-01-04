@@ -52,6 +52,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        session(['link' => url()->previous()]);
         return view('client.auth.login');
     }
     /**
@@ -132,9 +133,7 @@ class LoginController extends Controller
 
     public function redirectPath()
     {
-        $intended = session("intended.url");
-        session()->forget("intended.url");
-
+        $intended = session('link');
         return $intended ?? route('client.home');
     }
 

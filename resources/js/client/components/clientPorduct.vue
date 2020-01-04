@@ -88,7 +88,7 @@
                     <a class="btn-hover-black" href="#">add to cart</a>
                 </div>
                 <div class="quickview-btn-wishlist">
-                    <a class="btn-hover" :href="'/wishlist/'+product.id"><i class="ion-ios-heart-outline"></i></a>
+                    <addWishlist :list="2" :idproduct="product.id" :wishlistadded="wishlistadded"></addWishlist>
                 </div>
             </div>
 
@@ -123,9 +123,10 @@
 </template>
 
 <script>
-
+    import addWishlist from '../quickView/components/addWishlist.vue';
     export default {
-        props:['product','locale','currencyprop','price'],
+        components: { addWishlist },
+        props:['product','locale','currencyprop','price','wishlistadded'],
         data(){
             return{
                 images: [],

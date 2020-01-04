@@ -49,6 +49,7 @@ class ClientProductController extends Controller
      */
     public function show(Product $product)
     {
+        $added = false;
         $relatedProduct = $product->withAnyTags($product->tagList)
             ->where('approved',1)->where('status',true)
             ->take(11)->orderBy('created_at','desc')->get();
@@ -56,12 +57,19 @@ class ClientProductController extends Controller
         $filtered = $relatedProduct->reject(function ($value) use($product) {
             return $value->id == $product->id;
         });
-
+        if(auth('client')->check()){
+            $added = !! auth('client')->user()->wishlist()->where('product_id',$product->id)->first();
+        }
         $price = [
             'normalPrice' => $product->offerPrice(false),
             'offerPrice' => $product->offerPrice()
         ];
-        return view('client.products.show_product',['product'=>$product->with('images','details')->find($product->id),'relatedProducts' => $filtered,'price'=>$price]);
+        return view('client.products.show_product',
+            ['product'=>$product->with('images','details')->find($product->id),
+                'relatedProducts' => $filtered,
+                'price'=>$price,
+                'addedWishlist' => $added
+            ]);
     }
 
     /**

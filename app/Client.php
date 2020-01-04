@@ -6,6 +6,7 @@ use App\Notifications\ClientResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\SendClientVerificationEmailNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
 
@@ -73,6 +74,16 @@ class Client extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         return $this->notify(new ClientResetPasswordNotification($this, $token));
+    }
+
+    /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return "username";
     }
 
     /**

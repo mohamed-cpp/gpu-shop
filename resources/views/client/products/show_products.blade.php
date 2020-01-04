@@ -637,7 +637,7 @@
                                         <a href="{{route('show.product.client', $product->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name}}"></a>
                                         @if($isOffer = $product->isOffer == true) <span>sale</span> @endif
                                         <div class="product-action">
-                                            <a title="Wishlist" class="animate-left" href="{{route('wishlist.product.client',$product->id)}}"><i class="ion-ios-heart-outline"></i></a>
+                                            <add_wishlist idproduct="{{$product->id}}"></add_wishlist>
                                             <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>
@@ -709,7 +709,7 @@
                                                 <a class="btn-hover list-btn-style" href="#">add to cart</a>
                                             </div>
                                             <div class="product-list-wishlist">
-                                                <a class="btn-hover list-btn-wishlist" href="#"><i class="ion-ios-heart-outline"></i></a>
+                                                <add_wishlist list="1" idproduct="{{$product->id}}"></add_wishlist>
                                             </div>
                                         </div>
                                     </div>
