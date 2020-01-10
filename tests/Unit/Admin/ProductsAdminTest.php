@@ -35,10 +35,9 @@ class ProductsAdminTest extends TestCase
     }
 
     public function test_enable_or_disable_a_subcategories(){
-        $this->withoutExceptionHandling();
         $this->actingAs($this->admin,'web');
         $this->patch(route('products.quick.buttons',[$this->product]));
-        $this->assertEquals($this->product->fresh()->approved,1);
+        $this->assertEquals($this->product->fresh()->approved,0);
     }
 
     public function test_enable_or_disable_a_subcategories2(){

@@ -31,7 +31,7 @@ $factory->define(\App\Image::class, function (Faker $faker,$id = null) {
 
     //$product = factory('App\Product')->create();
     return [
-        'path' => 'public/storage/product/images/'.$faker->image('public/storage/product/images',400,400, null, false),
+        'path' => $faker->image('public/storage/product/images',400,400, null, false),
         'imageable_type' => 'App\Product',
         'imageable_id' => $id ? $id : null
     ];
