@@ -22,6 +22,8 @@ Route::get('details/{id}', 'Api\ApiProductController@detailsIndex');
 
 //Wishlist
 Route::get('wishlist/{client}/{id}', 'Api\ApiWishlistController@storeWishlist');
-Route::delete('wishlist/{client}/{id}', 'Api\ApiWishlistController@destroyWishlist');
+Route::get('vcisibility/{client}/{id}', 'Api\ApiWishlistController@visibilityWishlist');
+Route::delete('wishlist/{client}/{id}', 'Api\ApiWishlistController@destroyWishlistInProducts');
+Route::delete('wishlist/page/{client}/{id}', 'Api\ApiWishlistController@destroyWishlist');
 
 

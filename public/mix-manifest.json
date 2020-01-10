@@ -1,6 +1,7 @@
 {
     "/GPU-Shop/js/vueProduct.js": "/GPU-Shop/js/vueProduct.js",
     "/GPU-Shop/js/vueQuickView.js": "/GPU-Shop/js/vueQuickView.js",
+    "/GPU-Shop/js/vueWishlist.js": "/GPU-Shop/js/vueWishlist.js",
     "/dashboard/js/vue.js": "/dashboard/js/vue.js",
     "/GPU-Shop/css/main.css": "/GPU-Shop/css/main.css",
     "/GPU-Shop/css/intlTelInput.css": "/GPU-Shop/css/intlTelInput.css",

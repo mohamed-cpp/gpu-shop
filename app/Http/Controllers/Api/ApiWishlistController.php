@@ -16,26 +16,47 @@ class ApiWishlistController extends Controller
      * @return \Illuminate\Http\RedirectResponse
      */
     public function storeWishlist(Client $client, $id){
-        try{
-            $numberSort = 0;
-            if ($sort = $client->wishlist()->orderBy('sort','desc')->first()){
-                $numberSort = $sort->sort;
+        if (request()->wantsJson() && $id) {
+            try {
+                $numberSort = 0;
+                if ($sort = $client->wishlist()->orderBy('sort', 'desc')->first()) {
+                    $numberSort = $sort->sort;
+                }
+                $data = [
+                    'product_id' => $id,
+                    'client_id' => $client->id,
+                    'sort' => $numberSort + 1,
+                ];
+                $client->wishlist()->create($data);
+                return response([], 204);
+            } catch (\Illuminate\Database\QueryException $e) {
+                return response([], 204);
             }
-            $data = [
-                'product_id' => $id,
-                'client_id' => $client->id,
-                'sort' =>  $numberSort + 1,
-            ];
-            $client->wishlist()->create($data);
+        }
+    }
+
+    public function visibilityWishlist(Client $client, $id){
+        if (request()->wantsJson() && $id) {
+            $wishlist = $client->wishlist()->where('id', $id)->first();
+            $wishlist->update([
+                'public' => !$wishlist->public
+            ]);
+            $wishlist->save();
             return response([], 204);
         }
-        catch (\Illuminate\Database\QueryException $e){
+    }
+
+    public function destroyWishlistInProducts(Client $client, $id){
+        if (request()->wantsJson() && $id) {
+            $client->wishlist()->where('product_id', $id)->first()->delete();
             return response([], 204);
         }
     }
 
     public function destroyWishlist(Client $client, $id){
-        $client->wishlist()->where('product_id',$id)->first()->delete();
-        return response([], 204);
+        if (request()->wantsJson() && $id) {
+            $client->wishlist()->where('id', $id)->first()->delete();
+            return response([], 204);
+        }
     }
 }

@@ -34,7 +34,8 @@ class Product extends Model
     ];
 //    public $with = ['images'];
 
-    protected $appends = ['subcategories_ids','isOffer'];
+//    protected $appends = ['subcategories_ids','isOffer'];
+    protected $appends = ['isOffer'];
 
     public static function boot()
     {
