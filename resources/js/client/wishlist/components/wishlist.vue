@@ -78,11 +78,11 @@
                     </td>
                     <td class="product-sort">
                         <div>
-                            <i class="fa fa-arrow-up"></i>
+                            <i class="fa fa-arrow-up" v-on:click="oneStep(wishlist.id,index,true)"></i>
                             <i class="fa fa-angle-double-up"></i>
                         </div>
                         <div>
-                            <i class="fa fa-arrow-down"></i>
+                            <i class="fa fa-arrow-down" v-on:click="oneStep(wishlist.id,index,false)"></i>
                             <i class="fa fa-angle-double-down"></i>
                         </div>
                     </td>
@@ -115,7 +115,7 @@
             public(wishlist,id){
                 axios.get('/api/vcisibility/'+window.App.user+'/'+wishlist)
                     .then(function (response) {
-                        if(response.status == 204){
+                        if(response.status === 204){
                             var el = $(id);
                             if( el.attr('class') === 'fa fa-user'){
                                 el.attr({'class':'fa fa-globe'});
@@ -129,12 +129,35 @@
                 var self = this;
                 axios.delete('/api/wishlist/page/'+window.App.user+'/'+wishlist)
                     .then(function (response,) {
-                        if(response.status == 204){
+                        if(response.status === 204){
                             self.$delete(self.wishlists, index);
                         }
                     });
 
             },
+            oneStep(wishlist,index,isUp){
+                if (isUp && index !== 0){
+                    this.moveDownorUp(wishlist,this.wishlists[index-1].id,index,isUp);
+                }else if(!isUp && index+1 !== this.wishlists.length){
+                    this.moveDownorUp(wishlist,this.wishlists[index+1].id,index,isUp);
+                }
+            },
+            moveDownorUp(wishlist,anotherWishlist,index,isUp){
+                console.log('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+anotherWishlist+'/'+isUp);
+                var self = this;
+                axios.get('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+anotherWishlist+'/'+isUp)
+                    .then(function (response) {
+                        if(response.status === 204){
+                            var theWishlist = self.wishlists[index];
+                            self.$delete(self.wishlists, index);
+                            if (isUp){
+                                self.wishlists.splice(index-1, 0, theWishlist);
+                            }else {
+                                self.wishlists.splice(index+1, 0, theWishlist);
+                            }
+                        }
+                    });
+            }
         }
     };
 </script>

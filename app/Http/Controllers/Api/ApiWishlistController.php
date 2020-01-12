@@ -46,6 +46,24 @@ class ApiWishlistController extends Controller
         }
     }
 
+    public function moveWishlist(Client $client, $id, $anotherId, $isUp = false){
+
+        if (request()->wantsJson() && $id) {
+            $wishlist = $client->wishlist()
+                ->whereIn('id', [$id,$anotherId])
+                ->get();
+            $mainWishlist  = $wishlist->find($id);
+            $anotherWishlist  = $wishlist->find($anotherId);
+            $mainWishlist->update([
+                'sort' => $isUp === 'true' ? $mainWishlist->sort + 1  : $mainWishlist->sort - 1 ,
+            ]);
+            $anotherWishlist->update([
+                'sort' => $isUp === 'true' ? $anotherWishlist->sort - 1  : $anotherWishlist->sort + 1 ,
+            ]);
+            return response([], 204);
+        }
+    }
+
     public function destroyWishlistInProducts(Client $client, $id){
         if (request()->wantsJson() && $id) {
             $client->wishlist()->where('product_id', $id)->first()->delete();
