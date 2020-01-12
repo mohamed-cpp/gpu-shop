@@ -13,8 +13,8 @@
             margin-left: 5px;
         }
         .fa:hover{
-            /*color: orangered;*/
-            /*cursor: pointer;*/
+            color: #ff3243;
+            cursor: pointer;
         }
 
         .oldprice{
@@ -27,10 +27,38 @@
         .offer{
             display: block;
             font-size: 16px;
+            color: red;
+            font-weight: 700;
         }
         .removeButton{
             border: none;
             cursor: pointer;
+        }
+
+        /*Search Bar*/
+        input[type=text] {
+            position: relative;
+            padding: 15px 40px 15px 20px;
+            width: 300px;
+            color: #242424;
+            font-size: 16px;
+            font-weight: 100;
+            letter-spacing: 2px;
+            border: 1px solid;
+            border-radius: 5px;
+            /*background: linear-gradient(to right, #fff 0%, #464747 #f9f9f9 100%);*/
+            transition: width 0.4s ease;
+            outline: none;
+        }
+        input[type=text]:hover,
+        input[type=text]:focus {
+            border-color: rgba(255, 50, 67, 0.6);
+
+        }
+        .fa-search {
+            position: relative;
+            left: -47px;
+            top: 4px;
         }
     </style>
 @endpush
@@ -51,36 +79,26 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <div id="wishlist">
-                        <wishlist></wishlist>
-                    </div>
                     <h1 class="cart-heading">wishlist</h1>
+                    <form action="{{route('show.wishlist.guest',Request::segment(3))}}" method="get">
+                        <input placeholder='Search...' class='js-search' name="keywords" type="text">
+                        <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
+                    </form>
                     <form action="#">
                         <div class="table-content table-responsive">
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="product-name">remove</th>
                                     <th class="product-price">images</th>
                                     <th class="product-name">name</th>
                                     <th class="product-price">Price</th>
-                                    <th class="product-price">Visibility</th>
-                                    <th class="product-sort">sort</th>
                                 </tr>
                                 </thead>
                                 @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$'@endphp
                                 @foreach($wishlistProducts as $wishlistProduct)
+                                    @if($wishlistProduct->products)
                                 <tbody>
                                 <tr>
-                                    <td class="product-remove">
-                                        <form class="d-inline" method="post" action="{{route('destroy.wishlist.client',$wishlistProduct)}}">
-                                            @method('DELETE')
-                                            @csrf
-                                            <button type="submit" class="removeButton">
-                                                <i class="ion-android-close"></i>
-                                            </button>
-                                        </form>
-                                    </td>
                                     <td class="product-thumbnail">
                                         @if($wishlistProduct->products->status == false || $wishlistProduct->products->approved != 1)
                                             <i class="fa fa-times-circle" style="font-size: 47px;"></i>
@@ -108,27 +126,8 @@
                                             <span class="offer" >{{$currency}}{{$wishlistProduct->products->offerPrice()}}</span>
                                         @endif
                                     </td>
-                                    <td>
-                                        <a href="{{route('wishlist.visibility.client',$wishlistProduct)}}">
-                                            @if($wishlistProduct->public)
-                                                <i class="fa fa-globe"></i>
-                                            @else
-                                                <i class="fa fa-user"></i>
-                                            @endif
-                                        </a>
-                                    </td>
-                                    <td class="product-sort">
-                                        <div>
-                                            <i class="fa fa-arrow-up"></i>
-                                            <i class="fa fa-angle-double-up"></i>
-                                        </div>
-                                        <div>
-                                            <i class="fa fa-arrow-down"></i>
-                                            <i class="fa fa-angle-double-down"></i>
-                                        </div>
-                                    </td>
-                                </tr>
                                 </tbody>
+                                    @endif
                                 @endforeach
                             </table>
                         </div>
@@ -138,6 +137,5 @@
         </div>
     </div>
     <!-- shopping-cart-area end -->
-    <script src="{{asset('GPU-Shop/js/vueWishlist.js')}}"></script>
 @endsection
 

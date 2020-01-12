@@ -32,6 +32,38 @@
             border: none;
             cursor: pointer;
         }
+
+        /*Search Bar*/
+        input[type=text] {
+            position: relative;
+            padding: 15px 40px 15px 20px;
+            width: 300px;
+            color: #242424;
+            font-size: 16px;
+            font-weight: 100;
+            /*letter-spacing: 2px;*/
+            border: 1px solid;
+            border-radius: 5px;
+            /*background: linear-gradient(to right, #fff 0%, #464747 #f9f9f9 100%);*/
+            transition: width 0.4s ease;
+            outline: none;
+        }
+        input[type=text]:hover,
+        input[type=text]:focus {
+            border-color: rgba(255, 50, 67, 0.6);
+
+        }
+        .fa-search {
+            position: relative;
+            left: -47px;
+            top: 4px;
+        }
+        #copyButton{
+            width: 100px;
+            border: 2px solid;
+            border-radius: 5px;
+            height: 30px;
+        }
     </style>
 @endpush
 @section('content')
@@ -52,7 +84,14 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h1 class="cart-heading">Wishlist</h1>
+                    <form action="{{route('show.wishlist.client')}}" method="get" style="display: inline">
+                        <input placeholder='Search...' class='js-search' name="keywords" type="text">
+                        <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
+                    </form>
                     <div id="wishlist">
+                        <label for="inputCopy" >To Share Wishlist Copy Link and Share It With Your Friends :</label>
+                        <input type="text" value="gpu-shop.local/wishlist/{{auth('client')->user()->username}}" id="inputCopy">
+                        <input type="button" onclick="copy()" id="copyButton" value="Copy Url">
                         <wishlist currencyprop="{{ Cookie::get('currency') }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :wishlists="{{ json_encode($wishlistProducts->getCollection())}}"></wishlist>
                     </div>
                 </div>
@@ -61,5 +100,15 @@
     </div>
     <!-- shopping-cart-area end -->
     <script src="{{asset('GPU-Shop/js/vueWishlist.js')}}"></script>
+    <script>
+        function copy() {
+            var copyText = document.getElementById("inputCopy");
+            copyText.select();
+            copyText.setSelectionRange(0, 200);
+            document.execCommand("copy");
+            document.getElementById("copyButton").value = "Copied";
+            copyText.value;
+        }
+    </script>
 @endsection
 

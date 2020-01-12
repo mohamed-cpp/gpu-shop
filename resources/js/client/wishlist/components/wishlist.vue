@@ -11,7 +11,7 @@
                     <th class="product-sort">sort</th>
                 </tr>
                 </thead>
-                <tbody v-for="(wishlist, index) in wishlistsVue">
+                <tbody v-for="(wishlist, index) in wishlistsVue" v-if="wishlist.products">
                 <tr>
                     <td class="product-remove">
                             <button type="submit" class="removeButton" v-on:click="remove(wishlist.id,index)">

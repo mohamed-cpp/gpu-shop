@@ -26,7 +26,7 @@ Route::group(['middleware' => 'client'], function () {
         Route::post('verify/code', 'Client\PhoneVerifyClientController@update')->name('verify.code.client');
     });
 
-    Route::get('wishlist', 'Client\ClientWishlistController@show')->name('show.wishlist.client');
+    Route::get('wishlist', 'Client\ClientWishlistController@index')->name('show.wishlist.client');
 });
 
 // Authentication Routes
@@ -72,6 +72,7 @@ Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.p
 Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
 Route::get('currency/{currency}', 'Client\ClientProductController@currency')->name('currency.product.client');
 
+Route::get('wishlist/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
 
 
 //Route::get('/test', function () {
