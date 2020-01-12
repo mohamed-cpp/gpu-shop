@@ -17,11 +17,10 @@ class CreateWishlistsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('product_id');
             $table->unsignedInteger('client_id');
-            $table->boolean('status')->default(1);
             $table->boolean('public')->default(0);
-            $table->unsignedSmallInteger('sort')->default(0);
+//            $table->unsignedSmallInteger('sort')->default(0);
+            $table->float('sort');
             $table->timestamps();
-
             $table->unique(['product_id', 'client_id']);
         });
     }

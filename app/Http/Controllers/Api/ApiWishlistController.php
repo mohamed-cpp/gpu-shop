@@ -46,6 +46,13 @@ class ApiWishlistController extends Controller
         }
     }
 
+    /**
+     * @param Client $client
+     * @param $id
+     * @param $anotherId
+     * @param bool $isUp
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     public function moveWishlist(Client $client, $id, $anotherId, $isUp = false){
 
         if (request()->wantsJson() && $id) {
@@ -60,6 +67,29 @@ class ApiWishlistController extends Controller
             $anotherWishlist->update([
                 'sort' => $isUp === 'true' ? $anotherWishlist->sort - 1  : $anotherWishlist->sort + 1 ,
             ]);
+            return response([], 204);
+        }
+    }
+
+    /**
+     * @param Client $client
+     * @param $id
+     * @param bool $isTop
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
+    public function topOrBottomWishlist(Client $client, $id, $isTop = false){
+        if (request()->wantsJson() && $id) {
+            if ($isTop === 'true'){
+                $biggestNumber = $client->wishlist()->orderBy('sort', 'desc')->get();
+                $biggestNumber->find($id)->update([
+                    'sort'=> $biggestNumber->first()->sort+1,
+                ]);
+            }else{
+                $smallestNumber = $client->wishlist()->orderBy('sort', 'asc')->get();
+                $smallestNumber->find($id)->update([
+                    'sort'=> $smallestNumber->first()->sort-1,
+                ]);
+            }
             return response([], 204);
         }
     }

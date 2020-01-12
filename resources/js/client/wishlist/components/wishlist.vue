@@ -79,11 +79,11 @@
                     <td class="product-sort">
                         <div>
                             <i class="fa fa-arrow-up" v-on:click="oneStep(wishlist.id,index,true)"></i>
-                            <i class="fa fa-angle-double-up"></i>
+                            <i class="fa fa-angle-double-up" v-on:click="topOrBottom(wishlist.id,index,true)" ></i>
                         </div>
                         <div>
                             <i class="fa fa-arrow-down" v-on:click="oneStep(wishlist.id,index,false)"></i>
-                            <i class="fa fa-angle-double-down"></i>
+                            <i class="fa fa-angle-double-down" v-on:click="topOrBottom(wishlist.id,index,false)"></i>
                         </div>
                     </td>
                 </tr>
@@ -137,13 +137,12 @@
             },
             oneStep(wishlist,index,isUp){
                 if (isUp && index !== 0){
-                    this.moveDownorUp(wishlist,this.wishlists[index-1].id,index,isUp);
+                    this.moveDownOrUp(wishlist,this.wishlists[index-1].id,index,isUp);
                 }else if(!isUp && index+1 !== this.wishlists.length){
-                    this.moveDownorUp(wishlist,this.wishlists[index+1].id,index,isUp);
+                    this.moveDownOrUp(wishlist,this.wishlists[index+1].id,index,isUp);
                 }
             },
-            moveDownorUp(wishlist,anotherWishlist,index,isUp){
-                console.log('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+anotherWishlist+'/'+isUp);
+            moveDownOrUp(wishlist,anotherWishlist,index,isUp){
                 var self = this;
                 axios.get('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+anotherWishlist+'/'+isUp)
                     .then(function (response) {
@@ -157,7 +156,30 @@
                             }
                         }
                     });
+            },
+            topOrBottom(wishlist,index,isTop){
+                if (isTop && index !== 0){
+                    this.moveToTopOrDown(wishlist,index,isTop);
+                }else if(!isTop && index+1 !== this.wishlists.length){
+                    this.moveToTopOrDown(wishlist,index,isTop);
+                }
+            },
+            moveToTopOrDown(wishlist,index,isTop){
+                var self = this;
+                axios.get('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+isTop)
+                    .then(function (response) {
+                        if(response.status === 204){
+                            var theWishlist = self.wishlists[index];
+                            self.$delete(self.wishlists, index);
+                            if (isTop){
+                                self.wishlists.unshift(theWishlist);
+                            }else {
+                                self.wishlists.push(theWishlist);
+                            }
+                        }
+                    });
             }
+
         }
     };
 </script>
