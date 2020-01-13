@@ -90,7 +90,7 @@
                     </form>
                     <div id="wishlist">
                         <label for="inputCopy" >To Share Wishlist Copy Link and Share It With Your Friends :</label>
-                        <input type="text" value="gpu-shop.local/wishlist/{{auth('client')->user()->username}}" id="inputCopy">
+                        <input type="text" value="gpu-shop.local/wishlists/{{auth('client')->user()->username}}" id="inputCopy">
                         <input type="button" onclick="copy()" id="copyButton" value="Copy Url">
                         <wishlist currencyprop="{{ Cookie::get('currency') }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :wishlists="{{ json_encode($wishlistProducts->getCollection())}}"></wishlist>
                     </div>

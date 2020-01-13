@@ -80,7 +80,7 @@
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h1 class="cart-heading">wishlist</h1>
-                    <form action="{{route('show.wishlist.guest',Request::segment(3))}}" method="get">
+                    <form action="{{route('show.wishlist.guest', app()->runningUnitTests() ?  'phpunit' : request()->segment(3) )}}" method="get">
                         <input placeholder='Search...' class='js-search' name="keywords" type="text">
                         <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
                     </form>

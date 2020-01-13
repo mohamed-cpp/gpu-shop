@@ -72,7 +72,7 @@ class ClientWishlistController extends Controller
             return response([], 204);
         }
     }
-    
+
     /**
      * @param $id
      * @param $anotherId
