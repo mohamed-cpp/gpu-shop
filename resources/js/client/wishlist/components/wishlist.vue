@@ -113,7 +113,7 @@
         },
         methods:{
             public(wishlist,id){
-                axios.get('/api/vcisibility/'+window.App.user+'/'+wishlist)
+                axios.post('/'+window.App.lang+'/vcisibility/'+wishlist)
                     .then(function (response) {
                         if(response.status === 204){
                             var el = $(id);
@@ -127,7 +127,7 @@
             },
             remove(wishlist,index){
                 var self = this;
-                axios.delete('/api/wishlist/page/'+window.App.user+'/'+wishlist)
+                axios.delete('/'+window.App.lang+'/wishlist/page/'+wishlist)
                     .then(function (response,) {
                         if(response.status === 204){
                             self.$delete(self.wishlists, index);
@@ -144,7 +144,7 @@
             },
             moveDownOrUp(wishlist,anotherWishlist,index,isUp){
                 var self = this;
-                axios.get('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+anotherWishlist+'/'+isUp)
+                axios.post('/'+window.App.lang+'/wishlist/move/'+wishlist+'/'+anotherWishlist+'/'+isUp)
                     .then(function (response) {
                         if(response.status === 204){
                             var theWishlist = self.wishlists[index];
@@ -166,7 +166,7 @@
             },
             moveToTopOrDown(wishlist,index,isTop){
                 var self = this;
-                axios.get('/api/wishlist/move/'+window.App.user+'/'+wishlist+'/'+isTop)
+                axios.post('/'+window.App.lang+'/wishlist/move/'+wishlist+'/'+isTop)
                     .then(function (response) {
                         if(response.status === 204){
                             var theWishlist = self.wishlists[index];

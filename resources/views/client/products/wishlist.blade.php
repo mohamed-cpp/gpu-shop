@@ -107,7 +107,6 @@
             copyText.setSelectionRange(0, 200);
             document.execCommand("copy");
             document.getElementById("copyButton").value = "Copied";
-            copyText.value;
         }
     </script>
 @endsection

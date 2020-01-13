@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="no-js" lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -15,7 +15,7 @@
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
     @if(auth('client')->check())
         <script>
-            window.App = {!! json_encode(['csrfToken' => csrf_token(),'user' => Auth::guard('client')->user()->username]) !!};
+            window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => Auth::guard('client')->user()->username]) !!};
         </script>
     @endif
     <script>

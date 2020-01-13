@@ -20,21 +20,27 @@
         methods:{
             productWishlist(){
                 if(window.signed.signedIn){
-                    axios.get('/api/wishlist/'+window.App.user+'/'+this.id)
-                        .then(response => console.log(response.status));
+                    axios.get('/'+window.App.lang+'/wishlist/'+this.id);
                 }else {
                     window.location.href = '/login';
                 }
             },
             productWishlistAndHeart(){
+                var self = this;
                 if(window.signed.signedIn && !this.heart){
-                    axios.get('/api/wishlist/'+window.App.user+'/'+this.id)
-                        .then(response => this.status = response.status);
-                        this.heart = true;
+                    axios.get('/'+window.App.lang+'/wishlist/'+this.id)
+                        .then(function (response) {
+                            if(response.status === 204){
+                                self.heart = true;
+                            }
+                        });
                 }else if(window.signed.signedIn && this.heart){
-                    axios.delete('/api/wishlist/'+window.App.user+'/'+this.id)
-                        .then(response => this.status = response.status);
-                    this.heart = false;
+                    axios.delete('/'+window.App.lang+'/wishlist/'+this.id)
+                        .then(function (response) {
+                            if(response.status === 204){
+                                self.heart = false;
+                            }
+                        });
                 }else {
                     window.location.href = '/login';
                 }
