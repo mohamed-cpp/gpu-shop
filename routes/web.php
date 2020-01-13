@@ -29,11 +29,11 @@ Route::group(['middleware' => 'client'], function () {
     Route::get('wishlist', 'Client\ClientWishlistController@index')->name('show.wishlist.client');
     // Api (axios)
     Route::get('wishlist/{id}', 'Client\ClientWishlistController@storeWishlist');
-    Route::post('vcisibility/{id}', 'Client\ClientWishlistController@visibilityWishlist');
+    Route::post('vcisibility/{wishlist}', 'Client\ClientWishlistController@visibilityWishlist');
     Route::post('wishlist/move/{id}/{anotherId}/{up}', 'Client\ClientWishlistController@moveWishlist');
     Route::post('wishlist/move/{id}/{up}', 'Client\ClientWishlistController@topOrBottomWishlist');
     Route::delete('wishlist/{id}', 'Client\ClientWishlistController@destroyWishlistInProducts');
-    Route::delete('wishlist/page/{id}', 'Client\ClientWishlistController@destroyWishlist');
+    Route::delete('wishlist/page/{wishlist}', 'Client\ClientWishlistController@destroyWishlist');
 });
 
 // Authentication Routes

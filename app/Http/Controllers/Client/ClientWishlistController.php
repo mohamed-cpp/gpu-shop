@@ -39,12 +39,13 @@ class ClientWishlistController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Wishlist $wishlist
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function visibilityWishlist($id){
-            $wishlist = auth("client")->user()->wishlist()->where('id', $id)->first();
-            $wishlist->update([
+    public function visibilityWishlist(Wishlist $wishlist){
+        $this->authorize('update', $wishlist );
+        $wishlist->update([
                 'public' => !$wishlist->public
             ]);
             return response([], 204);
@@ -78,15 +79,16 @@ class ClientWishlistController extends Controller
      * @param $anotherId
      * @param bool $isUp
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function moveWishlist($id, $anotherId, $isUp = false ){
-
-            $wishlist = auth("client")->user()->wishlist()
-                ->whereIn('id', [$id,$anotherId])
-                ->get();
-            $mainWishlist  = $wishlist->find($id);
-            $anotherWishlist  = $wishlist->find($anotherId);
-            $mainWishlist->update([
+        $wishlist = auth("client")->user()->wishlist()
+            ->whereIn('id', [$id,$anotherId])
+            ->get();
+        $mainWishlist  = $wishlist->find($id);
+        $anotherWishlist  = $wishlist->find($anotherId);
+        $this->authorize('update', $mainWishlist );
+        $mainWishlist->update([
                 'sort' => $isUp === 'true' ? $mainWishlist->sort + 1  : $mainWishlist->sort - 1 ,
             ]);
             $anotherWishlist->update([
@@ -100,15 +102,18 @@ class ClientWishlistController extends Controller
      * @param $id
      * @param bool $isTop
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function topOrBottomWishlist($id, $isTop = false){
         if ($isTop === 'true'){
             $biggestNumber = auth("client")->user()->wishlist()->orderBy('sort', 'desc')->get();
+            $this->authorize('update', $biggestNumber->find($id) );
             $biggestNumber->find($id)->update([
                 'sort'=> $biggestNumber->first()->sort+1,
             ]);
         }else{
             $smallestNumber = auth("client")->user()->wishlist()->orderBy('sort', 'asc')->get();
+            $this->authorize('update', $smallestNumber->find($id) );
             $smallestNumber->find($id)->update([
                 'sort'=> $smallestNumber->first()->sort-1,
             ]);
@@ -117,12 +122,15 @@ class ClientWishlistController extends Controller
     }
 
     public function destroyWishlistInProducts($id){
-        auth("client")->user()->wishlist()->where('product_id', $id)->first()->delete();
+        $wishlist = auth("client")->user()->wishlist()->where('product_id', $id)->first();
+        $this->authorize('update', $wishlist );
+        $wishlist->delete();
             return response([], 204);
     }
 
-    public function destroyWishlist($id){
-        auth("client")->user()->wishlist()->where('id', $id)->first()->delete();
+    public function destroyWishlist(Wishlist $wishlist){
+        $this->authorize('update', $wishlist );
+        $wishlist->delete();
             return response([], 204);
     }
 

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 
 /**
@@ -20,6 +21,8 @@ use Illuminate\Notifications\Notifiable;
 class Client extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
+    use HasRoles;
+
 
     protected $fillable = [
         'name', 'username', 'phone_number','email', 'password', 'email_verified_at'
