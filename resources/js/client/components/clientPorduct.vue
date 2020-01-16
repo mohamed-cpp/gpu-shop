@@ -69,7 +69,7 @@
                 <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
-                <input v-bind:class="{'click': index == 0 }" :id="detail.name_en+index" :name="detail.name_en" type="radio" v-on:click="details(sub_detail,detail.name_en)">
+                <input v-bind:class="{'click': index == 0 }" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en)">
                 <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                 <div class="toggle-button__icon"></div>
@@ -81,11 +81,9 @@
 
             <h4>Quantity: <span>{{quantity}}</span></h4>
             <div class="quickview-plus-minus">
-                <div class="cart-plus-minus">
-                    <input type="number" value="1" class="cart-plus-minus-box">
-                </div>
+                <span class="input-number-decrement">–</span><input class="input-number" type="text" value="1" min="0" :max="quantity"><span class="input-number-increment">+</span>
                 <div class="quickview-btn-cart">
-                    <a class="btn-hover-black" href="#">add to cart</a>
+                    <a class="btn-hover-black" v-on:click="options(product.slug_en,product.details)">add to cart</a>
                 </div>
                 <div class="quickview-btn-wishlist">
                     <addWishlist :list="2" :idproduct="product.id" :wishlistadded="wishlistadded"></addWishlist>
@@ -180,12 +178,42 @@
                 if(subdetails.quantity > 0){
                     this.quantity = subdetails.quantity;
                 }
+            },
+            options(slug,options){
+            if(window.signed.signedIn){
+                    var optionsArray = {};
+                    var optionsString = '';
+                    options.forEach(function(item, index) {
+                        var subOption = $('input[name="'+item.name_en+'"]:checked').val();
+                        optionsArray[item.name_en] = {id:item.id, sub:subOption};
+                        optionsString +='.'+subOption;
+                    });
+                    // console.log(location.pathname);
+                    var qty = $('.input-number').val();
+
+                axios.post( '/'+window.App.lang+'/cart/page/'+slug, { options: optionsArray, qty: qty, string:optionsString })
+                    .then(function (response) {
+                        if(response.status === 204){
+
+                        }
+                    });
+
+            }else {
+                window.location.href = '/login';
+            }
             }
         }
     };
 </script>
-
 <style>
+    .inputNumber{
+        width: 54px;
+        border-radius: 5px;
+        border: 2px solid #ee3333;
+        color: black;
+    }
+    .quickview-btn-cart{
+        color: white;
+    }
 
 </style>
-

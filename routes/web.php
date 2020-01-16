@@ -27,13 +27,18 @@ Route::group(['middleware' => 'client'], function () {
     });
 
     Route::get('wishlist', 'Client\ClientWishlistController@index')->name('show.wishlist.client');
-    // Api (axios)
+    // axios wishlist
     Route::get('wishlist/{id}', 'Client\ClientWishlistController@storeWishlist');
     Route::post('vcisibility/{wishlist}', 'Client\ClientWishlistController@visibilityWishlist');
     Route::post('wishlist/move/{id}/{anotherId}/{up}', 'Client\ClientWishlistController@moveWishlist');
     Route::post('wishlist/move/{id}/{up}', 'Client\ClientWishlistController@topOrBottomWishlist');
     Route::delete('wishlist/{id}', 'Client\ClientWishlistController@destroyWishlistInProducts');
     Route::delete('wishlist/page/{wishlist}', 'Client\ClientWishlistController@destroyWishlist');
+
+    Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
+    Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
+    Route::post('cart/remove/{product}', 'Client\ClientCartController@removeProductCart');
+
 });
 
 // Authentication Routes
@@ -82,11 +87,14 @@ Route::get('currency/{currency}', 'Client\ClientProductController@currency')->na
 Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
 
 
-//Route::get('/test', function () {
-////   cookie('price', 'GPU', 1440);
-////    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'GPU', 1440));
-//    return Illuminate\Support\Facades\Cookie::get('price');
-//}) ;
+Route::get('/test', function () {
+//    session(['key' => 'valuew2']);
+//    session()->put('cart','uew2');.
+//    session()->forget('cart');
+//    session()->flush();
+    dd(session()->get('cart'),session()->get('cart2'));
+    return session()->get('cart');
+}) ;
 //Route::get('/usd', function () {
 ////   cookie('price', 'GPU', 1440);
 //    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'EGP', 1440));

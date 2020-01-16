@@ -43,7 +43,7 @@
             <input type="text" placeholder="Arabic Name of details" class="form-control form-control-sm @error('name_ar_details') is-invalid @enderror" id="name_ar_details" name="name_ar_details[]"  >
             <input type="number" hidden min="1" placeholder="Offer Price of Product EGP" class="form-control form-control-sm @error('price_egp_details') is-invalid @enderror disabled" id="price_egp_details" name="price_egp_details[]">
             <input type="number" hidden min="1" placeholder="Offer Price of Product USD" class="form-control form-control-sm @error('price_usd_details') is-invalid @enderror disabled" id="offerPriceUSD" name="price_usd_details[]" >
-            <input type="number" min="1" placeholder="Quantity" class="form-control form-control-sm @error('quantity_details') is-invalid @enderror" id="quantity_details" name="quantity_details[]" >
+            <input type="number" hidden min="1" placeholder="Quantity" class="form-control form-control-sm @error('quantity_details') is-invalid @enderror disabled" id="quantity_details" name="quantity_details[]" >
         </div>
         <input type="file" id="images_details1" class="form-control margin @error('images_details') is-invalid @enderror"  name="images_details1[]" multiple>
 

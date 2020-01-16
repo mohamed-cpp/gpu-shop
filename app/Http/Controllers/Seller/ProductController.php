@@ -105,6 +105,7 @@ class ProductController extends Controller
             if ($input['price_egp_details'][$i] === null || $i == 0 ){
                 $input['price_egp_details'][$i] = 0;
                 $input['price_usd_details'][$i] = 0;
+                $input['quantity_details'][$i] = 0;
             }
             $finalValues[] =[
                 'name_en' => $nameEn,
@@ -167,7 +168,7 @@ class ProductController extends Controller
                 'name_ar' => $input['name_ar_details'][$i],
                 'price_egp'=> $i == 0 ? 0 : $input['price_egp_details'][$i],
                 'price_usd'=> $i == 0 ? 0 : $input['price_usd_details'][$i],
-                'quantity' =>  $quantity,
+                'quantity' => $i == 0 ? 0 : $quantity,
             ];
             $id = !empty($subdetailsIDs[$i]) ? $subdetailsIDs[$i] : null;
             $details->subDetails()->updateOrCreate(['id'=>$id],$finalValues);

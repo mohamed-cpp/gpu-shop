@@ -202,6 +202,48 @@
             font-size: 15px;
             font-weight: 550;
         }
+        .input-number {
+            width: 80px;
+            padding: 0 12px;
+            vertical-align: top;
+            text-align: center;
+            outline: none;
+        }
+
+        .input-number,
+        .input-number-decrement,
+        .input-number-increment {
+            border: 1px solid #ccc;
+            height: 40px;
+            user-select: none;
+        }
+
+        .input-number-decrement,
+        .input-number-increment {
+            display: inline-block;
+            width: 30px;
+            line-height: 38px;
+            background: #f1f1f1;
+            color: #444;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .input-number-decrement:active,
+        .input-number-increment:active {
+            background: #ddd;
+        }
+
+        .input-number-decrement {
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .input-number-increment {
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
     </style>
 @endpush
 @section('content')
@@ -304,5 +346,48 @@
 {{--    @include('client.layout._quickView')--}}
 {{--@endpush--}}
 @push('scripts')
+    <script>
+                (function() {
+
+                    window.inputNumber = function(el) {
+
+                        var min = el.attr('min') || false;
+                        var max = el.attr('max') || false;
+
+                        var els = {};
+
+                        els.dec = el.prev();
+                        els.inc = el.next();
+
+                        el.each(function() {
+                            init($(this));
+                        });
+
+                        function init(el) {
+
+                            els.dec.on('click', decrement);
+                            els.inc.on('click', increment);
+
+                            function decrement() {
+                                var value = el[0].value;
+                                value--;
+                                if(!min || value >= min) {
+                                    el[0].value = value;
+                                }
+                            }
+
+                            function increment() {
+                                var value = el[0].value;
+                                value++;
+                                if(!max || value <= max) {
+                                    el[0].value = value++;
+                                }
+                            }
+                        }
+                    }
+                })();
+
+                inputNumber($('.input-number'));
+            </script>
 @endpush
 

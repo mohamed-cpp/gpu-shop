@@ -28,6 +28,10 @@ class ProductDetails extends Model
     {
         return $this->hasMany(ProductSubDetails::class,'details_id');
     }
+    public function subDetailsWithoutImage()
+    {
+        return $this->hasMany(ProductSubDetails::class,'details_id')->without('images');
+    }
 
     public function product()
     {

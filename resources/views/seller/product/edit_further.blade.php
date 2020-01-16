@@ -48,9 +48,11 @@
         <div class="form-group inputDetails" id="inputDetails{{$index +1}}">
             <input type="text" placeholder="English Name of details" class="form-control form-control-sm @error('name_en_details') is-invalid @enderror" name="name_en_details[]" value="{{$sub_detail->name_en}}">
             <input type="text" placeholder="Arabic Name of details" class="form-control form-control-sm @error('name_ar_details') is-invalid @enderror" name="name_ar_details[]"  value="{{$sub_detail->name_ar}}">
-            <input type="number" @if($index == 0) hidden @else value="{{$sub_detail->price_egp}}" @endif min="1" placeholder="Offer Price of Product EGP" class="form-control form-control-sm @error('price_egp_details') is-invalid @enderror disabled" name="price_egp_details[]" >
-            <input type="number" @if($index == 0) hidden @else value="{{$sub_detail->price_usd}}" @endif min="1" placeholder="Offer Price of Product USD" class="form-control form-control-sm @error('price_usd_details') is-invalid @enderror disabled" name="price_usd_details[]" >
-            <input type="number" min="1" placeholder="Quantity" class="form-control form-control-sm @error('quantity_details') is-invalid @enderror" name="quantity_details[]" value="{{$sub_detail->quantity}}">
+            @if($index != 0)
+            <input type="number" value="{{$sub_detail->price_egp}}" min="1" placeholder="Offer Price of Product EGP" class="form-control form-control-sm @error('price_egp_details') is-invalid @enderror disabled" name="price_egp_details[]" >
+            <input type="number" value="{{$sub_detail->price_usd}}" min="1" placeholder="Offer Price of Product USD" class="form-control form-control-sm @error('price_usd_details') is-invalid @enderror disabled" name="price_usd_details[]" >
+            <input type="number" value="{{$sub_detail->quantity}}" min="1" placeholder="Quantity" class="form-control form-control-sm @error('quantity_details') is-invalid @enderror" name="quantity_details[]" >
+            @endif
         </div>
         <input type="file" id="images_details{{$index +1}}" class="form-control margin"  name="images_details{{$index +1}}[]" multiple>
 
