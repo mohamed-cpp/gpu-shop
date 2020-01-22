@@ -152,6 +152,7 @@
                         @if( Auth::guard('client')->check() )
                             <li><a href="#">Profile</a></li>
                             <li><a href="{{route('show.wishlist.client')}}">My Wish List</a></li>
+                            <li><a href="{{route('cart.client')}}">Cart</a></li>
                             <li><a href="{{ route('client.logout') }}"
                                    onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">

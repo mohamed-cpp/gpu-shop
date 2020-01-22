@@ -8,14 +8,14 @@ class Cart
 {
     //
     public $items = null ;
-    public $totalQty = 0 ;
     public $totalPrice = 0 ;
+    public $cookie ;
 
     public function __construct($oldCart)
     {
+        $this->cookie = Cookie::has('currency') ? strtolower(Cookie::get('currency')) : 'usd';
         if($oldCart){
             $this->items = $oldCart->items;
-            $this->totalQty = $oldCart->totalQty;
             $this->totalPrice = $oldCart->totalPrice;
         }
     }
@@ -43,8 +43,7 @@ class Cart
             }
         }
         if(!$storedItem){
-            $cookie = strtolower(Cookie::get('currency'));
-            $currency = $cookie ? $cookie : 'usd';
+            $currency = $this->cookie ;
             if ($item->isOffer){
                 $currency = "offer_price_$currency";
                 $price = $item->$currency;
@@ -58,6 +57,7 @@ class Cart
                 'item'          => $item,
                 'options'       => $optionsArray,
                 'totalPriceQty' => 0,
+                'minQty'        => min($item->quantity),
             ];
         }
         if($storedItem['qty'] < $item->quantity){
@@ -65,7 +65,6 @@ class Cart
             $storedItem['qty']++;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$item->id.$optionString] = $storedItem;
-            $this->totalQty++;
             $this->totalPrice += $storedItem['totalPriceQty'];
             return true;
         }
@@ -74,14 +73,15 @@ class Cart
     }
 
     public function addWithQtyOptions($item,$options){
-        $cookie = strtolower(Cookie::get('currency'));
-        $currency = $cookie ? $cookie : 'usd';
+        $currency = $this->cookie ;
         $optionsArray = [];
         $optionsPrices = 0;
         $optionsQty = [] ;
         $storedItem = null;
+        $oldItem = null;
         if($this->items){
             if(array_key_exists($item->id.$options['string'],$this->items)){
+                $oldItem = $this->items[$item->id.$options['string']];
                 unset($this->items[$item->id.$options['string']]);
             }
         }
@@ -100,7 +100,6 @@ class Cart
                 $optionsPrices += $singleSubOption['price_' . $currency];
                 $optionsQty[] = $singleSubOption->quantity;
             }
-            $optionsQty[] = $item->quantity;
         }
 
         if ($item->isOffer) {
@@ -110,40 +109,52 @@ class Cart
             $currency = "price_$currency";
             $price = $item->$currency;
         }
+        $optionsQty[] = $item->quantity;
         $storedItem = [
             'qty' => $options['qty'],
             'price' => $price + $optionsPrices,
             'item' => $item,
             'options' => $optionsArray,
             'totalPriceQty' => 0,
+            'minQty' => min($optionsQty),
         ];
         if($storedItem['qty'] < min($optionsQty)){
-            $this->totalPrice -= $storedItem['totalPriceQty'];
+            $this->totalPrice -= $oldItem ? $oldItem['totalPriceQty'] : 0 ;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$item->id.$options['string']] = $storedItem;
-            $this->totalQty++;
             $this->totalPrice += $storedItem['totalPriceQty'];
             return true;
         }
         return false;
     }
 
-    public function deleteAProduct($item,$optionsString = null){
+    public function deleteAProduct($item){
         if($this->items){
-            if(array_key_exists($item->id.$optionsString,$this->items)){
-                $storedItem = $this->items[$item->id.$optionsString];
-                $this->totalQty -= $storedItem['qty'];
+            if( array_key_exists($item,$this->items) ){
+                $storedItem = $this->items[$item];
                 $this->totalPrice -= $storedItem['totalPriceQty'];
-                unset($this->items[$item->id.$optionsString]);
+                unset($this->items[$item]);
                 return true;
             }
         }
         return false;
     }
 
+    public function qtyUpdate($index,$qty){
+        if(array_key_exists($index,$this->items)){
+            $storedItem = $this->items[$index];
+            if($qty <= $storedItem['minQty']){
+                $this->totalPrice -= $storedItem['totalPriceQty'] ;
+                $storedItem['qty'] = $qty;
+                $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
+                $this->items[ $index ] = $storedItem;
+                $this->totalPrice += $storedItem['totalPriceQty'];
+            }
+        }
+    }
+
     public function deleteAll(){
         $this->items = null;
-        $this->totalQty = null;
         $this->totalPrice = null;
     }
 

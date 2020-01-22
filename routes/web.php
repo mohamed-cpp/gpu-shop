@@ -35,9 +35,11 @@ Route::group(['middleware' => 'client'], function () {
     Route::delete('wishlist/{id}', 'Client\ClientWishlistController@destroyWishlistInProducts');
     Route::delete('wishlist/page/{wishlist}', 'Client\ClientWishlistController@destroyWishlist');
 
+    Route::get('cart', 'Client\ClientCartController@index')->name('cart.client');
     Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
     Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
-    Route::post('cart/remove/{product}', 'Client\ClientCartController@removeProductCart');
+    Route::post('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
+    Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
 
 });
 
