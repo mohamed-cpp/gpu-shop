@@ -125,9 +125,8 @@
                 var self = this;
                 axios.delete('/'+ this.lang + '/cart/remove/' + index)
                     .then(function (response,) {
-                        if(response.status === 204){
-                            console.log(self.cart_session.items[index]);
-                            self.$delete(self.cart_session.items, index);
+                        if(response.status === 200){
+                            self.cart = response.data;
                         }
                     });
             },
@@ -145,7 +144,7 @@
                                 self.cart = response.data;
                             }
                         });
-                }, 2000);
+                }, 1500);
 
             }
         }

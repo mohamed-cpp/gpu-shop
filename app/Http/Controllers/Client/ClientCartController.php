@@ -51,6 +51,6 @@ class ClientCartController extends Controller
         $cart = new Cart($oldCart);
         $remove = $cart->deleteAProduct($index);
         session()->put('cart',$cart);
-        return response([], 204);
+        return response(json_encode($cart));
     }
 }
