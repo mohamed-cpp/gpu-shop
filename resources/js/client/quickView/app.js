@@ -9,12 +9,12 @@ window.Vue = require('vue');
 //     Vue.config.silent = true;
 // }
 
-if (process.env.MIX_APP_ENV === 'production') {
-    Vue.config.productionTip = false;
-    Vue.config.devtools = false;
-    Vue.config.debug = false;
-    Vue.config.silent = true;
-}
+// if (process.env.MIX_APP_ENV === 'production') {
+//     Vue.config.productionTip = false;
+//     Vue.config.devtools = false;
+//     Vue.config.debug = false;
+//     Vue.config.silent = true;
+// }
 
 
 let globalData = new Vue({
