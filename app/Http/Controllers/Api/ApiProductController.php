@@ -16,8 +16,14 @@ class ApiProductController extends Controller
             return $slug->setHidden(['status','approved','seller_id']);
         }
     }
-    public function detailsIndex($id){
+    public function detailsIndex($id, $image = false){
         if (request()->wantsJson() && $id) {
+            if ($image == true){
+                return json_encode(ProductDetails::with('subDetailsWithoutImage')
+                    ->without('subDetails')
+                    ->where('product_id',$id)
+                    ->get());
+            }
             return json_encode(ProductDetails::where('product_id',$id)->get());
         }
     }

@@ -85,7 +85,12 @@ class Cart
                 $oldItem = $this->items[$keyProduct];
                 unset($this->items[$keyProduct]);
             }elseif (array_key_exists($options['string'],$this->items)){
-                $oldItem = $this->items[$options['string']];
+                if(array_key_exists($item->id.$options['subOptions'],$this->items)){
+                    $oldItem = $this->items[$item->id.$options['subOptions']];
+                    $options['qty'] += $oldItem['qty'];
+                }else{
+                    $oldItem = $this->items[$options['string']];
+                }
                 unset($this->items[$options['string']]);
                 $keyProduct = $item->id.$options['subOptions'];
             }
@@ -103,10 +108,11 @@ class Cart
                     'name' => $singleSubOption->name,
                 ];
                 $optionsPrices += $singleSubOption['price_' . $currency];
-                $optionsQty[] = $singleSubOption->quantity;
+                if ($singleSubOption->quantity > 0){
+                    $optionsQty[] =  $singleSubOption->quantity;
+                }
             }
         }
-
         if ($item->isOffer) {
             $currency = "offer_price_$currency";
             $price = $item->$currency;

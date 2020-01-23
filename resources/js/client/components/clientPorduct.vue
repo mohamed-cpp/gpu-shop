@@ -81,7 +81,7 @@
 
             <h4>Quantity: <span>{{quantity}}</span></h4>
             <div class="quickview-plus-minus">
-                <span class="input-number-decrement">–</span><input class="input-number" type="text" value="0" min="0" :max="quantity"><span class="input-number-increment">+</span>
+                <span class="input-number-decrement">–</span><input class="input-number" type="text" value="1" min="1" :max="quantity"><span class="input-number-increment">+</span>
                 <div class="quickview-btn-cart">
                     <a class="btn-hover-black" v-on:click="options(product.slug_en,product.details)">add to cart</a>
                 </div>

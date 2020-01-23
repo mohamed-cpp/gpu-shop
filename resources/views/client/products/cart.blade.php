@@ -67,8 +67,8 @@
                 margin: 0 auto 10px auto; } }
 
         .toggle-button--nummi label {
-            width: 80px;
-            height: 20px;
+            width: 86px;
+            /*height: 19px;*/
             line-height: 20px;
             transition: all 0.2s; }
         .toggle-button--nummi label:before, .toggle-button--nummi label:after {
@@ -89,7 +89,7 @@
         .toggle-button--nummi .toggle-button__icon {
             position: absolute;
             left: 0;
-            top: 0;
+            top: -10px;
             height: 20px;
             width: 20px;
             border-radius: 50%;
@@ -189,7 +189,8 @@
             -webkit-animation-name: animatetop;
             -webkit-animation-duration: 0.4s;
             animation-name: animatetop;
-            animation-duration: 0.4s
+            animation-duration: 0.4s;
+            border-radius: 15px;
         }
 
         /* Add Animation */
@@ -205,7 +206,7 @@
 
         /* The Close Button */
         .close {
-            color: white;
+            color: #000;
             float: right;
             font-size: 28px;
             font-weight: bold;
@@ -213,7 +214,7 @@
 
         .close:hover,
         .close:focus {
-            color: #000;
+            color: white;
             text-decoration: none;
             cursor: pointer;
         }
@@ -223,11 +224,18 @@
             background-color: #ee3333;
             color: white;
         }
-        .modal-header h2 {
+        .modal-header h3 {
             color: #fff;
-        }
+            margin-top: 9px;
 
-        .modal-body {padding: 2px 16px;}
+
+        }
+        .modal-body {
+            padding: 2px 16px;
+        }
+        .modal-body div {
+            margin: 10px auto 13px auto;
+        }
     </style>
 @endpush
 @section('content')
@@ -261,12 +269,7 @@
 @push('scripts')
     <script>
         var modal = document.getElementById("optionsModal");
-        var btn = document.getElementById("optionsBtn");
         var span = document.getElementsByClassName("close")[0];
-
-        btn.onclick = function() {
-            modal.style.display = "block";
-        };
         span.onclick = function() {
             modal.style.display = "none";
         };

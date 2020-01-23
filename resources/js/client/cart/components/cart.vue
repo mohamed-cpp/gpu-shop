@@ -102,7 +102,7 @@
             <!-- Modal content -->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h2>{{modelName}}</h2>
+                    <h3>{{modelName}}</h3>
                     <span class="close">&times;</span>
                 </div>
                 <div class="modal-body">
@@ -110,9 +110,9 @@
                         <section v-for="(detail, index) in detailsArray">
                             <h6 style="font-weight: bold;" v-if="lang === 'ar'">{{ detail.name_ar }}:</h6>
                             <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
-                            <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
+                            <div v-for="(sub_detail, index) in detail.sub_details_without_image" class="toggle-button toggle-button--nummi">
                                 <input :checked="index === 0" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
-                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
+                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
                                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                                 <div class="toggle-button__icon"></div>
                             </div>
@@ -188,8 +188,9 @@
                 }else{
                     this.modelName =  product.item.name_en;
                 }
-                this.detailsArray = axios.get('/api/details/'+product.item.id)
+                this.detailsArray = axios.get('/api/details/'+product.item.id+'/'+true)
                     .then(response => this.detailsArray = response.data);
+                document.getElementById("optionsModal").style.display = "block";
                 this.modelIndex = index;
                 this.modelProduct = product;
             },
