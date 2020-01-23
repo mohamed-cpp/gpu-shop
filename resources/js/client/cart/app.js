@@ -35,6 +35,15 @@ Vue.component('cart-vue', require('./components/cart.vue').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
+
+window.axios.defaults.headers.common = {
+    'X-CSRF-TOKEN': window.App.csrfToken,
+    'X-Requested-With': 'XMLHttpRequest',
+    'Content-Type':'application/json',
+    'Accept':'application/json'
+};
+
+
 const app = new Vue({
     el: '#cart',
 });

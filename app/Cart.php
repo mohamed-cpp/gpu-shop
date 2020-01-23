@@ -79,10 +79,15 @@ class Cart
         $optionsQty = [] ;
         $storedItem = null;
         $oldItem = null;
+        $keyProduct = $item->id.$options['string'];
         if($this->items){
-            if(array_key_exists($item->id.$options['string'],$this->items)){
-                $oldItem = $this->items[$item->id.$options['string']];
-                unset($this->items[$item->id.$options['string']]);
+            if(array_key_exists($keyProduct,$this->items)){
+                $oldItem = $this->items[$keyProduct];
+                unset($this->items[$keyProduct]);
+            }elseif (array_key_exists($options['string'],$this->items)){
+                $oldItem = $this->items[$options['string']];
+                unset($this->items[$options['string']]);
+                $keyProduct = $item->id.$options['subOptions'];
             }
         }
         if ($options['options']) {
@@ -121,7 +126,7 @@ class Cart
         if($storedItem['qty'] < min($optionsQty)){
             $this->totalPrice -= $oldItem ? $oldItem['totalPriceQty'] : 0 ;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
-            $this->items[$item->id.$options['string']] = $storedItem;
+            $this->items[$keyProduct] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
             return true;
         }

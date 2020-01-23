@@ -18,7 +18,7 @@ class ApiProductController extends Controller
     }
     public function detailsIndex($id){
         if (request()->wantsJson() && $id) {
-            return ProductDetails::where('product_id',$id)->get();
+            return json_encode(ProductDetails::where('product_id',$id)->get());
         }
     }
 }

@@ -31,8 +31,10 @@ class ClientCartController extends Controller
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $addWithQtyOptions = $cart->addWithQtyOptions($product,$request->all());
-//        $addWithQtyOptions = $cart->deleteAll();
         session()->put('cart',$cart);
+        if ($request->updateOptions){
+            return response(json_encode($cart));
+        }
         return response([], 204);
 
     }

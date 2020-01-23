@@ -41,16 +41,17 @@
                                             <div v-for="(option, index) in product.options">
                                                 <span>{{index}}: {{option.name}}</span><br>
                                             </div>
+                                            <button v-if="Object.keys(product.options).length != 0"  v-on:click="modelOptions(index,product)" id="optionsBtn">Change Options</button>
                                         </td>
                                         <td class="product-price">
                                             <div v-if="product.item.isOffer === true">
                                                 <div v-if="currency === '$'">
                                                     <span class="oldprice amount">${{product.item.price_usd}}</span>
-                                                    <span class="offer">${{ product.item.offer_price_usd }}</span>
+                                                    <span class="offer">${{ product.price }}</span>
                                                 </div>
                                                 <div v-else>
                                                     <span class="oldprice amount">£{{product.item.price_egp}}</span>
-                                                    <span class="offer">£{{product.item.offer_price_egp}}</span>
+                                                    <span class="offer">£{{product.price}}</span>
                                                 </div>
                                             </div>
                                             <span v-else class="amount">{{currency}}{{product.price}}</span>
@@ -95,6 +96,36 @@
                 </div>
             </div>
         </div>
+        <!-- The Modal -->
+        <div id="optionsModal" class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2>{{modelName}}</h2>
+                    <span class="close">&times;</span>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <section v-for="(detail, index) in detailsArray">
+                            <h6 style="font-weight: bold;" v-if="lang === 'ar'">{{ detail.name_ar }}:</h6>
+                            <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
+                            <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
+                                <input :checked="index === 0" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
+                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
+                                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                                <div class="toggle-button__icon"></div>
+                            </div>
+                        </section>
+                        <div class="coupon-all">
+                            <input class="button" value="Change Options" type="submit" v-on:click="updateOptions()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
     </div>
     <!-- shopping-cart-area end -->
 </template>
@@ -110,6 +141,10 @@
                 lang: null,
                 currency: null,
                 info: null,
+                modelName:null,
+                modelIndex:null,
+                modelProduct:null,
+                detailsArray:[],
             }
         },
         mounted() {
@@ -146,6 +181,39 @@
                         });
                 }, 1500);
 
+            },
+            modelOptions(index,product){
+                if( this.lang === 'ar' ){
+                    this.modelName =  product.item.name_ar;
+                }else{
+                    this.modelName =  product.item.name_en;
+                }
+                this.detailsArray = axios.get('/api/details/'+product.item.id)
+                    .then(response => this.detailsArray = response.data);
+                this.modelIndex = index;
+                this.modelProduct = product;
+            },
+            updateOptions() {
+                var optionsArray = {};
+                var optionsString = '';
+                this.detailsArray.forEach(function (item, index) {
+                    var subOption = $('input[name="' + item.name_en + '"]:checked').val();
+                    optionsArray[item.name_en] = {id: item.id, sub: subOption};
+                    optionsString +='.'+subOption;
+                });
+                var self = this;
+                axios.post('/' + window.App.lang + '/cart/page/' + this.modelProduct.item.slug_en, {
+                    options: optionsArray,
+                    qty: this.modelProduct.qty,
+                    string: this.modelIndex,
+                    subOptions: optionsString,
+                    updateOptions: true,
+                }).then(function (response) {
+                        if (response.status === 200) {
+                            self.cart = response.data;
+                            document.getElementById("optionsModal").style.display = "none";
+                        }
+                    });
             }
         }
     };
