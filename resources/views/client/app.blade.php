@@ -32,6 +32,7 @@
     @stack('includes')
 </div>
 <!-- all js here -->
+<script src="{{asset('GPU-Shop/js/vueCart.js')}}"></script>
 <script src="{{asset('GPU-Shop/js/app.js')}}"></script>
 @stack('scripts')
 @yield('extra-scripts')

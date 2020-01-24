@@ -264,7 +264,7 @@
         </div>
     </div>
     <!-- shopping-cart-area end -->
-    <script src="{{asset('GPU-Shop/js/vueCart.js')}}"></script>
+{{--    <script src="{{asset('GPU-Shop/js/vueCart.js')}}"></script>--}}
 @endsection
 @push('scripts')
     <script>

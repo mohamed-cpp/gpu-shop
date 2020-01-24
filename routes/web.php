@@ -97,9 +97,6 @@ Route::get('/test', function () {
     dd(session()->get('cart'),session()->get('cart2'));
     return session()->get('cart');
 }) ;
-//Route::get('/usd', function () {
-////   cookie('price', 'GPU', 1440);
-//    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'EGP', 1440));
-////    return Illuminate\Support\Facades\Cookie::get('price');
-//    return back();
-//}) ;
+Route::get('/testt', function () {
+    return response(['Worked']);
+}) ;

@@ -64,6 +64,7 @@ mix.js('resources/js/client/app.js', 'public/GPU-Shop/js/vueProduct.js');
 mix.js('resources/js/client/quickView/app.js', 'public/GPU-Shop/js/vueQuickView.js');
 mix.js('resources/js/client/wishlist/app.js', 'public/GPU-Shop/js/vueWishlist.js');
 mix.js('resources/js/client/cart/app.js', 'public/GPU-Shop/js/vueCart.js');
+mix.js('resources/js/client/sideberCart/app.js', 'public/GPU-Shop/js/sideberCart.js');
 
 // Dashboard //
 

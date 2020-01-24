@@ -131,7 +131,7 @@
 </template>
 
 <script>
-
+    // import sidebar from "../../sideberCart/components/sidebarCart.vue"
     export default {
 
         props:['cart_session'],
@@ -147,6 +147,7 @@
                 detailsArray:[],
             }
         },
+        // mixins: [sidebar],
         mounted() {
             this.lang = document.documentElement.lang;
             if( cart.cookie === 'egp' ){
@@ -180,6 +181,7 @@
                             }
                         });
                 }, 1500);
+                this.$parent.user.name = index;
 
             },
             modelOptions(index,product){

@@ -76,7 +76,8 @@
                                 <div class="quickview-plus-minus">
                                     <span class="input-number-decrement">–</span><input class="input-number" type="text" :value="1" min="0" :max="quantity"><span class="input-number-increment">+</span>
                                     <div class="quickview-btn-cart">
-                                        <a class="btn-hover-black" v-on:click="viewDetails()" href="#">add to cart</a>
+                                        <a class="btn-hover-black" v-if="description === true" v-on:click="viewDetails()" >add to cart</a>
+                                        <addCartbutton v-else :slug="product.slug_en" :options="detailsArray"></addCartbutton>
                                     </div>
                                     <div class="quickview-btn-wishlist">
                                         <addWishlist :list="2" :idproduct="product.id"></addWishlist>
@@ -93,8 +94,9 @@
 
 <script>
     import addWishlist from '../../quickView/components/addWishlist.vue';
+    import addCartbutton from '../../cart/components/addCartbutton.vue';
     export default {
-        components: { addWishlist },
+        components: { addWishlist , addCartbutton},
         props:['locale','currencyprop'],
         watch: {
             $productSlug: function(newVal, oldVal) {
@@ -150,9 +152,7 @@
                 this.description = true;
             },
             viewDetails(){
-                if (this.description === false){
-                    this.options(this.product.slug_en,this.detailsArray);
-                } else {
+                if (this.description === true){
                     this.callDetails();
                     this.description = false;
                 }
@@ -188,27 +188,6 @@
                     this.quantity = subdetails.quantity;
                 }
             },
-            options(slug,options){
-            if(window.signed.signedIn){
-                var optionsArray = {};
-                var optionsString = '';
-                options.forEach(function(item, index) {
-                    var subOption = $('input[name="'+item.name_en+'"]:checked').val();
-                    optionsArray[item.name_en] = {id:item.id, sub:subOption};
-                    optionsString +='.'+subOption;
-                });
-                var qty = $('.input-number').val();
-                axios.post( '/'+window.App.lang+'/cart/page/'+slug, { options: optionsArray, qty: qty, string:optionsString })
-                    .then(function (response) {
-                        if(response.status === 204){
-
-                        }
-                    });
-
-            }else {
-                window.location.href = '/login';
-            }
-        }
         },
 
         // beforeCreate: function () {
@@ -224,6 +203,7 @@
     .quickview-btn-cart > a{
         letter-spacing: -0.92px;
         margin: 0 6px;
+        color: #fff !important;
     }
     .quick-view-tab-content .tab-pane > img{
         width: 350px;
