@@ -99,7 +99,6 @@
         </div>
     </div>
     <!-- shopping-cart-area end -->
-    <script src="{{asset('GPU-Shop/js/vueWishlist.js')}}"></script>
     <script>
         function copy() {
             var copyText = document.getElementById("inputCopy");

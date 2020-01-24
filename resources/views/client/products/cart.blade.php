@@ -257,14 +257,13 @@
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h1 class="cart-heading">cart</h1>
                     <div id="cart">
-                        <cart-vue :cart_session="{{ $cart }}" ></cart-vue>
+                        <cart_vue :cart_session="{{ $cart }}" ></cart_vue>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!-- shopping-cart-area end -->
-{{--    <script src="{{asset('GPU-Shop/js/vueCart.js')}}"></script>--}}
 @endsection
 @push('scripts')
     <script>

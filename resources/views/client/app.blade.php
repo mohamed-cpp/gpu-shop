@@ -13,11 +13,9 @@
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
-    @if(auth('client')->check())
-        <script>
-            window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => Auth::guard('client')->user()->username]) !!};
-        </script>
-    @endif
+    <script>
+        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => auth('client')->check() ?  Auth::guard('client')->user()->username : null]) !!};
+    </script>
     <script>
         window.signed = {!! json_encode(['signedIn' => Auth::guard('client')->check() ]) !!};
     </script>
@@ -32,7 +30,7 @@
     @stack('includes')
 </div>
 <!-- all js here -->
-<script src="{{asset('GPU-Shop/js/vueCart.js')}}"></script>
+<script src="{{asset('GPU-Shop/js/vue.js')}}"></script>
 <script src="{{asset('GPU-Shop/js/app.js')}}"></script>
 @stack('scripts')
 @yield('extra-scripts')

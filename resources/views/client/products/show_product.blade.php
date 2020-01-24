@@ -339,8 +339,6 @@
         </div>
     </div>
 
-    <script src="{{asset('GPU-Shop/js/vueProduct.js')}}"></script>
-    <script src="{{asset('GPU-Shop/js/vueQuickView.js')}}"></script>
 @endsection
 {{--@push('includes')--}}
 {{--    @include('client.layout._quickView')--}}
