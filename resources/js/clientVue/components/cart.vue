@@ -42,6 +42,9 @@
                                                 <span>{{index}}: {{option.name}}</span><br>
                                             </div>
                                             <button v-if="Object.keys(product.options).length != 0"  v-on:click="modelOptions(index,product)" id="optionsBtn">Change Options</button>
+                                            <div>
+                                                <span v-if="product.for">you are buying for @{{product.for}}</span>
+                                            </div>
                                         </td>
                                         <td class="product-price">
                                             <div v-if="product.item.isOffer === true">

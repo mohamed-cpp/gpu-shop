@@ -20,7 +20,7 @@ class Cart
         }
     }
 
-    public function add( $item ){
+    public function add( $item, $username ){
         $storedItem = null;
         $optionString = null;
         $options = $item->details()
@@ -38,8 +38,8 @@ class Cart
             }
         }
         if($this->items){
-            if(array_key_exists($item->id.$optionString,$this->items)){
-                $storedItem = $this->items[$item->id.$optionString];
+            if(array_key_exists($item->id.$optionString.$username,$this->items)){
+                $storedItem = $this->items[$item->id.$optionString.$username];
             }
         }
         if(!$storedItem){
@@ -52,6 +52,7 @@ class Cart
                 $price = $item->$currency;
             }
             $storedItem  = [
+                'for'           => $username,
                 'qty'           => 0,
                 'price'         => $price,
                 'item'          => $item,
@@ -64,7 +65,7 @@ class Cart
             $this->totalPrice -= $storedItem['totalPriceQty'];
             $storedItem['qty']++;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
-            $this->items[$item->id.$optionString] = $storedItem;
+            $this->items[$item->id.$optionString.$username] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
             return true;
         }
@@ -78,21 +79,21 @@ class Cart
         $optionsPrices = 0;
         $optionsQty = [] ;
         $storedItem = null;
-        $oldItem = null;
+        $oldItem = $this->items[$options['string']];
         $keyProduct = $item->id.$options['string'];
         if($this->items){
             if(array_key_exists($keyProduct,$this->items)){
                 $oldItem = $this->items[$keyProduct];
                 unset($this->items[$keyProduct]);
             }elseif (array_key_exists($options['string'],$this->items)){
-                if(array_key_exists($item->id.$options['subOptions'],$this->items)){
-                    $oldItem = $this->items[$item->id.$options['subOptions']];
+                if(array_key_exists($item->id.$options['subOptions'].$oldItem['for'],$this->items)){
+                    $oldItem = $this->items[$item->id.$options['subOptions'].$oldItem['for']];
                     $options['qty'] += $oldItem['qty'];
                 }else{
                     $oldItem = $this->items[$options['string']];
                 }
                 unset($this->items[$options['string']]);
-                $keyProduct = $item->id.$options['subOptions'];
+                $keyProduct = $item->id.$options['subOptions'].$oldItem['for'];
             }
         }
         if ($options['options']) {
@@ -122,12 +123,13 @@ class Cart
         }
         $optionsQty[] = $item->quantity;
         $storedItem = [
-            'qty' => $options['qty'],
-            'price' => $price + $optionsPrices,
-            'item' => $item,
-            'options' => $optionsArray,
+            'for'           => $oldItem ? $oldItem['for'] : null ,
+            'qty'           => $options['qty'],
+            'price'         => $price + $optionsPrices,
+            'item'          => $item,
+            'options'       => $optionsArray,
             'totalPriceQty' => 0,
-            'minQty' => min($optionsQty),
+            'minQty'        => min($optionsQty),
         ];
         if($storedItem['qty'] < min($optionsQty)){
             $this->totalPrice -= $oldItem ? $oldItem['totalPriceQty'] : 0 ;
@@ -165,8 +167,9 @@ class Cart
     }
 
     public function deleteAll(){
-        $this->items = null;
+        $this->items = [];
         $this->totalPrice = null;
+        $this->cookie = null;
     }
 
 

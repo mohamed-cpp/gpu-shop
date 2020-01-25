@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Client;
 
+use App\Cart;
 use App\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -127,6 +128,7 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        session()->put('cart',null);
         auth('client')->logout();
         return $this->loggedOut($request) ?: redirect('/');
     }

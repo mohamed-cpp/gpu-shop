@@ -22,6 +22,7 @@
                                 <h3 v-if="lang == 'ar'" ><a :href="'/p/' + product.item.slug_ar"> {{product.item.name_ar}}</a></h3>
                                 <h3 v-else><a :href="'/p/' + product.item.slug_en"> {{product.item.name_en}}</a></h3>
                                 <span>{{product.qty}} x {{currency}}{{product.price}}</span>
+                                <span v-if="product.for">you are buying for @{{product.for}}</span>
                             </div>
                             <div class="cart-delete">
                                 <button class="removeButton" v-on:click="remove(index)">
@@ -91,7 +92,7 @@
         },
         mounted() {
             this.lang = document.documentElement.lang;
-            if(this.cart.items.length != 0){
+            if(this.cart != null){
                 if( this.cart.cookie === 'egp' ){
                     this.currency =  '£';
                 }else{

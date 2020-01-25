@@ -17,11 +17,11 @@ class ClientCartController extends Controller
             'cart' => json_encode($oldCart),
         ]);
     }
-    public function addCart(Product $product){
+    public function addCart(Product $product, Request $request){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
-
+        $username = $request->username != auth('client')->user()->username ? $request->username : null ;
         $cart = new Cart($oldCart);
-        $add = $cart->add($product);
+        $add = $cart->add($product,$username);
 
         session()->put('cart',$cart);
         return response(json_encode($cart));

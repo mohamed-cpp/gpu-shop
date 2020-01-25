@@ -94,6 +94,8 @@ Route::get('/test', function () {
 //    session()->put('cart','uew2');.
 //    session()->forget('cart');
 //    session()->flush();
+//    session()->put('cart',null);
+
     dd(session()->get('cart'),session()->get('cart2'));
     return session()->get('cart');
 }) ;

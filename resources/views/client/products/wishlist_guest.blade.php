@@ -60,6 +60,12 @@
             left: -47px;
             top: 4px;
         }
+        .product-card {
+            width: 28%;
+        }
+        .product-card .cart-checkout-btn a{
+            border: 1px solid rgba(0, 0, 0, 0.55);
+        }
     </style>
 @endpush
 @section('content')
@@ -85,13 +91,14 @@
                         <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
                     </form>
                     <form action="#">
-                        <div class="table-content table-responsive">
+                        <div class="table-content table-responsive" id="appView">
                             <table>
                                 <thead>
                                 <tr>
                                     <th class="product-price">images</th>
                                     <th class="product-name">name</th>
                                     <th class="product-price">Price</th>
+                                    <th>Cart</th>
                                 </tr>
                                 </thead>
                                 @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$'@endphp
@@ -125,6 +132,9 @@
                                         @if($isOffer)
                                             <span class="offer" >{{$currency}}{{$wishlistProduct->products->offerPrice()}}</span>
                                         @endif
+                                    </td>
+                                    <td class="product-card ">
+                                        <cart_wishlist username="{{request()->segment(3)}}" slug="{{$wishlistProduct->products->slug}}" ></cart_wishlist>
                                     </td>
                                 </tbody>
                                     @endif
