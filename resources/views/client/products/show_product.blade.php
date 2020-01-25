@@ -325,9 +325,7 @@
                                     <div class="product-cart">
                                         <span>Furniter</span>
                                     </div>
-                                    <div class="product-categori">
-                                        <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                                    </div>
+                                    <add_cart slug="{{$product->slug}}" tablist="true"></add_cart>
                                 </div>
                             </div>
                         </div>

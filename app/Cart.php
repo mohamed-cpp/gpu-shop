@@ -57,7 +57,7 @@ class Cart
                 'item'          => $item,
                 'options'       => $optionsArray,
                 'totalPriceQty' => 0,
-                'minQty'        => min($item->quantity),
+                'minQty'        => $item->quantity,
             ];
         }
         if($storedItem['qty'] < $item->quantity){

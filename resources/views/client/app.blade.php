@@ -16,9 +16,7 @@
     <script>
         @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
         window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
-    </script>
-    <script>
-        window.signed = {!! json_encode(['signedIn' => Auth::guard('client')->check() ]) !!};
+        window.signed = {!! json_encode(['signedIn' => auth('client')->check()  ]) !!};
     </script>
 </head>
 <body>

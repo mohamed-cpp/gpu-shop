@@ -699,9 +699,7 @@
                                             <div class="product-cart">
                                                 <span>{{$subcategoryName}}</span>
                                             </div>
-                                            <div class="product-categori">
-                                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                                            </div>
+                                            <add_cart slug="{{$product->slug}}" tablist="true"></add_cart>
                                         </div>
                                     </div>
                                 </div>
@@ -746,9 +744,7 @@
                                             <p>{!! Str::limit($product->description, $limit = 70, $end = '...') !!}</p>
                                         </div>
                                         <div class="product-list-cart-wishlist">
-                                            <div class="product-list-cart">
-                                                <a class="btn-hover list-btn-style" href="#">add to cart</a>
-                                            </div>
+                                            <add_cart slug="{{$product->slug}}" tablist="false"></add_cart>
                                             <div class="product-list-wishlist">
                                                 <add_wishlist list="1" idproduct="{{$product->id}}"></add_wishlist>
                                             </div>

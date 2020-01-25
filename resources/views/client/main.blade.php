@@ -10,7 +10,8 @@
     <link rel="shortcut icon" type="image/x-icon" href="">
     <script>
         @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
-            window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
+        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
+        window.signed = {!! json_encode(['signedIn' => auth('client')->check()  ]) !!};
     </script>
     <!-- all css here -->
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">

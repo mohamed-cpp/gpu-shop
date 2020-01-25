@@ -87,12 +87,15 @@ new Vue({
 import click_quick_view from "./components/clickQuickView.vue";
 import quick_view from "./components/quickView.vue";
 import add_wishlist from "./components/addWishlist.vue";
+import add_cart from "./components/addCartSubCategory.vue";
+
 new Vue({
     el: '#appView',
     components: {
         click_quick_view,
         quick_view,
         add_wishlist,
+        add_cart,
     },
     data:cartDate
 });
