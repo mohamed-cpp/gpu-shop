@@ -14,7 +14,8 @@
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
     <script>
-        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => auth('client')->check() ?  Auth::guard('client')->user()->username : null]) !!};
+        @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
+        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
     </script>
     <script>
         window.signed = {!! json_encode(['signedIn' => Auth::guard('client')->check() ]) !!};

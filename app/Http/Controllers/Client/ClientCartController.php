@@ -24,7 +24,7 @@ class ClientCartController extends Controller
         $add = $cart->add($product);
 
         session()->put('cart',$cart);
-
+        return response(json_encode($cart));
     }
 
     public function addProductCart(Product $product,Request $request){
@@ -32,10 +32,7 @@ class ClientCartController extends Controller
         $cart = new Cart($oldCart);
         $addWithQtyOptions = $cart->addWithQtyOptions($product,$request->all());
         session()->put('cart',$cart);
-        if ($request->updateOptions){
-            return response(json_encode($cart));
-        }
-        return response([], 204);
+        return response(json_encode($cart));
 
     }
 

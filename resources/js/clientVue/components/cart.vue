@@ -135,6 +135,11 @@
     export default {
 
         props:['cart_session'],
+        watch: {
+            '$root.cart': function(newVal, oldVal) {
+                this.cart = newVal;
+            }
+        },
         data(){
             return{
                 cart: this.cart_session,
@@ -163,6 +168,7 @@
                     .then(function (response,) {
                         if(response.status === 200){
                             self.cart = response.data;
+                            self.$root.cart = response.data;
                         }
                     });
             },
@@ -178,10 +184,10 @@
                         .then(function (response,) {
                             if(response.status === 200) {
                                 self.cart = response.data;
+                                self.$root.cart = response.data;
                             }
                         });
                 }, 1500);
-                this.$parent.user.name = index;
 
             },
             modelOptions(index,product){
@@ -210,10 +216,10 @@
                     qty: this.modelProduct.qty,
                     string: this.modelIndex,
                     subOptions: optionsString,
-                    updateOptions: true,
                 }).then(function (response) {
                         if (response.status === 200) {
                             self.cart = response.data;
+                            self.$root.cart = response.data;
                             document.getElementById("optionsModal").style.display = "none";
                         }
                     });

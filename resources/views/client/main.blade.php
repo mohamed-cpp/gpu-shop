@@ -8,7 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
     <link rel="shortcut icon" type="image/x-icon" href="">
-
+    <script>
+        @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
+            window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
+    </script>
     <!-- all css here -->
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
     @stack('styles')
@@ -34,6 +37,7 @@
 
 </div>
 <!-- all js here -->
+<script src="{{asset('GPU-Shop/js/vue.js')}}"></script>
 <script src="{{asset('GPU-Shop/js/app.js')}}"></script>
 @stack('scripts')
 @yield('extra-scripts')

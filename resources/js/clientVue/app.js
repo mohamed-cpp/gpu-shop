@@ -55,9 +55,7 @@ window.axios.defaults.headers.common = {
 };
 
 let cartDate = {
-    user:{
-        name:'john Doe'
-    }
+    cart:null,
 };
 const app = new Vue({
     el: '#app',

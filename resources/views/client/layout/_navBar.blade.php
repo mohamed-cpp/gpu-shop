@@ -34,7 +34,7 @@
 <!-- header end -->
 
 <div id="cartnew">
-    <sidebar></sidebar>
+    <sidebar :session_cart="{{ json_encode(session()->get('cart')) }}" ></sidebar>
 </div>
 <div class="main-search-active">
     <div class="sidebar-search-icon">

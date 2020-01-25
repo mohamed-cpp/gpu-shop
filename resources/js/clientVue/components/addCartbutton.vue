@@ -27,16 +27,13 @@
                     });
                     // console.log(location.pathname);
                     var qty = $('.input-number').val();
-
+                    var self = this;
                     axios.post( '/'+window.App.lang+'/cart/page/'+slug, { options: optionsArray, qty: qty, string:optionsString })
                         .then(function (response) {
-                            if(response.status === 204){
-
+                            if(response.status === 200){
+                                self.$root.cart = response.data;
                             }
                         });
-
-                    this.$root.user.name = slug;
-
 
                 }else {
                     window.location.href = '/login';
