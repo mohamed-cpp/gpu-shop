@@ -51,21 +51,8 @@ class ClientProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show($product)
+    public function show(Product $product)
     {
-        $updateRoute = false;
-        $product = Product::findBySlugsOrFail($product);
-        $parameter = request()->route()->parameters();
-        if (app()->isLocale("ar") && $parameter['product'] !=  $product->slug_ar ){
-            $parameter["product"] = $product->slug_ar;
-            $updateRoute = true;
-        }elseif (app()->isLocale("en") && $parameter['product'] !=  $product->slug_en){
-            $parameter["product"] = $product->slug_en;
-            $updateRoute = true;
-        }
-        if ($updateRoute) {
-            return redirect(route("show.product.client", $parameter));
-        }
         $added = false;
         $relatedProduct = $product->withAnyTags($product->tagList)
                             ->where('approved',1)->where('status',true)
@@ -78,7 +65,7 @@ class ClientProductController extends Controller
             $added = !! auth('client')->user()->wishlist()->where('product_id',$product->id)->first();
         }
         return view('client.products.show_product', [
-                'product'=>$product,
+                'product'=>$product->with('images','details')->find($product->id),
                 'relatedProducts' => $filtered,
                 'price'=>[
                     'normalPrice' => $product->offerPrice(false),

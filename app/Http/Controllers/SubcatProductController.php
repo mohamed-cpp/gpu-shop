@@ -51,13 +51,8 @@ class SubcatProductController extends Controller
      * @param SubCategory $subcategory
      * @return SubCategory|\Illuminate\Support\Collection
      */
-    public function show($subcategory)
+    public function show(SubCategory $subcategory)
     {
-        $updateRoute = $this->changeSlug($subcategory);
-        if ($updateRoute[0]) {
-            return redirect(route("show.product", $updateRoute[1]));
-        }
-        $subcategory = $updateRoute[2];
         if($subcategory->status){
             $products = DB::table('subcat_products')
                 ->where('subcategoryable_id',$subcategory->id)
@@ -112,14 +107,7 @@ class SubcatProductController extends Controller
         //
     }
 
-    public function filter($subcategory, Request $request){
-        $updateRoute = $this->changeSlug($subcategory);
-        $parameters =  $request->all();
-        if ($updateRoute[0]) {
-            $parameters['subcategory'] = $updateRoute[1]['subcategory'];
-            return redirect(route("filter.product.client", $parameters ));
-        }
-        $subcategory = $updateRoute[2];
+    public function filter(SubCategory $subcategory, Request $request){
         $currency = Cookie::get('currency') ? strtolower(Cookie::get('currency')) : 'usd';
         $column = "products.name_" . App::getLocale();
         $keywords = $request->keywords ?  $request->keywords : null ;
@@ -139,6 +127,7 @@ class SubcatProductController extends Controller
             ->orderBy($sort[1][0], $sort[0][0])
             ->select('products.*')
             ->paginate(15);
+        $parameters = $request->all();
         $parameters['keywords'] = $keywords;
         return view('client.products.show_products',[
             'products' => $this->changeKeyLocale($products),
@@ -149,12 +138,7 @@ class SubcatProductController extends Controller
         ]);
 
     }
-    public function showOffers($subcategory){
-        $updateRoute = $this->changeSlug($subcategory);
-        if ($updateRoute[0]) {
-            return redirect(route("offers.product.client", $updateRoute[1]));
-        }
-        $subcategory = $updateRoute[2];
+    public function showOffers(SubCategory $subcategory){
         if($subcategory->status){
             $products = DB::table('subcat_products')
                 ->where('subcategoryable_id',$subcategory->id)
@@ -261,18 +245,5 @@ class SubcatProductController extends Controller
         }
         $countArray[] = [$products->total()];
         return $countArray;
-    }
-    protected function changeSlug($subcategory){
-        $updateRoute = false;
-        $subcategory = SubCategory::findBySlugsOrFail($subcategory);
-        $parameter = request()->route()->parameters();
-        if (app()->isLocale("ar") && $parameter['subcategory'] !=  $subcategory->slug_ar ){
-            $parameter["subcategory"] = $subcategory->slug_ar;
-            $updateRoute = true;
-        }elseif (app()->isLocale("en") && $parameter['subcategory'] !=  $subcategory->slug_en){
-            $parameter["subcategory"] = $subcategory->slug_en;
-            $updateRoute = true;
-        }
-        return [$updateRoute,$parameter,$subcategory];
     }
 }
