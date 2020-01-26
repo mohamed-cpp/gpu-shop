@@ -51,12 +51,25 @@ class ClientProductController extends Controller
      * @param  \App\Product  $product
      * @return \Illuminate\Http\Response
      */
-    public function show(Product $product)
+    public function show($product)
     {
+        $updateRoute = false;
+        $product = Product::findBySlugsOrFail($product);
+        $parameter = request()->route()->parameters();
+        if (app()->isLocale("ar") && $parameter['product'] !=  $product->slug_ar ){
+            $parameter["product"] = $product->slug_ar;
+            $updateRoute = true;
+        }elseif (app()->isLocale("en") && $parameter['product'] !=  $product->slug_en){
+            $parameter["product"] = $product->slug_en;
+            $updateRoute = true;
+        }
+        if ($updateRoute) {
+            return redirect(route("show.product.client", $parameter));
+        }
         $added = false;
         $relatedProduct = $product->withAnyTags($product->tagList)
-            ->where('approved',1)->where('status',true)
-            ->take(11)->orderBy('created_at','desc')->get();
+                            ->where('approved',1)->where('status',true)
+                            ->take(11)->orderBy('created_at','desc')->get();
 
         $filtered = $relatedProduct->reject(function ($value) use($product) {
             return $value->id == $product->id;
@@ -64,14 +77,12 @@ class ClientProductController extends Controller
         if(auth('client')->check()){
             $added = !! auth('client')->user()->wishlist()->where('product_id',$product->id)->first();
         }
-        $price = [
-            'normalPrice' => $product->offerPrice(false),
-            'offerPrice' => $product->offerPrice()
-        ];
-        return view('client.products.show_product',
-            ['product'=>$product->with('images','details')->find($product->id),
+        return view('client.products.show_product', [
+                'product'=>$product,
                 'relatedProducts' => $filtered,
-                'price'=>$price,
+                'price'=>[
+                    'normalPrice' => $product->offerPrice(false),
+                    'offerPrice' => $product->offerPrice()],
                 'addedWishlist' => $added
             ]);
     }
@@ -119,42 +130,4 @@ class ClientProductController extends Controller
         session()->put('cart',$cart);
         return back();
     }
-
-//    public function lang(){
-//
-//        if (app()->getLocale() == 'ar'){
-//            \LaravelLocalization::setLocale('en');
-//        }else{
-//            \LaravelLocalization::setLocale('ar');
-//        }
-//        $UrlPrevious = url()->previous();
-//        if(strpos(url()->previous(), '/p/') !== false){
-//            $UrlProduct= ltrim(strstr(url()->previous(),"/p/"),"/p/");
-//            $previousLang = request()->segment(1) ;
-//            $slug = Product::where("slug_$previousLang",$UrlProduct)
-//                ->first()
-//                ->slug;
-//            $UrlPrevious = str_replace($UrlProduct,$slug,$UrlPrevious) ;
-//        }elseif (strpos(url()->previous(), '/s/') !== false || strpos(url()->previous(), '/f/') !== false){
-//            if (strpos(url()->previous(), '/s/')){
-//                $segment = '/s/';
-//            }else{
-//                $segment = '/f/';
-//            }
-//            $UrlProduct= ltrim(strstr(url()->previous(),$segment),$segment);
-//            $oldSlug = str_replace(strstr($UrlProduct,'?'),'',$UrlProduct) ;
-//            $previousLang = request()->segment(1);
-//            $slug = SubCategory::where("slug_$previousLang",$oldSlug)
-//                ->first()
-//                ->slug;
-//            $UrlPrevious = str_replace($oldSlug,$slug,$UrlPrevious) ;
-//        }
-//        $url = \LaravelLocalization::getLocalizedURL(App::getLocale(), $UrlPrevious);
-//        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-//        $cart = new Cart($oldCart);
-//        $cart->updateItems(Cookie::get('currency'));
-//        session()->put('cart',$cart);
-//        return redirect($url);
-//
-//    }
 }

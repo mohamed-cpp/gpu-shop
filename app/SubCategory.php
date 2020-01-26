@@ -31,6 +31,12 @@ class SubCategory extends Model
         return $this->hasMany(SubcatProduct::class,'subcategoryable_id');
     }
 
+    public static function findBySlugsOrFail($slug){
+        return self::where('slug_ar',$slug)
+            ->orWhere('slug_en',$slug)
+            ->firstOrFail();
+    }
+
     public function subCategoryPath(){
         return 'storage/admin/subcategory/images/';
     }

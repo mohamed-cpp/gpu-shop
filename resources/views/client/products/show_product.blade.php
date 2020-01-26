@@ -266,7 +266,7 @@
                     </div>
                 </div>
             <div id="app">
-                <client_product wishlistadded="{{$addedWishlist}}" :product="{{ json_encode($product) }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :price="{{ json_encode($price) }}" currencyprop="{{ Cookie::get('currency') }}"></client_product>
+                <client_product wishlistadded="{{$addedWishlist}}" :product="{{ json_encode($product) }}" :price="{{ json_encode($price) }}" currencyprop="{{ Cookie::get('currency') }}"></client_product>
             </div>
         </div>
     </div>

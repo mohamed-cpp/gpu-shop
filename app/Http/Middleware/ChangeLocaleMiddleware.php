@@ -22,7 +22,7 @@ class ChangeLocaleMiddleware
     public function handle($request, Closure $next)
     {
 
-        if (!preg_match('/\b'.app()->getLocale().'\b/', url()->previous()) ){
+        if (!preg_match('/\b'. app()->getLocale().'\b/', url()->previous()) ){
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($oldCart);
             $cart->updateItems(Cookie::get('currency'));

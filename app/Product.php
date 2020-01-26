@@ -47,6 +47,15 @@ class Product extends Model
 
     }
 
+    public static function findBySlugsOrFail($slug){
+        return self::with('images','details')
+                    ->where('slug_ar',$slug)
+                    ->orWhere('slug_en',$slug)
+                    ->firstOrFail();
+    }
+
+
+
     public function details()
     {
         return $this->hasMany(ProductDetails::class);

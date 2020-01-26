@@ -70,7 +70,7 @@
                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
                 <input v-bind:class="{'click': index == 0 }" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en)">
-                <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
+                <label v-if="locale" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                 <div class="toggle-button__icon"></div>
             </div>
@@ -125,7 +125,7 @@
     import addCartbutton from './addCartbutton.vue';
     export default {
         components: { addWishlist, addCartbutton },
-        props:['product','locale','currencyprop','price','wishlistadded'],
+        props:['product','currencyprop','price','wishlistadded'],
         data(){
             return{
                 images: [],
@@ -135,9 +135,13 @@
                 offerPrice: this.price.offerPrice,
                 quantity: this.product.quantity,
                 detailsArray: [],
+                locale:null,
             }
         },
         mounted() {
+            if(document.documentElement.lang == 'ar'){
+                this.locale = true;
+            }
             if( this.currencyprop === 'EGP' ){
                 this.currency =  '£';
             }else{
