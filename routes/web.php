@@ -85,6 +85,7 @@ Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.pro
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
 Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
 Route::get('currency/{currency}', 'Client\ClientProductController@currency')->name('currency.product.client');
+Route::get('/lang', 'Client\ClientProductController@lang')->name('lang.product.client');
 
 Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
 

@@ -158,7 +158,7 @@
         // mixins: [sidebar],
         mounted() {
             this.lang = document.documentElement.lang;
-            if( cart.cookie === 'egp' ){
+            if( this.cart.cookie === 'egp' ){
                 this.currency =  '£';
             }else{
                 this.currency = '$';

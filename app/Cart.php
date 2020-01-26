@@ -32,6 +32,7 @@ class Cart
             foreach ($options as $option){
                 $optionsArray[$option->name] = [
                     'id'    => $option->subDetailsWithoutImage[0]->id,
+                    'id_option' => $option->id,
                     'name'    => $option->subDetailsWithoutImage[0]->name,
                 ];
                 $optionString .= ('.'.$option->subDetailsWithoutImage[0]->id);
@@ -79,13 +80,14 @@ class Cart
         $optionsPrices = 0;
         $optionsQty = [] ;
         $storedItem = null;
-        $oldItem = $this->items[$options['string']];
+        $oldItem = null;
         $keyProduct = $item->id.$options['string'];
         if($this->items){
             if(array_key_exists($keyProduct,$this->items)){
                 $oldItem = $this->items[$keyProduct];
                 unset($this->items[$keyProduct]);
             }elseif (array_key_exists($options['string'],$this->items)){
+                $oldItem = $this->items[$options['string']];
                 if(array_key_exists($item->id.$options['subOptions'].$oldItem['for'],$this->items)){
                     $oldItem = $this->items[$item->id.$options['subOptions'].$oldItem['for']];
                     $options['qty'] += $oldItem['qty'];
@@ -106,6 +108,7 @@ class Cart
                 $singleSubOption = $singleOption->subDetailsWithoutImage->find($option['sub']);
                 $optionsArray[$singleOption->name] = [
                     'id' => $singleSubOption->id,
+                    'id_option' => $singleOption->id,
                     'name' => $singleSubOption->name,
                 ];
                 $optionsPrices += $singleSubOption['price_' . $currency];
@@ -164,6 +167,51 @@ class Cart
                 $this->totalPrice += $storedItem['totalPriceQty'];
             }
         }
+    }
+
+    public function updateItems($currency){
+        $this->cookie = strtolower($currency) ;
+        if($this->items){
+            $total = 0;
+            $optionsPrices = 0;
+            $optionsArray = [];
+            foreach ($this->items as $index => $item){
+                if ($item['item']->isOffer) {
+                    $currency = "offer_price_$this->cookie";
+                } else {
+                    $currency = "price_$this->cookie";
+                }
+                if ($item['options']) {
+                    $optionsItem = $item['item']->details()
+                        ->with('subDetailsWithoutImage')
+                        ->without('subDetails')
+                        ->get();
+                    foreach ($item['options'] as $option) {
+                        $singleOption = $optionsItem->find($option['id_option']);
+                        $singleSubOption = $singleOption->subDetailsWithoutImage->find($option['id']);
+                        $optionsArray[$singleOption->name] = [
+                            'id' => $singleSubOption->id,
+                            'id_option' => $singleOption->id,
+                            'name' => $singleSubOption->name,
+                        ];
+                        $optionsPrices += $singleSubOption['price_' . $currency];
+                    }
+                }
+                $storedItem = [
+                    'for'           => $item['for'] ,
+                    'qty'           => $item['qty'],
+                    'price'         => $item['item']->$currency + $optionsPrices,
+                    'item'          => $item['item'],
+                    'options'       => $optionsArray,
+                    'totalPriceQty' => $item['item']->$currency * $item['qty'],
+                    'minQty'        => $item['minQty'],
+                ];
+                $total += $storedItem['totalPriceQty'];
+                $this->items[$index] = $storedItem;
+            }
+            $this->totalPrice = $total;
+        }
+
     }
 
     public function deleteAll(){

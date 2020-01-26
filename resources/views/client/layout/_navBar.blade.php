@@ -69,17 +69,22 @@
                     </ul>
                 </div>
             </div>
+            @if(app()->getLocale() == 'ar')
+                @php $anotherLang = 'Arabic' @endphp
+            @else
+                @php $anotherLang = 'English' @endphp
+            @endif
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Language: <span><img src="assets/img/icon-img/english.png" alt=""> English </span></h4>
+                    <h4>Language: <span><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt=""> {{$anotherLang}} </span></h4>
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="#"><img src="assets/img/icon-img/english.png" alt=""> English </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/es.png" alt=""> spanish </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/fr.png" alt=""> french </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/ge.png" alt=""> german </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/es.png" alt=""> spanish </a></li>
+                        @if($anotherLang == 'Arabic')
+                        <li><a href="/lang"><img src="/assets/img/icon-img/English.png" alt=""> English </a></li>
+                        @else
+                        <li><a href="/lang"><img src="/assets/img/icon-img/Arabic.png" alt=""> Arabic </a></li>
+                        @endif
                     </ul>
                 </div>
             </div>

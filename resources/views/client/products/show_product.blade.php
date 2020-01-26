@@ -325,7 +325,7 @@
                                     <div class="product-cart">
                                         <span>Furniter</span>
                                     </div>
-                                    <add_cart slug="{{$product->slug}}" tablist="true"></add_cart>
+                                    <add_cart slug="{{$relatedProduct->slug}}" tablist="true"></add_cart>
                                 </div>
                             </div>
                         </div>

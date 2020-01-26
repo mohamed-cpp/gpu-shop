@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Cart;
 use App\Product;
 use App\Http\Controllers\Controller;
+use App\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Redis\RedisManager;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class ClientProductController extends Controller
 {
@@ -107,7 +111,50 @@ class ClientProductController extends Controller
     }
 
     public function currency($currency){
+        $currency = $currency === 'EGP' ? 'EGP' : 'USD';
         Cookie::queue(Cookie::make('currency', $currency, 10080));
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->updateItems($currency);
+        session()->put('cart',$cart);
         return back();
     }
+
+//    public function lang(){
+//
+//        if (app()->getLocale() == 'ar'){
+//            \LaravelLocalization::setLocale('en');
+//        }else{
+//            \LaravelLocalization::setLocale('ar');
+//        }
+//        $UrlPrevious = url()->previous();
+//        if(strpos(url()->previous(), '/p/') !== false){
+//            $UrlProduct= ltrim(strstr(url()->previous(),"/p/"),"/p/");
+//            $previousLang = request()->segment(1) ;
+//            $slug = Product::where("slug_$previousLang",$UrlProduct)
+//                ->first()
+//                ->slug;
+//            $UrlPrevious = str_replace($UrlProduct,$slug,$UrlPrevious) ;
+//        }elseif (strpos(url()->previous(), '/s/') !== false || strpos(url()->previous(), '/f/') !== false){
+//            if (strpos(url()->previous(), '/s/')){
+//                $segment = '/s/';
+//            }else{
+//                $segment = '/f/';
+//            }
+//            $UrlProduct= ltrim(strstr(url()->previous(),$segment),$segment);
+//            $oldSlug = str_replace(strstr($UrlProduct,'?'),'',$UrlProduct) ;
+//            $previousLang = request()->segment(1);
+//            $slug = SubCategory::where("slug_$previousLang",$oldSlug)
+//                ->first()
+//                ->slug;
+//            $UrlPrevious = str_replace($oldSlug,$slug,$UrlPrevious) ;
+//        }
+//        $url = \LaravelLocalization::getLocalizedURL(App::getLocale(), $UrlPrevious);
+//        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+//        $cart = new Cart($oldCart);
+//        $cart->updateItems(Cookie::get('currency'));
+//        session()->put('cart',$cart);
+//        return redirect($url);
+//
+//    }
 }

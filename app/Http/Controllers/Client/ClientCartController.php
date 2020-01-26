@@ -22,7 +22,6 @@ class ClientCartController extends Controller
         $username = $request->username != auth('client')->user()->username ? $request->username : null ;
         $cart = new Cart($oldCart);
         $add = $cart->add($product,$username);
-
         session()->put('cart',$cart);
         return response(json_encode($cart));
     }
