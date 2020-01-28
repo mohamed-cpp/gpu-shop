@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-6">
                     <div class="logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.png" alt="" /></a>
+                        <a href="/"><img src="/assets/img/logo/logo.png" alt="" /></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-6">
@@ -60,12 +60,12 @@
         <div class="cur-lang-acc-all">
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Currency: <span>{{ $currency =Cookie::get('currency') == 'EGP' ? 'EGP' : 'USD' }} </span></h4>
+                    <h4>Currency: <span>{{ $currency = Cookie::get('currency') === 'egp' ? 'EGP' : 'USD' }} </span></h4>
                 </div>
-                @php $currency = $currency == 'USD' ? 'EGP' : 'USD' @endphp
+                @php $currency = $currency === 'USD' ? 'EGP' : 'USD' @endphp
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{route('currency.product.client',[$currency])}}">{{$currency}}</a></li>
+                        <li><a href="{{route('currency.product.client')}}">{{$currency}}</a></li>
                     </ul>
                 </div>
             </div>

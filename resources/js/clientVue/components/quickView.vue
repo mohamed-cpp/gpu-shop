@@ -122,10 +122,10 @@
             }
         },
         mounted() {
-            if( this.currencyprop === 'EGP' ){
+            if( this.currencyprop === 'egp' ){
                 this.currency =  '£';
             }else{
-                this.currencyprop = 'USD';
+                this.currencyprop = 'usd';
                 this.currency = '$';
             }
         },
@@ -144,8 +144,8 @@
             },
             productVar(slug){
                 var product = this.products[slug];
-                product.then(result => this.normalPrice = result['price_'+this.currencyprop.toLowerCase()]);
-                product.then(result => this.offerPrice = result['offer_price_'+this.currencyprop.toLowerCase()]);
+                product.then(result => this.normalPrice = result['price_'+this.currencyprop]);
+                product.then(result => this.offerPrice = result['offer_price_'+this.currencyprop]);
                 product.then(result => this.quantity = result['quantity']);
                 product.then(result => this.quantity_offer = result['quantity_offer']);
                 product.then(result => this.id = result['id']);
@@ -176,7 +176,7 @@
                     this.normalPrice = normalPrice;
                     this.offerPrice = offerPrice;
                 }
-                var price = 'price_'+this.currencyprop.toLowerCase();
+                var price = 'price_'+this.currencyprop;
                 this.detailsPriceArray.push(detailName+subdetails[price]);
                 this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails[price]);
                 this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails[price]);

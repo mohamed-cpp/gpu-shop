@@ -18,7 +18,7 @@
                 <div class="footer-widget">
                     <div class="footer-widget-m-content text-center">
                         <div class="footer-logo">
-                            <a href="#"><img src="assets/img/logo/logo.png" alt=""></a>
+                            <a href="/"><img src="/assets/img/logo/logo.png" alt=""></a>
                         </div>
                         <div class="footer-nav">
                             <nav>

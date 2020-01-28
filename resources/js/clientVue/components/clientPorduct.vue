@@ -142,10 +142,10 @@
             if(document.documentElement.lang == 'ar'){
                 this.locale = true;
             }
-            if( this.currencyprop === 'EGP' ){
+            if( this.currencyprop === 'egp' ){
                 this.currency =  '£';
             }else{
-                this.currencyprop = 'USD';
+                this.currencyprop = 'usd';
                 this.currency = '$';
             }
             if(this.product.isOffer){
@@ -172,7 +172,7 @@
                     this.offerPrice = offerPrice;
                 }
 
-                var price = 'price_'+this.currencyprop.toLowerCase();
+                var price = 'price_'+this.currencyprop;
                 this.detailsArray.push(detailName+subdetails[price]);
                 this.normalPrice = parseInt(this.normalPrice) + parseInt(subdetails[price]);
                 this.offerPrice = parseInt(this.offerPrice) + parseInt(subdetails[price]);

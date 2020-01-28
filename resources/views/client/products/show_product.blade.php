@@ -299,7 +299,7 @@
             </div>
             <div class="row" id="appView">
                 <div class="new-collection-slider owl-carousel">
-                    @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
+                    @php $currency = Cookie::get('currency') == 'egp' ? '£' : '$' @endphp
                     @foreach($relatedProducts as $relatedProduct)
                         <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
                         <div class="single-product mb-35">

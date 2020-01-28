@@ -21,7 +21,9 @@ class ChangeLocaleMiddleware
      */
     public function handle($request, Closure $next)
     {
-
+        if(Cookie::get('currency') == null){
+            Cookie::queue(Cookie::make('currency', 'usd', 0, '/', config('session.domain'), true, false));
+        }
         if (!preg_match('/\b'. app()->getLocale().'\b/', url()->previous()) ){
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
             $cart = new Cart($oldCart);

@@ -112,10 +112,11 @@
                     });
             },
             emptyCart(){
-                if(this.cart != null){
+                if( this.cart !== null && this.cart.items !== null ){
                     if(this.cart.items.length != 0){
                         return true;
                     }
+
                 }
                 return false;
             }

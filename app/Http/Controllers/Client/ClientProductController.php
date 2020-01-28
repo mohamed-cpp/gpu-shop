@@ -108,13 +108,4 @@ class ClientProductController extends Controller
         //
     }
 
-    public function currency($currency){
-        $currency = $currency === 'EGP' ? 'EGP' : 'USD';
-        Cookie::queue(Cookie::make('currency', $currency, 10080));
-        $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $cart->updateItems($currency);
-        session()->put('cart',$cart);
-        return back();
-    }
 }

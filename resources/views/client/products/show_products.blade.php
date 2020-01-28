@@ -184,7 +184,6 @@
         .breadcrumb-area{
             background-size: cover;
             height: 100%;
-            background-attachment: fixed;
         }
         .page-item.active .page-link{
             background-color: rgb(84, 84, 84);
@@ -495,7 +494,7 @@
             </div>
         </div>
     </div>
-        @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$'; $sortBlade =  !empty($sort) ? $sort : null @endphp
+        @php $currency = Cookie::get('currency') == 'egp' ? '£' : '$'; $sortBlade =  !empty($sort) ? $sort : null @endphp
 <div class="shop-page-wrapper hidden-items padding-filter">
         <div class="container-fluid">
             <div class="shop-filters-left overflowScroll">
@@ -676,7 +675,11 @@
                                 <div class="single-product mb-35">
                                     <div class="product-img">
                                         <a href="{{route('show.product.client', $product->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name}}"></a>
-                                        @if($isOffer = $product->isOffer == true) <span>sale</span> @endif
+                                        @if($isOffer = $product->isOffer == true)
+                                            <span>sale
+                                                <span>{{round(($product->offerPriceold - $product->offerPrice) / $product->offerPriceold * 100) }}% Off</span>
+                                            </span>
+                                        @endif
                                         <div class="product-action">
                                             <add_wishlist idproduct="{{$product->id}}"></add_wishlist>
                                             <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
