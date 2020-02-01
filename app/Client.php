@@ -24,6 +24,8 @@ class Client extends Authenticatable implements MustVerifyEmail
     use HasRoles;
 
 
+    protected $guard = 'client';
+
     protected $fillable = [
         'name', 'username', 'phone_number','email', 'password', 'email_verified_at'
         , 'code', 'phone_verified_at', 'create_code_at'

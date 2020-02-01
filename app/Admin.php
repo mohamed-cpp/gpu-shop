@@ -10,6 +10,10 @@ class Admin extends Authenticatable
 {
 
     use HasRoles;
+
+    protected $guard = 'admin';
+
+
     /**
      * The attributes that are mass assignable.
      *

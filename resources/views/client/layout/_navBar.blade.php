@@ -70,21 +70,17 @@
                 </div>
             </div>
             @if(app()->getLocale() == 'ar')
-                @php $anotherLang = 'Arabic' @endphp
+                @php $lang = 'Arabic'; $anotherLocale= 'en'; $anotherLang= 'English' @endphp
             @else
-                @php $anotherLang = 'English' @endphp
+                @php $lang = 'English'; $anotherLocale = 'ar'; $anotherLang= 'Arabic' @endphp
             @endif
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Language: <span><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt=""> {{$anotherLang}} </span></h4>
+                    <h4>Language: <span><img src="/assets/img/icon-img/{{$lang}}.png" alt=""> {{$lang}} </span></h4>
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        @if($anotherLang == 'Arabic')
-                        <li><a href="/lang"><img src="/assets/img/icon-img/English.png" alt=""> English </a></li>
-                        @else
-                        <li><a href="/lang"><img src="/assets/img/icon-img/Arabic.png" alt=""> Arabic </a></li>
-                        @endif
+                        <li><a href="{{ str_replace(app()->getLocale(),$anotherLocale,Request::url()) }}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt=""> {{$anotherLang}} </a></li>
                     </ul>
                 </div>
             </div>

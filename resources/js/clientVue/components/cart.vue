@@ -24,19 +24,13 @@
                                             </button>
                                         </td>
                                         <td class="product-thumbnail">
-                                            <a v-if="lang === 'ar'" :href="'/p/' + product.item.slug_ar">
-                                                <img width="80" height="80" :src="'/storage/product/images/thumbnail/'+ product.item.main_image" alt="">
-                                            </a>
-                                            <a v-else :href="'/p/' + product.item.slug_en">
+                                            <a :href="'/p/' + product.slug">
                                                 <img width="80" height="80" :src="'/storage/product/images/thumbnail/'+ product.item.main_image" alt="">
                                             </a>
                                         </td>
                                         <td class="product-name">
-                                            <a v-if="lang === 'ar'"  :href="'/p/' + product.item.slug_ar">
-                                                {{ product.item.name_ar }}
-                                            </a>
-                                            <a v-else  :href="'/p/' + product.item.slug_en">
-                                                {{ product.item.name_en }}
+                                            <a :href="'/p/' + product.slug">
+                                                {{ product.name }}
                                             </a>
                                             <div v-for="(option, index) in product.options">
                                                 <span>{{index}}: {{option.name}}</span><br>
@@ -77,25 +71,45 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                 <div class="coupon-all">
-                                    <div class="coupon">
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code" type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit">
+                                    <div class="coupon" v-if="cart.coupon">
+                                        <input id="coupon_code" class="input-text" name="coupon_code" :value="cart.coupon.code" placeholder="Coupon code" type="text" disabled>
+                                        <input class="button" name="apply_coupon" value="Remove coupon" type="submit" v-on:click="removeCoupon()" >
+                                    </div>
+                                    <div class="coupon" v-else>
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code"  type="text">
+                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit" v-on:click="coupon()" >
                                     </div>
                                 </div>
                             </div>
                         </div>
+
+
                         <div class="row">
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
+                                    <ul v-for="(product, index) in cart.items" >
+                                        <li>{{product.name}} x{{product.qty}}
+                                            <div v-if="product.for">
+                                                For:{{product.for}}
+                                            </div>
+                                            <span  :class="{ 'oldprice' : product.couponPrice != null}">{{currency}}{{product.totalPriceQty}}</span>
+                                            <span v-if="product.couponPrice" class="offer">{{currency}}{{product.couponTotalPrice}}</span>
+                                        </li>
+                                    </ul>
                                     <ul>
-                                        <li>Subtotal<span>100.00</span></li>
-                                        <li>Total<span>100.00</span></li>
+                                        <li>Total
+                                            <span :class="{ 'oldprice' : cart.couponTotalPrice != 0}" >{{currency}}{{cart.totalPrice}} </span>
+                                            <span v-if="cart.couponTotalPrice" class="offer">{{currency}}{{cart.couponTotalPrice}}</span>
+                                        </li>
                                     </ul>
                                     <a href="#">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>
+
+
+
                 </div>
             </div>
         </div>
@@ -226,10 +240,35 @@
                             document.getElementById("optionsModal").style.display = "none";
                         }
                     });
+            },
+            coupon(){
+                var coupon = $('#coupon_code').val();
+                var self = this;
+                axios.post('/' + window.App.lang + '/cart/coupon/' + coupon)
+                    .then(function (response) {
+                    if (response.status === 200) {
+                        self.cart = response.data;
+                        self.$root.cart = response.data;
+                    }
+                });
+
+            },
+            removeCoupon(){
+                var self = this;
+                axios.delete('/' + window.App.lang + '/cart/remove/coupon/')
+                    .then(function (response) {
+                        if (response.status === 200) {
+                            self.cart = response.data;
+                            self.$root.cart = response.data;
+                        }
+                    });
+
             }
         }
     };
 </script>
 <style>
-
+    #coupon_code{
+        width: 185px;
+    }
 </style>

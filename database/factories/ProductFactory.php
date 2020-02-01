@@ -1,7 +1,7 @@
 <?php
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
-
+use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 $factory->define(\App\Product::class, function (Faker $faker,$id = null) {
@@ -67,5 +67,19 @@ $factory->define(\App\Wishlist::class, function (Faker $faker) {
     return [
         'product_id' => \App\Product::first() ? \App\Product::first()->id : factory('App\Product')->create()->id,
         'client_id' => \App\Client::first() ? \App\Client::first()->id : factory('App\Client')->create()->id,
+    ];
+});
+
+$factory->define(\App\Coupon::class, function (Faker $faker) {
+    return [
+        'code' => Str::random(20),
+        'name' => $faker->name,
+        'uses' => rand(10,99),
+        'max_uses' => rand(100,500),
+        'is_disposable' => 1,
+        'start_at' => now(),
+        'end_at' => now() ,
+        'discount' => rand(1,99),
+        'is_percent' => 1,
     ];
 });

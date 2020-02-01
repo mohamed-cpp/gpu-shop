@@ -11,9 +11,9 @@ use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * App\Models\Client
+ * App\Models\Seller
  *
- * @method static Builder|Client whereEmail($value)
+ * @method static Builder|Seller whereId($value)
  */
 
 class Seller extends Authenticatable implements MustVerifyEmail

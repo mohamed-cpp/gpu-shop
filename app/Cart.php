@@ -9,14 +9,17 @@ class Cart
     //
     public $items = null ;
     public $totalPrice = 0 ;
+    public $couponTotalPrice = 0 ;
     public $cookie ;
+    public $coupon ;
 
     public function __construct($oldCart)
     {
-        $this->cookie = Cookie::has('currency') ? strtolower(Cookie::get('currency')) : 'usd';
+        $this->cookie = Cookie::get('currency');
         if($oldCart){
             $this->items = $oldCart->items;
             $this->totalPrice = $oldCart->totalPrice;
+            $this->coupon = $oldCart->coupon;
         }
     }
 
@@ -54,8 +57,12 @@ class Cart
             }
             $storedItem  = [
                 'for'           => $username,
+                'name'          => $item->name,
+                'slug'          => $item->slug,
                 'qty'           => 0,
                 'price'         => $price,
+                'couponPrice'   => null,
+                'couponTotalPrice'   => null,
                 'item'          => $item,
                 'options'       => $optionsArray,
                 'totalPriceQty' => 0,
@@ -127,8 +134,12 @@ class Cart
         $optionsQty[] = $item->quantity;
         $storedItem = [
             'for'           => $oldItem ? $oldItem['for'] : null ,
+            'name'          => $item->name,
+            'slug'          => $item->slug,
             'qty'           => $options['qty'],
             'price'         => $price + $optionsPrices,
+            'couponPrice'   => null,
+            'couponTotalPrice'   => null,
             'item'          => $item,
             'options'       => $optionsArray,
             'totalPriceQty' => 0,
@@ -170,7 +181,7 @@ class Cart
     }
 
     public function updateItems($currency){
-        $this->cookie = strtolower($currency) ;
+        $this->cookie = $currency ;
         if($this->items){
             $total = 0;
             $optionsPrices = 0;
@@ -198,9 +209,13 @@ class Cart
                     }
                 }
                 $storedItem = [
-                    'for'           => $item['for'] ,
+                    'for'           => $item['for'],
+                    'name'          => $item['item']->name,
+                    'slug'          => $item['item']->slug,
                     'qty'           => $item['qty'],
                     'price'         => $item['item']->$currency + $optionsPrices,
+                    'couponPrice'   => null,
+                    'couponTotalPrice'   => null,
                     'item'          => $item['item'],
                     'options'       => $optionsArray,
                     'totalPriceQty' => $item['item']->$currency * $item['qty'],
@@ -218,10 +233,121 @@ class Cart
         $this->items = [];
         $this->totalPrice = null;
         $this->cookie = null;
+        $this->coupon = null;
     }
 
+    public function coupon($coupon){
+        if ($this->coupon){
+            $this->removeCoupon();
+        }
+        if ($coupon->seller_id){
+            $this->seller($coupon,$coupon->seller_id);
+        }elseif ($coupon->product_id){
+            $this->product($coupon,$coupon->product_id);
+        }elseif ($coupon->sub_categories_id){
+            $this->subcategory($coupon,$coupon->sub_categories_id);
+        }else{
+            $this->allItems($coupon);
+        }
+        $this->coupon = $coupon;
+    }
+
+    protected function seller($coupon,$seller_id){
+        $total = $this->totalPrice;
+        foreach ($this->items as $index => $item){
+            if ($item['item']->seller_id === $seller_id){
+                $storedItem = $this->items[$index];
+                if($coupon->is_percent){
+                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) *  $storedItem['price'], 2);
 
 
+                }else{
+                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
+                }
+                $total -= $storedItem['totalPriceQty'];
+                $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
+                $this->items[ $index ] = $storedItem;
+                $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+            }
+        }
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+    }
+
+    protected function product($coupon,$product){
+        $total = $this->totalPrice;
+        foreach ($this->items as $index => $item){
+            if ($item['item']->id === $product){
+                $storedItem = $this->items[$index];
+                if($coupon->is_percent){
+                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) *  $storedItem['price'], 2);
+
+                }else{
+                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
+                }
+                $total -= $storedItem['totalPriceQty'];
+                $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
+                $this->items[ $index ] = $storedItem;
+                $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+            }
+        }
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+    }
+
+    protected function subcategory($coupon,$subCategories){
+        $SubCategoryProducts = SubCategory::with('products')
+                ->where('id',$subCategories)
+                ->first()
+                ->products->pluck('productable.id', 'id')
+                ->toArray();
+        $total = $this->totalPrice;
+        foreach ($this->items as $index => $item){
+            if (in_array($item['item']->id,$SubCategoryProducts)) {
+                $storedItem = $this->items[$index];
+                if ($coupon->is_percent) {
+                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) * $storedItem['price'], 2);
+                } else {
+                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
+                }
+                $total -= $storedItem['totalPriceQty'];
+                $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
+                $this->items[$index] = $storedItem;
+                $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+            }
+        }
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+    }
+
+    protected function allItems($coupon){
+        $total = $this->totalPrice;
+        foreach ($this->items as $index => $item){
+                $storedItem = $this->items[$index];
+                if($coupon->is_percent){
+                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) *  $storedItem['price'], 2);
+
+                }else{
+                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
+                }
+                $total -= $storedItem['totalPriceQty'];
+                $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
+                $this->items[ $index ] = $storedItem;
+                $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+
+        }
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+
+    }
+
+    public function removeCoupon()
+    {
+        $this->couponTotalPrice = 0 ;
+        $this->coupon = null;
+        foreach ($this->items as $index => $item){
+            $storedItem = $this->items[$index];
+            $storedItem['couponPrice'] = null ;
+            $storedItem['couponTotalPrice'] = null ;
+            $this->items[ $index ] = $storedItem;
+        }
+    }
 
 
 }

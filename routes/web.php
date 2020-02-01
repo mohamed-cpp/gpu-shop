@@ -39,6 +39,8 @@ Route::group(['middleware' => 'client'], function () {
     Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
     Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
     Route::post('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
+    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon');
+    Route::delete('cart/remove/coupon', 'Client\ClientCartController@removeCoupon');
     Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
 
 });
@@ -85,7 +87,6 @@ Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.pro
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
 Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
 Route::get('change/currency', 'Client\ClientController@currency')->name('currency.product.client');
-Route::get('/lang', 'Client\ClientProductController@lang')->name('lang.product.client');
 
 Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
 
@@ -97,7 +98,7 @@ Route::get('/test', function () {
 //    session()->flush();
 //    session()->put('cart',null);
 
-//    dd(session()->get('cart'),session()->get('cart2'));
+    dd(session()->get('cart'),session()->get('cart2'));
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {

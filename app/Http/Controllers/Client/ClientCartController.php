@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Cart;
+use App\Coupon;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -50,5 +51,27 @@ class ClientCartController extends Controller
         $remove = $cart->deleteAProduct($index);
         session()->put('cart',$cart);
         return response(json_encode($cart));
+    }
+
+    public function coupon(Coupon $coupon){
+        $validate = $coupon->validateCart();
+        if ($validate === true){
+            $oldCart = Session::has('cart') ? Session::get('cart') : null;
+            $cart = new Cart($oldCart);
+            $cart->coupon($coupon);
+            session()->put('cart',$cart);
+            return response(json_encode($cart));
+        }
+        return response([$validate],406);
+    }
+
+    public function removeCoupon(){
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->removeCoupon();
+        session()->put('cart',$cart);
+        return response(json_encode($cart));
+
+
     }
 }
