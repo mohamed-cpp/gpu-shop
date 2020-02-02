@@ -19,7 +19,7 @@ class Coupon extends Model
      */
     protected $fillable = [
         'code', 'name', 'uses', 'max_uses', 'is_disposable', 'start_at', 'end_at', 'seller_id',
-        'sub_categories_id', 'discount', 'discount_egp', 'discount_usd', 'is_percent', 'product_id'
+        'sub_categories_id', 'discount', 'discount_egp', 'discount_usd', 'is_percent', 'product_id', 'count'
     ];
 
     protected $casts = [

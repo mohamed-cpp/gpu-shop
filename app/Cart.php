@@ -274,6 +274,7 @@ class Cart
 
     protected function seller($coupon,$seller_id){
         $total = $this->totalPrice;
+        $i = 0;
         foreach ($this->items as $index => $item){
             if ($item['item']->seller_id === $seller_id){
                 $storedItem = $this->items[$index];
@@ -288,6 +289,10 @@ class Cart
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
                 $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+                $i++;
+                if ($i === $coupon->count){
+                    break;
+                }
             }
         }
         $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
@@ -295,6 +300,7 @@ class Cart
 
     protected function product($coupon,$product){
         $total = $this->totalPrice;
+        $i = 0;
         foreach ($this->items as $index => $item){
             if ($item['item']->id === $product){
                 $storedItem = $this->items[$index];
@@ -308,6 +314,10 @@ class Cart
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
                 $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+                $i++;
+                if ($i === $coupon->count){
+                    break;
+                }
             }
         }
         $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
@@ -320,6 +330,7 @@ class Cart
                 ->products->pluck('productable.id', 'id')
                 ->toArray();
         $total = $this->totalPrice;
+        $i = 0;
         foreach ($this->items as $index => $item){
             if (in_array($item['item']->id,$SubCategoryProducts)) {
                 $storedItem = $this->items[$index];
@@ -332,6 +343,10 @@ class Cart
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[$index] = $storedItem;
                 $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+                $i++;
+                if ($i === $coupon->count){
+                    break;
+                }
             }
         }
         $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
@@ -339,6 +354,7 @@ class Cart
 
     protected function allItems($coupon){
         $total = $this->totalPrice;
+        $i=0;
         foreach ($this->items as $index => $item){
                 $storedItem = $this->items[$index];
                 if($coupon->is_percent){
@@ -351,6 +367,10 @@ class Cart
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
                 $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+                $i++;
+                if ($i === $coupon->count){
+                    break;
+                }
 
         }
         $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
