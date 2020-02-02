@@ -53,12 +53,12 @@ class Coupon extends Model
             if (!$appliedCoupon){
                 return true;
             }
-            return 'used';
+            return 'You used the coupon before';
         }
-        if ($this->uses > $this->max_uses){
-            return 'max';
+        if ($this->uses >= $this->max_uses){
+            return 'All available coupon used';
         }else{
-            return 'time';
+            return 'Sorry but the coupon expired';
         }
     }
     /**

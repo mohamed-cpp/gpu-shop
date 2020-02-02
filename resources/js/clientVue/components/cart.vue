@@ -78,6 +78,9 @@
                                     <div class="coupon" v-else>
                                         <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code"  type="text">
                                         <input class="button" name="apply_coupon" value="Apply coupon" type="submit" v-on:click="coupon()" >
+                                        <div v-if="alert" class="alert alert-danger" role="alert">
+                                            {{alert}}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -88,22 +91,27 @@
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
-                                    <ul v-for="(product, index) in cart.items" >
-                                        <li>{{product.name}} x{{product.qty}}
+                                    <ul>
+                                        <li v-for="(product, index) in cart.items">
+                                            {{product.name}} x{{product.qty}}
                                             <div v-if="product.for">
                                                 For:{{product.for}}
                                             </div>
-                                            <span  :class="{ 'oldprice' : product.couponPrice != null}">{{currency}}{{product.totalPriceQty}}</span>
-                                            <span v-if="product.couponPrice" class="offer">{{currency}}{{product.couponTotalPrice}}</span>
+                                            <span  :class="{ 'oldpriceCoupon' : product.couponPrice != null}">{{currency}}{{product.totalPriceQty}}</span>
+                                            <span v-if="product.couponPrice" class="offerCoupon">{{currency}}{{product.couponTotalPrice}}</span>
                                         </li>
+
                                     </ul>
                                     <ul>
+                                        <li>Shipping
+                                            <span>20$</span>
+                                        </li>
                                         <li>Total
-                                            <span :class="{ 'oldprice' : cart.couponTotalPrice != 0}" >{{currency}}{{cart.totalPrice}} </span>
-                                            <span v-if="cart.couponTotalPrice" class="offer">{{currency}}{{cart.couponTotalPrice}}</span>
+                                            <span :class="{ 'oldpriceCoupon' : cart.couponTotalPrice != 0}" >{{currency}}{{cart.totalPrice}} </span>
+                                            <span v-if="cart.couponTotalPrice" class="offerCoupon">{{currency}}{{cart.couponTotalPrice}}</span>
                                         </li>
                                     </ul>
-                                    <a href="#">Proceed to checkout</a>
+                                    <a>Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>
@@ -148,7 +156,6 @@
 </template>
 
 <script>
-    // import sidebar from "../../sideberCart/components/sidebarCart.vue"
     export default {
 
         props:['cart_session'],
@@ -167,6 +174,7 @@
                 modelIndex:null,
                 modelProduct:null,
                 detailsArray:[],
+                alert:null,
             }
         },
         // mixins: [sidebar],
@@ -244,14 +252,22 @@
             coupon(){
                 var coupon = $('#coupon_code').val();
                 var self = this;
-                axios.post('/' + window.App.lang + '/cart/coupon/' + coupon)
-                    .then(function (response) {
-                    if (response.status === 200) {
-                        self.cart = response.data;
-                        self.$root.cart = response.data;
-                    }
-                });
-
+                if (coupon && coupon.length === 20) {
+                    axios.post('/' + window.App.lang + '/cart/coupon/' + coupon)
+                        .catch(error => {
+                            self.alert = error.response.data;
+                        })
+                        .then(function (response) {
+                            if (response.status === 200) {
+                                self.cart = response.data;
+                                self.$root.cart = response.data;
+                            }
+                        });
+                }else if(coupon.length === 0){
+                    this.alert = "The input is empty.";
+                }else {
+                    this.alert = "The coupon is not validation.";
+                }
             },
             removeCoupon(){
                 var self = this;
@@ -260,6 +276,7 @@
                         if (response.status === 200) {
                             self.cart = response.data;
                             self.$root.cart = response.data;
+                            self.alert = null;
                         }
                     });
 
@@ -270,5 +287,17 @@
 <style>
     #coupon_code{
         width: 185px;
+    }
+    .alert-danger{
+        margin-top: 5px;
+    }
+    .offerCoupon{
+        font-size: 16px;
+        color: red;
+        font-weight: 700;
+    }
+    .oldpriceCoupon{
+        margin-left: 25px;
+        text-decoration-line: line-through;
     }
 </style>

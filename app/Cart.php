@@ -20,6 +20,7 @@ class Cart
             $this->items = $oldCart->items;
             $this->totalPrice = $oldCart->totalPrice;
             $this->coupon = $oldCart->coupon;
+            $this->couponTotalPrice = $oldCart->couponTotalPrice;
         }
     }
 
@@ -75,6 +76,9 @@ class Cart
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$item->id.$optionString.$username] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
+            if ($this->coupon){
+                $this->coupon($this->coupon);
+            }
             return true;
         }
         return false;
@@ -150,6 +154,9 @@ class Cart
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$keyProduct] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
+            if ($this->coupon){
+                $this->coupon($this->coupon);
+            }
             return true;
         }
         return false;
@@ -160,6 +167,10 @@ class Cart
             if( array_key_exists($item,$this->items) ){
                 $storedItem = $this->items[$item];
                 $this->totalPrice -= $storedItem['totalPriceQty'];
+                if ($this->coupon){
+                    $this->couponTotalPrice -= $storedItem['couponTotalPrice'];
+                    $this->couponTotalPrice = round($this->couponTotalPrice , 2);
+                }
                 unset($this->items[$item]);
                 return true;
             }
@@ -171,6 +182,11 @@ class Cart
         if(array_key_exists($index,$this->items)){
             $storedItem = $this->items[$index];
             if($qty <= $storedItem['minQty']){
+                if ($this->coupon){
+                    $this->couponTotalPrice -= $storedItem['couponTotalPrice'];
+                    $storedItem['couponTotalPrice'] = round($storedItem['couponPrice'] * $qty,2);
+                    $this->couponTotalPrice += $storedItem['couponTotalPrice'];
+                }
                 $this->totalPrice -= $storedItem['totalPriceQty'] ;
                 $storedItem['qty'] = $qty;
                 $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
@@ -223,8 +239,12 @@ class Cart
                 ];
                 $total += $storedItem['totalPriceQty'];
                 $this->items[$index] = $storedItem;
+                $optionsArray = [];
             }
             $this->totalPrice = $total;
+            if ($this->coupon){
+                $this->coupon($this->coupon);
+            }
         }
 
     }

@@ -62,7 +62,7 @@ class ClientCartController extends Controller
             session()->put('cart',$cart);
             return response(json_encode($cart));
         }
-        return response([$validate],406);
+        return response($validate, 422);
     }
 
     public function removeCoupon(){
