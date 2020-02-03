@@ -28,7 +28,7 @@ Route::group(['middleware' => 'client'], function () {
 
     Route::get('wishlist', 'Client\ClientWishlistController@index')->name('show.wishlist.client');
     // axios wishlist
-    Route::get('wishlist/{id}', 'Client\ClientWishlistController@storeWishlist');
+    Route::post('wishlist/{id}', 'Client\ClientWishlistController@storeWishlist');
     Route::post('vcisibility/{wishlist}', 'Client\ClientWishlistController@visibilityWishlist');
     Route::post('wishlist/move/{id}/{anotherId}/{up}', 'Client\ClientWishlistController@moveWishlist');
     Route::post('wishlist/move/{id}/{up}', 'Client\ClientWishlistController@topOrBottomWishlist');

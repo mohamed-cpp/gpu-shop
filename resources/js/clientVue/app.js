@@ -109,3 +109,11 @@ new Vue({
         wishlist,
     },
 });
+
+import flash from "./components/flash.vue";
+new Vue({
+    el: '#flash',
+    components: {
+        flash,
+    },
+});

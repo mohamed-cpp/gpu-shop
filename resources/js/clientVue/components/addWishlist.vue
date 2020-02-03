@@ -20,7 +20,17 @@
         methods:{
             productWishlist(){
                 if(window.signed.signedIn){
-                    axios.get('/'+window.App.lang+'/wishlist/'+this.id);
+                    axios.post('/'+window.App.lang+'/wishlist/'+this.id)
+                        .then(function (response) {
+                            if(response && response.status === 204){
+                                flash('added to wishlist');
+                            }
+                        })
+                        .catch(error => {
+                            if(error.response.status === 400){
+                                flash(error.response.data);
+                            }
+                        });
                 }else {
                     window.location.href = '/login';
                 }
@@ -28,10 +38,11 @@
             productWishlistAndHeart(){
                 var self = this;
                 if(window.signed.signedIn && !this.heart){
-                    axios.get('/'+window.App.lang+'/wishlist/'+this.id)
+                    axios.post('/'+window.App.lang+'/wishlist/'+this.id)
                         .then(function (response) {
                             if(response.status === 204){
                                 self.heart = true;
+                                flash('added to wishlist');
                             }
                         });
                 }else if(window.signed.signedIn && this.heart){
@@ -39,6 +50,7 @@
                         .then(function (response) {
                             if(response.status === 204){
                                 self.heart = false;
+                                flash('removed from wishlist');
                             }
                         });
                 }else {

@@ -70,7 +70,7 @@ class ClientWishlistController extends Controller
             $client->wishlist()->create($data);
             return response([], 204);
         } catch (\Illuminate\Database\QueryException $e) {
-            return response([], 204);
+            return response('Already In wishlist', 400);
         }
     }
 

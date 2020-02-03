@@ -25,6 +25,7 @@
                         .then(function (response) {
                             if(response.status === 200){
                                 self.$root.cart = response.data;
+                                flash('Added to cart');
                             }
                         });
 

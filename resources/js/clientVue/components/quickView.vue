@@ -85,7 +85,7 @@
 
                                     </div>
                                     <div class="quickview-btn-wishlist">
-                                        <addWishlist :list="2" :idproduct="product.id"></addWishlist>
+                                        <addWishlist :idproduct="product.id"></addWishlist>
                                     </div>
                                 </div>
                             </div>

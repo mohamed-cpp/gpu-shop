@@ -19,7 +19,7 @@
                                 <tbody v-for="(product, index) in cart.items">
                                     <tr>
                                         <td class="product-remove">
-                                            <button class="removeButton" v-on:click="remove(index)">
+                                            <button class="removeButton" v-on:click="remove(index,product.name)">
                                                 <i class="ion-android-close"></i>
                                             </button>
                                         </td>
@@ -59,8 +59,8 @@
                                                    min="1"
                                                    :max="product.minQty"
                                                    :id="index"
-                                                   v-on:click="qty(index)"
-                                                   v-on:keyup="qty(index)">
+                                                   v-on:click="qty(index,product.name)"
+                                                   v-on:keyup="qty(index,product.name)">
                                         </td>
                                         <td class="product-subtotal">{{currency}}{{product.totalPriceQty}}</td>
                                     </tr>
@@ -136,7 +136,7 @@
                             <h6 style="font-weight: bold;" v-if="lang === 'ar'">{{ detail.name_ar }}:</h6>
                             <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
                             <div v-for="(sub_detail, index) in detail.sub_details_without_image" class="toggle-button toggle-button--nummi">
-                                <input :disabled="disabledInput(sub_detail)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
+                                <input :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
                                 <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
                                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                                 <div class="toggle-button__icon"></div>
@@ -187,17 +187,18 @@
             }
         },
         methods:{
-            remove(index){
+            remove(index,name){
                 var self = this;
                 axios.delete('/'+ this.lang + '/cart/remove/' + index)
                     .then(function (response,) {
                         if(response.status === 200){
                             self.cart = response.data;
                             self.$root.cart = response.data;
+                            flash(name+' Removed');
                         }
                     });
             },
-            qty(index){
+            qty(index,name){
                 if (this.timer) {
                     clearTimeout(this.timer);
                     this.timer = null;
@@ -210,6 +211,7 @@
                             if(response.status === 200) {
                                 self.cart = response.data;
                                 self.$root.cart = response.data;
+                                flash(name+' qty is '+qty);
                             }
                         });
                 }, 1500);
@@ -245,6 +247,7 @@
                         if (response.status === 200) {
                             self.cart = response.data;
                             self.$root.cart = response.data;
+                            flash('The product\'s options Updated');
                             document.getElementById("optionsModal").style.display = "none";
                         }
                     });
@@ -261,6 +264,7 @@
                             if (response.status === 200) {
                                 self.cart = response.data;
                                 self.$root.cart = response.data;
+                                flash('Validation coupon');
                             }
                         });
                 }else if(coupon.length === 0){
@@ -277,14 +281,20 @@
                             self.cart = response.data;
                             self.$root.cart = response.data;
                             self.alert = null;
+                            flash('coupon removed');
+
                         }
                     });
 
             },
-            disabledInput(subdetails){
-                if(subdetails.quantity === 0){
-                    return true;
+            disabledInput(subdetails,index){
+                let qty = this.modelProduct.minQty;
+                if(index !== 0 && subdetails.quantity !== 0){
+                    return false;
+                }else if(index === 0 && qty !== 0 ){
+                    return false;
                 }
+                return true;
             },
         }
     };

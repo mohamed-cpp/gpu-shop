@@ -27,6 +27,9 @@
     @include('client.layout._footer')
     @include('client.layout._sideBar')
     @stack('includes')
+    <div id="flash">
+        <flash message="{{ session('flash') }}"></flash>
+    </div>
 </div>
 <!-- all js here -->
 <script src="{{asset('GPU-Shop/js/vue.js')}}"></script>

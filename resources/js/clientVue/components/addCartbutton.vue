@@ -3,7 +3,7 @@
 </template>
 
 <script>
-    import sidebar from "./sidebarCart.vue"
+    // import sidebar from "./sidebarCart.vue"
     export default {
         props:['slug','options'],
         data(){
@@ -11,7 +11,7 @@
 
             }
         },
-        mixins: [sidebar],
+        // mixins: [sidebar],
         mounted() {
 
         },
@@ -32,6 +32,7 @@
                         .then(function (response) {
                             if(response.status === 200){
                                 self.$root.cart = response.data;
+                                flash('added to cart');
                             }
                         });
 
@@ -39,9 +40,9 @@
                     window.location.href = '/login';
                 }
             },
-            testBla(hi){
-                console.log(hi);
-            }
+            // testBla(hi){
+            //     console.log(hi);
+            // }
             }
     };
 </script>
