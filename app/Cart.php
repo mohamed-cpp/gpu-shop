@@ -27,6 +27,7 @@ class Cart
     public function add( $item, $username ){
         $storedItem = null;
         $optionString = null;
+        $qty = $item->isOffer ? $item->quantity_offer : $item->quantity;
         $options = $item->details()
             ->with('subDetailsWithoutImage')
             ->without('subDetails')
@@ -70,7 +71,7 @@ class Cart
                 'minQty'        => $item->quantity,
             ];
         }
-        if($storedItem['qty'] < $item->quantity){
+        if($storedItem['qty'] < $qty){
             $this->totalPrice -= $storedItem['totalPriceQty'];
             $storedItem['qty']++;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
@@ -92,6 +93,7 @@ class Cart
         $optionsQty = [] ;
         $storedItem = null;
         $oldItem = null;
+        $qty = $item->isOffer ? $item->quantity_offer : $item->quantity;
         $keyProduct = $item->id.$options['string'];
         if($this->items){
             if(array_key_exists($keyProduct,$this->items)){
@@ -135,7 +137,9 @@ class Cart
             $currency = "price_$currency";
             $price = $item->$currency;
         }
-        $optionsQty[] = $item->quantity;
+        if ( $qty != 0){
+            $optionsQty[] =  $qty ;
+        }
         $storedItem = [
             'for'           => $oldItem ? $oldItem['for'] : null ,
             'name'          => $item->name,

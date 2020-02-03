@@ -58,11 +58,12 @@
                             </div>
 
                             <div style="width: 363px; height: 314px; overflow: auto;" v-show="description" v-html="locale ? product.description_ar : product.description_en "></div>
+                            <h3 v-if="detailsArray.length !== 0">Options</h3>
                             <section v-if="!description" v-for="(detail, index) in detailsArray">
                                 <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
                                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
                                 <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
-                                    <input :checked="index === 0" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en)">
+                                    <input :checked="clickedInput(sub_detail,index)" :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en,index)">
                                     <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
                                     <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                                     <div class="toggle-button__icon"></div>
@@ -71,13 +72,17 @@
 
 
 
-                            <h5>Quantity: <span v-if="product.isOffer">{{quantity_offer ? quantity_offer : quantity}}</span> <span v-else>{{quantity}}</span></h5>
+                            <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
                             <div>
                                 <div class="quickview-plus-minus">
                                     <span class="input-number-decrement">–</span><input class="input-number" type="text" :value="1" min="0" :max="quantity"><span class="input-number-increment">+</span>
-                                    <div class="quickview-btn-cart">
-                                        <a class="btn-hover-black" v-if="description === true" v-on:click="viewDetails()" >add to cart</a>
-                                        <addCartbutton v-else :slug="product.slug_en" :options="detailsArray"></addCartbutton>
+                                    <div v-if="description === true" class="quickview-btn-cart">
+                                        <a class="btn-hover-black" v-on:click="viewDetails()" >add to cart</a>
+                                    </div>
+                                    <div v-else class="quickview-btn-cart">
+                                        <addCartbutton v-if="quantity !== 0" :slug="product.slug_en" :options="detailsArray"></addCartbutton>
+                                        <h5 v-else >Sorry Sold Out &#128577;<p v-if="detailsArray.length !== 0">Select another option </p></h5>
+
                                     </div>
                                     <div class="quickview-btn-wishlist">
                                         <addWishlist :list="2" :idproduct="product.id"></addWishlist>
@@ -113,7 +118,6 @@
                 normalPrice: null,
                 offerPrice: null,
                 quantity: null,
-                quantity_offer: null,
                 description: true,
                 images: [],
                 detailsArray: [],
@@ -144,10 +148,16 @@
             },
             productVar(slug){
                 var product = this.products[slug];
+                var self = this;
                 product.then(result => this.normalPrice = result['price_'+this.currencyprop]);
                 product.then(result => this.offerPrice = result['offer_price_'+this.currencyprop]);
-                product.then(result => this.quantity = result['quantity']);
-                product.then(result => this.quantity_offer = result['quantity_offer']);
+                product.then(function (result) {
+                    if (self.product.isOffer){
+                        self.quantity = result['quantity_offer']
+                    }else {
+                        self.quantity = result['quantity']
+                    }
+                });
                 product.then(result => this.id = result['id']);
                 this.description = true;
             },
@@ -161,7 +171,7 @@
                 this.detailsArray = axios.get('/api/details/'+this.id)
                     .then(response => this.detailsArray = response.data);
             },
-            details(subdetails,detailName){
+            details(subdetails,detailName,index){
                 if(this.detailsPriceArray.length != 0){
                     var normalPrice = parseInt(this.normalPrice);
                     var offerPrice = parseInt(this.offerPrice);
@@ -184,12 +194,40 @@
                 if(subdetails.images.length != 0){
                     this.images = subdetails.images;
                 }
-                if(subdetails.quantity > 0){
-                    this.quantity = subdetails.quantity;
+                if(index === 0){
+                    if (this.product.isOffer){
+                        this.quantity = this.product.quantity_offer
+                    }else {
+                        this.quantity = this.product.quantity
+                    }
+                }else if(subdetails.quantity > 0){
+                    if(subdetails.quantity < this.quantity || this.quantity === 0 ){
+                        if (this.detailsPriceArray.length === this.detailsArray.length ){
+                            this.quantity = subdetails.quantity;
+                        }
+                    }
                 }
             },
+        disabledInput(subdetails,index){
+            if(index !== 0 && subdetails.quantity === 0){
+                return true;
+            }else if(index === 0 && this.quantity ===0 ){
+                return true;
+            }
         },
-
+        clickedInput(subdetails,index){
+            if(index === 0){
+                if (this.product.isOffer){
+                    var qty = this.product.quantity_offer;
+                }else {
+                    var qty = this.product.quantity;
+                }
+                if (qty !== 0) {
+                    return true;
+                }
+            }
+        },
+        },
         // beforeCreate: function () {
         //     console.log(this.$productId)
         // },
@@ -204,6 +242,7 @@
         letter-spacing: -0.92px;
         margin: 0 6px;
         color: #fff !important;
+        padding: 17px 15px !important;
     }
     .quick-view-tab-content .tab-pane > img{
         width: 350px;
@@ -213,6 +252,11 @@
     }
     .quick-view-thumbnail{
         width: 360px;
+    }
+    .qty{
+        color: red;
+        font-weight: 600;
+        text-decoration: underline;
     }
 </style>
 

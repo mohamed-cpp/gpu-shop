@@ -21,7 +21,7 @@ class CreateClientsTable extends Migration
             $table->string('username', 30)->unique();
             $table->string('phone_number')->unique();
             $table->string('email')->nullable()->unique();
-            $table->smallInteger('code')->nullable()->unique();
+            $table->unsignedInteger('code')->nullable()->unique();
             $table->timestamp('create_code_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->timestamp('phone_verified_at')->nullable();

@@ -64,12 +64,12 @@
                 <div><span class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</span></div>
                 <span v-if="product.isOffer" class="offer" >{{currency}}{{offerPrice}}</span>
             </div>
-
+            <h3 v-if="product.details.length !== 0">Options</h3>
             <section v-for="(detail, index) in product.details">
                 <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
-                <input v-bind:class="{'click': index == 0 }" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en)">
+                <input :checked="clickedInput(sub_detail,index)" :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en,index)">
                 <label v-if="locale" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                 <div class="toggle-button__icon"></div>
@@ -79,10 +79,11 @@
 
 
 
-            <h4>Quantity: <span>{{quantity}}</span></h4>
+            <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
+            <h3 v-else >Sorry Sold Out &#128577;<p v-if="product.details.length !== 0">Select another option </p></h3>
             <div class="quickview-plus-minus">
                 <span class="input-number-decrement">–</span><input class="input-number" type="text" value="1" min="1" :max="quantity"><span class="input-number-increment">+</span>
-                <div class="quickview-btn-cart">
+                <div v-if="quantity !== 0" class="quickview-btn-cart">
                     <addCartbutton :slug="product.slug_en" :options="product.details"></addCartbutton>
                 </div>
                 <div class="quickview-btn-wishlist">
@@ -153,10 +154,9 @@
                     this.quantity = this.product.quantity_offer;
                 }
             }
-            $('.click').click();
         },
         methods:{
-            details(subdetails,detailName){
+            details(subdetails,detailName,index){
                 if(this.detailsArray.length != 0){
                     var normalPrice = parseInt(this.normalPrice);
                     var offerPrice = parseInt(this.offerPrice);
@@ -180,8 +180,37 @@
                 if(subdetails.images.length != 0){
                     this.images = subdetails.images;
                 }
-                if(subdetails.quantity > 0){
-                    this.quantity = subdetails.quantity;
+                if(index === 0){
+                    if (this.product.isOffer){
+                        this.quantity = this.product.quantity_offer
+                    }else {
+                        this.quantity = this.product.quantity
+                    }
+                }else if(subdetails.quantity > 0){
+                    if(subdetails.quantity < this.quantity || this.quantity === 0 ){
+                        if (this.product.details.length === this.detailsArray.length ){
+                            this.quantity = subdetails.quantity;
+                        }
+                    }
+                }
+            },
+            disabledInput(subdetails,index){
+                if(index !== 0 && subdetails.quantity === 0){
+                    return true;
+                }else if(index === 0 && this.quantity ===0 ){
+                    return true;
+                }
+            },
+            clickedInput(subdetails,index){
+                if(index === 0){
+                    if (this.product.isOffer){
+                        var qty = this.product.quantity_offer;
+                    }else {
+                        var qty = this.product.quantity;
+                    }
+                    if (qty !== 0) {
+                        return true;
+                    }
                 }
             },
         }
@@ -196,6 +225,11 @@
     }
     .quickview-btn-cart{
         color: white;
+    }
+    .qty {
+        color: red;
+        font-weight: 600;
+        text-decoration: underline;
     }
 
 </style>

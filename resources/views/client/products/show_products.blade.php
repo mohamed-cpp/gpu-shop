@@ -694,7 +694,6 @@
                                                 <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPriceold }}</span></div>
                                                 @if($isOffer)
                                                     <span class="offer" >{{$currency}}{{$product->offerPrice}}</span>
-                                                    <div style="" class="offBox"><span>{{round(($product->offerPriceold - $product->offerPrice) / $product->offerPriceold * 100) }}% Off</span></div>
                                                 @endif
                                             </div>
                                         </div>

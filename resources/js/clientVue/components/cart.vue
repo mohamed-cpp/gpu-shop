@@ -136,7 +136,7 @@
                             <h6 style="font-weight: bold;" v-if="lang === 'ar'">{{ detail.name_ar }}:</h6>
                             <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
                             <div v-for="(sub_detail, index) in detail.sub_details_without_image" class="toggle-button toggle-button--nummi">
-                                <input :checked="index === 0" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
+                                <input :disabled="disabledInput(sub_detail)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
                                 <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
                                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                                 <div class="toggle-button__icon"></div>
@@ -280,7 +280,12 @@
                         }
                     });
 
-            }
+            },
+            disabledInput(subdetails){
+                if(subdetails.quantity === 0){
+                    return true;
+                }
+            },
         }
     };
 </script>
