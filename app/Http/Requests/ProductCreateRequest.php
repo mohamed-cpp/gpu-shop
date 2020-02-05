@@ -26,12 +26,12 @@ class ProductCreateRequest extends FormRequest
         return [
             'name_en' => 'required|string',
             'description_en' => 'required|string',
-            'slug_en'=> 'required|string',
+            'slug_en'=> 'required|string|unique:products',
             'title_meta_en'=> 'sometimes',
             'description_meta_en'=> 'sometimes',
             'name_ar' => 'required|string',
             'description_ar' => 'required|string',
-            'slug_ar' => 'required|string',
+            'slug_ar' => 'required|string|unique:products',
             'title_meta_ar' => 'sometimes',
             'description_meta_ar' => 'sometimes',
             'price_egp' => 'required|numeric|min:0',
@@ -46,7 +46,8 @@ class ProductCreateRequest extends FormRequest
             'main_image'   => 'required|mimes:jpeg,png,jpg',
             'images.*'  => 'required|mimes:jpeg,png,jpg',
             'subcategories.*' => 'required|numeric',
-            'tags' => 'required|string'
+            'tags' => 'required|string',
+            'weight' => 'required|numeric|min:0'
         ];
     }
 }

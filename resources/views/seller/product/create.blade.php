@@ -200,6 +200,7 @@
                 <div class="form-group">
                     <label for="priceEgp">Price of Product EGP</label>
                     <input type="number" min="1" class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{old('price_egp')}}">
+                    <h5  class="mt-1 mb-3 d-none fee_egp">The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -207,6 +208,7 @@
                     @enderror
                     <label for="priceUsd">Price of Product USD</label>
                     <input type="number" min="1" class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{old('price_usd')}}">
+                    <h5 class="mt-1 mb-3 d-none fee_usd" >The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('price_usd')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -225,9 +227,19 @@
                 </div>
                 <hr>
                 <div class="form-group">
-                    <label for="quantity">Tags</label>
-                    <input type="text" class="form-control @error('tags') is-invalid @enderror" id="quantity" name="tags" value="{{old('tags')}}" placeholder="Hard,SSD,Memory">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control @error('tags') is-invalid @enderror" id="tags" name="tags" value="{{old('tags')}}" placeholder="Hard,SSD,Memory">
                     @error('tags')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="weight">Weight With Kilogram</label>
+                    <input type="text" class="form-control @error('weight') is-invalid @enderror" id="weight" name="weight" value="{{old('weight')}}" placeholder=".5">
+                    @error('weight')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
@@ -287,6 +299,7 @@
                 <div class="form-group">
                     <label for="offerPriceEgp">Offer Price of Product EGP</label>
                     <input type="number" min="1" class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp')}}">
+                    <h5  class="mt-1 mb-3 d-none offer_fee_egp">The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('offer_price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -294,6 +307,7 @@
                     @enderror
                     <label for="offerPriceUSD">Offer Price of Product USD</label>
                     <input type="number" min="1" class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd')}}">
+                    <h5 class="mt-1 mb-3 d-none offer_fee_usd" >The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('offer_price_usd')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -378,6 +392,49 @@
             $('#metaEn').show(2000);
             $("#metaDivEn").hide(500);
         });
+//   fee price
+        var $fee = {!! json_encode($fee) !!};
+        $("#priceEgp").keyup(function(){
+            var val = parseInt($("#priceEgp").val());
+            if( $fee.isFixed ){
+                var afterFee = (($fee.fee * 0.01) * val) + val;
+            }else{
+                var afterFee = $fee.egp + val;
+            }
+            $(".fee_egp strong").html(afterFee+"£");
+            $(".fee_egp").removeClass("d-none");
 
+        });
+        $("#priceUsd").keyup(function(){
+            var val = parseInt($("#priceUsd").val());
+            if( $fee.isFixed ){
+                var afterFee = (($fee.fee * 0.01) * val) + val;
+            }else{
+                var afterFee = $fee.usd + val;
+            }
+            $(".fee_usd strong").html(afterFee+"$");
+            $(".fee_usd").removeClass("d-none");
+        });
+        $("#offerPriceEgp").keyup(function(){
+            var val = parseInt($("#offerPriceEgp").val());
+            if( $fee.isFixed ){
+                var afterFee = (($fee.fee * 0.01) * val) + val;
+            }else{
+                var afterFee = $fee.egp + val;
+            }
+            $(".offer_fee_egp strong").html(afterFee+"£");
+            $(".offer_fee_egp").removeClass("d-none");
+
+        });
+        $("#offerPriceUSD").keyup(function(){
+            var val = parseInt($("#offerPriceUSD").val());
+            if( $fee.isFixed ){
+                var afterFee = (($fee.fee * 0.01) * val) + val;
+            }else{
+                var afterFee = $fee.usd + val;
+            }
+            $(".offer_fee_usd strong").html(afterFee+"$");
+            $(".offer_fee_usd").removeClass("d-none");
+        });
     </script>
 @endpush

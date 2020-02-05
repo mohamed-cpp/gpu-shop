@@ -58,7 +58,21 @@ class ProductController extends Controller
     public function create()
     {
         $subcategories = SubCategory::where('status',true)->get();
-        return view('seller.product.create',['subcategories' => $subcategories]);
+        $seller = auth('seller')->user();
+        $fee = $seller->is_fixed ?
+            [
+                'isFixed' => $seller->is_fixed,
+                'fee' => $seller->fee,
+            ] :
+            [
+                'isFixed' => $seller->is_fixed,
+                'egp'     => $seller->fee_egp,
+                'usd'     => $seller->fee_usd,
+            ];
+        return view('seller.product.create',[
+            'subcategories' => $subcategories,
+            'fee' => $fee
+        ]);
     }
 
     /**
@@ -70,13 +84,31 @@ class ProductController extends Controller
     public function store(ProductCreateRequest $request)
     {
         $input = $request->all();
+        $seller = auth('seller')->user();
+        if($seller->is_fixed){
+            $input['price_egp'] = (($seller->fee * 0.01) * $input['price_egp'] ) + $input['price_egp'] ;
+            $input['price_usd'] = (($seller->fee * 0.01) * $input['price_usd'] ) + $input['price_usd'] ;
+            if ($input['offer_price_egp']){
+                $input['offer_price_usd'] = (($seller->fee * 0.01) * $input['offer_price_usd'] ) + $input['offer_price_usd'] ;
+                $input['offer_price_egp'] = (($seller->fee * 0.01) * $input['offer_price_egp'] ) + $input['offer_price_egp'] ;
+            }
+        }else{
+            $input['price_egp'] = $seller->fee_egp + $input['price_egp'] ;
+            $input['price_usd'] = $seller->fee_usd + $input['price_usd'] ;
+            if ($input['offer_price_egp']){
+                $input['offer_price_usd'] = $seller->fee_usd + $input['offer_price_usd'] ;
+                $input['offer_price_egp'] = $seller->fee_egp + $input['offer_price_egp'] ;
+            }
+        }
         $image = $request->file('main_image');
         $input['main_image'] = $this->moveImage($image);
-        $product = auth('seller')->user()->products()->create($input);
+        $product = $seller->products()->create($input);
         $product->tag($input['tags']);
         $images = [];
-        foreach ($request->file('images') as $requestImage){
-            $images[] = new \App\Image(['path' => $this->moveImage($requestImage)]) ;
+        if ($request->file('images')){
+            foreach ($request->file('images') as $requestImage){
+                $images[] = new \App\Image(['path' => $this->moveImage($requestImage)]) ;
+            }
         }
         $subcategories = [];
         foreach ($input['subcategories'] as $subcategor){
@@ -210,10 +242,22 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         $subcategories = SubCategory::where('status',true)->get();
+        $seller = auth('seller')->user();
+        $fee = $seller->is_fixed ?
+            [
+                'isFixed' => $seller->is_fixed,
+                'fee' => $seller->fee,
+            ] :
+            [
+                'isFixed' => $seller->is_fixed,
+                'egp'     => $seller->fee_egp,
+                'usd'     => $seller->fee_usd,
+            ];
         return view('seller.product.edit',[
             'product' => $product,
             'subcategories' => $subcategories,
             'subcategories_id' => $product->subcategories_ids->toArray(),
+            'fee' => $fee,
         ]);
     }
 
@@ -227,6 +271,22 @@ class ProductController extends Controller
     {
 //        dd(strip_tags($request->description_en));
         $input = $request->all();
+        $seller = auth('seller')->user();
+        if($seller->is_fixed){
+            $input['price_egp'] = (($seller->fee * 0.01) * $input['price_egp'] ) + $input['price_egp'] ;
+            $input['price_usd'] = (($seller->fee * 0.01) * $input['price_usd'] ) + $input['price_usd'] ;
+            if ($input['offer_price_egp']){
+                $input['offer_price_usd'] = (($seller->fee * 0.01) * $input['offer_price_usd'] ) + $input['offer_price_usd'] ;
+                $input['offer_price_egp'] = (($seller->fee * 0.01) * $input['offer_price_egp'] ) + $input['offer_price_egp'] ;
+            }
+        }else{
+            $input['price_egp'] = $seller->fee_egp + $input['price_egp'] ;
+            $input['price_usd'] = $seller->fee_usd + $input['price_usd'] ;
+            if ($input['offer_price_egp']){
+                $input['offer_price_usd'] = $seller->fee_usd + $input['offer_price_usd'] ;
+                $input['offer_price_egp'] = $seller->fee_egp + $input['offer_price_egp'] ;
+            }
+        }
         if($image = $request->file('main_image')){
             $input['main_image'] = $this->moveImage($image);
         }

@@ -24,11 +24,13 @@ class Product extends Model
         'name_en', 'name_ar', 'description_en', 'description_ar',
         'title_meta_en', 'title_meta_ar', 'description_meta_ar', 'description_meta_en',
         'slug_en', 'slug_ar', 'main_image', 'status', 'price_egp', 'price_usd', 'seller_id', 'quantity',
-        'offer_price_egp', 'offer_price_usd', 'offer_start_at', 'offer_end_at', 'quantity_offer', 'approved'
+        'offer_price_egp', 'offer_price_usd', 'offer_start_at', 'offer_end_at', 'quantity_offer', 'approved',
+        'weight', 'fee', 'fee_egp', 'fee_usd'
     ];
 
     protected $casts = [
         'status' => 'boolean',
+        'fee' => 'boolean',
         'offer_start_at' =>'datetime',
         'offer_end_at' =>'datetime',
     ];
@@ -98,6 +100,13 @@ class Product extends Model
         $locale = App::getLocale();
         $column = "description_" . $locale;
         return $this->{$column};
+    }
+
+    public function getFeeCurrencyAttribute()
+    {
+        $currency = Cookie::get('currency');
+        $price = "fee_$currency";
+        return $this->$price;
     }
 
     /**

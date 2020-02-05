@@ -98,7 +98,7 @@ Route::get('/test', function () {
 //    session()->flush();
 //    session()->put('cart',null);
 
-    dd(session()->get('cart'),session()->get('cart2'));
+//    dd(session()->get('cart'),session()->get('cart2'));
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {
