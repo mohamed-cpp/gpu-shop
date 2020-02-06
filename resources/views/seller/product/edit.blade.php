@@ -531,7 +531,7 @@
 
                 <div class="form-group">
                     <label for="priceEgp">Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{ $product->price_egp }}">
+                    <input type="number" min="1" step=any class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{ $product->price_egp }}">
                     <h5  class="mt-1 mb-3 d-none fee_egp">The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('price_egp')
                     <span class="invalid-feedback" role="alert">
@@ -539,7 +539,7 @@
                         </span>
                     @enderror
                     <label for="priceUsd">Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{ $product->price_usd }}">
+                    <input type="number" min="1" step=any class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{ $product->price_usd }}">
                     <h5 class="mt-1 mb-3 d-none fee_usd" >The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('price_usd')
                     <span class="invalid-feedback" role="alert">
@@ -643,7 +643,7 @@
                 </div>
                 <div class="form-group">
                     <label for="offerPriceEgp">Offer Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
+                    <input type="number" min="1" step=any class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
                     <h5  class="mt-1 mb-3 d-none offer_fee_egp">The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('offer_price_egp')
                     <span class="invalid-feedback" role="alert">
@@ -651,7 +651,7 @@
                         </span>
                     @enderror
                     <label for="offerPriceUSD">Offer Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
+                    <input type="number" min="1" step=any class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
                     <h5 class="mt-1 mb-3 d-none offer_fee_usd" >The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('offer_price_usd')
                     <span class="invalid-feedback" role="alert">
@@ -814,48 +814,76 @@
         }
 
         //   fee price
-        var $fee = {!! json_encode($fee) !!};
+        var fee = {!! json_encode($fee) !!};
+        var prices = {!! json_encode($prices) !!};
         $("#priceEgp").keyup(function(){
             var val = parseInt($("#priceEgp").val());
-            if( $fee.isFixed ){
-                var afterFee = (($fee.fee * 0.01) * val) + val;
-            }else{
-                var afterFee = $fee.egp + val;
+            if(val != prices.price_egp){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    var afterFee = fee.egp + val;
+                }
+                $(".fee_egp strong").html(afterFee+"£");
+                $(".fee_egp").removeClass("d-none");
+            }else {
+                $(".fee_egp strong").html('');
+                $(".fee_egp").addClass("d-none");
             }
-            $(".fee_egp strong").html(afterFee+"£");
-            $(".fee_egp").removeClass("d-none");
 
         });
         $("#priceUsd").keyup(function(){
             var val = parseInt($("#priceUsd").val());
-            if( $fee.isFixed ){
-                var afterFee = (($fee.fee * 0.01) * val) + val;
-            }else{
-                var afterFee = $fee.usd + val;
+            if(val != prices.price_usd){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    var afterFee = fee.usd + val;
+                }
+                $(".fee_usd strong").html(afterFee+"$");
+                $(".fee_usd").removeClass("d-none");
+            }else {
+                $(".fee_usd strong").html('');
+                $(".fee_usd").addClass("d-none");
             }
-            $(".fee_usd strong").html(afterFee+"$");
-            $(".fee_usd").removeClass("d-none");
         });
         $("#offerPriceEgp").keyup(function(){
             var val = parseInt($("#offerPriceEgp").val());
-            if( $fee.isFixed ){
-                var afterFee = (($fee.fee * 0.01) * val) + val;
-            }else{
-                var afterFee = $fee.egp + val;
+            if(val != prices.offer_price_egp){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    if(fee.productFee){
+                        var afterFee = fee.offer_egp + val;
+                    }else{
+                        var afterFee = fee.egp + val;
+                    }
+                }
+                $(".offer_fee_egp strong").html(afterFee+"£");
+                $(".offer_fee_egp").removeClass("d-none");
+            }else {
+                $(".offer_fee_egp strong").html("");
+                $(".offer_fee_egp").addClass("d-none");
             }
-            $(".offer_fee_egp strong").html(afterFee+"£");
-            $(".offer_fee_egp").removeClass("d-none");
-
         });
         $("#offerPriceUSD").keyup(function(){
             var val = parseInt($("#offerPriceUSD").val());
-            if( $fee.isFixed ){
-                var afterFee = (($fee.fee * 0.01) * val) + val;
-            }else{
-                var afterFee = $fee.usd + val;
+            if(val != prices.offer_price_usd){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    if(fee.productFee){
+                        var afterFee = fee.offer_usd + val;
+                    }else{
+                        var afterFee = fee.usd + val;
+                    }
+                }
+                $(".offer_fee_usd strong").html(afterFee+"$");
+                $(".offer_fee_usd").removeClass("d-none");
+            }else {
+                $(".offer_fee_usd strong").html("");
+                $(".offer_fee_usd").addClass("d-none");
             }
-            $(".offer_fee_usd strong").html(afterFee+"$");
-            $(".offer_fee_usd").removeClass("d-none");
         });
     </script>
 @endpush
