@@ -1,5 +1,5 @@
 <!doctype html>
-<html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="no-js" lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -13,6 +13,11 @@
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
+    <script>
+        @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
+        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
+        window.signed = {!! json_encode(['signedIn' => auth('client')->check()  ]) !!};
+    </script>
 </head>
 <body>
 <!-- header start -->
@@ -22,8 +27,12 @@
     @include('client.layout._footer')
     @include('client.layout._sideBar')
     @stack('includes')
+    <div id="flash">
+        <flash message="{{ session('flash') }}"></flash>
+    </div>
 </div>
 <!-- all js here -->
+<script src="{{asset('GPU-Shop/js/vue.js')}}"></script>
 <script src="{{asset('GPU-Shop/js/app.js')}}"></script>
 @stack('scripts')
 @yield('extra-scripts')

@@ -207,6 +207,10 @@
 @section('content')
     <div class="container-fluid">
         <!-- Page Heading -->
+        <a href="{{route('categories.index')}}" class="btn btn-primary a-btn-slide-text">
+            <span class="fa fa-chevron-left" aria-hidden="true"></span>
+            <span><strong>{{__('Back to All categories')}}</strong></span>
+        </a>
         <h1 class="h3 mb-2 text-gray-800">Subcategories</h1>
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -215,6 +219,10 @@
             <a href="{{route('subcategories.create',['category_id'=>$category['categoryId']])}}" class="btn btn-primary a-btn-slide-text float-right">
                 <span class="fa fa-plus" aria-hidden="true"></span>
                 <span><strong>{{__('Add Subcategory')}}</strong></span>
+            </a>
+            <a href="{{route('add.parent',['category_id'=>$category['categoryId']])}}" class="btn btn-primary a-btn-slide-text float-right">
+                <span class="fa fa-plus" aria-hidden="true"></span>
+                <span><strong>{{__('Add Parent Subcategory')}}</strong></span>
             </a>
 
         </div>
@@ -227,7 +235,7 @@
                         <th>Sort</th>
                         <th>Status</th>
                         <th>Quick Buttons</th>
-                        <th>Edit</th>
+                        <th>Buttons</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -238,7 +246,7 @@
                         <td>{{$subcategory->sort}}</td>
                         <td>{{$status == 1 ? __('Enabled') : __('Disabled') }}</td>
                         <td width="15%">
-                            {!! Form::model(['method'=>'PATCH' ],['route' => ['sub.quick.buttons',$subcategory] ,'class'=>'d-inline'] ) !!}
+                            {!! Form::model(['method'=>'PATCH' ],['route' => ['sub.quick.buttons',$subcategory->id] ,'class'=>'d-inline'] ) !!}
                             @method('PATCH')
                             <button type="button"  onclick="myFunction({{$subcategory->id}})" class="btn btn-sm btn-toggle {{$status == 1 ? 'active' : ''}}" data-toggle="button" aria-pressed="true" autocomplete="off">
                                 <div class="handle"></div>
@@ -246,7 +254,7 @@
                             {!! Form::submit ("",['hidden','id'=>$subcategory->id]) !!}
                             {!! Form::close() !!}
 
-                            <form class="d-inline" method="post" action="{{route('subcategories.destroy',$subcategory)}}">
+                            <form class="d-inline" method="post" action="{{route('subcategories.destroy',$subcategory->id)}}">
                                 @method('DELETE')
                                 @csrf
                                 <button type="submit" class="btn btn-danger btn-circle">
@@ -255,12 +263,18 @@
                             </form>
 
                         </td>
-                        <td width="15%">
+                        <td width="23%">
                             <div class=" text-center">
-                            <a href="{{route('subcategories.edit',[$subcategory])}}" class="btn btn-primary a-btn-slide-text">
+                            <a href="{{route('subcategories.edit',[$subcategory->id])}}" class="btn btn-primary a-btn-slide-text">
                                 <span class="fa fa-wrench" aria-hidden="true"></span>
                                 <span><strong>Edit</strong></span>
                             </a>
+                             @if($subcategory->parent)
+                                <a href="{{route('subcategories.show',[$subcategory->id])}}" class="btn btn-primary a-btn-slide-text">
+                                    <span class="fa fa-eye" aria-hidden="true"></span>
+                                    <span><strong>Children</strong></span>
+                                </a>
+                            @endif
                             </div>
                         </td>
                     </tr>

@@ -1,9 +1,192 @@
 @extends('client.app')
-
+@section('title', $product->name)
 @push('styles')
     <style>
+        @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
+        *, *::after, *::before {
+            box-sizing: border-box; }
+
+        .section {
+            text-align: center;
+            height: 100%;
+            margin: 0 auto;
+            padding: 6em 0; }
+        .section__title {
+            font-size: 1.1em;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: #fff;
+            margin-bottom: 3em; }
+
+        .toggle-button {
+            position: relative;
+            display: inline-block;
+            color: #fff;
+            margin: 0 20px; }
+        .toggle-button label {
+            display: inline-block;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-align: left; }
+        .toggle-button input {
+            display: none; }
+        .toggle-button__icon {
+            cursor: pointer;
+            pointer-events: none; }
+        .toggle-button__icon:before, .toggle-button__icon:after {
+            content: "";
+            position: absolute;
+            transition: 0.2s ease-out; }
+
+        @media only screen and (max-width: 480px) {
+            .toggle-button--valo {
+                display: block;
+                width: 110px;
+                margin: 0 auto 10px auto; } }
+
+        .toggle-button--nummi label {
+            width: 80px;
+            height: 20px;
+            line-height: 20px;
+            transition: all 0.2s; }
+        .toggle-button--nummi label:before, .toggle-button--nummi label:after {
+            position: absolute;
+            top: 0;
+            left: 30px;
+            width: 110px;
+            transition: all 0.2s .1s ease-out; }
+        .toggle-button--nummi label:before {
+            content: attr(data-text); }
+
+        .toggle-button--nummi input:checked ~ .toggle-button__icon {
+            animation: wiggle .2s ease-out; }
+        .toggle-button--nummi input:checked ~ .toggle-button__icon:after {
+            animation: flyInRight .4s;
+            transform: translate(0); }
+
+        .toggle-button--nummi .toggle-button__icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #0000009e;
+            overflow: hidden;
+            box-shadow: inset 1px 1px 10px rgba(0, 0, 0, 0.15); }
+        .toggle-button--nummi .toggle-button__icon:before, .toggle-button--nummi .toggle-button__icon:after {
+            border-radius: 50%; }
+        .toggle-button--nummi .toggle-button__icon:before {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.8); }
+        .toggle-button--nummi .toggle-button__icon:after {
+            top: 4px;
+            left: 4px;
+            width: 60%;
+            height: 60%;
+            background: #ee3333;
+            transition: none;
+            transform: translate(200%);
+            animation: flyOutLeft .4s; }
+
+        .toggle-button--nummi:hover input:not(:checked) ~ .toggle-button__icon {
+            animation: hover .2s; }
+
+        .toggle-button--nummi:hover input:not(:checked) ~ label:before {
+            text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2); }
+
+        @keyframes flyInRight {
+            0% {
+                transform: translate(200%); }
+            50% {
+                transform: translate(200%); }
+            70% {
+                transform: translate(-50%); }
+            100% {
+                transform: translate(0); } }
+
+        @keyframes flyOutLeft {
+            0% {
+                transform: translate(0); }
+            70% {
+                transform: translate(0); }
+            100% {
+                transform: translate(-200%); } }
+
+        @keyframes wiggle {
+            0% {
+                transform: translate(0); }
+            80% {
+                transform: translate(5px); }
+            100% {
+                transform: translate(0); } }
+
+        @keyframes hover {
+            0% {
+                transform: scale(1); }
+            30% {
+                transform: scale(1.1); }
+            100% {
+                transform: scale(1); } }
+
+        @media only screen and (max-width: 480px) {
+            .toggle-button--meri {
+                display: block;
+                width: 110px;
+                margin: 0 auto 10px auto; } }
+
+    </style>
+    <style>
+        .btn-outline {
+            color: #336deed1;
+            background-color: #ffffff;
+            border-color: #336deed1;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+        }
+        .btn-outline {
+            color: #336deed1;
+            background-color: #ffffff;
+            border-color: #336deed1;
+            font-weight: bold;
+            border-radius: 0;
+        }
+        .btn-outline:hover,
+        .btn-outline:active,
+        .btn-outline:focus,
+        .btn-outline.active {
+            background: #336deed1;
+            color: #ffffff;
+            border-color: #336deed1;
+
+        }
+    </style>
+    <style>
+        .detail{
+            margin-bottom: 20px;
+        }
+        .product-share{
+            margin-top: 25px;
+        }
+        .space{
+            margin-left: 5px;
+        }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type=number] {
+            -moz-appearance:textfield;
+        }
+
         .product-details-small.main-product-details a > img {
-            width: 132px;
+            width: 129px;
         }
         .oldprice{
             text-decoration-line: line-through;
@@ -19,6 +202,48 @@
             font-size: 15px;
             font-weight: 550;
         }
+        .input-number {
+            width: 80px;
+            padding: 0 12px;
+            vertical-align: top;
+            text-align: center;
+            outline: none;
+        }
+
+        .input-number,
+        .input-number-decrement,
+        .input-number-increment {
+            border: 1px solid #ccc;
+            height: 40px;
+            user-select: none;
+        }
+
+        .input-number-decrement,
+        .input-number-increment {
+            display: inline-block;
+            width: 30px;
+            line-height: 38px;
+            background: #f1f1f1;
+            color: #444;
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .input-number-decrement:active,
+        .input-number-increment:active {
+            background: #ddd;
+        }
+
+        .input-number-decrement {
+            border-right: none;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .input-number-increment {
+            border-left: none;
+            border-radius: 0 4px 4px 0;
+        }
+
     </style>
 @endpush
 @section('content')
@@ -40,160 +265,8 @@
                         <a class="active" href="{{ URL::previous() }}"><i class="ion-arrow-left-c"></i></a>
                     </div>
                 </div>
-            </div>
-
-
-            <div class="row">
-                <div class="col-md-12 col-lg-7 col-12">
-                    <div class="product-details-img-content">
-                        <div class="product-details-tab mr-70">
-
-
-
-                            <div class="product-details-large tab-content">
-
-                                <div class="tab-pane active show fade" id="pro-details99" role="tabpanel">
-                                    <div class="easyzoom easyzoom--overlay">
-                                        <a href="{{asset('storage/product/images/'.$product->main_image)}}">
-                                            <img height="570" width="665" src="{{asset('storage/product/images/'.$product->main_image)}}" alt="">
-                                        </a>
-                                    </div>
-                                </div>
-                            @foreach($product->images as $x => $val)
-
-                                    <div class="tab-pane fade" id="pro-details{{$x}}" role="tabpanel">
-                                        <div class="easyzoom easyzoom--overlay">
-                                            <a href="{{asset('storage/product/images/'.$val->path)}}">
-                                                <img height="570" width="665" src="{{asset('storage/product/images/'.$val->path)}}" alt="">
-                                            </a>
-                                        </div>
-                                    </div>
-                            @endforeach
-
-                            </div>
-
-
-                            <div class="product-details-small nav mt-12 main-product-details" role=tablist>
-
-
-                                <a class="active mr-12" href="#pro-details99" data-toggle="tab" role="tab" aria-selected="true">
-                                    <img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="">
-                                </a>
-
-                                @foreach($product->images as $x => $val)
-
-                                    <a class="mr-12" href="#pro-details{{$x}}" data-toggle="tab" role="tab" aria-selected="true">
-                                        <img src="{{asset('storage/product/images/thumbnail/'.$val->path)}}" alt="">
-                                    </a>
-
-                                @endforeach
-
-
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-12 col-lg-5 col-12">
-                    <div class="product-details-content">
-                        <h3>{{$product->name}}</h3>
-                        <div class="rating-number">
-                            <div class="quick-view-rating">
-                                <i class="ion-ios-star red-star"></i>
-                                <i class="ion-ios-star red-star"></i>
-                                <i class="ion-android-star-outline"></i>
-                                <i class="ion-android-star-outline"></i>
-                                <i class="ion-android-star-outline"></i>
-                            </div>
-                            <div class="quick-view-number">
-                                <span>2 Ratting (S)</span>
-                            </div>
-                        </div>
-                        <div class="details-price">
-                            @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$' @endphp
-                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPrice(false)}}</span></div>
-                            @if($isOffer)<span class="offer" >{{$currency}}{{$product->offerPrice()}}</span>@endif
-                        </div>
-                        <div class="quick-view-select">
-                            <div class="select-option-part">
-                                <label>Size*</label>
-                                <select class="select">
-                                    <option value="">- Please Select -</option>
-                                    <option value="">xl</option>
-                                    <option value="">ml</option>
-                                    <option value="">m</option>
-                                    <option value="">sl</option>
-                                </select>
-                            </div>
-                            <div class="select-option-part">
-                                <label>Color*</label>
-                                <select class="select">
-                                    <option value="">- Please Select -</option>
-                                    <option value="">orange</option>
-                                    <option value="">pink</option>
-                                    <option value="">yellow</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="quickview-plus-minus">
-                            <div class="cart-plus-minus">
-                                <input type="text" value="02" name="qtybutton" class="cart-plus-minus-box">
-                            </div>
-                            <div class="quickview-btn-cart">
-                                <a class="btn-hover-black" href="#">add to cart</a>
-                            </div>
-                            <div class="quickview-btn-wishlist">
-                                <a class="btn-hover" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-categories product-cat-tag">
-                            <ul>
-                                <li class="categories-title">Categories :</li>
-                                <li><a href="#">fashion</a></li>
-                                <li><a href="#">electronics</a></li>
-                                <li><a href="#">toys</a></li>
-                                <li><a href="#">food</a></li>
-                                <li><a href="#">jewellery</a></li>
-                            </ul>
-                        </div>
-                        <div class="product-tags product-cat-tag">
-                            <ul>
-                                <li class="categories-title">Tags :</li>
-                                <li><a href="#">fashion</a></li>
-                                <li><a href="#">electronics</a></li>
-                                <li><a href="#">toys</a></li>
-                                <li><a href="#">food</a></li>
-                                <li><a href="#">jewellery</a></li>
-                            </ul>
-                        </div>
-                        <div class="product-share">
-                            <ul>
-                                <li class="categories-title">Share :</li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-twitter"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-tumblr"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-facebook"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <i class="ion-social-instagram-outline"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+            <div id="app">
+                <client_product wishlistadded="{{$addedWishlist}}" :product="{{ json_encode($product) }}" :price="{{ json_encode($price) }}" currencyprop="{{ Cookie::get('currency') }}"></client_product>
             </div>
         </div>
     </div>
@@ -224,134 +297,93 @@
             <div class="section-title text-center mb-55">
                 <h2>Related products</h2>
             </div>
-            <div class="row">
+            <div class="row" id="appView">
                 <div class="new-collection-slider owl-carousel">
-                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
+                    @php $currency = Cookie::get('currency') == 'egp' ? '£' : '$' @endphp
+                    @foreach($relatedProducts as $relatedProduct)
+                        <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
                         <div class="single-product mb-35">
                             <div class="product-img">
-                                <a href="#"><img src="/assets/img/shop/shop-grid-1/1.jpg" alt=""></a>
-                                <span>sale</span>
+                                <a href="{{route('show.product.client', $relatedProduct->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$relatedProduct->main_image)}}" height="270" alt="{{$relatedProduct->name}}"></a>
+                                @if($isOffer = $relatedProduct->isOffer == true) <span>sale</span> @endif
                                 <div class="product-action">
-                                    <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
+                                    <add_wishlist idproduct="{{$relatedProduct->id}}"></add_wishlist>
+                                    <click_quick_view slugproduct="{{$relatedProduct->slug_en}}"></click_quick_view>
                                 </div>
                             </div>
                             <div class="product-content">
                                 <div class="product-title-price">
                                     <div class="product-title">
-                                        <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
+                                        <h4><a href="{{route('show.product.client', $relatedProduct->slug)}}">{{$relatedProduct->name}}</a></h4>
                                     </div>
                                     <div class="product-price">
-                                        <span>$110.00</span>
+                                        <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$relatedProduct->offerPrice(false)}}</span></div>
+                                        @if($isOffer)<span class="offer" >{{$currency}}{{$relatedProduct->offerPrice()}}</span>@endif
                                     </div>
                                 </div>
                                 <div class="product-cart-categori">
                                     <div class="product-cart">
                                         <span>Furniter</span>
                                     </div>
-                                    <div class="product-categori">
-                                        <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                                    </div>
+                                    <add_cart slug="{{$relatedProduct->slug}}" tablist="true"></add_cart>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
-                        <div class="single-product mb-35">
-                            <div class="product-img">
-                                <a href="#"><img src="/assets/img/shop/shop-grid-1/7.jpg" alt=""></a>
-                                <div class="product-action">
-                                    <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="product-title-price">
-                                    <div class="product-title">
-                                        <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
-                                    </div>
-                                    <div class="product-price">
-                                        <span>$120.00</span>
-                                    </div>
-                                </div>
-                                <div class="product-cart-categori">
-                                    <div class="product-cart">
-                                        <span>Furniter</span>
-                                    </div>
-                                    <div class="product-categori">
-                                        <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
-                        <div class="single-product mb-35">
-                            <div class="product-img">
-                                <a href="#"><img src="/assets/img/shop/shop-grid-1/14.jpg" alt=""></a>
-                                <span>sale</span>
-                                <div class="product-action">
-                                    <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="product-title-price">
-                                    <div class="product-title">
-                                        <h4><a href="product-details-6.html">HANDCRAFTED MUG</a></h4>
-                                    </div>
-                                    <div class="product-price">
-                                        <span>$130.00</span>
-                                    </div>
-                                </div>
-                                <div class="product-cart-categori">
-                                    <div class="product-cart">
-                                        <span>Furniter</span>
-                                    </div>
-                                    <div class="product-categori">
-                                        <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
-                        <div class="single-product mb-35">
-                            <div class="product-img">
-                                <a href="#"><img src="/assets/img/shop/shop-grid-1/11.jpg" alt=""></a>
-                                <div class="product-action">
-                                    <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                                    <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                                </div>
-                            </div>
-                            <div class="product-content">
-                                <div class="product-title-price">
-                                    <div class="product-title">
-                                        <h4><a href="product-details-6.html">HANDCRAFTED MUG</a></h4>
-                                    </div>
-                                    <div class="product-price">
-                                        <span>$140.00</span>
-                                    </div>
-                                </div>
-                                <div class="product-cart-categori">
-                                    <div class="product-cart">
-                                        <span>Furniter</span>
-                                    </div>
-                                    <div class="product-categori">
-                                        <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
+                <quick_view locale="@if(app()->getLocale() == 'ar') 'ar' @endif" currencyprop="{{ Cookie::get('currency') }}"></quick_view>
             </div>
         </div>
     </div>
 
-
 @endsection
-@push('includes')
-    @include('client.layout._quickView')
+{{--@push('includes')--}}
+{{--    @include('client.layout._quickView')--}}
+{{--@endpush--}}
+@push('scripts')
+    <script>
+                (function() {
+
+                    window.inputNumber = function(el) {
+
+                        var min = el.attr('min') || false;
+                        var max = el.attr('max') || false;
+
+                        var els = {};
+
+                        els.dec = el.prev();
+                        els.inc = el.next();
+
+                        el.each(function() {
+                            init($(this));
+                        });
+
+                        function init(el) {
+
+                            els.dec.on('click', decrement);
+                            els.inc.on('click', increment);
+
+                            function decrement() {
+                                var value = el[0].value;
+                                value--;
+                                if(!min || value >= min) {
+                                    el[0].value = value;
+                                }
+                            }
+
+                            function increment() {
+                                var value = el[0].value;
+                                value++;
+                                if(!max || value <= max) {
+                                    el[0].value = value++;
+                                }
+                            }
+                        }
+                    }
+                })();
+
+                inputNumber($('.input-number'));
+            </script>
 @endpush
 

@@ -6,8 +6,10 @@ use App\Notifications\ClientResetPasswordNotification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Notifications\SendClientVerificationEmailNotification;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Notifications\Notifiable;
+use Spatie\Permission\Traits\HasRoles;
 
 
 /**
@@ -19,6 +21,10 @@ use Illuminate\Notifications\Notifiable;
 class Client extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
+    use HasRoles;
+
+
+    protected $guard = 'client';
 
     protected $fillable = [
         'name', 'username', 'phone_number','email', 'password', 'email_verified_at'
@@ -34,6 +40,10 @@ class Client extends Authenticatable implements MustVerifyEmail
     ];
 
 
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
     /**
      * Send an email with a verification code for the client
      */
@@ -69,6 +79,16 @@ class Client extends Authenticatable implements MustVerifyEmail
     public function sendPasswordResetNotification($token)
     {
         return $this->notify(new ClientResetPasswordNotification($this, $token));
+    }
+
+    /**
+     * Get the route key name.
+     *
+     * @return string
+     */
+    public function getRouteKeyName()
+    {
+        return "username";
     }
 
     /**

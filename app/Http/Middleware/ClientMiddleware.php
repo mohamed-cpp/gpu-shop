@@ -23,6 +23,9 @@ class ClientMiddleware
             }
 
             return redirect(route('client.loginForm'));
+        }else if($request->expectsJson() && auth("client")->check()){
+            return $next($request);
+
         } else {
             throw new AuthenticationException('Unauthenticated.');
         }

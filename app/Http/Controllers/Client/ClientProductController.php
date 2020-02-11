@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Cart;
 use App\Product;
 use App\Http\Controllers\Controller;
+use App\SubCategory;
 use Illuminate\Http\Request;
 use Illuminate\Redis\RedisManager;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class ClientProductController extends Controller
 {
@@ -49,7 +53,25 @@ class ClientProductController extends Controller
      */
     public function show(Product $product)
     {
-        return view('client.products.show_product',['product'=>$product]);
+        $added = false;
+        $relatedProduct = $product->withAnyTags($product->tagList)
+                            ->where('approved',1)->where('status',true)
+                            ->take(11)->orderBy('created_at','desc')->get();
+
+        $filtered = $relatedProduct->reject(function ($value) use($product) {
+            return $value->id == $product->id;
+        });
+        if(auth('client')->check()){
+            $added = !! auth('client')->user()->wishlist()->where('product_id',$product->id)->first();
+        }
+        return view('client.products.show_product', [
+                'product'=>$product->with('images','details')->find($product->id),
+                'relatedProducts' => $filtered,
+                'price'=>[
+                    'normalPrice' => $product->offerPrice(false),
+                    'offerPrice' => $product->offerPrice()],
+                'addedWishlist' => $added
+            ]);
     }
 
     /**
@@ -86,8 +108,4 @@ class ClientProductController extends Controller
         //
     }
 
-    public function currency($currency){
-        Cookie::queue(Cookie::make('currency', $currency, 10080));
-        return back();
-    }
 }

@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
+use Cviebrock\EloquentTaggable\Taggable;
 
 class Product extends Model
 {
     use SoftDeletes;
+    use Taggable;
 
     // Status Product
     const PUBLISHED = 0;
@@ -22,17 +24,20 @@ class Product extends Model
         'name_en', 'name_ar', 'description_en', 'description_ar',
         'title_meta_en', 'title_meta_ar', 'description_meta_ar', 'description_meta_en',
         'slug_en', 'slug_ar', 'main_image', 'status', 'price_egp', 'price_usd', 'seller_id', 'quantity',
-        'offer_price_egp', 'offer_price_usd', 'offer_start_at', 'offer_end_at', 'quantity_offer', 'approved'
+        'offer_price_egp', 'offer_price_usd', 'offer_start_at', 'offer_end_at', 'quantity_offer', 'approved',
+        'weight', 'fee', 'fee_egp', 'fee_usd', 'offer_fee_egp', 'offer_fee_usd'
     ];
 
     protected $casts = [
         'status' => 'boolean',
+        'fee' => 'boolean',
         'offer_start_at' =>'datetime',
         'offer_end_at' =>'datetime',
     ];
-    public $with = ['images'];
+//    public $with = ['images'];
 
-    protected $appends = ['subcategories_ids','isOffer'];
+//    protected $appends = ['subcategories_ids','isOffer'];
+    protected $appends = ['isOffer'];
 
     public static function boot()
     {
@@ -44,6 +49,15 @@ class Product extends Model
 
     }
 
+    public function details()
+    {
+        return $this->hasMany(ProductDetails::class);
+    }
+
+    public function wishlist()
+    {
+        return $this->hasMany(Wishlist::class);
+    }
     /**
      * Images
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
@@ -88,6 +102,13 @@ class Product extends Model
         return $this->{$column};
     }
 
+    public function getFeeCurrencyAttribute()
+    {
+        $currency = Cookie::get('currency');
+        $price = "fee_$currency";
+        return $this->$price;
+    }
+
     /**
      * Get the route key name.
      *
@@ -128,8 +149,7 @@ class Product extends Model
     }
 
     public function offerPrice($status = true){
-        $cookie = strtolower(Cookie::get('currency'));
-        $currency = $cookie ? $cookie : 'usd';
+        $currency = Cookie::get('currency');
         $price = "offer_price_$currency";
         if($this->isOffer() == true && $status){
             return $this->$price;

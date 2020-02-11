@@ -164,20 +164,20 @@ class CategotiresAdminTest extends TestCase
 
     public function test_delete_a_subcategories(){
         $this->actingAs($this->admin,'web');
-        $this->delete(route('subcategories.destroy',[$this->subcategory]));
+        $this->delete(route('subcategories.destroy',[$this->subcategory->id]));
         $this->assertNotEquals($this->subcategory->fresh()->deleted_at,null);
     }
 
     public function test_enable_or_disable_a_subcategories(){
         $this->withoutExceptionHandling();
         $this->actingAs($this->admin,'web');
-        $this->patch(route('sub.quick.buttons',[$this->subcategory]));
+        $this->patch(route('sub.quick.buttons',[$this->subcategory->id]));
         $this->assertNotEquals($this->subcategory->fresh()->status,true);
     }
 
     public function test_user_can_see_edit_page_sub(){
         $this->actingAs($this->admin,'web');
-        $this->get(route('subcategories.edit',[$this->subcategory]))
+        $this->get(route('subcategories.edit',[$this->subcategory->id]))
             ->assertStatus(200)
             ->assertViewIs('admin.categories.edit_sub_category');
     }

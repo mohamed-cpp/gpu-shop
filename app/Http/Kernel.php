@@ -33,6 +33,7 @@ class Kernel extends HttpKernel
         'web' => [
             \App\Http\Middleware\EncryptCookies::class,
             \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
+            \App\Http\Middleware\ChangeSlugMiddleware::class,
             \Illuminate\Session\Middleware\StartSession::class,
             // \Illuminate\Session\Middleware\AuthenticateSession::class,
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
@@ -43,6 +44,10 @@ class Kernel extends HttpKernel
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationRoutes::class,
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
             \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
+
+            \App\Http\Middleware\HttpsProtocolMiddleware::class,
+            \App\Http\Middleware\ChangeLocaleMiddleware::class,
+
         ],
 
         'api' => [

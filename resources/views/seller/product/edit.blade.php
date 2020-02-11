@@ -6,6 +6,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tempusdominus-bootstrap-4/5.0.1/css/tempusdominus-bootstrap-4.min.css" />
     <script src="//cdn.ckeditor.com/4.13.0/full/ckeditor.js"></script>
     <style>
+    .table{
+        width: 70%;
+    }
     .input-group-append .btn,
     .input-group-prepend .btn {
         position: relative;
@@ -181,6 +184,205 @@
         }
 
     </style>
+    <style>
+        .example .btn-toggle {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .btn-toggle {
+            margin: 0 4rem;
+            padding: 0;
+            position: relative;
+            border: none;
+            height: 1.5rem;
+            width: 3rem;
+            border-radius: 1.5rem;
+            color: #6b7381;
+            background: #bdc1c8;
+        }
+        .btn-toggle:focus,
+        .btn-toggle.focus,
+        .btn-toggle:focus.active,
+        .btn-toggle.focus.active {
+            outline: none;
+        }
+        .btn-toggle:before,
+        .btn-toggle:after {
+            line-height: 1.5rem;
+            width: 4rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: absolute;
+            bottom: 0;
+            transition: opacity .25s;
+        }
+        .btn-toggle:before {
+            content: 'D';
+            left: -4rem;
+        }
+        .btn-toggle:after {
+            content: 'E';
+            right: -4rem;
+            opacity: .5;
+        }
+        .btn-toggle > .handle {
+            position: absolute;
+            top: 0.1875rem;
+            left: 0.1875rem;
+            width: 1.125rem;
+            height: 1.125rem;
+            border-radius: 1.125rem;
+            background: #fff;
+            transition: left .25s;
+        }
+        .btn-toggle.active {
+            transition: background-color 0.25s;
+        }
+        .btn-toggle.active > .handle {
+            left: 1.6875rem;
+            transition: left .25s;
+        }
+        .btn-toggle.active:before {
+            opacity: .5;
+        }
+        .btn-toggle.active:after {
+            opacity: 1;
+        }
+        .btn-toggle.btn-sm:before,
+        .btn-toggle.btn-sm:after {
+            line-height: -0.5rem;
+            color: #fff;
+            letter-spacing: .75px;
+            left: 0.41250000000000003rem;
+            width: 2.325rem;
+        }
+        .btn-toggle.btn-sm:before {
+            text-align: right;
+        }
+        .btn-toggle.btn-sm:after {
+            text-align: left;
+            opacity: 0;
+        }
+        .btn-toggle.btn-sm.active:before {
+            opacity: 0;
+        }
+        .btn-toggle.btn-sm.active:after {
+            opacity: 1;
+        }
+
+        .btn-toggle:before,
+        .btn-toggle:after {
+            color: #6b7381;
+        }
+        .btn-toggle.active {
+            background-color: #29b5a8;
+        }
+
+        .btn-toggle.btn-sm {
+            margin: 0 0.5rem;
+            padding: 0;
+            position: relative;
+            border: none;
+            height: 1.5rem;
+            width: 3rem;
+            border-radius: 1.5rem;
+        }
+        .btn-toggle.btn-sm:focus,
+        .btn-toggle.btn-sm.focus,
+        .btn-toggle.btn-sm:focus.active,
+        .btn-toggle.btn-sm.focus.active {
+            outline: none;
+        }
+        .btn-toggle.btn-sm:before,
+        .btn-toggle.btn-sm:after {
+            line-height: 1.5rem;
+            width: 0.5rem;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: absolute;
+            bottom: 0;
+            transition: opacity .25s;
+        }
+        .btn-toggle.btn-sm:before {
+            content: 'Dis';
+            left: -0.5rem;
+        }
+        .btn-toggle.btn-sm:after {
+            content: 'Ena';
+            right: -0.5rem;
+            opacity: .5;
+        }
+        .btn-toggle.btn-sm > .handle {
+            position: absolute;
+            top: 0.1875rem;
+            left: 0.1875rem;
+            width: 1.125rem;
+            height: 1.125rem;
+            border-radius: 1.125rem;
+            background: #fff;
+            transition: left .25s;
+        }
+        .btn-toggle.btn-sm.active {
+            transition: background-color 0.25s;
+        }
+        .btn-toggle.btn-sm.active > .handle {
+            left: 1.6875rem;
+            transition: left .25s;
+        }
+        .btn-toggle.btn-sm.active:before {
+            opacity: .5;
+        }
+        .btn-toggle.btn-sm.active:after {
+            opacity: 1;
+        }
+        .btn-toggle.btn-sm.btn-sm:before,
+        .btn-toggle.btn-sm.btn-sm:after {
+            line-height: -0.5rem;
+            color: #fff;
+            letter-spacing: .75px;
+            left: 0.41250000000000003rem;
+            width: 2.325rem;
+        }
+        .btn-toggle.btn-sm.btn-sm:before {
+            text-align: right;
+        }
+        .btn-toggle.btn-sm.btn-sm:after {
+            text-align: left;
+            opacity: 0;
+        }
+        .btn-toggle.btn-sm.btn-sm.active:before {
+            opacity: 0;
+        }
+        .btn-toggle.btn-sm.btn-sm.active:after {
+            opacity: 1;
+        }
+
+        .btn-toggle.btn-xs.active > .handle {
+            left: 1.125rem;
+            transition: left .25s;
+        }
+
+        button.btn:hover,
+        a.btn:hover {
+            -webkit-transform: scale(1);
+            -moz-transform: scale(1);
+            -o-transform: scale(1);
+        }
+        button.btn,
+        a.btn {
+            -webkit-transform: scale(0.8);
+            -moz-transform: scale(0.8);
+            -o-transform: scale(0.8);
+            -webkit-transition-duration: 0.5s;
+            -moz-transition-duration: 0.5s;
+            -o-transition-duration: 0.5s;
+        }</style>
 
 @endpush
 @section('content')
@@ -210,6 +412,9 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="discount-tab" data-toggle="tab" href="#discount" role="tab" aria-controls="discount" aria-selected="false">Discount</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="discount-tab" data-toggle="tab" href="#details" role="tab" aria-controls="details" aria-selected="false">Details</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" id="images-tab" data-toggle="tab" href="#images" role="tab" aria-controls="images" aria-selected="false">Images</a>
@@ -326,14 +531,16 @@
 
                 <div class="form-group">
                     <label for="priceEgp">Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{ $product->price_egp }}">
+                    <input type="number" min="1" step=any class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{ $product->price_egp }}">
+                    <h5  class="mt-1 mb-3 d-none fee_egp">The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                     <label for="priceUsd">Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{ $product->price_usd }}">
+                    <input type="number" min="1" step=any class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{ $product->price_usd }}">
+                    <h5 class="mt-1 mb-3 d-none fee_usd" >The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('price_usd')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -351,7 +558,26 @@
                     @enderror
                 </div>
                 <hr>
-
+                <div class="form-group">
+                    <label for="tags">Tags</label>
+                    <input type="text" class="form-control @error('tags') is-invalid @enderror" id="tags" name="tags" value="{{$product->tagList }}" placeholder="Hard,SSD,Memory">
+                    @error('tags')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <hr>
+                <div class="form-group">
+                    <label for="weight">Tags</label>
+                    <input type="text" class="form-control @error('weight') is-invalid @enderror" id="weight" name="weight" value="{{$product->weight }}" placeholder=".5">
+                    @error('weight')
+                    <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <hr>
                 <div class="form-group">
                     <h5>Select Subcategories You Want</h5>
                     <select class="selectpicker" multiple="multiple" data-live-search="true" name="subcategories[]">
@@ -417,14 +643,16 @@
                 </div>
                 <div class="form-group">
                     <label for="offerPriceEgp">Offer Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
+                    <input type="number" min="1" step=any class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
+                    <h5  class="mt-1 mb-3 d-none offer_fee_egp">The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('offer_price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                     <label for="offerPriceUSD">Offer Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
+                    <input type="number" min="1" step=any class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
+                    <h5 class="mt-1 mb-3 d-none offer_fee_usd" >The price will be <strong>0</strong> after add fee of GPU-Shop </h5>
                     @error('offer_price_usd')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -440,6 +668,35 @@
                 </div>
             </div>
 
+            <div class="tab-pane fade" id="details" role="tabpanel" aria-labelledby="details-tab">
+                <a href="{{route('product.details.create',$product)}}" class="btn btn-primary a-btn-slide-text float-right">
+                    <span class="fa fa-plus" aria-hidden="true"></span>
+                    <span><strong>{{__('Add New Details')}}</strong></span>
+                </a>
+                <table width="400" class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Name</th>
+                        <th scope="col">Edit</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($product->details()->without('subDetails')->get() as $detail)
+                            <tr>
+                                <th>{{$detail->name}}</th>
+                                <td>
+                                    <div class=" text-center">
+                                        <a href="{{route('product.details.edit',[$detail])}}" class="btn btn-primary a-btn-slide-text">
+                                            <span class="fa fa-wrench" aria-hidden="true"></span>
+                                            <span><strong>Edit</strong></span>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
             <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="images-tab">
 
                 @error('images')
@@ -556,5 +813,77 @@
             document.getElementById("modal02").style.display = "block";
         }
 
+        //   fee price
+        var fee = {!! json_encode($fee) !!};
+        var prices = {!! json_encode($prices) !!};
+        $("#priceEgp").keyup(function(){
+            var val = parseInt($("#priceEgp").val());
+            if(val != prices.price_egp){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    var afterFee = fee.egp + val;
+                }
+                $(".fee_egp strong").html(afterFee+"£");
+                $(".fee_egp").removeClass("d-none");
+            }else {
+                $(".fee_egp strong").html('');
+                $(".fee_egp").addClass("d-none");
+            }
+
+        });
+        $("#priceUsd").keyup(function(){
+            var val = parseInt($("#priceUsd").val());
+            if(val != prices.price_usd){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    var afterFee = fee.usd + val;
+                }
+                $(".fee_usd strong").html(afterFee+"$");
+                $(".fee_usd").removeClass("d-none");
+            }else {
+                $(".fee_usd strong").html('');
+                $(".fee_usd").addClass("d-none");
+            }
+        });
+        $("#offerPriceEgp").keyup(function(){
+            var val = parseInt($("#offerPriceEgp").val());
+            if(val != prices.offer_price_egp){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    if(fee.productFee){
+                        var afterFee = fee.offer_egp + val;
+                    }else{
+                        var afterFee = fee.egp + val;
+                    }
+                }
+                $(".offer_fee_egp strong").html(afterFee+"£");
+                $(".offer_fee_egp").removeClass("d-none");
+            }else {
+                $(".offer_fee_egp strong").html("");
+                $(".offer_fee_egp").addClass("d-none");
+            }
+        });
+        $("#offerPriceUSD").keyup(function(){
+            var val = parseInt($("#offerPriceUSD").val());
+            if(val != prices.offer_price_usd){
+                if( fee.isFixed ){
+                    var afterFee = ((fee.fee * 0.01) * val) + val;
+                }else{
+                    if(fee.productFee){
+                        var afterFee = fee.offer_usd + val;
+                    }else{
+                        var afterFee = fee.usd + val;
+                    }
+                }
+                $(".offer_fee_usd strong").html(afterFee+"$");
+                $(".offer_fee_usd").removeClass("d-none");
+            }else {
+                $(".offer_fee_usd strong").html("");
+                $(".offer_fee_usd").addClass("d-none");
+            }
+        });
     </script>
 @endpush

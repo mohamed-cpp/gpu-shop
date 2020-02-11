@@ -143,7 +143,7 @@ class RegisterController extends Controller
     }
 
     protected function addImage(Request $request){
-        $path = 'public/storage/seller/images/';
+        $path = 'storage/seller/images/';
         $file = $request->file('passport_or_id');
         $file->move(public_path($path),$name = md5($request->username.$request->passport_or_id).'.'.$file->getClientOriginalExtension());
         $this->passport_or_id = $path.$name;

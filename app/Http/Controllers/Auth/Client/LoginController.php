@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth\Client;
 
+use App\Cart;
 use App\Client;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
@@ -52,6 +53,7 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
+        session(['link' => url()->previous()]);
         return view('client.auth.login');
     }
     /**
@@ -126,15 +128,14 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
+        session()->put('cart',null);
         auth('client')->logout();
         return $this->loggedOut($request) ?: redirect('/');
     }
 
     public function redirectPath()
     {
-        $intended = session("intended.url");
-        session()->forget("intended.url");
-
+        $intended = session('link');
         return $intended ?? route('client.home');
     }
 

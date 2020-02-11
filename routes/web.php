@@ -26,6 +26,23 @@ Route::group(['middleware' => 'client'], function () {
         Route::post('verify/code', 'Client\PhoneVerifyClientController@update')->name('verify.code.client');
     });
 
+    Route::get('wishlist', 'Client\ClientWishlistController@index')->name('show.wishlist.client');
+    // axios wishlist
+    Route::post('wishlist/{id}', 'Client\ClientWishlistController@storeWishlist');
+    Route::post('vcisibility/{wishlist}', 'Client\ClientWishlistController@visibilityWishlist');
+    Route::post('wishlist/move/{id}/{anotherId}/{up}', 'Client\ClientWishlistController@moveWishlist');
+    Route::post('wishlist/move/{id}/{up}', 'Client\ClientWishlistController@topOrBottomWishlist');
+    Route::delete('wishlist/{id}', 'Client\ClientWishlistController@destroyWishlistInProducts');
+    Route::delete('wishlist/page/{wishlist}', 'Client\ClientWishlistController@destroyWishlist');
+
+    Route::get('cart', 'Client\ClientCartController@index')->name('cart.client');
+    Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
+    Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
+    Route::post('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
+    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon');
+    Route::delete('cart/remove/coupon', 'Client\ClientCartController@removeCoupon');
+    Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
+
 });
 
 // Authentication Routes
@@ -67,18 +84,23 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
 
 Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
 Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
-Route::get('currency/{currency}', 'Client\ClientProductController@currency')->name('currency.product.client');
+Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
+Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
+Route::get('change/currency', 'Client\ClientController@currency')->name('currency.product.client');
+
+Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
 
 
+Route::get('/test', function () {
+//    session(['key' => 'valuew2']);
+//    session()->put('cart','uew2');.
+//    session()->forget('cart');
+//    session()->flush();
+//    session()->put('cart',null);
 
-//Route::get('/test', function () {
-////   cookie('price', 'GPU', 1440);
-////    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'GPU', 1440));
-//    return Illuminate\Support\Facades\Cookie::get('price');
-//}) ;
-//Route::get('/usd', function () {
-////   cookie('price', 'GPU', 1440);
-//    Illuminate\Support\Facades\Cookie::queue(Cookie::make('price', 'EGP', 1440));
-////    return Illuminate\Support\Facades\Cookie::get('price');
-//    return back();
-//}) ;
+//    dd(session()->get('cart'),session()->get('cart2'));
+//    return session()->get('cart');
+}) ;
+Route::get('/testt', function () {
+    return App\Category::find(4)->subCategories()->get();
+}) ;

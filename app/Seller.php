@@ -8,12 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Spatie\Permission\Traits\HasRoles;
 
 /**
- * App\Models\Client
+ * App\Models\Seller
  *
- * @method static Builder|Client whereEmail($value)
+ * @method static Builder|Seller whereId($value)
  */
 
 class Seller extends Authenticatable implements MustVerifyEmail
@@ -29,7 +30,7 @@ class Seller extends Authenticatable implements MustVerifyEmail
      */
     protected $fillable = [
         'name', 'email', 'password', 'approved', 'company_or_individual', 'phone_number', 'username', 'code', 'create_code_at', 'email_verified_at', 'phone_verified_at',
-        'company_logo', 'id_or_passport', 'tax', 'company_id',
+        'company_logo', 'id_or_passport', 'tax', 'company_id', 'is_fixed', 'fee', 'fee_egp', 'fee_usd',
     ];
 
     /**
@@ -52,6 +53,7 @@ class Seller extends Authenticatable implements MustVerifyEmail
         'create_code_at' => 'datetime',
         'approved' => 'boolean',
         'company_or_individual' => 'boolean',
+        'is_fixed' => 'boolean',
     ];
 
     public function products(){
@@ -96,6 +98,12 @@ class Seller extends Authenticatable implements MustVerifyEmail
         return $this->notify(new SellerResetPasswordNotification($this, $token));
     }
 
+    public function getFeeCurrencyAttribute()
+    {
+        $currency = Cookie::get('currency');
+        $price = "fee_$currency";
+        return $this->$price;
+    }
     /**
      * send sms to client
      *

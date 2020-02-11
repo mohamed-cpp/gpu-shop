@@ -39,7 +39,8 @@ mix.babel([
     //'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
     'resources/templates/GPU-Shop/js/popper.js',
     // 'resources/templates/GPU-Shop/js/bootstrap.min.js',
-    'resources/templates/GPU-Shop/js/bootstrap4.min.js',
+    // 'resources/templates/GPU-Shop/js/bootstrap4.min.js',
+    'resources/templates/GPU-Shop/js/bootstrap4.4.min.js',
     'resources/templates/GPU-Shop/js/jquery.magnific-popup.min.js',
     'resources/templates/GPU-Shop/js/isotope.pkgd.min.js',
     'resources/templates/GPU-Shop/js/imagesloaded.pkgd.min.js',
@@ -58,6 +59,16 @@ mix.babel('node_modules/intl-tel-input/build/js/intlTelInput.js','public/GPU-Sho
     .sourceMaps();
 mix.babel('node_modules/intl-tel-input/build/js/utils.js','public/GPU-Shop/js/utils.js')
     .sourceMaps();
+
+mix.js('resources/js/clientVue/app.js', 'public/GPU-Shop/js/vue.js');
+
+
+// mix.js('resources/js/client/app.js', 'public/GPU-Shop/js/vueProduct.js');
+// mix.js('resources/js/client/quickView/app.js', 'public/GPU-Shop/js/vueQuickView.js');
+// mix.js('resources/js/client/wishlist/app.js', 'public/GPU-Shop/js/vueWishlist.js');
+// mix.js('resources/js/client/cart/app.js', 'public/GPU-Shop/js/vueCart.js');
+// mix.js('resources/js/client/sideberCart/app.js', 'public/GPU-Shop/js/sideberCart.js');
+
 // Dashboard //
 
 mix.styles([

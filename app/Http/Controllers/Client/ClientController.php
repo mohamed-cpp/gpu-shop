@@ -1,9 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Client;
 
+use App\Cart;
 use App\Client;
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Session;
 
 class ClientController extends Controller
 {
@@ -81,5 +85,16 @@ class ClientController extends Controller
     public function destroy(Client $client)
     {
         //
+    }
+    public function currency(){
+        $currency = Cookie::get('currency') === 'egp' ? 'usd' : 'egp';
+        Cookie::queue(Cookie::make('currency', $currency, 10080, '/', config('session.domain'), true, false));
+        $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $cart = new Cart($oldCart);
+        $cart->updateItems($currency);
+        session()->put('cart',$cart);
+        return back();
+
+//        return back()->withCookies($cookies); //$cookies is an array
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Category;
 use App\SubCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -63,12 +64,17 @@ class SubCategoryController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param SubCategory $subcategory
+     * @param $subcategory
      * @return void
      */
-    public function show(SubCategory $subcategory)
+    public function show($subcategory)
     {
-        //
+        $subcategory = SubCategory::find($subcategory);
+        $subCategories = $subcategory->child()->get();
+        return view('admin.categories.index_children_sub_category',[
+            'subCategories' => $subCategories,
+            'subcategory' => [ 'name' => $subcategory->name, 'subcategoryId' => $subcategory->id,'category' => $subcategory->category_id,]
+        ]);
     }
 
     /**
@@ -77,8 +83,14 @@ class SubCategoryController extends Controller
      * @param SubCategory $subcategory
      * @return void
      */
-    public function edit(SubCategory $subcategory)
+    public function edit($subcategory)
     {
+        $subcategory = SubCategory::find($subcategory);
+        if ($subcategory->parent){
+            return view('admin.categories.edit_parent_sub_category',[
+                'subcategory' => $subcategory
+            ]);
+        }
         return view('admin.categories.edit_sub_category',[
             'subcategory' => $subcategory
         ]);
@@ -92,7 +104,7 @@ class SubCategoryController extends Controller
      * @return void
      * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, SubCategory $subcategory)
+    public function update(Request $request,SubCategory $subcategory)
     {
         $rules = [
             'name_en' => 'required|string',
@@ -111,7 +123,12 @@ class SubCategoryController extends Controller
         }
         $subcategory->update($input);
         \Cache::forget('categories');
-        return redirect(route('categories.show',$subcategory->category_id))->with('flash',"$subcategory->name Updated Successfully");
+        if($subcategory->parent_id){
+            return redirect(route('subcategories.show',$subcategory->parent_id))
+                ->with('flash','The Child Updated Successfully');
+        }
+        return redirect(route('categories.show',$subcategory->category_id))
+            ->with('flash',"$subcategory->name Updated Successfully");
     }
 
     /**
@@ -121,8 +138,9 @@ class SubCategoryController extends Controller
      * @return \Illuminate\Http\Response
      * @throws \Exception
      */
-    public function destroy(SubCategory $subcategory)
+    public function destroy($subcategory)
     {
+        $subcategory = SubCategory::find($subcategory);
         $subcategory->delete();
         \Cache::forget('categories');
         return back()->with('flash','The Subcategory Deleted Successfully');
@@ -132,7 +150,8 @@ class SubCategoryController extends Controller
      * @param SubCategory $subcategory
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function quickButtons(SubCategory $subcategory){
+    public function quickButtons($subcategory){
+        $subcategory = SubCategory::find($subcategory);
         $subcategory->update([
             'status' => !$subcategory->status
         ]);
@@ -140,6 +159,68 @@ class SubCategoryController extends Controller
         \Cache::forget('categories');
         $status = $subcategory->status == true ? 'Enabled' : 'Disabled';
         return back()->with('flash',"The Subcategory $status Successfully");
+    }
+
+    public function parent(){
+        return view('admin.categories.create_parent_sub_category');
+    }
+    public function createParent(Request $request){
+        $rules = [
+            'category_id' => 'required',
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'sort'    => 'required|numeric|min:0',
+            'status'  => 'required|boolean',
+        ];
+        $this->validate($request, $rules);
+        $input = $request->all();
+        $input['parent'] = true;
+        SubCategory::create($input);
+        \Cache::forget('categories');
+        return redirect(route('categories.show',$request->category_id))
+            ->with('flash','The Parent Subcategory Added Successfully');
+    }
+    public function updateParent(Request $request,$subcategory){
+        $subcategory = SubCategory::find($subcategory);
+        $rules = [
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'sort'    => 'required|numeric|min:0',
+            'status'  => 'required|boolean',
+        ];
+        $this->validate($request, $rules);
+        $input = $request->all();
+        $subcategory->update($input);
+        \Cache::forget('categories');
+        return redirect(route('categories.show',$subcategory->category_id))
+            ->with('flash',"Parent $subcategory->name Updated Successfully");
+    }
+
+    public function child()
+    {
+        return view('admin.categories.create_child');
+    }
+
+    public function createChild(Request $request)
+    {
+        $rules = [
+            'parent_id' => 'required',
+            'name_en' => 'required|string',
+            'name_ar' => 'required|string',
+            'slug_en' => 'required|string',
+            'slug_ar' => 'required|string',
+            'sort'    => 'required|numeric|min:0',
+            'status'  => 'required|boolean',
+            'image'   => 'required|mimes:jpeg,png,jpg,gif,svg|dimensions:width=1920,height=500'
+        ];
+        $this->validate($request, $rules);
+        $file = $request->file('image');
+        $input = $request->all();
+        $input['image'] = $this->moveImage($file,$request);
+        SubCategory::create($input);
+        \Cache::forget('categories');
+        return redirect(route('subcategories.show',$request->parent_id))
+            ->with('flash','The Child Added Successfully');
     }
 
     protected function moveImage($image,$request){

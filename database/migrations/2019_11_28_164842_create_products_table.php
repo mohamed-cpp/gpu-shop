@@ -23,8 +23,8 @@ class CreateProductsTable extends Migration
             $table->string('title_meta_ar')->nullable();
             $table->string('description_meta_en')->nullable();
             $table->string('description_meta_ar')->nullable();
-            $table->string('slug_en');
-            $table->string('slug_ar');
+            $table->string('slug_en')->unique()->index();
+            $table->string('slug_ar')->unique()->index();
             $table->string('main_image');
             $table->boolean('status');
             $table->boolean('approved')->default(0);

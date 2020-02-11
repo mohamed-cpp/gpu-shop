@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-6">
                     <div class="logo">
-                        <a href="index.html"><img src="assets/img/logo/logo.png" alt="" /></a>
+                        <a href="/"><img src="/assets/img/logo/logo.png" alt="" /></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-6">
@@ -33,69 +33,9 @@
 </header>
 <!-- header end -->
 
-<!-- sidebar-cart start -->
-<div class="sidebar-cart onepage-sidebar-area">
-    <div class="wrap-sidebar">
-        <div class="sidebar-cart-all">
-            <div class="sidebar-cart-icon">
-                <button class="op-sidebar-close"><span class="ion-android-close"></span></button>
-            </div>
-            <div class="cart-content">
-                <h3>Shopping Cart</h3>
-                <ul>
-                    <li class="single-product-cart">
-                        <div class="cart-img">
-                            <a href="#"><img src="assets/img/cart/1.jpg" alt=""></a>
-                        </div>
-                        <div class="cart-title">
-                            <h3><a href="#"> HANDCRAFTED MUG</a></h3>
-                            <span>1 x $140.00</span>
-                        </div>
-                        <div class="cart-delete">
-                            <a href="#"><i class="ion-ios-trash-outline"></i></a>
-                        </div>
-                    </li>
-                    <li class="single-product-cart">
-                        <div class="cart-img">
-                            <a href="#"><img src="assets/img/cart/2.jpg" alt=""></a>
-                        </div>
-                        <div class="cart-title">
-                            <h3><a href="#"> HANDCRAFTED MUG</a></h3>
-                            <span>1 x $140.00</span>
-                        </div>
-                        <div class="cart-delete">
-                            <a href="#"><i class="ion-ios-trash-outline"></i></a>
-                        </div>
-                    </li>
-                    <li class="single-product-cart">
-                        <div class="cart-img">
-                            <a href="#"><img src="assets/img/cart/3.jpg" alt=""></a>
-                        </div>
-                        <div class="cart-title">
-                            <h3><a href="#"> HANDCRAFTED MUG</a></h3>
-                            <span>1 x $140.00</span>
-                        </div>
-                        <div class="cart-delete">
-                            <a href="#"><i class="ion-ios-trash-outline"></i></a>
-                        </div>
-                    </li>
-                    <li class="single-product-cart">
-                        <div class="cart-total">
-                            <h4>Total : <span>$ 120</span></h4>
-                        </div>
-                    </li>
-                    <li class="single-product-cart">
-                        <div class="cart-checkout-btn">
-                            <a class="btn-hover cart-btn-style" href="#">view cart</a>
-                            <a class="no-mrg btn-hover cart-btn-style" href="#">checkout</a>
-                        </div>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
+<div id="cartnew">
+    <sidebar :session_cart="{{ json_encode(session()->get('cart')) }}" ></sidebar>
 </div>
-<!-- main-search start -->
 <div class="main-search-active">
     <div class="sidebar-search-icon">
         <button class="search-close"><span class="ion-android-close"></span></button>
@@ -120,26 +60,27 @@
         <div class="cur-lang-acc-all">
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Currency: <span>{{ $currency =Cookie::get('currency') == 'EGP' ? 'EGP' : 'USD' }} </span></h4>
+                    <h4>Currency: <span>{{ $currency = Cookie::get('currency') === 'egp' ? 'EGP' : 'USD' }} </span></h4>
                 </div>
-                @php $currency = $currency == 'USD' ? 'EGP' : 'USD' @endphp
+                @php $currency = $currency === 'USD' ? 'EGP' : 'USD' @endphp
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{route('currency.product.client',[$currency])}}">{{$currency}}</a></li>
+                        <li><a href="{{route('currency.product.client')}}">{{$currency}}</a></li>
                     </ul>
                 </div>
             </div>
+            @if(app()->getLocale() == 'ar')
+                @php $lang = 'Arabic'; $anotherLocale= '/en/'; $anotherLang= 'English' @endphp
+            @else
+                @php $lang = 'English'; $anotherLocale = '/ar/'; $anotherLang= 'Arabic' @endphp
+            @endif
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Language: <span><img src="assets/img/icon-img/english.png" alt=""> English </span></h4>
+                    <h4>Language: <span><img src="/assets/img/icon-img/{{$lang}}.png" alt=""> {{$lang}} </span></h4>
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="#"><img src="assets/img/icon-img/english.png" alt=""> English </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/es.png" alt=""> spanish </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/fr.png" alt=""> french </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/ge.png" alt=""> german </a></li>
-                        <li><a href="#"><img src="assets/img/icon-img/es.png" alt=""> spanish </a></li>
+                        <li><a href="{{ str_replace("/".app()->getLocale()."/",$anotherLocale,Request::url()) }}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt=""> {{$anotherLang}} </a></li>
                     </ul>
                 </div>
             </div>
@@ -149,10 +90,10 @@
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="#">Compare Products </a></li>
-                        <li><a href="#">Default welcome msg!</a></li>
-                        <li><a href="wishlist.html">My Wish List</a></li>
                         @if( Auth::guard('client')->check() )
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="{{route('show.wishlist.client')}}">My Wish List</a></li>
+                            <li><a href="{{route('cart.client')}}">Cart</a></li>
                             <li><a href="{{ route('client.logout') }}"
                                    onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">
