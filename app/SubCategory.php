@@ -11,13 +11,14 @@ class SubCategory extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image'
+        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image','parent','parent_id'
     ];
 
     protected $casts = [
         'status' => 'boolean',
+        'parent' => 'boolean',
     ];
-
+//    protected $with = ['child'];
     /**
      * Category
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -29,6 +30,10 @@ class SubCategory extends Model
 
     public function products(){
         return $this->hasMany(SubcatProduct::class,'subcategoryable_id');
+    }
+
+    public function child(){
+        return $this->hasMany(SubCategory::class,'parent_id');
     }
 
     public static function findBySlugsOrFail($slug){

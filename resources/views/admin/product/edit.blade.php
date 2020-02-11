@@ -327,14 +327,14 @@
 
                 <div class="form-group">
                     <label for="priceEgp">Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{ $product->price_egp }}">
+                    <input type="number" min="1" step=any class="form-control @error('price_egp') is-invalid @enderror" id="priceEgp" name="price_egp" value="{{ $product->price_egp }}">
                     @error('price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                     <label for="priceUsd">Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{ $product->price_usd }}">
+                    <input type="number" min="1" step=any class="form-control @error('price_usd') is-invalid @enderror" id="priceUsd" name="price_usd" value="{{ $product->price_usd }}">
                     @error('price_usd')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -427,14 +427,14 @@
                 </div>
                 <div class="form-group">
                     <label for="offerPriceEgp">Offer Price of Product EGP</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
+                    <input type="number" min="1" step=any class="form-control @error('offer_price_egp') is-invalid @enderror" id="offerPriceEgp" name="offer_price_egp" value="{{old('offer_price_egp') ? old('offer_price_egp') : $product->offer_price_egp}}">
                     @error('offer_price_egp')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
                     @enderror
                     <label for="offerPriceUSD">Offer Price of Product USD</label>
-                    <input type="number" min="1" class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
+                    <input type="number" min="1" step=any class="form-control @error('offer_price_usd') is-invalid @enderror" id="offerPriceUSD" name="offer_price_usd" value="{{old('offer_price_usd') ?old('offer_price_usd') : $product->offer_price_usd }}">
                     @error('offer_price_usd')
                     <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>

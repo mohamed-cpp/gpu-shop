@@ -211,14 +211,11 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary d-inline" >Subcategories Of {{$category['name']}}</h6>
-            <a href="{{route('subcategories.create',['category_id'=>$category['categoryId']])}}" class="btn btn-primary a-btn-slide-text float-right">
+            <h6 class="m-0 font-weight-bold text-primary d-inline" >Children Of {{$subcategory['name']}}</h6>
+
+            <a href="{{route('add.child',['subcategory_id'=>$subcategory['subcategoryId']])}}" class="btn btn-primary a-btn-slide-text float-right">
                 <span class="fa fa-plus" aria-hidden="true"></span>
-                <span><strong>{{__('Add Subcategory')}}</strong></span>
-            </a>
-            <a href="{{route('add.parent',['category_id'=>$category['categoryId']])}}" class="btn btn-primary a-btn-slide-text float-right">
-                <span class="fa fa-plus" aria-hidden="true"></span>
-                <span><strong>{{__('Add Parent Subcategory')}}</strong></span>
+                <span><strong>{{__("Add Child")}}</strong></span>
             </a>
 
         </div>
@@ -265,12 +262,6 @@
                                 <span class="fa fa-wrench" aria-hidden="true"></span>
                                 <span><strong>Edit</strong></span>
                             </a>
-                             @if($subcategory->parent)
-                                <a href="{{route('subcategories.show',[$subcategory->id])}}" class="btn btn-primary a-btn-slide-text">
-                                    <span class="fa fa-eye" aria-hidden="true"></span>
-                                    <span><strong>Children</strong></span>
-                                </a>
-                            @endif
                             </div>
                         </td>
                     </tr>

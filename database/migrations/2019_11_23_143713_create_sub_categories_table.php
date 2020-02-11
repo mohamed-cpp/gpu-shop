@@ -17,10 +17,10 @@ class CreateSubCategoriesTable extends Migration
             $table->increments('id');
             $table->string('name_en');
             $table->string('name_ar');
-            $table->string('slug_en')->index();
-            $table->string('slug_ar')->index();
-            $table->string('image');
-            $table->unsignedTinyInteger('category_id');
+            $table->string('slug_en')->index()->nullable();
+            $table->string('slug_ar')->index()->nullable();
+            $table->string('image')->nullable();
+            $table->unsignedTinyInteger('category_id')->nullable();
             $table->unsignedTinyInteger('sort')->nullable();
             $table->boolean('status');
             $table->softDeletes();

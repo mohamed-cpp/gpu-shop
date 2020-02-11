@@ -34,7 +34,7 @@ class ClientWishlistTest extends TestCase
 
     public function test_client_can_add_product_to_wishlist(){
         $this->actingAs($this->client,'client');
-        $this->get('/wishlist/'.$this->product->id)
+        $this->post('/wishlist/'.$this->product->id)
             ->assertStatus(204);
         $this->assertDatabaseHas('wishlists',['client_id' => $this->client->id]);
     }

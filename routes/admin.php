@@ -11,6 +11,11 @@ Route::group(['prefix' => 'admin'], function () {
         Route::patch("categorises/quick/{category}", "Admin\CategoryController@quickButtons")->name("quick.buttons");
 
         Route::resource('subcategories','Admin\SubCategoryController');
+        Route::get("parent/add", "Admin\SubCategoryController@parent")->name("add.parent");
+        Route::post("parent/create", "Admin\SubCategoryController@createParent")->name("create.parent");
+        Route::patch("parent/update/{subcategory}", "Admin\SubCategoryController@updateParent")->name("update.parent");
+        Route::get("child/add", "Admin\SubCategoryController@child")->name("add.child");
+        Route::post("child/create", "Admin\SubCategoryController@createChild")->name("create.child");
         Route::patch("subcategories/quick/{subcategory}", "Admin\SubCategoryController@quickButtons")->name("sub.quick.buttons");
 
         Route::resource('products','Admin\AdminProductController');
@@ -25,16 +30,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::post("logout", "Auth\Admin\LoginController@logout")->name("admin.logout");
 
     Route::get('/test2', function () {
-//        Spatie\Permission\Models\Role::create(['name' => 'Super Admin']);
-//        return auth('web')->user()->assignRole('Super Admin');
-        //return auth('web')->user()->givePermissionTo('categories');
-//        auth('web')->user()->givePermissionTo('categories');
-        //return \App\Admin::role('super-admin')->get();
-//    $role = Spatie\Permission\Models\Role::create(['name' => 'admin']);
-        //    $role = Spatie\Permission\Models\Role::create(['name' => 'Super Admin']);
-//    $permission = Spatie\Permission\Models\Permission::create(['name' => 'categories']);
-//    $role->givePermissionTo($permission);
-//        return auth('web')->user()->revokePermissionTo('categories');
     });
 
     Route::get("test", "Test@test");

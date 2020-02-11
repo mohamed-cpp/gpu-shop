@@ -21,7 +21,10 @@ class AppServiceProvider extends ServiceProvider
             $categories = \Cache::rememberForever('categories', function () {
 
                 return Category::with(array('subCategories' => function($query){
-                    $query->where('status','=',1)->orderBy('sort','DESC');
+                    $query->where('status',true)->orderBy('sort','DESC')
+                        ->with(array('child' => function($query){
+                        $query->where('status',true)->orderBy('sort','DESC');
+                    }));
                 }))
                     ->where('categories.status', '=', '1')
                     ->orderBy('categories.sort','DESC')

@@ -18,7 +18,17 @@
                 <li><a href="/">{{$category->name}}</a>
                     <ul class="dropdown">
                         @foreach($category->subCategories as $sub_category )
+                            @if($sub_category->parent && $sub_category->child)
+                                <li><a href="#" class="next">{{$sub_category->name}}</a>
+                                    <ul class="" style="display: none;">
+                                @foreach($sub_category->child as $child)
+                                        <li><a href="{{route('show.product',$child)}}">{{$child->name}}</a></li>
+                                @endforeach
+                                    </ul>
+                                </li>
+                            @else
                             <li><a href="{{route('show.product',$sub_category)}}">{{$sub_category->name}}</a></li>
+                            @endif
                         @endforeach
                     </ul>
                 </li>

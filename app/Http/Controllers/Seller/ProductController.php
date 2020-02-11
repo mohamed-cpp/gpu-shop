@@ -57,7 +57,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $subcategories = SubCategory::where('status',true)->get();
+        $subcategories = SubCategory::where('status',true)->where('parent',false)->get();
         $seller = auth('seller')->user();
         $fee =
             [
@@ -224,7 +224,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $subcategories = SubCategory::where('status',true)->get();
+        $subcategories = SubCategory::where('status',true)->where('parent',false)->get();
         $seller = auth('seller')->user();
         if ($product->fee){
             $fee = [

@@ -102,5 +102,5 @@ Route::get('/test', function () {
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {
-    return response(['Worked']);
+    return App\Category::find(4)->subCategories()->get();
 }) ;
