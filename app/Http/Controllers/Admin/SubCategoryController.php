@@ -73,7 +73,7 @@ class SubCategoryController extends Controller
         $subCategories = $subcategory->child()->get();
         return view('admin.categories.index_children_sub_category',[
             'subCategories' => $subCategories,
-            'subcategory' => [ 'name' => $subcategory->name, 'subcategoryId' => $subcategory->id]
+            'subcategory' => [ 'name' => $subcategory->name, 'subcategoryId' => $subcategory->id,'category' => $subcategory->category_id,]
         ]);
     }
 
