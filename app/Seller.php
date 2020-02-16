@@ -15,6 +15,72 @@ use Spatie\Permission\Traits\HasRoles;
  * App\Models\Seller
  *
  * @method static Builder|Seller whereId($value)
+ * @property int $id
+ * @property bool $approved
+ * @property bool $company_or_individual
+ * @property string $name
+ * @property string $username
+ * @property string $phone_number
+ * @property string|null $email
+ * @property int|null $code
+ * @property \Illuminate\Support\Carbon|null $create_code_at
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string $password
+ * @property string|null $company_logo
+ * @property string $id_or_passport
+ * @property string|null $tax
+ * @property string|null $deleted_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $company_id
+ * @property bool $is_fixed
+ * @property int|null $fee
+ * @property float|null $fee_egp
+ * @property float|null $fee_usd
+ * @property float|null $balance_usd
+ * @property float|null $balance_egp
+ * @property-read mixed $fee_currency
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $products
+ * @property-read int|null $products_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereBalanceEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereBalanceUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereCompanyId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereCompanyLogo($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereCompanyOrIndividual($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereCreateCodeAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereFeeEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereFeeUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereIdOrPassport($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereIsFixed($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereTax($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereUsername($value)
+ * @mixin \Eloquent
  */
 
 class Seller extends Authenticatable implements MustVerifyEmail
@@ -29,8 +95,10 @@ class Seller extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'approved', 'company_or_individual', 'phone_number', 'username', 'code', 'create_code_at', 'email_verified_at', 'phone_verified_at',
+        'name', 'email', 'password', 'approved', 'company_or_individual', 'phone_number', 'username',
+        'code', 'create_code_at', 'email_verified_at', 'phone_verified_at',
         'company_logo', 'id_or_passport', 'tax', 'company_id', 'is_fixed', 'fee', 'fee_egp', 'fee_usd',
+        'balance_usd', 'balance_egp',
     ];
 
     /**

@@ -9,6 +9,110 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use Cviebrock\EloquentTaggable\Taggable;
 
+/**
+ * App\Product
+ *
+ * @property int $id
+ * @property string $name_en
+ * @property string $name_ar
+ * @property string $description_en
+ * @property string $description_ar
+ * @property string|null $title_meta_en
+ * @property string|null $title_meta_ar
+ * @property string|null $description_meta_en
+ * @property string|null $description_meta_ar
+ * @property string $slug_en
+ * @property string $slug_ar
+ * @property string $main_image
+ * @property bool $status
+ * @property int $approved
+ * @property float $price_egp
+ * @property float $price_usd
+ * @property float|null $offer_price_egp
+ * @property float|null $offer_price_usd
+ * @property \Illuminate\Support\Carbon|null $offer_start_at
+ * @property \Illuminate\Support\Carbon|null $offer_end_at
+ * @property int $seller_id
+ * @property int $quantity
+ * @property int|null $quantity_offer
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property float|null $weight
+ * @property bool $fee
+ * @property float|null $fee_egp
+ * @property float|null $fee_usd
+ * @property float|null $offer_fee_egp
+ * @property float|null $offer_fee_usd
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ProductDetails[] $details
+ * @property-read int|null $details_count
+ * @property-read mixed $description
+ * @property-read mixed $fee_currency
+ * @property-read mixed $is_offer
+ * @property-read mixed $name
+ * @property-read mixed $slug
+ * @property-read mixed $subcategories_ids
+ * @property-read array $tag_array
+ * @property-read array $tag_array_normalized
+ * @property-read string $tag_list
+ * @property-read string $tag_list_normalized
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Image[] $images
+ * @property-read int|null $images_count
+ * @property-read \App\Seller $seller
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\SubcatProduct[] $subcategories
+ * @property-read int|null $subcategories_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Cviebrock\EloquentTaggable\Models\Tag[] $tags
+ * @property-read int|null $tags_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Wishlist[] $wishlist
+ * @property-read int|null $wishlist_count
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product isNotTagged()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product isTagged()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Product onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescriptionAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescriptionEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescriptionMetaAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereDescriptionMetaEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereFee($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereFeeEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereFeeUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereMainImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOfferEndAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOfferFeeEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOfferFeeUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOfferPriceEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOfferPriceUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereOfferStartAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePriceEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product wherePriceUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereQuantity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereQuantityOffer($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSellerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSlugAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereSlugEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereTitleMetaAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereTitleMetaEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereWeight($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product withAllTags($tags)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product withAnyTags($tags)
+ * @method static \Illuminate\Database\Query\Builder|\App\Product withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product withoutAllTags($tags, $includeUntagged = false)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product withoutAnyTags($tags, $includeUntagged = false)
+ * @method static \Illuminate\Database\Query\Builder|\App\Product withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Product extends Model
 {
     use SoftDeletes;

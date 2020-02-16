@@ -16,6 +16,51 @@ use Spatie\Permission\Traits\HasRoles;
  * App\Models\Client
  *
  * @method static Builder|Client whereEmail($value)
+ * @property int $id
+ * @property int $approved
+ * @property int|null $provider_id
+ * @property string $name
+ * @property string $username
+ * @property string $phone_number
+ * @property string|null $email
+ * @property int|null $code
+ * @property \Illuminate\Support\Carbon|null $create_code_at
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string $password
+ * @property string|null $deleted_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Wishlist[] $wishlist
+ * @property-read int|null $wishlist_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCreateCodeAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereProviderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUsername($value)
+ * @mixin \Eloquent
  */
 
 class Client extends Authenticatable implements MustVerifyEmail

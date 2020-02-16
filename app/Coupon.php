@@ -8,6 +8,61 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 
+/**
+ * App\Coupon
+ *
+ * @property int $id
+ * @property string $code
+ * @property string $name
+ * @property int $uses
+ * @property int $max_uses
+ * @property bool $is_disposable
+ * @property \Illuminate\Support\Carbon|null $start_at
+ * @property \Illuminate\Support\Carbon|null $end_at
+ * @property int|null $seller_id
+ * @property int|null $product_id
+ * @property int|null $sub_categories_id
+ * @property int $discount
+ * @property float $discount_egp
+ * @property float $discount_usd
+ * @property bool $is_percent
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int|null $count
+ * @property-read \App\SubCategory|null $SubCategory
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\appliedCoupon[] $appliedCoupon
+ * @property-read int|null $applied_coupon_count
+ * @property-read mixed $is_usable
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\Coupon onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereCount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereDiscount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereDiscountEgp($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereDiscountUsd($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereEndAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereIsDisposable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereIsPercent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereMaxUses($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereSellerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereStartAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereSubCategoriesId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Coupon whereUses($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\Coupon withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\Coupon withoutTrashed()
+ * @mixin \Eloquent
+ */
 class Coupon extends Model
 {
 

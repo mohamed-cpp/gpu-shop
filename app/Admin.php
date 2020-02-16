@@ -6,6 +6,54 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
+/**
+ * App\Admin
+ *
+ * @property int $id
+ * @property bool $enable
+ * @property string $name
+ * @property string $username
+ * @property string $phone_number
+ * @property string|null $email
+ * @property int|null $code
+ * @property \Illuminate\Support\Carbon|null $create_code_at
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string $password
+ * @property string $id_or_passport
+ * @property string $profile_picture
+ * @property string|null $deleted_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereCreateCodeAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereEnable($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereIdOrPassport($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereProfilePicture($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereUsername($value)
+ * @mixin \Eloquent
+ */
 class Admin extends Authenticatable
 {
 

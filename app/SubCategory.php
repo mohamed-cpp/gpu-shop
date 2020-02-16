@@ -6,6 +6,54 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 
+/**
+ * App\SubCategory
+ *
+ * @property int $id
+ * @property string $name_en
+ * @property string $name_ar
+ * @property string|null $slug_en
+ * @property string|null $slug_ar
+ * @property string|null $image
+ * @property int|null $category_id
+ * @property int|null $sort
+ * @property bool $status
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $parent
+ * @property int|null $parent_id
+ * @property-read \App\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\SubCategory[] $child
+ * @property-read int|null $child_count
+ * @property-read mixed $name
+ * @property-read mixed $slug
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\SubcatProduct[] $products
+ * @property-read int|null $products_count
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\SubCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereParent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereSlugAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereSlugEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\SubCategory withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\SubCategory withoutTrashed()
+ * @mixin \Eloquent
+ */
 class SubCategory extends Model
 {
     use SoftDeletes;
