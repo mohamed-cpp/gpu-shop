@@ -23,12 +23,12 @@ class CreateOrdersTable extends Migration
             $table->string('zip')->nullable();
             $table->string('e-mail')->nullable();
             $table->string('phone');
-            $table->unsignedInteger('order_provider_id')->nullable();
+            $table->string('order_provider_id',100)->nullable();
             $table->string('status_provider')->nullable();
             $table->unsignedInteger('client_id');
             $table->string('client_username',30);
             $table->boolean('status')->default(0);
-            $table->boolean('pay_by');
+            $table->string('pay_by',10);
             $table->float('total_after_discount')->nullable();
             $table->float('total')->nullable();
             $table->string('currency',3);

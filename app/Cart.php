@@ -77,6 +77,7 @@ class Cart
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$item->id.$optionString.$username] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
+            $this->totalPrice = round($this->totalPrice, 2);
             if ($this->coupon){
                 $this->coupon($this->coupon);
             }
@@ -197,6 +198,9 @@ class Cart
                 $this->items[ $index ] = $storedItem;
                 $this->totalPrice += $storedItem['totalPriceQty'];
             }
+            if ($this->coupon){
+                $this->coupon($this->coupon);
+            }
         }
     }
 
@@ -299,7 +303,8 @@ class Cart
                 }
             }
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
     }
 
     protected function product($coupon,$product){
@@ -324,7 +329,8 @@ class Cart
                 }
             }
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
     }
 
     protected function subcategory($coupon,$subCategories){
@@ -353,7 +359,8 @@ class Cart
                 }
             }
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
     }
 
     protected function allItems($coupon){
@@ -377,7 +384,8 @@ class Cart
                 }
 
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
 
     }
 

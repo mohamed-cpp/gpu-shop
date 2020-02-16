@@ -65,5 +65,8 @@ class ProductOrder extends Model
         'price_after_discount', 'price', 'fee', 'currency', 'product_id'
     ];
 
-
+    public function optionsProductOrder()
+    {
+        return $this->hasMany(OptionsProductOrder::class,'product_order_id');
+    }
 }

@@ -84,5 +84,9 @@ class Order extends Model
         'status_provider', 'first_name', 'last_name', 'address', 'city', 'country', 'zip', 'e-mail', 'phone',
     ];
 
+    public function productOrder()
+    {
+        return $this->hasMany(ProductOrder::class,'order_id');
+    }
 
 }
