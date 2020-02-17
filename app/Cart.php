@@ -218,14 +218,19 @@ class Cart
             $total = 0;
             $optionsPrices = 0;
             $optionsArray = [];
+            $minQtyArray = [];
+            $deletedItems = [];
             foreach ($this->items as $index => $item){
-                if ($item['item']->isOffer) {
+                $product = $item['item']->fresh();
+                if ($product->isOffer) {
                     $currency = "offer_price_$this->cookie";
+                    $minQtyArray[]= $product->quantity_offer;
                 } else {
                     $currency = "price_$this->cookie";
+                    $minQtyArray[]= $product->quantity;
                 }
                 if ($item['options']) {
-                    $optionsItem = $item['item']->details()
+                    $optionsItem = $product->details()
                         ->with('subDetailsWithoutImage')
                         ->without('subDetails')
                         ->get();
@@ -238,29 +243,40 @@ class Cart
                             'name' => $singleSubOption->name,
                         ];
                         $optionsPrices += $singleSubOption['price_' . $currency];
+                        if ($singleSubOption->quantity > 0){
+                            $minQtyArray[] =  $singleSubOption->quantity;
+                        }
                     }
                 }
                 $storedItem = [
                     'for'           => $item['for'],
-                    'name'          => $item['item']->name,
-                    'slug'          => $item['item']->slug,
+                    'name'          => $product->name,
+                    'slug'          => $product->slug,
                     'qty'           => $item['qty'],
-                    'price'         => $item['item']->$currency + $optionsPrices,
+                    'price'         => $product->$currency + $optionsPrices,
                     'couponPrice'   => null,
                     'couponTotalPrice'   => null,
-                    'item'          => $item['item'],
+                    'item'          => $product,
                     'options'       => $optionsArray,
-                    'totalPriceQty' => $item['item']->$currency * $item['qty'],
-                    'minQty'        => $item['minQty'],
+                    'totalPriceQty' => $product->$currency * $item['qty'],
+                    'minQty'        => min($minQtyArray),
                 ];
-                $total += $storedItem['totalPriceQty'];
-                $this->items[$index] = $storedItem;
+                if ($storedItem['qty'] <= $storedItem['minQty'] &&
+                    $product->isOffer == $item['item']->isOffer)
+                {
+                    $total += $storedItem['totalPriceQty'];
+                    $this->items[$index] = $storedItem;
+                }else{
+                    $deletedItems[] = $storedItem;
+                    unset($this->items[$index]);
+                }
                 $optionsArray = [];
             }
             $this->totalPrice = $total;
             if ($this->coupon){
                 $this->coupon($this->coupon);
             }
+            return $deletedItems;
         }
 
     }

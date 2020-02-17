@@ -102,8 +102,11 @@ Route::get('/test', function () {
 //    session()->forget('cart');
 //    session()->flush();
 //    session()->put('cart',null);
+//    $cart = new App\Cart(session()->get('cart'));
+//    $test = $cart->updateItems(Cookie::get('currency'));
+//    dd($test);
 
-    dd(session()->get('cart'),session()->get('asdasd'));
+    dd(session()->get('cart'));
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {
