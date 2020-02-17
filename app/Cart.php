@@ -27,6 +27,7 @@ class Cart
     public function add( $item, $username ){
         $storedItem = null;
         $optionString = null;
+        $foundItem = null;
         $qty = $item->isOffer ? $item->quantity_offer : $item->quantity;
         $options = $item->details()
             ->with('subDetailsWithoutImage')
@@ -46,6 +47,7 @@ class Cart
         if($this->items){
             if(array_key_exists($item->id.$optionString.$username,$this->items)){
                 $storedItem = $this->items[$item->id.$optionString.$username];
+                $foundItem = true;
             }
         }
         if(!$storedItem){
@@ -83,8 +85,10 @@ class Cart
             }
             return true;
         }
-        return false;
-
+        if ($foundItem){
+            return false;
+        }
+        return null;
     }
 
     public function addWithQtyOptions($item,$options){
@@ -186,7 +190,9 @@ class Cart
     public function qtyUpdate($index,$qty){
         if(array_key_exists($index,$this->items)){
             $storedItem = $this->items[$index];
-            if($qty <= $storedItem['minQty']){
+            if($storedItem['minQty'] == $storedItem['qty']){
+                return false;
+            } elseif ($qty <= $storedItem['minQty']){
                 if ($this->coupon){
                     $this->couponTotalPrice -= $storedItem['couponTotalPrice'];
                     $storedItem['couponTotalPrice'] = round($storedItem['couponPrice'] * $qty,2);
@@ -197,10 +203,12 @@ class Cart
                 $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
                 $this->totalPrice += $storedItem['totalPriceQty'];
+                if ($this->coupon){
+                    $this->coupon($this->coupon);
+                }
+                return true;
             }
-            if ($this->coupon){
-                $this->coupon($this->coupon);
-            }
+            return false;
         }
     }
 

@@ -22,10 +22,13 @@
                 if(window.signed.signedIn){
                     var self = this;
                     axios.post( '/'+window.App.lang+'/cart/add/'+this.slug)
+                        .catch(error => {
+                            flash(error.response.data,'danger');
+                        })
                         .then(function (response) {
                             if(response.status === 200){
                                 self.$root.cart = response.data;
-                                flash('Added to cart');
+                                flash('Added To Cart');
                             }
                         });
 

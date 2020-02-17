@@ -23,8 +23,13 @@ class ClientCartController extends Controller
         $username = $request->username != auth('client')->user()->username ? $request->username : null ;
         $cart = new Cart($oldCart);
         $add = $cart->add($product,$username);
-        session()->put('cart',$cart);
-        return response(json_encode($cart));
+        if ($add){
+            session()->put('cart',$cart);
+            return response(json_encode($cart));
+        }elseif($add === null){
+            return response('Out of stack',422);
+        }
+        return response('Max Qty',422);
     }
 
     public function addProductCart(Product $product,Request $request){
@@ -40,8 +45,11 @@ class ClientCartController extends Controller
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $qty = $cart->qtyUpdate($index,$qty);
-        session()->put('cart',$cart);
-        return response(json_encode($cart));
+        if ($qty){
+            session()->put('cart',$cart);
+            return response(json_encode($cart));
+        }
+        return response('Max Qty',422);
 
     }
 

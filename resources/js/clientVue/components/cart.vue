@@ -207,6 +207,9 @@
                     var qty = document.getElementById(index).value;
                     var self = this;
                     axios.post('/'+ this.lang + '/cart/qty/'+index+'/'+qty)
+                        .catch(error => {
+                            flash(error.response.data,'danger');
+                        })
                         .then(function (response,) {
                             if(response.status === 200) {
                                 self.cart = response.data;
