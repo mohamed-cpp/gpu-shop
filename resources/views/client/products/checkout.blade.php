@@ -30,7 +30,7 @@
             text-align: center;
             text-transform: uppercase;
             font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
+
         }
         .btn:hover, .btn:focus {
             color: #fff;
@@ -109,7 +109,7 @@
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>First Name <span class="required">*</span></label>
-                                        <input type="text" name="first_name" value="{{old('first_name')}}" required />
+                                        <input type="text" id="first_name" name="first_name" value="{{old('first_name')}}" required />
                                         @error('first_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -120,7 +120,7 @@
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>Last Name <span class="required">*</span></label>
-                                        <input type="text" name="last_name" value="{{old('last_name')}}" required />
+                                        <input type="text" id="last_name" name="last_name" value="{{old('last_name')}}" required />
                                         @error('last_name')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -131,7 +131,7 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text" name="address" value="{{old('address')}}" placeholder="Street address" required/>
+                                        <input type="text" id="address" name="address" value="{{old('address')}}" placeholder="Street address" required/>
                                         @error('address')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -142,8 +142,8 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
                                         <label>Town / City <span class="required">*</span></label>
-                                        <input type="text" name="city" value="{{old('city')}}" required/>
-                                        @error('first_name')
+                                        <input type="text" id="city" name="city" value="{{old('city')}}" required/>
+                                        @error('city')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
                                             </span>
@@ -153,7 +153,7 @@
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>State / County <span class="required">*</span></label>
-                                        <input type="text" placeholder="" value="{{old('country')}}" name="country" required />
+                                        <input type="text" id="country" placeholder="" value="{{old('country')}}" name="country" required />
                                         @error('country')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -176,7 +176,7 @@
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
                                         <label>Phone  <span class="required">*</span></label>
-                                        <input type="text" name="phone" required value="{{old('phone') ? old('phone') :auth('client')->user()->phone_number}}" />
+                                        <input type="text" id="phone" name="phone" required value="{{old('phone') ? old('phone') :auth('client')->user()->phone_number}}" />
                                         @error('phone')
                                         <span class="invalid-feedback" role="alert">
                                             <strong>{{ $message }}</strong>
@@ -332,9 +332,6 @@
             stripe.createPaymentMethod({
                 type: 'card',
                 card: cardElement,
-                billing_details: {
-                    name: 'Jenny Rosen',
-                },
             }).then(function(result) {
                 if(result.paymentMethod){
                     let hiddenInput = document.createElement('input');

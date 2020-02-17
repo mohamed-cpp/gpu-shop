@@ -111,7 +111,7 @@
                                             <span v-if="cart.couponTotalPrice" class="offerCoupon">{{currency}}{{cart.couponTotalPrice}}</span>
                                         </li>
                                     </ul>
-                                    <a>Proceed to checkout</a>
+                                    <a href="/checkout">Proceed to checkout</a>
                                 </div>
                             </div>
                         </div>

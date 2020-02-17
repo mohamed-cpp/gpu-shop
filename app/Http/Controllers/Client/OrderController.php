@@ -5,18 +5,14 @@ namespace App\Http\Controllers\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutClient;
 use App\Order;
-use App\ProductOrder;
 use App\ProductSubDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PayPal\Api\Item;
 use PayPal\Api\Payer;
 use PayPal\Api\Amount;
-use PayPal\Api\Details;
 use PayPal\Api\Payment;
 use PayPal\Api\ItemList;
-use PayPal\Api\WebProfile;
-use PayPal\Api\InputFields;
 use PayPal\Api\Transaction;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\PaymentExecution;
@@ -25,12 +21,9 @@ class OrderController extends Controller
 {
     public function index(){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        if ($oldCart->items){
-            \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-            $intent = \Stripe\SetupIntent::create();
+        if(isset($oldCart->items)){
             return view('client.products.checkout',[
                 'cart' => $oldCart,
-                'intent'=> $intent
             ]);
         }
         return view('client.pages.sorry')
@@ -70,24 +63,42 @@ class OrderController extends Controller
 
         switch ($input['pay']) {
             case "cash":
-                $this->cash($cart,$client,$input);
+                $order_id_or_url = $this->cash($cart,$client,$input);
                 break;
             case "paypal":
-                return redirect($this->paypal($cart,$client,$input));
+                $order_id_Paypal = $this->paypal($cart,$input);
+                if (!is_numeric($order_id_Paypal)){
+                    return redirect($order_id_Paypal);
+                }else{
+                    return view('client.pages.sorry')
+                        ->with([
+                            'message'=> 'sorry try again or message us, we will be happy to help you',
+                            'id' => $order_id_Paypal
+                        ]);
+                }
                 break;
             case "cards":
-                return redirect($this->cards($cart,$client,$input));
+                $order_id_or_url = $this->cards($cart,$client,$input);
+                if (!$order_id_or_url['error'] && !is_numeric($order_id_or_url['message'] )){
+                    return redirect($order_id_or_url['message']);
+                }elseif ($order_id_or_url['error']){
+                    return view('client.pages.sorry')
+                        ->with([
+                            'message'=> 'sorry try again or message us, we will be happy to help you',
+                            'id' => $order_id_or_url['message']
+                        ]);
+                }
+                $order_id_or_url = $order_id_or_url['message'];
                 break;
             default:
                 return view('client.pages.sorry')
                     ->with([
-                        'message'=> 'sorry try again or message us, we will be happy to help you',
-                        'id'=> session()->get('order')->id
+                        'message'=> 'sorry try again or message us, we will be happy to help you'
                     ]);
         }
 
         return view('client.pages.thank_you')
-            ->with(['id'=> session()->get('order')->id]);
+            ->with(['id'=> $order_id_or_url]);
     }
 
     public function confirm(Request $request){
@@ -112,11 +123,11 @@ class OrderController extends Controller
             return view('client.pages.thank_you')
                 ->with(['id'=> $order->id]);
 
-        } catch (\Stripe\Exception\InvalidRequestException $ex) {
+        } catch (\Exception $ex) {
             $order->update([
                 'order_provider_id'=>$intent->id,
                 'status' => 0,
-                'status_provider'=> $intent->status,
+                'status_provider'=> $ex->getMessage(),
             ]);
             return view('client.pages.sorry')
                 ->with([
@@ -153,9 +164,17 @@ class OrderController extends Controller
             ]);
             $this->create_product_orders($cart,$client,$order);
             session()->put('order',null);
-        } catch (Exception $ex) {
-            echo $ex;
-            exit(1);
+        } catch (\Exception $ex) {
+            $order->update([
+                'order_provider_id'=>$ex->getCode().'(Error)',
+                'status' => 0,
+                'status_provider'=> $ex->getMessage(),
+            ]);
+            return view('client.pages.sorry')
+                ->with([
+                    'message'=> 'sorry try again or message us, we will be happy to help you',
+                    'id' => $order->id
+                ]);
         }
 
         return view('client.pages.thank_you')
@@ -181,9 +200,10 @@ class OrderController extends Controller
         $input['status'] = 1;
         $order = Order::create($input);
         $this->create_product_orders($cart,$client,$order);
+        return $order->id;
     }
 
-    protected function paypal($cart,$client,$input){
+    protected function paypal($cart,$input){
         $input['pay_by'] = 'PayPal';
         $order = Order::create($input);
         $currency = $cart->cookie;
@@ -242,9 +262,13 @@ class OrderController extends Controller
                 'status_provider'=> $payment->status,
             ]);
             session()->put('order',$order);
-        } catch (Exception $ex) {
-            echo $ex;
-            exit(1);
+        } catch (\Exception $ex) {
+            $order->update([
+                'order_provider_id'=>$ex->getCode().'(Error)',
+                'status' => 0,
+                'status_provider'=> $ex->getMessage(),
+            ]);
+            return $order->id;
         }
 
         return $payment->getApprovalLink();
@@ -275,7 +299,7 @@ class OrderController extends Controller
                     'status_provider'=> $intent->status,
                 ]);
                 session()->put('order',$order);
-                return $intent->next_action->redirect_to_url->url;
+                return ['error'=>false,'message'=> $intent->next_action->redirect_to_url->url];
             }
             $order->update([
                 'order_provider_id'=>$intent->id,
@@ -283,8 +307,14 @@ class OrderController extends Controller
                 'status_provider'=> $intent->status,
             ]);
             $this->create_product_orders($cart,$client,$order);
-        } catch (\Stripe\Exception\ApiErrorException $e) {
-            dd($e);
+            return ['error'=>false,'message'=>$order->id];
+        } catch (\Exception $ex) {
+            $order->update([
+                'order_provider_id'=>$ex->getCode().'(Error)',
+                'status' => 0,
+                'status_provider'=> $ex->getMessage(),
+            ]);
+            return ['error'=>true,'message'=>$order->id];
         }
     }
 

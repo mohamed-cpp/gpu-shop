@@ -7,7 +7,7 @@ return [
   ],
   'setting' => [
       'mode' => 'sandbox',
-      'http.ConnectionTimeOut' => '30',
+      'http.ConnectionTimeOut' => '60',
       'log.logEnable' => true,
       'logFileName' => public_path().'/logs/paypal.log'
   ]

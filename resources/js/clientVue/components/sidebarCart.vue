@@ -41,7 +41,7 @@
                         <li class="single-product-cart">
                             <div class="cart-checkout-btn">
                                 <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
-                                <a class="no-mrg btn-hover cart-btn-style" href="#">checkout</a>
+                                <a class="no-mrg btn-hover cart-btn-style" href="/checkout">checkout</a>
                             </div>
                         </li>
                     </ul>

@@ -103,7 +103,7 @@ Route::get('/test', function () {
 //    session()->flush();
 //    session()->put('cart',null);
 
-    dd(session()->get('cart'),session()->get('newCart'));
+    dd(session()->get('cart'),session()->get('asdasd'));
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {
