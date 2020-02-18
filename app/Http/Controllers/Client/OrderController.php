@@ -41,7 +41,7 @@ class OrderController extends Controller
     public function create(CheckoutClient $request){
         $input = $request->all();
         $cartOld = Session::get('cart');
-//        session()->put('cart',null);
+        session()->put('cart',null);
         session()->put('newCart',$cartOld);
         $cart = $cartOld;
 
@@ -401,7 +401,7 @@ class OrderController extends Controller
         $order->balanceWebsite()
             ->save(new \App\BalanceWebsite(array_merge($balanceWebsiteDB,$website_balance)));
         foreach ($balanceSellers as $id => $balance){
-            Seller::find($id)->update([
+            Seller::whereId($id)->update([
                 "balance_{$cart->cookie}" => $balance,
             ]);
         }
