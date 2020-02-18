@@ -104,11 +104,15 @@ Route::get('/test', function () {
 //    session()->put('cart',null);
 //    $cart = new App\Cart(session()->get('cart'));
 //    $test = $cart->updateItems(Cookie::get('currency'));
-    $cart =session()->get('cart');
-//        dd($cart->items);
-    $ids =Arr::pluck($cart->items, 'item.id');
-
-    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
+//    $cart =session()->get('cart');
+//    $update = [['quantity' => 100],['quantity' => 200]];
+////    \DB::table('products')->whereIn('id', [1, 2])->update([['quantity' => 100],['quantity' => 200]]);
+//    dd( $update);
+//    $ids = Arr::pluck($cart->items, 'item.seller_id');
+//
+//    dd(\App\Seller::findMany($ids)->keyBy('id'));
+//
+//    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {

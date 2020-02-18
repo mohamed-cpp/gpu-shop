@@ -15,7 +15,7 @@ class CreateBalanceWebsitesTable extends Migration
     {
         Schema::create('balance_websites', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('balance_id');
+            $table->unsignedInteger('balanceable_id');
             $table->string('balanceable_type',50);
             $table->float('available_balance_egp');
             $table->float('available_balance_usd');

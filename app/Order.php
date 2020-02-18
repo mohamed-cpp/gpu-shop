@@ -89,4 +89,9 @@ class Order extends Model
         return $this->hasMany(ProductOrder::class,'order_id');
     }
 
+    public function balanceWebsite()
+    {
+        return $this->morphMany(BalanceWebsite::class, 'balanceable');
+    }
+
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\BalanceWebsite;
 use App\Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutClient;
 use App\Order;
 use App\ProductSubDetails;
+use App\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PayPal\Api\Item;
@@ -39,7 +41,7 @@ class OrderController extends Controller
     public function create(CheckoutClient $request){
         $input = $request->all();
         $cartOld = Session::get('cart');
-        session()->put('cart',null);
+//        session()->put('cart',null);
         session()->put('newCart',$cartOld);
         $cart = $cartOld;
 
@@ -326,11 +328,24 @@ class OrderController extends Controller
 
     protected function create_product_orders($cart,$client,$order){
         $products = [];
+        $balanceSellers = [];
+        $balanceWebsiteDB = BalanceWebsite::latest()
+            ->first()
+            ->setHidden(['deleted_at','created_at','updated_at'])
+            ->toArray();
+        $website_balance = [
+            "available_balance_{$cart->cookie}"
+            => $cart->totalPrice + $balanceWebsiteDB["available_balance_{$cart->cookie}"],
+            "balance_{$cart->cookie}"
+            => $cart->totalPrice + $balanceWebsiteDB["balance_{$cart->cookie}"],
+            "fee_{$cart->cookie}"
+            => $balanceWebsiteDB["fee_{$cart->cookie}"] ,
+        ];
         foreach ($cart->items as $item){
             if ($item['item']->isOffer()){
-                $fee = $item['item']["offer_fee_{$cart->cookie}"];
+                $fee = $item['item']["offer_fee_{$cart->cookie}"] * $item['qty'];
             }else{
-                $fee = $item['item']["fee_{$cart->cookie}"];
+                $fee = $item['item']["fee_{$cart->cookie}"] * $item['qty'];
             }
             $itemArray = [
                 'client_id' => $client->id,
@@ -372,8 +387,24 @@ class OrderController extends Controller
                 $this->decreaseQty($product,$item['qty']);
                 $products[] = new \App\ProductOrder($itemArray);
             }
+            $website_balance["fee_{$cart->cookie}"] += $fee;
+
+            if(array_key_exists($item['item']->seller_id,$balanceSellers)){
+                $balanceSellers[$item['item']->seller_id] =
+                    ($item['totalPriceQty'] - $fee) +
+                    $balanceSellers[$item['item']->seller_id];
+            }else{
+                $balanceSellers[$item['item']->seller_id] = $item['totalPriceQty'] - $fee;
+            }
         }
         $order->productOrder()->saveMany($products);
+        $order->balanceWebsite()
+            ->save(new \App\BalanceWebsite(array_merge($balanceWebsiteDB,$website_balance)));
+        foreach ($balanceSellers as $id => $balance){
+            Seller::find($id)->update([
+                "balance_{$cart->cookie}" => $balance,
+            ]);
+        }
         session()->put('newCart',null);
     }
 
