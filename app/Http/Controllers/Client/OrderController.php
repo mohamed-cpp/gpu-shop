@@ -328,9 +328,9 @@ class OrderController extends Controller
         $products = [];
         foreach ($cart->items as $item){
             if ($item['item']->isOffer()){
-                $price = $item['item']["offer_fee_{$cart->cookie}"];
+                $fee = $item['item']["offer_fee_{$cart->cookie}"];
             }else{
-                $price = $item['item']["fee_{$cart->cookie}"];
+                $fee = $item['item']["fee_{$cart->cookie}"];
             }
             $itemArray = [
                 'client_id' => $client->id,
@@ -339,7 +339,7 @@ class OrderController extends Controller
                 'for' => $item['for'],
                 'qty' => $item['qty'],
                 'price' => $item['totalPriceQty'],
-                'fee' => $price,
+                'fee' => $fee,
                 'currency' => $cart->cookie,
             ];
             if($cart->coupon && $item['couponTotalPrice']){
@@ -387,4 +387,5 @@ class OrderController extends Controller
             $product->update(['quantity' => $product->quantity -= $qty]);
         }
     }
+
 }

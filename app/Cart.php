@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Arr;
 use Illuminate\Support\Facades\Cookie;
 
 class Cart
@@ -220,8 +221,10 @@ class Cart
             $optionsArray = [];
             $minQtyArray = [];
             $deletedItems = [];
+            $ids = Arr::pluck($this->items, 'item.id');
+            $products = Product::findMany($ids)->keyBy('slug_en');
             foreach ($this->items as $index => $item){
-                $product = $item['item']->fresh();
+                $product = $products[$item['item']->slug_en];
                 if ($product->isOffer) {
                     $currency = "offer_price_$this->cookie";
                     $minQtyArray[]= $product->quantity_offer;
@@ -261,17 +264,8 @@ class Cart
                     'totalPriceQty' => $product->$currency * $item['qty'],
                     'minQty'        => min($minQtyArray),
                 ];
-//                if ($storedItem['qty'] <= $storedItem['minQty'] &&
-//                    $product->isOffer == $item['item']->isOffer)
-//                {
-//                    $total += $storedItem['totalPriceQty'];
-//                    $this->items[$index] = $storedItem;
-//                }else{
-//                    $deletedItems[] = $storedItem;
-//                    unset($this->items[$index]);
-//                }
                 if ( $product->isOffer != $item['item']->isOffer){
-                    $storedItem['message'] = 'The Offer Ended';
+                    $storedItem['message'] = $product->isOffer ? 'The Offer Started!!! You can add the product to cart with new price.' : 'The Offer Ended' ;
                     $deletedItems[] = $storedItem;
                     unset($this->items[$index]);
                 }elseif ($storedItem['qty'] > $storedItem['minQty']){

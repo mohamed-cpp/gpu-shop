@@ -104,9 +104,11 @@ Route::get('/test', function () {
 //    session()->put('cart',null);
 //    $cart = new App\Cart(session()->get('cart'));
 //    $test = $cart->updateItems(Cookie::get('currency'));
-//    dd($test);
+    $cart =session()->get('cart');
+//        dd($cart->items);
+    $ids =Arr::pluck($cart->items, 'item.id');
 
-    dd(session()->get('cart'));
+    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
 //    return session()->get('cart');
 }) ;
 Route::get('/testt', function () {
