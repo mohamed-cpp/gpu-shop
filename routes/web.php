@@ -109,8 +109,11 @@ Route::get('/test', function () {
 ////    \DB::table('products')->whereIn('id', [1, 2])->update([['quantity' => 100],['quantity' => 200]]);
 //    dd( $update);
 //    $ids = Arr::pluck($cart->items, 'item.seller_id');
+//    $emails = \App\Seller::findMany($ids)->pluck('email');
 //
-//    dd(\App\Seller::findMany($ids)->keyBy('id'));
+//    Mail::to($emails)->send(new \App\Mail\SendMailOrderToSeller(5000));
+
+//    dd();
 //
 //    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
 //    return session()->get('cart');

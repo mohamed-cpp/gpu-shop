@@ -6,6 +6,7 @@ use App\BalanceWebsite;
 use App\Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutClient;
+use App\Jobs\NewOrder;
 use App\Order;
 use App\ProductSubDetails;
 use App\Seller;
@@ -41,7 +42,7 @@ class OrderController extends Controller
     public function create(CheckoutClient $request){
         $input = $request->all();
         $cartOld = Session::get('cart');
-        session()->put('cart',null);
+//        session()->put('cart',null);
         session()->put('newCart',$cartOld);
         $cart = $cartOld;
 
@@ -406,6 +407,9 @@ class OrderController extends Controller
             ]);
         }
         session()->put('newCart',null);
+        $sellerIds = \Arr::pluck($cart->items, 'item.seller_id');
+        NewOrder::dispatch($order,$sellerIds,$client)
+            ->onQueue('medium');
     }
 
     protected function decreaseQty($product,$qty){
