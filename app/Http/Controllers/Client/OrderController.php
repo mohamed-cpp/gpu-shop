@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Cart;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutClient;
 use App\Order;
@@ -21,9 +22,14 @@ class OrderController extends Controller
 {
     public function index(){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        if(isset($oldCart->items)){
+        $cart = new Cart($oldCart);
+        $removedItems =  $cart->updateItems($oldCart->cookie);
+        session()->put('cart',$cart);
+        if($removedItems){
+            return redirect()->route('cart.client')->with(['removedItems' => $removedItems]);
+        } elseif(isset($cart->items)){
             return view('client.products.checkout',[
-                'cart' => $oldCart,
+                'cart' => $cart,
             ]);
         }
         return view('client.pages.sorry')

@@ -261,14 +261,26 @@ class Cart
                     'totalPriceQty' => $product->$currency * $item['qty'],
                     'minQty'        => min($minQtyArray),
                 ];
-                if ($storedItem['qty'] <= $storedItem['minQty'] &&
-                    $product->isOffer == $item['item']->isOffer)
-                {
-                    $total += $storedItem['totalPriceQty'];
-                    $this->items[$index] = $storedItem;
-                }else{
+//                if ($storedItem['qty'] <= $storedItem['minQty'] &&
+//                    $product->isOffer == $item['item']->isOffer)
+//                {
+//                    $total += $storedItem['totalPriceQty'];
+//                    $this->items[$index] = $storedItem;
+//                }else{
+//                    $deletedItems[] = $storedItem;
+//                    unset($this->items[$index]);
+//                }
+                if ( $product->isOffer != $item['item']->isOffer){
+                    $storedItem['message'] = 'The Offer Ended';
                     $deletedItems[] = $storedItem;
                     unset($this->items[$index]);
+                }elseif ($storedItem['qty'] > $storedItem['minQty']){
+                    $storedItem['message'] = "Sorry But Qty of The Product Is Over";
+                    $deletedItems[] = $storedItem;
+                    unset($this->items[$index]);
+                }else{
+                    $total += $storedItem['totalPriceQty'];
+                    $this->items[$index] = $storedItem;
                 }
                 $optionsArray = [];
             }

@@ -253,6 +253,9 @@
     <!-- shopping-cart-area start -->
     <div class="cart-main-area pt-95 pb-100">
         <div class="container">
+            @if( $removedItems = session()->get( 'removedItems' ))
+                @include('client.layout._removedItemsCart', $removedItems)
+            @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     <h1 class="cart-heading">cart</h1>
