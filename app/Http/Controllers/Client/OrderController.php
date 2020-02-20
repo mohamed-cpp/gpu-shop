@@ -24,6 +24,22 @@ use PayPal\Api\PaymentExecution;
 class OrderController extends Controller
 {
     public function index(){
+        $orders = auth('client')->user()
+            ->orders()
+//            ->with('productOrder')
+            ->paginate(15);
+        return $orders;
+    }
+
+    public function show(){
+        $orders = auth('client')->user()
+            ->orders()
+//            ->with('productOrder')
+            ->paginate(15);
+        return $orders;
+    }
+
+    public function create(){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
         $cart = new Cart($oldCart);
         $removedItems =  $cart->updateItems($oldCart->cookie);
@@ -39,10 +55,10 @@ class OrderController extends Controller
             ->with(['message'=> 'Your Cart is Empty']);
     }
 
-    public function create(CheckoutClient $request){
+    public function store(CheckoutClient $request){
         $input = $request->all();
         $cartOld = Session::get('cart');
-//        session()->put('cart',null);
+        session()->put('cart',null);
         session()->put('newCart',$cartOld);
         $cart = $cartOld;
 

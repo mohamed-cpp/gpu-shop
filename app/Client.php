@@ -89,6 +89,11 @@ class Client extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Wishlist::class);
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
     /**
      * Send an email with a verification code for the client
      */

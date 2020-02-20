@@ -43,8 +43,9 @@ Route::group(['middleware' => 'client'], function () {
     Route::delete('cart/remove/coupon', 'Client\ClientCartController@removeCoupon');
     Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
 
-    Route::get('checkout', 'Client\OrderController@index')->name('checkout.client');
-    Route::post('checkout', 'Client\OrderController@create')->name('create.checkout.client');
+    Route::get('orders', 'Client\OrderController@index')->name('orders.client');
+    Route::get('checkout', 'Client\OrderController@create')->name('checkout.client');
+    Route::post('checkout', 'Client\OrderController@store')->name('create.checkout.client');
     Route::get('confirm', 'Client\OrderController@confirm')->name('confirm.checkout.client');
     Route::get('paypal/checkout', 'Client\OrderController@paypalCheckout')->name('checkout.paypal.client');
     Route::get('paypal/cancel', 'Client\OrderController@paypalCancel')->name('cancel.paypal.client');
