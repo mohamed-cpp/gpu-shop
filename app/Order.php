@@ -78,10 +78,27 @@ class Order extends Model
      *
      * @var array
      */
+
+    const ORDERED = 0;
+    const PROCESSING = 1;
+    const PACKED = 2;
+    const SHIPPED = 3;
+    const DELIVERED = 4;
+
+
     protected $fillable = [
         'order_provider_id', 'client_id', 'status', 'pay_by', 'where', 'client_note', 'coupon',
         'seen_notes', 'total_after_discount', 'total', 'currency', 'ip', 'client_username',
         'status_provider', 'first_name', 'last_name', 'address', 'city', 'country', 'zip', 'e-mail', 'phone',
+        'shipped_at', 'delivered_at'
+    ];
+
+    protected $appends = ['status_order'];
+
+
+    protected $casts = [
+        'shipped_at' =>'datetime',
+        'delivered_at' => 'datetime',
     ];
 
     public function productOrder()
@@ -94,4 +111,22 @@ class Order extends Model
         return $this->morphMany(BalanceWebsite::class, 'balanceable');
     }
 
+
+    public function getStatusOrderAttribute()
+    {
+        if($this->status == Order::ORDERED){
+            if ($this->status == 'Cash'){
+                return "Ordered";
+            }
+            return "Paid and Ordered";
+        }elseif ($this->status == Order::PROCESSING){
+            return "The Order Processing";
+        }elseif ($this->status == Order::PACKED){
+            return "The Order Packed";
+        }elseif ($this->status == Order::SHIPPED){
+            return "The order in way to you";
+        }elseif ($this->status == Order::DELIVERED){
+            return "Delivered";
+        }
+    }
 }

@@ -26,17 +26,34 @@ class OrderController extends Controller
     public function index(){
         $orders = auth('client')->user()
             ->orders()
-//            ->with('productOrder')
+            ->where('status','!=',0)
+            ->orderBy('updated_at','desc')
             ->paginate(15);
-        return $orders;
+        return view('client.products.orders')
+            ->with(['orders'=>$orders]);
     }
 
-    public function show(){
-        $orders = auth('client')->user()
+    public function show($order){
+        $order = auth('client')->user()
             ->orders()
-//            ->with('productOrder')
-            ->paginate(15);
-        return $orders;
+            ->with('productOrder')
+            ->findOrFail($order);
+        if ($order->seen_notes){
+            $order->update([ 'seen_notes' => 0]);
+        }
+        return view('client.products.anOrder')
+            ->with(['order'=>$order]);
+
+    }
+    public function delivered(Request $request){
+        $order = auth('client')->user()
+            ->orders()
+            ->findOrFail($request->id);
+        $order->update([
+            'status' => 4,
+            'delivered_at' => now()
+        ]);
+        return redirect()->route('order.client',$request->id);
     }
 
     public function create(){
@@ -300,7 +317,7 @@ class OrderController extends Controller
     }
 
     protected function cards($cart,$client,$input){
-        $input['pay_by'] = 'Stripe';
+        $input['pay_by'] = 'Credit Cards';
         $order = Order::create($input);
         $totalPrice = $cart->couponTotalPrice ? $cart->couponTotalPrice : $cart->totalPrice;
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));

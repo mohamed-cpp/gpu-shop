@@ -44,6 +44,8 @@ Route::group(['middleware' => 'client'], function () {
     Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
 
     Route::get('orders', 'Client\OrderController@index')->name('orders.client');
+    Route::get('orders/{order}', 'Client\OrderController@show')->name('order.client');
+    Route::post('orders', 'Client\OrderController@delivered')->name('delivered.client');
     Route::get('checkout', 'Client\OrderController@create')->name('checkout.client');
     Route::post('checkout', 'Client\OrderController@store')->name('create.checkout.client');
     Route::get('confirm', 'Client\OrderController@confirm')->name('confirm.checkout.client');

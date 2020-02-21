@@ -66,10 +66,15 @@ class ProductOrder extends Model
     ];
 
 
-    protected $with = ['optionsProductOrder'];
+    protected $with = ['optionsProductOrder','product'];
 
     public function optionsProductOrder()
     {
         return $this->hasMany(OptionsProductOrder::class,'product_order_id');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class,'product_id');
     }
 }
