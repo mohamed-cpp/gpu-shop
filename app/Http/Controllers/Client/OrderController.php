@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Client;
 
 use App\BalanceWebsite;
 use App\Cart;
+use App\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutClient;
 use App\Jobs\NewOrder;
 use App\Order;
 use App\ProductSubDetails;
 use App\Seller;
+use Illuminate\Contracts\Auth\Access\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 use PayPal\Api\Item;
@@ -33,11 +35,9 @@ class OrderController extends Controller
             ->with(['orders'=>$orders]);
     }
 
-    public function show($order){
-        $order = auth('client')->user()
-            ->orders()
-            ->with('productOrder')
-            ->findOrFail($order);
+    public function show(Order $order){
+        $this->authorizeForUser(auth('client')->user(), 'view', $order);
+
         if ($order->seen_notes){
             $order->update([ 'seen_notes' => 0]);
         }
@@ -46,14 +46,13 @@ class OrderController extends Controller
 
     }
     public function delivered(Request $request){
-        $order = auth('client')->user()
-            ->orders()
-            ->findOrFail($request->id);
+        $order = Order::find($request->id);
+        $this->authorizeForUser(auth('client')->user(), 'view', $order);
         $order->update([
             'status' => 4,
             'delivered_at' => now()
         ]);
-        return redirect()->route('order.client',$request->id);
+        return redirect()->route('order.client',$order->id);
     }
 
     public function create(){
