@@ -159,7 +159,7 @@ class Cart
             'totalPriceQty' => 0,
             'minQty'        => min($optionsQty),
         ];
-        if($storedItem['qty'] < min($optionsQty)){
+        if($storedItem['qty'] <= min($optionsQty)){
             $this->totalPrice -= $oldItem ? $oldItem['totalPriceQty'] : 0 ;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$keyProduct] = $storedItem;

@@ -238,9 +238,11 @@ class OrderController extends Controller
 
     protected function cash($cart,$client,$input){
         $input['pay_by'] = 'Cash';
-        $input['status'] = 1;
         $order = Order::create($input);
         $this->create_product_orders($cart,$client,$order);
+        $order->update([
+            'status' => 1,
+        ]);
         return $order->id;
     }
 
@@ -434,8 +436,9 @@ class OrderController extends Controller
         $order->balanceWebsite()
             ->save(new \App\BalanceWebsite(array_merge($balanceWebsiteDB,$website_balance)));
         foreach ($balanceSellers as $id => $balance){
-            Seller::whereId($id)->update([
-                "balance_{$cart->cookie}" => $balance,
+            $seller = Seller::whereId($id)->first();
+            $seller->update([
+                "balance_{$cart->cookie}" => $balance + $seller["balance_{$cart->cookie}"],
             ]);
         }
         session()->put('newCart',null);
@@ -446,12 +449,16 @@ class OrderController extends Controller
 
     protected function decreaseQty($product,$qty){
         if ($product->isOffer()){
-            $product->update(['quantity_offer' => $product->quantity_offer -= $qty]);
-            if ($product->quantity_offer == 0){
-                $product->update(['offer_end_at' => now()]);
+            if (($product->quantity_offer - $qty) == 0){
+                $product->update([
+                    'offer_end_at' => now(),
+                    'quantity_offer' => $product->quantity_offer - $qty
+                ]);
+            }else{
+                $product->update(['quantity_offer' => $product->quantity_offer - $qty]);
             }
         }else{
-            $product->update(['quantity' => $product->quantity -= $qty]);
+            $product->update(['quantity' => $product->quantity - $qty]);
         }
     }
 
