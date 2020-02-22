@@ -316,7 +316,7 @@ class OrderController extends Controller
     }
 
     protected function cards($cart,$client,$input){
-        $input['pay_by'] = 'Credit Cards';
+        $input['pay_by'] = 'Credit Card';
         $order = Order::create($input);
         $totalPrice = $cart->couponTotalPrice ? $cart->couponTotalPrice : $cart->totalPrice;
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));

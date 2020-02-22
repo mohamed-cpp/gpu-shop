@@ -28,7 +28,7 @@ class CreateOrdersTable extends Migration
             $table->unsignedInteger('client_id');
             $table->string('client_username',30);
             $table->boolean('status')->default(0);
-            $table->string('pay_by',10);
+            $table->string('pay_by',15);
             $table->float('total_after_discount')->nullable();
             $table->float('total')->nullable();
             $table->string('currency',3);

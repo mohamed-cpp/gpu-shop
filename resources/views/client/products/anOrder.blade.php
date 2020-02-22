@@ -431,7 +431,10 @@
                     <p><b>E-mail:</b> {{$order['e-mail']}}</p>
                 @endif
                 @if($order->zip)
-                    <p><b>E-mail:</b> {{$order->zip}}</p>
+                    <p><b>Zip:</b> {{$order->zip}}</p>
+                @endif
+                @if($order->client_note)
+                    <p><b>Your Note:</b> {{$order->client_note}}</p>
                 @endif
             </div>
             <div class="row">
@@ -461,12 +464,6 @@
                                     <div class="col-6 col-md">
                                         <h6 class="text-charcoal mb-0 w-100">Coupon Used</h6>
                                         <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$order->coupon}}</p>
-                                    </div>
-                                @endif
-                                @if($order->client_note)
-                                    <div class="col-6 col-md">
-                                        <h6 class="text-charcoal mb-0 w-100">Coupon Your Note</h6>
-                                        <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$order->client_note}}</p>
                                     </div>
                                 @endif
                                 @if($order->status == \App\Order::SHIPPED)

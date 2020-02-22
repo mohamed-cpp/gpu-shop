@@ -103,9 +103,6 @@
 
                                     </ul>
                                     <ul>
-                                        <li>Shipping
-                                            <span>20$</span>
-                                        </li>
                                         <li>Total
                                             <span :class="{ 'oldpriceCoupon' : cart.couponTotalPrice != 0}" >{{currency}}{{cart.totalPrice}} </span>
                                             <span v-if="cart.couponTotalPrice" class="offerCoupon">{{currency}}{{cart.couponTotalPrice}}</span>

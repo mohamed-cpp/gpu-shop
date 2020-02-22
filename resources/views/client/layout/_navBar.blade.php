@@ -1,4 +1,4 @@
-
+<div id="cartnew">
 <header>
     <div class="header-area header-area-padding">
         <div class="container">
@@ -15,11 +15,7 @@
                                 <span class="ion-ios-search-strong"></span>
                             </button>
                         </div>
-                        <div class="header-cart common-style">
-                            <button class="sidebar-trigger">
-                                <span class="ion-bag"></span>
-                            </button>
-                        </div>
+                        <count_cart :count_product="{{ isset(session()->get('cart')->items)  ? count(session()->get('cart')->items) : 0 }}" ></count_cart>
                         <div class="header-sidebar common-style">
                             <button class="header-navbar-active">
                                 <span class="ion-navicon"></span>
@@ -33,7 +29,6 @@
 </header>
 <!-- header end -->
 
-<div id="cartnew">
     <sidebar :session_cart="{{ json_encode(session()->get('cart')) }}" ></sidebar>
 </div>
 <div class="main-search-active">

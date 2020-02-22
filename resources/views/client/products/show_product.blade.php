@@ -190,7 +190,6 @@
         }
         .oldprice{
             text-decoration-line: line-through;
-            color: darkred !important;
             padding-right: 5px !important;
         }
         .offer{
@@ -198,7 +197,6 @@
             font-size: 15px;
         }
         .price{
-            color: rgba(255, 0, 36, 0.8) !important;
             font-size: 15px;
             font-weight: 550;
         }
