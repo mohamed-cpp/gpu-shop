@@ -188,7 +188,7 @@
     
     /* new collection slider active */
     $('.new-collection-slider').owlCarousel({
-        loop: true,
+        loop: false,
         nav: false,
         item: 4,
         responsive: {
