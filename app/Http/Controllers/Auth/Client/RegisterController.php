@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Auth\Client;
 
 use App\Http\Controllers\Controller;
 use App\Client;
+use App\Jobs\MessageClient;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -48,18 +50,37 @@ class RegisterController extends Controller
     }
 
     /**
+     * Handle a registration request for the application.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function register(Request $request)
+    {
+        $request->merge(['username' => str_replace(' ','_',$request->username) ]);
+
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        return $this->registered($request, $user)
+            ?: redirect($this->redirectPath());
+    }
+
+    /**
      * @param Request $request
      * @param Client $user
-     * @throws \Twilio\Exceptions\ConfigurationException
-     * @throws \Twilio\Exceptions\TwilioException
      */
     public function registered(Request $request, Client $user)
     {
         if (!app()->runningUnitTests()) {
             $name = $request->user('client')->name;
             $body = "Welcome, $name  \nYou need to verify your phone number,\nGo to profile and verify number. \nRegards, \nGPU-Shop";
-            $user->twilioSMS($body);
-            $user->twilioWhatsApp($body);
+            MessageClient::dispatch($body,$user)
+                ->onQueue('low');
+
         }
     }
 
@@ -73,9 +94,9 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'min:8', 'max:20'],
-            'username' => ['required', 'string', 'min:8',  'max:20', 'unique:clients','unique:sellers'],
-            'phone_number' => ['required', 'numeric', 'regex:/^[0-9-+ ]{7,15}$/', 'unique:clients','unique:sellers'],
-            'email' => ['sometimes','nullable' ,'string', 'email', 'max:255', 'unique:clients','unique:sellers'],
+            'username' => ['required', 'string', 'min:8',  'max:20', 'unique:clients','unique:sellers','unique:admins'],
+            'phone_number' => ['required', 'numeric', 'regex:/^[0-9-+ ]{7,15}$/', 'unique:clients','unique:sellers','unique:admins'],
+            'email' => ['sometimes','nullable' ,'string', 'email', 'max:255', 'unique:clients','unique:sellers','unique:admins'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'agree' => ['required'],
         ]);
@@ -85,7 +106,7 @@ class RegisterController extends Controller
      * Create a new user instance after a valid registration.
      *
      * @param  array  $data
-     * @return \App\User
+     * @return \App\Client
      */
     protected function create(array $data)
     {
