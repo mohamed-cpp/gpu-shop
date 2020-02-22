@@ -66,6 +66,9 @@
         .product-card .cart-checkout-btn a{
             border: 1px solid rgba(0, 0, 0, 0.55);
         }
+        a:hover{
+            color: #fff !important;
+        }
     </style>
 @endpush
 @section('content')
@@ -90,7 +93,6 @@
                         <input placeholder='Search...' class='js-search' name="keywords" type="text">
                         <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
                     </form>
-                    <form action="#">
                         <div class="table-content table-responsive" id="appView">
                             <table>
                                 <thead>
@@ -141,7 +143,6 @@
                                 @endforeach
                             </table>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

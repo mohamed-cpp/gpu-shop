@@ -210,7 +210,7 @@
                                     <td class="product-name">
                                         {{$item['name']}} <strong class="product-quantity"> × {{$item['qty']}}</strong>
                                         @if($item['for'])
-                                            <span>for @ {{ $item['for'] }}</span>
+                                            <p>for {{ '@'.$item['for'] }}</p>
                                         @endif
                                     </td>
                                     <td class="product-total">

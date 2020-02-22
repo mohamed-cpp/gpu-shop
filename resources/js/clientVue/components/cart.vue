@@ -91,14 +91,15 @@
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
                                     <h2>Cart totals</h2>
-                                    <ul>
+                                    <ul class="totals">
                                         <li v-for="(product, index) in cart.items">
-                                            {{product.name}} x{{product.qty}}
-                                            <div v-if="product.for">
-                                                For:{{product.for}}
-                                            </div>
                                             <span  :class="{ 'oldpriceCoupon' : product.couponPrice != null}">{{currency}}{{product.totalPriceQty}}</span>
                                             <span v-if="product.couponPrice" class="offerCoupon">{{currency}}{{product.couponTotalPrice}}</span>
+                                            {{product.name}} x{{product.qty}}
+                                            <small v-if="product.for" style="display: block;">
+                                                For:@{{product.for}}
+                                            </small>
+
                                         </li>
 
                                     </ul>
@@ -314,5 +315,8 @@
     .oldpriceCoupon{
         margin-left: 25px;
         text-decoration-line: line-through;
+    }
+    .totals li {
+        height: 55px;
     }
 </style>
