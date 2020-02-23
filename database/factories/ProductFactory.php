@@ -73,6 +73,14 @@ $factory->define(\App\Wishlist::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(\App\Rating::class, function (Faker $faker) {
+    return [
+        'product_id' => 3,
+        'client_id' => rand(9999999,99999999),
+        'rating' => 4,
+    ];
+});
+
 $factory->define(\App\Coupon::class, function (Faker $faker) {
     return [
         'code' => Str::random(20),

@@ -27,5 +27,6 @@ factory('App\Category',3)->create()->each(function ($category) {factory('App\Sub
 
 php artisan queue:work --queue=high,medium,low,default
 
-
+        start_measure('render','Time for rendering');
+        stop_measure('render');
 

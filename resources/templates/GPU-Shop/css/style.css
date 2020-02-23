@@ -1204,7 +1204,7 @@
 .quick-view-number > span {
   color: #808080;
   display: block;
-  font-size: 14px;
+  font-size: 16px;
   margin: 3px 0 0 10px;
 }
 .qwick-view-content > p {
@@ -3320,7 +3320,7 @@ input.cart-plus-minus-box {
   -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
-  margin-bottom: 44px;
+  /*margin-bottom: 44px;*/
 }
 .description-review-title a {
   color: #e0e0e0;

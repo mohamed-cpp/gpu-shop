@@ -49,16 +49,39 @@
             <h3 v-if="locale">{{ product.name_ar }}</h3>
             <h3 v-else>{{ product.name_en }}</h3>
             <div class="rating-number">
-                <div class="quick-view-rating">
-                    <i class="ion-ios-star red-star"></i>
-                    <i class="ion-ios-star red-star"></i>
-                    <i class="ion-android-star-outline"></i>
-                    <i class="ion-android-star-outline"></i>
-                    <i class="ion-android-star-outline"></i>
-                </div>
+
+                <form class="rating-widget">
+                    <input type="checkbox" class="star-input" id="1" v-on:click="sendRating(1)"/>
+                    <label class="star-input-label" for="1">1
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="2" v-on:click="sendRating(2)"/>
+                    <label class="star-input-label" for="2">2
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="3" v-on:click="sendRating(3)"/>
+                    <label class="star-input-label" for="3">3
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="4" v-on:click="sendRating(4)"/>
+                    <label class="star-input-label" for="4">4
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="5" v-on:click="sendRating(5)"/>
+                    <label class="star-input-label" for="5">5
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                </form>
+
                 <div class="quick-view-number">
-                    <span>2 Ratting (S)</span>
+                    <span><b>{{count}} Reviews</b></span>
                 </div>
+
             </div>
             <div class="details-price">
                 <div><span class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</span></div>
@@ -74,10 +97,7 @@
                 <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
                 <div class="toggle-button__icon"></div>
             </div>
-
             </section>
-
-
 
             <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
             <h3 v-else >Sorry Sold Out &#128577;<p v-if="product.details.length !== 0">Select another option </p></h3>
@@ -126,7 +146,7 @@
     import addCartbutton from './addCartbutton.vue';
     export default {
         components: { addWishlist, addCartbutton },
-        props:['product','currencyprop','price','wishlistadded'],
+        props:['product','currencyprop','price','wishlistadded','reviews'],
         data(){
             return{
                 images: [],
@@ -137,6 +157,7 @@
                 quantity: this.product.quantity,
                 detailsArray: [],
                 locale:null,
+                count:this.reviews,
             }
         },
         mounted() {
@@ -213,6 +234,31 @@
                     }
                 }
             },
+            sendRating(rating){
+                if(rating <= 5 && window.signed.signedIn){
+                    axios.post('/'+ window.App.lang  + '/rating',{
+                        product:this.product.id,
+                        rating:rating,
+                    })
+                    .catch(error => {
+                       if(error.response.status === 422){
+                           flash(error.response.data,'danger');
+                       }
+                        flash('Sorry You need to buy the product first','warning');
+                    })
+                    .then((response) => {
+                        if(response.status === 200) {
+                            flash('Thank you to reviews our product');
+                            if(response.data[0] === 'created'){
+                                this.count = parseInt(this.count) + 1;
+                            }
+                        }
+                    });
+                }else {
+                    flash('You need to login first','warning');
+                }
+
+            }
         }
     };
 </script>

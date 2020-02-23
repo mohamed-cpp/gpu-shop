@@ -51,6 +51,9 @@ Route::group(['middleware' => 'client'], function () {
     Route::get('confirm', 'Client\OrderController@confirm')->name('confirm.checkout.client');
     Route::get('paypal/checkout', 'Client\OrderController@paypalCheckout')->name('checkout.paypal.client');
     Route::get('paypal/cancel', 'Client\OrderController@paypalCancel')->name('cancel.paypal.client');
+
+    Route::post('rating', 'Client\ClientProductController@rating')->name('create.rating.client');
+
 });
 
 // Authentication Routes
