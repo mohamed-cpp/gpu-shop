@@ -45,15 +45,18 @@
                                 <span v-if="product.isOffer" class="new" >{{currency}}{{offerPrice}}</span>
                             </div>
                             <div class="rating-number">
-                                <div class="quick-view-rating">
-                                    <i class="ion-ios-star red-star"></i>
-                                    <i class="ion-ios-star red-star"></i>
-                                    <i class="ion-android-star-outline"></i>
-                                    <i class="ion-android-star-outline"></i>
-                                    <i class="ion-android-star-outline"></i>
-                                </div>
+
+                                <form class="rating-widget">
+                                    <div v-for="(n,index) in 5">
+                                        <input :checked="index+1 <= product.rating_of_product" disabled type="checkbox" class="star-input" :id="index" />
+                                        <label class="star-input-label" :for="index">{{index}}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star orange"></i>
+                                        </label>
+                                    </div>
+                                </form>
                                 <div class="quick-view-number">
-                                    <span>2 Ratting (S)</span>
+                                    <span>{{product.count_rating}} Reviews</span>
                                 </div>
                             </div>
 
@@ -257,6 +260,9 @@
         color: red;
         font-weight: 600;
         text-decoration: underline;
+    }
+    .rating-widget div{
+        display: inline;
     }
 </style>
 

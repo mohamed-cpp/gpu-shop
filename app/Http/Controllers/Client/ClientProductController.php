@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Client;
 
 use App\Cart;
 use App\Http\Requests\RatingRequest;
+use App\Jobs\ProductRating;
 use App\Order;
 use App\Product;
 use App\Http\Controllers\Controller;
@@ -90,11 +91,7 @@ class ClientProductController extends Controller
             $ratingsArray['rating'] = $ratingClient ? $ratingClient->rating : 0;
         }
         if(!$ratingClient || !auth('client')->check()){
-            $sum =  $allRatings->sum('rating');
-            if($sum != 0){
-                $productRatings = round($sum / $count);
-                $ratingsArray['rating'] = $productRatings;
-            }
+            $ratingsArray['rating'] = $product->rating_of_product;
         }
         if ($allRatings){
             foreach($ratings as $index => $rating){
@@ -169,6 +166,7 @@ class ClientProductController extends Controller
                         'product_id' => $request->product,
                         'rating' => $request->rating]);
 
+                ProductRating::dispatch($request->product);
                 if ($created->wasRecentlyCreated){
                     return response(['created'], 200);
                 }

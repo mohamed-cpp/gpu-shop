@@ -1,6 +1,7 @@
 @extends('client.app')
 @push('styles')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         @import url(https://fonts.googleapis.com/css?family=Raleway:400,500,700);
         *, *::after, *::before {
@@ -478,6 +479,74 @@
             border-left: none;
             border-radius: 0 4px 4px 0;
         }
+    </style>
+    <style>
+        .rating-widget {
+            max-width: 500px;
+            text-align: center;
+        }
+        .rating-widget .star-input {
+            width: 0;
+            height: 0;
+            position: absolute;
+            left: -5000px;
+        }
+        .rating-widget .star-input:checked + .star-input-label .orange {
+            animation: enlarge 0.5s ease-in-out forwards;
+        }
+        .rating-widget .star-input:checked + .star-input-label:nth-of-type(2) .orange {
+            animation-delay: 0.1s;
+        }
+        .rating-widget .star-input:checked + .star-input-label:nth-of-type(3) .orange {
+            animation-delay: 0.2s;
+        }
+        .rating-widget .star-input:checked + .star-input-label:nth-of-type(4) .orange {
+            animation-delay: 0.3s;
+        }
+        .rating-widget .star-input:checked + .star-input-label:nth-of-type(5) .orange {
+            animation-delay: 0.4s;
+        }
+        .rating-widget .star-input-label {
+            display: inline-block;
+            padding: 8px 2px;
+            text-indent: -5000px;
+            line-height: 0;
+            color: #dcdcdc;
+            position: relative;
+            cursor: pointer;
+        }
+        .rating-widget .star-input-label:hover, .rating-widget .star-input-label.hovered {
+            color: #a7a7a7;
+        }
+        .rating-widget .star-input-label i {
+            display: block;
+            font-size: 20px;
+            line-height: 20px;
+            text-indent: 0;
+        }
+        .rating-widget .star-input-label i.orange {
+            position: absolute;
+            display: block;
+            padding: 8px 2px;
+            top: 0;
+            left: 0;
+            text-align: center;
+            width: 100%;
+            color: orange;
+            transform: scale(0);
+        }
+        @keyframes enlarge {
+            0% {
+                transform: scale(0);
+            }
+            70% {
+                transform: scale(1.25);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
     </style>
 @endpush
 @section('content')
