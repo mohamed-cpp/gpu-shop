@@ -775,17 +775,15 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>
+{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js" integrity="sha256-KM512VNnjElC30ehFwehXjx1YCHPiQkOPmqnrWtpccM=" crossorigin="anonymous"></script>--}}
     <script>
         $(document).ready(function(){
             $(function animateByMe(time = 500) {
                 $('.offer').animate({
-                    fontWeight:'300',
-                    fontSize:'15px',
+                    fontWeight:'200',
                 },time, function () {
                     $(this).animate({
-                        fontWeight:'1000',
-                        fontSize:'16px',
+                        fontWeight:'750',
                     },time);
                 });
                 setTimeout(animateByMe, 200);
@@ -828,32 +826,10 @@
                 }
             });
 
-            // Amount is a read only field for textual representation of the range
-            //$("#amount").val("$" + $("#slider-range").slider("values", 0) + " - $" + $("#slider-range").slider("values", 1));
-
-            //this code was an attempt to stop entering wrong values - but I think this is better ux...
-            // $("#price-filter-min, #price-filter-max").map(function(){
-            // $(this).on("keypress", function(e) {
-            // 	if ($(this).val() > priceMax && e.keyCode != 46 && e.keyCode != 8) {
-            // 		// e.preventDefault();
-            // 		$(this).val(priceMax);
-            // 	} else if ($(this).val() < priceMin && e.keyCode != 46 && e.keyCode != 8) {
-            // 		// e.preventDefault();
-            // 		$(this).val(priceMin);
-            // 	}
-            // });
-            // });
 
             $("#price-filter-min, #price-filter-max").map(function(){
                 $(this).on("input", function() {
-                    // let pmin = $("#price-filter-min").val(),
-                    // 	 pmax = $("#price-filter-max").val();
-                    // if(
-                    // 	pmin >= priceMin //bigger than min
-                    // 	&& pmin <= pmax && pmax <= priceMax //smaller than max
-                    // ) {
-                    // 	updateSlider();
-                    // }
+
                     updateSlider();
                 });
             });
