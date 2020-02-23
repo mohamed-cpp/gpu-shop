@@ -66,6 +66,7 @@ class SubcatProductController extends Controller
                 'subcategory' => $subcategory,
                 'priceMinMax' => $this->minMaxPriceCache($subcategory),
                 'count'=>$this->count($products),
+                'topRated'=>$this->topRated($subcategory->id),
             ]);
         }
         return response()->view('client.errors.error',['errorCode' => 404,
@@ -135,6 +136,7 @@ class SubcatProductController extends Controller
             'priceMinMax' => $request->offer ? $this->minMaxPriceOffer($subcategory) : $this->minMaxPriceCache($subcategory),
             'sort'=>$parameters,
             'count'=>$this->count($products),
+            'topRated'=>$this->topRated($subcategory->id),
         ]);
 
     }
@@ -154,6 +156,7 @@ class SubcatProductController extends Controller
                 'subcategory' => $subcategory,
                 'priceMinMax' => $this->minMaxPriceOffer($subcategory),
                 'count'=>$this->count($products),
+                'topRated'=>$this->topRated($subcategory->id),
             ]);
         }
         return response()->view('client.errors.error',['errorCode' => 404,
@@ -245,5 +248,21 @@ class SubcatProductController extends Controller
         }
         $countArray[] = [$products->total()];
         return $countArray;
+    }
+    protected function topRated($id){
+        $product = \DB::table('subcat_products')
+            ->where('subcategoryable_id',$id)
+            ->join('products', 'products.id', '=', 'subcat_products.productable_id')
+            ->where('products.status', '=', 1)
+            ->where('products.approved', '=', 1)
+            ->orderBy('count_rating', 'desc')
+            ->orderBy('rating_of_product', 'desc')
+            ->select('products.*')
+            ->take(4)
+            ->get()
+            ->toArray();
+
+        return Product::hydrate($product);
+
     }
 }
