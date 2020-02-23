@@ -123,18 +123,6 @@ Route::get('/test', function () {
 //
 //    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
 //    return session()->get('cart');
-    $products = DB::table('subcat_products')
-        ->where('subcategoryable_id',4)
-        ->join('products', 'products.id', '=', 'subcat_products.productable_id')
-        ->where('products.status', '=', 1)
-        ->where('products.approved', '=', 1)
-        ->select('products.*')
-        ->paginate(15)
-        ->toArray();
-    return $products;
-
-//    dd($products);
-//    echo 123;
 }) ;
 Route::get('/testt', function () {
     return App\Category::find(4)->subCategories()->get();

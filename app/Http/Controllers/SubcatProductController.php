@@ -206,9 +206,6 @@ class SubcatProductController extends Controller
         $slug = "slug_$locale";
         $description = "description_$locale";
         foreach ($products as $product){
-            $product->name = $product->$name;
-            $product->slug = $product->$slug;
-            $product->description = $product->$description;
             $product->isOffer = $this->isOffer($product);
             $product->offerPriceold = $this->offerPrice($product,false);
             $product->offerPrice = $this->offerPrice($product);
