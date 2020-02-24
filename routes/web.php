@@ -39,7 +39,8 @@ Route::group(['middleware' => 'client'], function () {
     Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
     Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
     Route::post('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
-    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon');
+    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon')
+        ->middleware('throttle:5,1');
     Route::delete('cart/remove/coupon', 'Client\ClientCartController@removeCoupon');
     Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
 
@@ -52,7 +53,9 @@ Route::group(['middleware' => 'client'], function () {
     Route::get('paypal/checkout', 'Client\OrderController@paypalCheckout')->name('checkout.paypal.client');
     Route::get('paypal/cancel', 'Client\OrderController@paypalCancel')->name('cancel.paypal.client');
 
-    Route::post('rating', 'Client\ClientProductController@rating')->name('create.rating.client');
+    Route::post('rating', 'Client\ClientProductController@rating')
+        ->name('create.rating.client')
+        ->middleware('throttle:5,1');
 
 });
 
