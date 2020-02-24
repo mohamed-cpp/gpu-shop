@@ -18,7 +18,7 @@ class LoginSellerTest extends TestCase
 
     public function test_can_user_see_home_page(){
         $response = $this->get(route('home.seller'));
-        $response->assertStatus(200);
+        $response->assertStatus(302);
     }
     public function test_can_user_see_login_page(){
         $response = $this->get(route('seller.loginForm'));

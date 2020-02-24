@@ -51,23 +51,23 @@
             <div class="rating-number">
 
                 <form class="rating-widget">
-                    <input type="checkbox" class="star-input" id="1" v-on:click="sendRating(1)"/>
-                    <label class="star-input-label" for="1">1
+                    <input type="checkbox" class="star-input" id="one" v-on:click="sendRating(1)"/>
+                    <label class="star-input-label" for="one">1
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star orange"></i>
                     </label>
-                    <input type="checkbox" class="star-input" id="2" v-on:click="sendRating(2)"/>
-                    <label class="star-input-label" for="2">2
+                    <input type="checkbox" class="star-input" id="two" v-on:click="sendRating(2)"/>
+                    <label class="star-input-label" for="two">2
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star orange"></i>
                     </label>
-                    <input type="checkbox" class="star-input" id="3" v-on:click="sendRating(3)"/>
-                    <label class="star-input-label" for="3">3
+                    <input type="checkbox" class="star-input" id="three" v-on:click="sendRating(3)"/>
+                    <label class="star-input-label" for="three">3
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star orange"></i>
                     </label>
-                    <input type="checkbox" class="star-input" id="4" v-on:click="sendRating(4)"/>
-                    <label class="star-input-label" for="4">4
+                    <input type="checkbox" class="star-input" id="four" v-on:click="sendRating(4)"/>
+                    <label class="star-input-label" for="four">4
                         <i class="fa fa-star"></i>
                         <i class="fa fa-star orange"></i>
                     </label>

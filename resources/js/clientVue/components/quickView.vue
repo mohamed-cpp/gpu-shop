@@ -7,7 +7,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="qwick-view-left">
+                    <div class="qwick-view-left" v-if="product.main_image">
                         <div class="quick-view-learg-img">
                             <div class="quick-view-tab-content tab-content">
 

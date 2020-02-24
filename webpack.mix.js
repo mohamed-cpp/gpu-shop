@@ -33,6 +33,11 @@ mix.styles([
 mix.styles('node_modules/intl-tel-input/build/css/intlTelInput.css',
     'public/GPU-Shop/css/intlTelInput.css');
 
+mix.styles('resources/templates/GPU-Shop/css/products_page.css',
+    'public/GPU-Shop/css/products_page.css');
+mix.styles('resources/templates/GPU-Shop/css/product_page.css',
+    'public/GPU-Shop/css/product_page.css');
+
 
 mix.babel([
     'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
@@ -55,6 +60,11 @@ mix.babel([
 
 mix.copy('resources/templates/GPU-Shop/js/vendor/modernizr-2.8.3.min.js',
     'public/GPU-Shop/js/modernizr-2.8.3.min.js');
+mix.copy('resources/templates/GPU-Shop/js/product_page.js',
+    'public/GPU-Shop/js/product_page.js');
+mix.copy('resources/templates/GPU-Shop/js/products_page.js',
+    'public/GPU-Shop/js/products_page.js');
+
 mix.babel('node_modules/intl-tel-input/build/js/intlTelInput.js','public/GPU-Shop/js/intlTelInput.js')
     .sourceMaps();
 mix.babel('node_modules/intl-tel-input/build/js/utils.js','public/GPU-Shop/js/utils.js')

@@ -201,10 +201,6 @@ class SubcatProductController extends Controller
         return $sortArray;
     }
     protected function changeKeyLocale($products){
-        $locale =  App::getLocale();
-        $name = "name_$locale";
-        $slug = "slug_$locale";
-        $description = "description_$locale";
         foreach ($products as $product){
             $product->isOffer = $this->isOffer($product);
             $product->offerPriceold = $this->offerPrice($product,false);
@@ -246,6 +242,7 @@ class SubcatProductController extends Controller
         $countArray[] = [$products->total()];
         return $countArray;
     }
+
     protected function topRated($id){
         $product = \DB::table('subcat_products')
             ->where('subcategoryable_id',$id)
@@ -260,6 +257,5 @@ class SubcatProductController extends Controller
             ->toArray();
 
         return Product::hydrate($product);
-
     }
 }
