@@ -17,7 +17,7 @@ class CreateSubcatProductsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('productable_id');
             $table->string('productable_type',50);
-            $table->unsignedInteger('subcategoryable_id');
+            $table->unsignedInteger('subcategoryable_id')->index();
             $table->softDeletes();
             $table->timestamps();
         });

@@ -58,16 +58,12 @@ class ClientProductController extends Controller
      * @param  \App\Product  $product
      * @return Response
      */
-    public function show($product)
+    public function show(Product $product)
     {
         $ratingClient = false;
         $ratingsArray = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0,];
         $added = false;
-
-        $product = Product::where('slug_ar',$product)
-            ->orWhere('slug_en',$product)
-            ->with('images','details')
-            ->firstOrFail();
+        $product->load('images','details');
 
         $relatedProduct = $product->withAnyTags($product->tagList)
                             ->where('approved',1)->where('status',true)

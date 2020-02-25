@@ -126,6 +126,9 @@ Route::get('/test', function () {
 //
 //    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
 //    return session()->get('cart');
+
+//    return App\SubCategory::whereId(5)->with('manyProduct','manyProduct.images')->get();
+    return App\SubCategory::published();
 }) ;
 Route::get('/testt', function () {
     return App\Category::find(4)->subCategories()->get();

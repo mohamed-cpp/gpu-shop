@@ -153,10 +153,10 @@
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
-                                        <a href="{{route('show.product.client', $product->{"slug_{$locale}"})}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->{"name_{$locale}"} }}"></a>
-                                        @if($isOffer = $product->isOffer == true)
+                                        <a href="{{route('show.product.client', $product->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
+                                        @if($isOffer = $product->isOffer )
                                             <span>sale
-                                                <span>{{round(($product->offerPriceold - $product->offerPrice) / $product->offerPriceold * 100) }}% Off</span>
+                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
                                             </span>
                                         @endif
                                         <div class="product-action">
@@ -167,12 +167,12 @@
                                     <div class="product-content">
                                         <div class="product-title-price">
                                             <div class="product-title">
-                                                <h4><a href="{{route('show.product.client', $product->{"slug_{$locale}"} )}}">{{$product->{"name_{$locale}"} }}</a></h4>
+                                                <h4><a href="{{route('show.product.client', $product->slug )}}">{{$product->name }}</a></h4>
                                             </div>
                                             <div class="product-price" >
-                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPriceold }}</span></div>
+                                                <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPrice(false) }}</span></div>
                                                 @if($isOffer)
-                                                    <span class="offer" >{{$currency}}{{$product->offerPrice}}</span>
+                                                    <span class="offer" >{{$currency}}{{$product->offerPrice()}}</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -180,7 +180,7 @@
                                             <div class="product-cart">
                                                 <span>{{$subcategoryName}}</span>
                                             </div>
-                                            <add_cart slug="{{$product->{"slug_{$locale}"} }}" tablist="true"></add_cart>
+                                            <add_cart slug="{{$product->slug }}" tablist="true"></add_cart>
                                         </div>
                                     </div>
                                 </div>
@@ -208,7 +208,7 @@
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
-                                        <a href="{{route('show.product.client', $product->{"slug_{$locale}"} )}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->{"name_{$locale}"} }}"></a>
+                                        <a href="{{route('show.product.client', $product->slug )}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                         <div class="product-action">
 {{--                                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>--}}
                                             <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
@@ -216,15 +216,15 @@
                                     </div>
                                     <div class="product-content-list">
                                         <div class="product-list-info">
-                                            <h4><a href="{{route('show.product.client', $product->{"slug_{$locale}"} )}}">{{ Str::limit($product->{"name_{$locale}"} , $limit = 50, $end = '...')}}</a></h4>
-                                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$oldOffer =  $product->offerPriceold }}</span></div>
+                                            <h4><a href="{{route('show.product.client', $product->slug )}}">{{ Str::limit($product->name , $limit = 50, $end = '...')}}</a></h4>
+                                            <div><span class="{{ $isOffer = $product->isOffer ? 'oldprice' : '' }} price">{{$currency}}{{$oldOffer =  $product->offerPrice(false) }}</span></div>
                                             @if($isOffer)
-                                                <span class="offer2" >{{$currency}}{{$newOffer = $product->offerPrice }}</span>
-                                                <div class="offBox"><span>{{round(($oldOffer - $newOffer) / $oldOffer * 100) }}% Off</span></div>
+                                                <span class="offer2" >{{$currency}}{{ $product->offerPrice() }}</span>
+                                                <div class="offBox"><span>{{round(($oldOffer - $product->offerPrice()) / $oldOffer * 100) }}% Off</span></div>
                                             @endif
                                         </div>
                                         <div class="product-list-cart-wishlist">
-                                            <add_cart slug="{{$product->{"slug_{$locale}"} }}" tablist="false"></add_cart>
+                                            <add_cart slug="{{$product->slug }}" tablist="false"></add_cart>
                                             <div class="product-list-wishlist">
                                                 <add_wishlist list="1" idproduct="{{$product->id}}"></add_wishlist>
                                             </div>

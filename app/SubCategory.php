@@ -80,8 +80,40 @@ class SubCategory extends Model
         return $this->hasMany(SubcatProduct::class,'subcategoryable_id');
     }
 
+    public function manyProducts(){
+        return $this->hasManyThrough(
+            'App\Product',
+            'App\SubcatProduct',
+            'subcategoryable_id',
+            'id',
+            'id',
+            'productable_id')
+            ->where('products.status','=',1)
+            ->where('products.approved','=',1);
+    }
+
     public function child(){
         return $this->hasMany(SubCategory::class,'parent_id');
+    }
+    public function paginateManyProducts(){
+        return $this->manyProducts()->paginate(15);
+    }
+
+    public function paginateManyOfferProducts(){
+        return $this->manyProducts()
+            ->where([['products.offer_start_at', '<', now()],
+                    ['products.offer_end_at', '>', now()]])
+            ->paginate(15);
+    }
+
+    public function paginateManyFilterProducts($column,$keywords,$currency,$request,$isOfferPage,$sort){
+        return $this->manyProducts()
+            ->where([[$column, 'LIKE', '%' . $keywords . '%' ],
+                ["products.{$isOfferPage[0]}price_".$currency, '<=',  $request['max'] ],
+                ["products.{$isOfferPage[0]}price_".$currency, '>=',  $request['min'] ],])
+            ->where($isOfferPage[1])
+            ->orderBy($sort[1][0], $sort[0][0])
+            ->paginate(15);
     }
 
     public static function findBySlugsOrFail($slug){
