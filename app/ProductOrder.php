@@ -51,6 +51,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\ProductOrder withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\ProductOrder withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\OptionsProductOrder[] $optionsProductOrder
+ * @property-read int|null $options_product_order_count
+ * @property-read \App\Order $order
+ * @property-read \App\Product $product
  */
 class ProductOrder extends Model
 {

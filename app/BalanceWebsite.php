@@ -41,6 +41,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\BalanceWebsite withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\BalanceWebsite withoutTrashed()
  * @mixin \Eloquent
+ * @property int $balanceable_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\BalanceWebsite whereBalanceableId($value)
  */
 class BalanceWebsite extends Model
 {

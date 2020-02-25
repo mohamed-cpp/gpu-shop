@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -53,6 +54,9 @@ use Illuminate\Support\Facades\App;
  * @method static \Illuminate\Database\Query\Builder|\App\SubCategory withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\SubCategory withoutTrashed()
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $manyProducts
+ * @property-read int|null $many_products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory status()
  */
 class SubCategory extends Model
 {
@@ -148,5 +152,14 @@ class SubCategory extends Model
     {
         $locale = App::getLocale();
         return "slug_" . $locale;
+    }
+
+    /**
+     * @param Builder $query
+     * @return mixed
+     */
+    public function scopeStatus(Builder $query)
+    {
+        return $query->where('status', 1);
     }
 }

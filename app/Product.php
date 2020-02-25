@@ -112,6 +112,12 @@ use Cviebrock\EloquentTaggable\Taggable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product withoutAnyTags($tags, $includeUntagged = false)
  * @method static \Illuminate\Database\Query\Builder|\App\Product withoutTrashed()
  * @mixin \Eloquent
+ * @property int $rating_of_product
+ * @property int $count_rating
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
+ * @property-read int|null $rating_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCountRating($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereRatingOfProduct($value)
  */
 class Product extends Model
 {

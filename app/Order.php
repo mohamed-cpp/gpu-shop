@@ -69,6 +69,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @method static \Illuminate\Database\Query\Builder|\App\Order withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Order withoutTrashed()
  * @mixin \Eloquent
+ * @property \Illuminate\Support\Carbon|null $shipped_at
+ * @property \Illuminate\Support\Carbon|null $delivered_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\BalanceWebsite[] $balanceWebsite
+ * @property-read int|null $balance_website_count
+ * @property-read mixed $status_order
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\ProductOrder[] $productOrder
+ * @property-read int|null $product_order_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereDeliveredAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Order whereShippedAt($value)
  */
 class Order extends Model
 {

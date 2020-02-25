@@ -61,6 +61,10 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUsername($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $orders
+ * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
+ * @property-read int|null $rating_count
  */
 
 class Client extends Authenticatable implements MustVerifyEmail
