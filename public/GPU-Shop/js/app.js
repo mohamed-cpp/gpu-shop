@@ -14617,8 +14617,11 @@ jQuery.fn.slinky = function (e) {
   /* new collection slider active */
 
   $('.new-collection-slider').owlCarousel({
-    loop: false,
+    rewind: true,
     nav: false,
+    autoplay: true,
+    autoplayTimeout: 5000,
+    stopOnHover : true,
     item: 4,
     responsive: {
       0: {
