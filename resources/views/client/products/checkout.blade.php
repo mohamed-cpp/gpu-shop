@@ -250,7 +250,7 @@
                                         <div id="cash" class="panel-collapse collapse show">
                                             <div class="panel-body">
                                                 <p>Pay when you got order.</p>
-                                                <button type="submit" class="btn third" id="cash">Buy Now</button>
+                                                <button type="submit" class="btn third checkout-botton" id="cash">Buy Now</button>
                                             </div>
                                         </div>
                                     </div>
@@ -262,7 +262,7 @@
                                             <div class="panel-body">
                                                 <p>Pay by Credit Cards or Debit Cards</p>
                                                 <div id="card-element"></div>
-                                                <button type="submit" class="btn first" id="cards_submit" value="cards">Buy Now</button>
+                                                <button type="submit" class="btn first checkout-botton" id="cards_submit" value="cards_submit">Buy Now</button>
                                             </div>
                                         </div>
                                     </div>
@@ -270,7 +270,7 @@
                                         <div class="panel-heading">
                                             <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="paypal" href="#paypal">PayPal</a></h5>
                                         </div>
-                                        <div id="paypal" class="panel-collapse collapse">
+                                        <div id="paypal" class="panel-collapse collapse checkout-botton">
                                             <div class="panel-body">
                                                 <p>Pay by PayPal.</p>
                                                 <script src="https://www.paypalobjects.com/api/button.js?"
@@ -325,10 +325,13 @@
     cardElement.mount('#card-element');
     var form = document.getElementById('payment-form');
 
-    form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        let submit = event.submitter;
-        if(submit.value === 'cards'){
+    $('#payment-form').on('submit', function(e) {
+        e.preventDefault();
+    });
+
+    $('.checkout-botton').on('click', function() {
+        let id = $(this).attr('id');
+        if(id === 'cards_submit'){
             stripe.createPaymentMethod({
                 type: 'card',
                 card: cardElement,
@@ -352,13 +355,12 @@
             let hiddenInputCard = document.createElement('input');
             hiddenInputCard.setAttribute('type', 'hidden');
             hiddenInputCard.setAttribute('name', 'pay');
-            hiddenInputCard.setAttribute('value',submit.id);
+            hiddenInputCard.setAttribute('value',id);
             form.appendChild(hiddenInputCard);
             form.submit();
         }
-
     });
-    
+
 </script>
 
 @endpush
