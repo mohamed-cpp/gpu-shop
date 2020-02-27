@@ -135,8 +135,8 @@
                             <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
                             <div v-for="(sub_detail, index) in detail.sub_details_without_image" class="toggle-button toggle-button--nummi">
                                 <input :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
-                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
-                                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"  @click="flashMessage(sub_detail,index)"></label>
+                                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"  @click="flashMessage(sub_detail,index)"></label>
                                 <div class="toggle-button__icon"></div>
                             </div>
                         </section>
@@ -297,6 +297,15 @@
                 }
                 return true;
             },
+            flashMessage(sub_detail,index){
+                let qty = this.modelProduct.minQty;
+                if(index !== 0 && sub_detail.quantity !== 0){
+                    return false;
+                }else if(index === 0 && qty !== 0 ){
+                    return false;
+                }
+                flash('Sold Out of '+sub_detail.name_en,'secondary');
+            }
         }
     };
 </script>

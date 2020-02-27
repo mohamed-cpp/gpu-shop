@@ -122,13 +122,12 @@ Route::get('/test', function () {
 //
 //    Mail::to($emails)->send(new \App\Mail\SendMailOrderToSeller(5000));
 
-//    dd();
 //
 //    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
 //    return session()->get('cart');
 
 //    return App\SubCategory::whereId(5)->with('manyProduct','manyProduct.images')->get();
-    return App\SubCategory::published();
+//    return now()->format('jS F Y h:i:s A');
 }) ;
 Route::get('/testt', function () {
     return App\Category::find(4)->subCategories()->get();

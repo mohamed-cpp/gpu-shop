@@ -87,17 +87,22 @@ class OrderController extends Controller
         if($cart->coupon){
             $input['total_after_discount'] = $cart->couponTotalPrice;
             $input['coupon'] = $cart->coupon->code;
-            if ( $cart->coupon->validateCart() === true){
-                $cart->coupon->appliedCoupon()->create([
+            $coupon = $cart->coupon->fresh();
+            $validateCart = $coupon->validateCart() ;
+            if ( $validateCart === true){
+                $coupon->appliedCoupon()->create([
                     'client_id' => $client->id,
-                    'coupon_id' => $cart->coupon->id,
+                    'coupon_id' => $coupon->id,
                 ]);
                 $cart->coupon->update([
-                    'uses' => $cart->coupon->uses + 1,
+                    'uses' => $coupon->uses + 1,
                 ]);
             }else{
+                $oldCart = new Cart($cart);
+                $oldCart->removeCoupon();
+                session()->put('cart',$oldCart);
                 return view('client.pages.sorry')
-                    ->with(['message'=> $cart->coupon->validateCart()]);
+                    ->with(['message'=> $validateCart]);
             }
         }
 
@@ -141,7 +146,7 @@ class OrderController extends Controller
             $confirmed = $order->confirmStripe($request->all());
 
             if($confirmed){
-                $order->create_product_orders($cart,$client,$order);
+                $order->create_product_orders($cart,$client);
                 return view('client.pages.thank_you')
                     ->with(['id'=> $order->id]);
             }
@@ -162,7 +167,7 @@ class OrderController extends Controller
                 $order->confirmPaypal($request->all());
                 $client = auth('client')->user();
                 $cart = session()->get('newCart');
-                $order->create_product_orders($cart,$client,$order);
+                $order->create_product_orders($cart,$client);
                 session()->put('order',null);
             } catch (\Exception $ex) {
                 $order->update([
@@ -203,7 +208,7 @@ class OrderController extends Controller
     protected function cash($cart,$client,$input){
         $input['pay_by'] = 'Cash';
         $order = Order::create($input);
-        $order->create_product_orders($cart,$client,$order);
+        $order->create_product_orders($cart,$client);
         $order->update([
             'status' => 1,
         ]);
@@ -213,8 +218,7 @@ class OrderController extends Controller
     protected function paypal($cart,$input){
         $input['pay_by'] = 'PayPal';
         $order = Order::create($input);
-        $currency = $cart->cookie;
-        $payment = $order->paypal($cart,$currency);
+        $payment = $order->paypal($cart,$cart->cookie);
         return $payment;
     }
 
@@ -227,7 +231,7 @@ class OrderController extends Controller
             if($next_action){
                 return $next_action;
             }
-            $order->create_product_orders($cart,$client,$order);
+            $order->create_product_orders($cart,$client);
             return ['error'=>false,'message'=>$order->id];
         } catch (\Exception $ex) {
             $order->update([
