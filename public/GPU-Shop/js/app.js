@@ -14528,8 +14528,9 @@ jQuery.fn.slinky = function (e) {
   $('.slider-active').owlCarousel({
     loop: true,
     nav: false,
-    autoplay: false,
+    autoplay: true,
     autoplayTimeout: 5000,
+    stopOnHover : true,
     animateOut: 'fadeOut',
     animateIn: 'fadeIn',
     item: 1,
