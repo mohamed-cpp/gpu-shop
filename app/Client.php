@@ -77,7 +77,7 @@ class Client extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = [
         'name', 'username', 'phone_number','email', 'password', 'email_verified_at'
-        , 'code', 'phone_verified_at', 'create_code_at'
+        , 'code', 'phone_verified_at', 'create_code_at', 'img', 'address', 'city', 'country', 'zip'
     ];
 
     protected $hidden = ['password', 'remember_token'];

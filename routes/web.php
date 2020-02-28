@@ -19,6 +19,7 @@ Route::group(['middleware' => 'client'], function () {
 
     Route::prefix('profile')->group(function () {
         Route::get('/', 'Client\ProfileClientController@show')->name('client.profile');
+        Route::post('/', 'Client\ProfileClientController@update')->name('update.client.profile');
 
         Route::get('phone/verify', 'Client\PhoneVerifyClientController@index')->name('verify.phone.client');
         Route::post('phone/verify', 'Client\PhoneVerifyClientController@create')->name('code.phone.client');
@@ -128,6 +129,7 @@ Route::get('/test', function () {
 
 //    return App\SubCategory::whereId(5)->with('manyProduct','manyProduct.images')->get();
 //    return now()->format('jS F Y h:i:s A');
+    //Rule::unique('clients')->ignore($this->id, "id")
 }) ;
 Route::get('/testt', function () {
     return App\Category::find(4)->subCategories()->get();

@@ -86,7 +86,7 @@
                 <div class="cur-lang-acc-dropdown">
                     <ul>
                         @if( Auth::guard('client')->check() )
-                            <li><a href="#">Profile</a></li>
+                            <li><a href="{{route('client.profile')}}">Profile</a></li>
                             <li><a href="{{route('show.wishlist.client')}}">My Wish List</a></li>
                             <li><a href="{{route('cart.client')}}">Cart</a></li>
                             <li><a href="{{route('orders.client')}}">Orders</a></li>
