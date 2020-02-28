@@ -1,7 +1,7 @@
 <template>
     <div>
-        <div v-if="tablist == 'true'" class="product-categori">
-            <a v-on:click="addCart()" ><i class="ion-bag"></i> Add to cart</a>
+        <div v-if="tablist == 'true'" class="cart-add">
+            <i class="ion-bag"></i> <a v-on:click="addCart()" > Add to cart</a>
         </div>
         <div v-else class="product-list-cart">
             <a class="btn-hover list-btn-style" v-on:click="addCart()">add to cart</a>
@@ -40,7 +40,7 @@
     }
 </script>
 <style>
-    .product-categori a:hover {
+    .cart-add a:hover {
         color: #ee3333 !important;
         cursor: pointer;
     }

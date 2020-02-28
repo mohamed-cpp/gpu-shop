@@ -177,9 +177,6 @@
                                             </div>
                                         </div>
                                         <div class="product-cart-categori">
-                                            <div class="product-cart">
-                                                <span>{{$subcategoryName}}</span>
-                                            </div>
                                             <add_cart slug="{{$product->slug }}" tablist="true"></add_cart>
                                         </div>
                                     </div>

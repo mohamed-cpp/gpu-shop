@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Client;
 
+use App\Admin;
 use App\Client;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateClient;
+use App\Product;
+use App\Seller;
 use Hash;
 use Illuminate\Http\Request;
 use Str;
@@ -14,16 +17,42 @@ class ProfileClientController extends Controller
 
     public function __construct()
     {
-        $this->middleware('auth:client');
+        $this->middleware('auth:client')->except('index');
     }
     /**
      * Display a listing of the resource.
      *
+     * @param $username
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($username)
     {
-
+        $client = Client::whereUsername($username)->first();
+        if ($client){
+            return view('client.profile.profileClient')->with(['client'=>$client]);
+        }
+        $seller = Seller::whereUsername($username)->first();
+        if ($seller){
+            $products = Product::whereSellerId($seller->id)
+                ->enabled()
+                ->orderBy('updated_at', 'desc')
+                ->get();
+            $count = count($products);
+            $rating =  round($products->sum('rating_of_product') / $count );
+            return view('client.profile.profileSeller')->with([
+                'seller'=>$seller,
+                'products'=>$products->take(10),
+                'rating' => $rating,
+                'count' => $count,
+            ]);
+        }
+        $admin = Admin::whereUsername($username)->first();
+        if ($admin){
+            return view('client.profile.profileAdmin')->with([
+                'admin'=>$admin,
+            ]);
+        }
+        abort(404);
     }
 
     /**

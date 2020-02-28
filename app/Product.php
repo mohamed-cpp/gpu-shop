@@ -3,6 +3,7 @@
 namespace App;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
@@ -125,8 +126,12 @@ class Product extends Model
     use Taggable;
 
     // Status Product
-    const PUBLISHED = 0;
-    const UNPUBLISHED = 2;
+    const ENABLED = 1;
+    const DISABLED = 0;
+
+    const DISAPPROVED = 0;
+    const APPROVED = 1;
+    const REJECTED = 2;
 
     static public $priceIs = ["egp", "usd"];
 
@@ -274,8 +279,10 @@ class Product extends Model
     }
 
 
-    public function hello(){
-        return 'hello';
+    public function scopeEnabled(Builder $query)
+    {
+        return $query->where('status', self::ENABLED)
+                    ->where('approved', self::APPROVED);
     }
 
 

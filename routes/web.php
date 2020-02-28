@@ -104,6 +104,7 @@ Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('
 Route::get('change/currency', 'Client\ClientController@currency')->name('currency.product.client');
 
 Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
+Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('view.profile');
 
 
 Route::get('/test', function () {
