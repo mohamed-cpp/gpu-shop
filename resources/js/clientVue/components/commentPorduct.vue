@@ -6,7 +6,7 @@
                     <img class="d-flex rounded-circle avatar z-depth-1-half mb-3 mx-auto" :src="comment.commentable.img ? '/storage/client/images/'+comment.commentable.img : defaultImage"
                          alt="Avatar">
                     <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                        <button class="reply  btn btn-primary btn-sm" v-on:click="showReply(commentIndex)">Replay</button>
+                        <button v-if="loggedUser" class="reply  btn btn-primary btn-sm" v-on:click="showReply(commentIndex)">Replay</button>
                         <h5 v-bind:class="{ 'sellerBox' : comment.commentable_type == 'App\\Seller','adminBox' : comment.commentable_type == 'App\\Admin'}">{{comment.commentable.name}}</h5>
                         <small class="mb-3">@<a :href="'/en/profile/'+comment.commentable.username">{{comment.commentable.username}}</a></small>
                         <div class="mt-15" :id="'commentBody'+commentIndex">
