@@ -128,6 +128,10 @@ class Seller extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Product::class,'seller_id');
     }
 
+    public function comment()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
     /**
      * Send an email with a verification code for the client
      * @var TYPE_NAME $this

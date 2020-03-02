@@ -136,7 +136,7 @@ class Product extends Model
     static public $priceIs = ["egp", "usd"];
 
     protected $fillable = [
-        'name_en', 'name_ar', 'description_en', 'description_ar',
+        'name_en', 'name_ar', 'description_en', 'description_ar', 'username_seller',
         'title_meta_en', 'title_meta_ar', 'description_meta_ar', 'description_meta_en',
         'slug_en', 'slug_ar', 'main_image', 'status', 'price_egp', 'price_usd', 'seller_id', 'quantity',
         'offer_price_egp', 'offer_price_usd', 'offer_start_at', 'offer_end_at', 'quantity_offer', 'approved',
@@ -177,6 +177,11 @@ class Product extends Model
     public function rating()
     {
         return $this->hasMany(Rating::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id');
     }
     /**
      * Images

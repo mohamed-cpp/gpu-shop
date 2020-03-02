@@ -86,4 +86,16 @@ class ProductOrder extends Model
     {
         return $this->belongsTo(Order::class,'order_id');
     }
+
+    public function bought($id,$idProduct){
+        $order = $this->whereClientId($id)
+            ->without(['optionsProductOrder','product'])
+            ->whereProductId($idProduct)
+            ->whereFor(null)
+            ->with('order')
+            ->latest()
+            ->first();
+
+        return $order->order->status === Order::DELIVERED;
+    }
 }

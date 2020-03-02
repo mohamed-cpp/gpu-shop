@@ -80,8 +80,11 @@ class ProductController extends Controller
      */
     public function store(ProductCreateRequest $request)
     {
-        $input = $request->all();
         $seller = auth('seller')->user();
+        $input = $request->all();
+        $input['username_seller'] = $seller->username;
+        $input['slug_ar'] = preg_replace("/\s+/","_",$input['slug_ar']);
+        $input['slug_en'] = preg_replace("/\s+/","_",$input['slug_en']);
         $input = $this->storeFee($input,$seller);
         $image = $request->file('main_image');
         $input['main_image'] = $this->moveImage($image);

@@ -93,4 +93,9 @@ class Admin extends Authenticatable
         'enable' => 'boolean',
     ];
 
+
+    public function comment()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
 }

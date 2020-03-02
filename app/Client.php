@@ -103,6 +103,11 @@ class Client extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany(Rating::class);
     }
+
+    public function comment()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
+    }
     /**
      * Send an email with a verification code for the client
      */

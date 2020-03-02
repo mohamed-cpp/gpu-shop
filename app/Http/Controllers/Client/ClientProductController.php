@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Client;
 
 use App\Cart;
+use App\Comment;
 use App\Http\Requests\RatingRequest;
 use App\Jobs\ProductRating;
 use App\Order;
@@ -64,7 +65,10 @@ class ClientProductController extends Controller
         $ratingsArray = [1 => 0, 2 => 0, 3 => 0, 4 => 0, 5 => 0,];
         $added = false;
         $product->load('images','details');
-
+        $comments = Comment::with('replies')
+            ->whereNull('parent_id')
+            ->where('product_id',$product->id)
+            ->paginate(15);
         $relatedProduct = $product->withAnyTags($product->tagList)
                             ->where('approved',1)->where('status',true)
                             ->take(11)->orderBy('created_at','desc')->get();
@@ -97,6 +101,7 @@ class ClientProductController extends Controller
 
         return view('client.products.show_product', [
                 'product'=> $product,
+                'comments'=> $comments,
                 'relatedProducts' => $filtered,
                 'price'=>[
                     'normalPrice' => $product->offerPrice(false),
@@ -146,14 +151,10 @@ class ClientProductController extends Controller
      */
     public function rating(RatingRequest $request){
         $user = auth('client')->user();
-        $order = ProductOrder::whereClientId($user->id)
-            ->without(['optionsProductOrder','product'])
-            ->whereProductId($request->product)
-            ->whereFor(null)
-            ->with('order')
-            ->latest()
-            ->first();
-        if ($order->order->status === Order::DELIVERED && $request->rating <= 5){
+        $order = new \App\ProductOrder();
+        $order =  $order->bought($user->id,$request->product);
+
+        if ( $order && $request->rating <= 5){
             try{
                 $created = Rating::updateOrCreate(
                     ['client_id' => $user->id, 'product_id' => $request->product]

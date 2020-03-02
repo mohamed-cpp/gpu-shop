@@ -58,6 +58,10 @@ Route::group(['middleware' => 'client'], function () {
         ->name('create.rating.client')
         ->middleware('throttle:5,1');
 
+    Route::post('comment/store/{product}', 'CommentController@store');
+    Route::patch('comment/update', 'CommentController@update');
+    Route::delete('comment/delete/{id}', 'CommentController@delete');
+
 });
 
 // Authentication Routes
@@ -131,6 +135,18 @@ Route::get('/test', function () {
 //    return App\SubCategory::whereId(5)->with('manyProduct','manyProduct.images')->get();
 //    return now()->format('jS F Y h:i:s A');
     //Rule::unique('clients')->ignore($this->id, "id")
+//    $data = [
+//        'body' => 'hello!',
+//        'product_id' => 3,
+//    ];
+////    dd($data);
+//    return \App\Seller::find(1)->comment()
+//        ->save(new \App\Comment($data));
+//    $user = auth('web')->user();
+//    $user->comment()->find(96)->delete();
+
+
+//    return ;
 }) ;
 Route::get('/testt', function () {
     return App\Category::find(4)->subCategories()->get();

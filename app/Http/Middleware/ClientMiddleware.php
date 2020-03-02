@@ -26,7 +26,11 @@ class ClientMiddleware
         }else if($request->expectsJson() && auth("client")->check()){
             return $next($request);
 
-        } else {
+        }elseif(($request->expectsJson() && auth("seller")->check()) ||
+                ($request->expectsJson() && auth("web")->check())) {
+            return $next($request);
+        }
+        else {
             throw new AuthenticationException('Unauthenticated.');
         }
     }

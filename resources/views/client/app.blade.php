@@ -14,9 +14,15 @@
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
     <script>
-        @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
-        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
-        window.signed = {!! json_encode(['signedIn' => auth('client')->check()  ]) !!};
+        @if(auth('client')->check())
+            @php $user = auth('client')->user(); @endphp
+        @elseif(auth('seller')->check())
+            @php $user = auth('seller')->user(); $signedIn = true @endphp
+        @elseif(auth('web')->check())
+            @php $user = auth('web')->user(); $signedIn = true @endphp
+        @endif
+        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => isset($user) ? $user : null, 'username' => isset($user) ? $user->username : null ]) !!};
+        window.signed = {!! json_encode(['signedIn' => auth('client')->check(),'signedInAGuard' => isset($signedIn) ? $signedIn : null  ]) !!};
     </script>
 </head>
 <body>

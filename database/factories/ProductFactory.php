@@ -27,6 +27,7 @@ $factory->define(\App\Product::class, function (Faker $faker,$id = null) {
         'weight'  => rand(1,50),
         'offer_price_egp' => null,
         'offer_price_usd' => null,
+        'username_seller' => $faker->name,
     ];
 });
 

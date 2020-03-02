@@ -15,6 +15,7 @@
             </div>
         </div>
     </div>
+    <div id="app">
     <div class="product-details ptb-100 pb-90">
         <div class="container">
             <div class="row">
@@ -23,14 +24,12 @@
                         <a class="active" href="{{ URL::previous() }}"><i class="ion-arrow-left-c"></i></a>
                     </div>
                 </div>
-            <div id="app">
                 <client_product wishlistadded="{{$addedWishlist}}"
                                 :product="{{ json_encode($product) }}"
                                 :price="{{ json_encode($price) }}"
                                 currencyprop="{{ Cookie::get('currency') }}"
                                 reviews="{{ $ratings['count'] }}">
                 </client_product>
-            </div>
         </div>
     </div>
     <div class="product-description-review-area pb-100 pt-10">
@@ -79,7 +78,7 @@
                         Description
                     </a>
                     <a href="#pro-review" data-toggle="tab" role="tab" aria-selected="false">
-                        Comments (0)
+                        Comments
                     </a>
                 </div>
                 <div class="description-review-text tab-content">
@@ -87,11 +86,18 @@
                         {!! $product->description !!}
                     </div>
                     <div class="tab-pane fade" id="pro-review" role="tabpanel">
-                        <a href="#">Be the first to write your review!</a>
+                        <comment
+                                :comments="{{ json_encode($comments->items()) }}"
+                                :product="{{ json_encode($product) }}"
+                        >
+                        </comment>
+                        {{ $comments->links() }}
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+    </div>
     </div>
     <div class="product-collection-area pb-60">
         <div class="container">

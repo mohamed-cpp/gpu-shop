@@ -39,6 +39,7 @@ Vue.mixin({
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('client_product', require('./components/clientPorduct.vue').default);
+Vue.component('comment', require('./components/commentPorduct.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
