@@ -4,10 +4,22 @@
 namespace App\Payments;
 
 
-trait Stripe
+class StripePayment implements PaymentsInterface
 {
-    public function stripe($cart,$input,$client){
+    private $client;
 
+    /**
+     * StripePayment constructor.
+     * @param $client
+     */
+    public function __construct($client)
+    {
+        $this->client = $client;
+    }
+
+    public function checkout($order,$cart,$input)
+    {
+        $client = $this->client;
         $totalPrice = $cart->couponTotalPrice ? $cart->couponTotalPrice : $cart->totalPrice;
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
 
@@ -20,29 +32,29 @@ trait Stripe
             'description' => 'Order',
             'return_url' => route('confirm.checkout.client'),
             'metadata' => [
-                'order_id' => $this->id,
+                'order_id' => $order->id,
                 'username' => $client->username,
             ],
         ]);
 
         if($intent->next_action){
-            $this->update([
+            $order->update([
                 'order_provider_id'=>$intent->id,
                 'status_provider'=> $intent->status,
             ]);
-            session()->put('order',$this);
+            session()->put('order',$order);
             return ['error'=>false,'message'=> $intent->next_action->redirect_to_url->url];
         }
-        $this->update([
+        $order->update([
             'order_provider_id'=>$intent->id,
             'status' => 1,
             'status_provider'=> $intent->status,
         ]);
 
-
     }
 
-    public function confirmStripe($request){
+    public function confirm($order, $request)
+    {
         \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
         $intent = \Stripe\PaymentIntent::retrieve($request['payment_intent']);
 
@@ -50,21 +62,19 @@ trait Stripe
             $intent->confirm([
                 'return_url' => route('confirm.checkout.client'),
             ]);
-            $this->update([
+            $order->update([
                 'order_provider_id'=>$intent->id,
                 'status' => $intent->status == 'succeeded' ? 1 : 0,
                 'status_provider'=> $intent->status,
             ]);
             return true;
         }catch (\Exception $ex){
-            $this->update([
+            $order->update([
                 'order_provider_id'=>$intent->id,
                 'status' => 0,
                 'status_provider'=> $ex->getMessage(),
             ]);
             return false;
         }
-
-
     }
 }

@@ -150,8 +150,21 @@ Route::get('/test', function () {
 //    event(new App\Events\NewOrder(App\Order::first(),1,auth('client')->user()));
 
 
-//    return ;
+//    $shapes = array(
+//        new \App\Payments\PayPalPayment('test'),
+//        new \App\Payments\StripePayment('test'),
+//    );
+//
+//foreach ($shapes as $shape){
+//    echo $shape->checkout(1,2,3);
+//}
+//    $paypal = new \App\Payments\PayPalPayment('test');
+//    dd($paypal);
+//$paypal->checkout(1,2,3);
+//    echo auth('client')->user()->notifications()->get();
+
+
 }) ;
 Route::get('/testt', function () {
-    return App\Category::find(4)->subCategories()->get();
-}) ;
+
+})->name('test') ;

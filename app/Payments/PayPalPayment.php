@@ -13,9 +13,11 @@ use PayPal\Api\PaymentExecution;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 
-trait PayPal
+class PayPalPayment implements PaymentsInterface
 {
-    public function paypal($cart,$currency){
+    
+    public function checkout($order, $cart, $currency)
+    {
         $apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
                 config('paypal.accounts.client_id'),
@@ -65,23 +67,25 @@ trait PayPal
 
         try {
             $payment->create($apiContext);
-            $this->update([
+            $order->update([
                 'order_provider_id'=>$payment->id,
                 'status' => 0,
                 'status_provider'=> $payment->status,
             ]);
-            session()->put('order',$this);
+            session()->put('order',$order);
             return $payment->getApprovalLink();
         } catch (\Exception $ex) {
-            $this->update([
+            $order->update([
                 'order_provider_id'=>$ex->getCode().'(Error)',
                 'status' => 0,
                 'status_provider'=> $ex->getMessage(),
             ]);
-            return $this->id;
+            return $order->id;
         }
     }
-    public function confirmPaypal($request){
+
+    public function confirm($order, $request)
+    {
         $apiContext = new \PayPal\Rest\ApiContext(
             new \PayPal\Auth\OAuthTokenCredential(
                 config('paypal.accounts.client_id'),
@@ -96,11 +100,10 @@ trait PayPal
         $execution->setPayerId($request['PayerID']);
 
         $result =$payment->execute($execution, $apiContext);
-        $this->update([
+        $order->update([
             'status' => $result->state == 'approved' ? 1 : 0,
             'status_provider'=> $result->state,
         ]);
 
     }
-
 }

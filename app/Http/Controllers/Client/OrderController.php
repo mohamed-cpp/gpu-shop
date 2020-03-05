@@ -9,6 +9,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CheckoutClient;
 use App\Jobs\NewOrder;
 use App\Order;
+use App\Payments\CashPayment;
+use App\Payments\Payments;
+use App\Payments\PayPalPayment;
+use App\Payments\StripePayment;
 use App\ProductSubDetails;
 use App\Seller;
 use Illuminate\Contracts\Auth\Access\Gate;
@@ -136,6 +140,55 @@ class OrderController extends Controller
             ->with(['id'=> $order_id_or_url]);
     }
 
+    protected function cash($cart,$client,$input){
+        $input['pay_by'] = 'Cash';
+        $order = Order::create($input);
+        $cash = new CashPayment();
+        $payments = new Payments($cash);
+        $payments->create_product_orders($order,$cart,$client);
+        $order->update([
+            'status' => 1,
+        ]);
+        return $order->id;
+    }
+
+    /**
+     * @param $cart
+     * @param $input
+     * @return PayPalPayment
+     */
+    protected function paypal($cart, $input){
+        $input['pay_by'] = 'PayPal';
+        $order = Order::create($input);
+        $paypal= new PayPalPayment();
+        $payments = new Payments($paypal);
+        $payment = $payments->checkoutPayment($order,$cart,$cart->cookie);
+        return $payment;
+    }
+
+    protected function cards($cart,$client,$input){
+        $input['pay_by'] = 'Credit Card';
+        $order = Order::create($input);
+
+        try {
+            $stripe= new StripePayment($client);
+            $payments = new Payments($stripe);
+            $next_action = $payments->checkoutPayment($order,$cart,$input);
+            if($next_action){
+                return $next_action;
+            }
+            $payments->create_product_orders($order,$cart,$client);
+            return ['error'=>false,'message'=>$order->id];
+        } catch (\Exception $ex) {
+            $order->update([
+                'order_provider_id'=>$ex->getCode().'(Error)',
+                'status' => 0,
+                'status_provider'=> $ex->getMessage(),
+            ]);
+            return ['error'=>true,'message'=>$order->id];
+        }
+    }
+
     public function confirm(Request $request){
 
         $order = session()->get('order');
@@ -143,10 +196,11 @@ class OrderController extends Controller
             session()->put('order',null);
             $client = auth('client')->user();
             $cart = session()->get('newCart');
-            $confirmed = $order->confirmStripe($request->all());
-
+            $stripe = new StripePayment($client);
+            $payments = new Payments($stripe);
+            $confirmed = $payments->confirmPayment($order,$request->all());
             if($confirmed){
-                $order->create_product_orders($cart,$client);
+                $payments->create_product_orders($order,$cart,$client);
                 return view('client.pages.thank_you')
                     ->with(['id'=> $order->id]);
             }
@@ -164,10 +218,12 @@ class OrderController extends Controller
         $order = session()->get('order');
         if ($order){
             try {
-                $order->confirmPaypal($request->all());
+                $paypal= new PayPalPayment();
+                $payments = new Payments($paypal);
+                $payments->confirmPayment($order,$request->all());
                 $client = auth('client')->user();
                 $cart = session()->get('newCart');
-                $order->create_product_orders($cart,$client);
+                $payments->create_product_orders($order,$cart,$client);
                 session()->put('order',null);
             } catch (\Exception $ex) {
                 $order->update([
@@ -203,44 +259,6 @@ class OrderController extends Controller
                 ]);
         }
         abort(404);
-    }
-
-    protected function cash($cart,$client,$input){
-        $input['pay_by'] = 'Cash';
-        $order = Order::create($input);
-        $order->create_product_orders($cart,$client);
-        $order->update([
-            'status' => 1,
-        ]);
-        return $order->id;
-    }
-
-    protected function paypal($cart,$input){
-        $input['pay_by'] = 'PayPal';
-        $order = Order::create($input);
-        $payment = $order->paypal($cart,$cart->cookie);
-        return $payment;
-    }
-
-    protected function cards($cart,$client,$input){
-        $input['pay_by'] = 'Credit Card';
-        $order = Order::create($input);
-
-        try {
-            $next_action = $order->stripe($cart,$input,$client);
-            if($next_action){
-                return $next_action;
-            }
-            $order->create_product_orders($cart,$client);
-            return ['error'=>false,'message'=>$order->id];
-        } catch (\Exception $ex) {
-            $order->update([
-                'order_provider_id'=>$ex->getCode().'(Error)',
-                'status' => 0,
-                'status_provider'=> $ex->getMessage(),
-            ]);
-            return ['error'=>true,'message'=>$order->id];
-        }
     }
 
 }
