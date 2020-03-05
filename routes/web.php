@@ -146,6 +146,10 @@ Route::get('/test', function () {
 //    $user->comment()->find(96)->delete();
 
 
+//dd(App\Admin::role('Super Admin')->get());
+//    event(new App\Events\NewOrder(App\Order::first(),1,auth('client')->user()));
+
+
 //    return ;
 }) ;
 Route::get('/testt', function () {

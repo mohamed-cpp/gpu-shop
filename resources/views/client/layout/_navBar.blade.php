@@ -1,4 +1,4 @@
-<div id="cartnew">
+<div id="sidebar">
 <header>
     <div class="header-area header-area-padding">
         <div class="container">
@@ -16,6 +16,9 @@
                             </button>
                         </div>
                         <count_cart :count_product="{{ isset(session()->get('cart')->items)  ? count(session()->get('cart')->items) : 0 }}" ></count_cart>
+                        @if(auth('client')->check())
+                        <notification></notification>
+                        @endif
                         <div class="header-sidebar common-style">
                             <button class="header-navbar-active">
                                 <span class="ion-navicon"></span>

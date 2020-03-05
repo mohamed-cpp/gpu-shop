@@ -67,6 +67,7 @@ import sidebar from "./components/sidebarCart.vue";
 import count_cart from "./components/countCart.vue";
 import cart_vue from "./components/cart.vue";
 import add_cart_button from "./components/addCartbutton.vue";
+import notification from "./components/notification.vue";
 
 new Vue({
     el: '#cart',
@@ -78,10 +79,11 @@ new Vue({
 });
 
 new Vue({
-    el: '#cartnew',
+    el: '#sidebar',
     components: {
         sidebar,
         count_cart,
+        notification,
     },
     data:cartDate
 });

@@ -1,6 +1,5 @@
 @extends('client.app')
 @push('styles')
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         .removeButton{
             border: none;

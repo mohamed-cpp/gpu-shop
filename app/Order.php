@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Jobs\NewOrder;
+use App\Events\NewOrder;
 use App\Payments\PayPal;
 use App\Payments\Stripe;
 use Illuminate\Database\Eloquent\Model;
@@ -216,19 +216,21 @@ class Order extends Model
             }
         }
         $this->productOrder()->saveMany($products);
+
         $this->balanceWebsite()
             ->save(new \App\BalanceWebsite(array_merge($balanceWebsiteDB,$website_balance)));
+
         foreach ($balanceSellers as $id => $balance){
             $seller = Seller::whereId($id)->first();
             $seller->update([
                 "balance_{$cart->cookie}" => $balance + $seller["balance_{$cart->cookie}"],
             ]);
         }
+
         session()->put('newCart',null);
         $sellerIds = \Arr::pluck($cart->items, 'item.seller_id');
+        event(new NewOrder($this,$sellerIds,$client));
 
-        NewOrder::dispatch($this,$sellerIds,$client)
-            ->onQueue('medium');
     }
 
     protected function decreaseQty($product,$qty){

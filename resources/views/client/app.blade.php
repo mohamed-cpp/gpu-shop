@@ -7,10 +7,11 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="">
+{{--    <link rel="shortcut icon" type="image/x-icon" href="">--}}
 
     <!-- all css here -->
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
     <script>

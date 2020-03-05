@@ -40,12 +40,12 @@ mix.styles('resources/templates/GPU-Shop/css/product_page.css',
 
 
 mix.babel([
+    'resources/templates/GPU-Shop/js/bootstrap4.4.min.js',
     'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
     //'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
     'resources/templates/GPU-Shop/js/popper.js',
     // 'resources/templates/GPU-Shop/js/bootstrap.min.js',
     // 'resources/templates/GPU-Shop/js/bootstrap4.min.js',
-    'resources/templates/GPU-Shop/js/bootstrap4.4.min.js',
     'resources/templates/GPU-Shop/js/jquery.magnific-popup.min.js',
     'resources/templates/GPU-Shop/js/isotope.pkgd.min.js',
     'resources/templates/GPU-Shop/js/imagesloaded.pkgd.min.js',
