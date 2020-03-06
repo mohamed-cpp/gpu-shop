@@ -7,16 +7,24 @@
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
-    <link rel="shortcut icon" type="image/x-icon" href="">
-    <script>
-        @php $username = auth('client')->check() ?  Auth::guard('client')->user()->username : null @endphp
-        window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => $username ]) !!};
-        window.signed = {!! json_encode(['signedIn' => auth('client')->check()  ]) !!};
-    </script>
-    <!-- all css here -->
+{{--    <link rel="shortcut icon" type="image/x-icon" href="">--}}
+
+<!-- all css here -->
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
+    <script>
+        @if(auth('client')->check())
+                @php $user = auth('client')->user(); @endphp
+                @elseif(auth('seller')->check())
+                @php $user = auth('seller')->user(); $signedIn = true @endphp
+                @elseif(auth('web')->check())
+                @php $user = auth('web')->user(); $signedIn = true @endphp
+                @endif
+            window.App = {!! json_encode(['lang'=> app()->getLocale() ,'csrfToken' => csrf_token(),'user' => isset($user) ? $user : null, 'username' => isset($user) ? $user->username : null ]) !!};
+        window.signed = {!! json_encode(['signedIn' => auth('client')->check(),'signedInAGuard' => isset($signedIn) ? $signedIn : null  ]) !!};
+    </script>
 </head>
 <body>
 <!-- header start -->

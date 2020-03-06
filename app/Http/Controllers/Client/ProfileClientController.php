@@ -143,4 +143,30 @@ class ProfileClientController extends Controller
     {
         //
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function notification(Request $request){
+        if(auth('client')->check() && $request->wantsJson()){
+            $notifications = auth('client')->user()->notifications()->paginate(7);
+            return response()->json([$notifications->items(),$notifications->lastPage()]);
+        }
+
+    }
+
+    public function readNotification(Request $request){
+        if(auth('client')->check() && $request->wantsJson()){
+            auth('client')->user()->unreadNotifications()->update(['read_at' => now()]);
+            return response([],204);
+        }
+    }
+    
+    public function aReadNotification(Request $request,$id){
+        if(auth('client')->check() && $request->wantsJson()){
+            auth('client')->user()->unreadNotifications()->find($id)->markAsRead();
+            return response([],204);
+        }
+    }
 }

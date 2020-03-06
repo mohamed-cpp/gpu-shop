@@ -7,7 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+import moment from 'moment';
 // if (process.env.MIX_APP_ENV === 'production') {
 //     Vue.config.productionTip = false;
 //     Vue.config.devtools = false;
@@ -22,6 +22,10 @@ window.Vue = require('vue');
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+Vue.filter('dateFormat',function(date){
+    return moment(date).fromNow();
+});
+
 let globalData = new Vue({
     data: { $productSlug: null }
 });

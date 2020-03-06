@@ -62,6 +62,9 @@ Route::group(['middleware' => 'client'], function () {
     Route::patch('comment/update', 'CommentController@update');
     Route::delete('comment/delete/{id}', 'CommentController@delete');
 
+    Route::get('notification', 'Client\ProfileClientController@notification')->name('notification.client');
+    Route::patch('notification/read', 'Client\ProfileClientController@readNotification')->name('read.notification.client');
+    Route::patch('notification/read/{id}', 'Client\ProfileClientController@aReadNotification')->name('read.notification.client');
 });
 
 // Authentication Routes
