@@ -226,6 +226,10 @@ class Seller extends Authenticatable implements MustVerifyEmail
             );
     }
 
+    public function commentNotification($name){
+        return "Seller Replied On Has Product $name";
+    }
+
     public function guard(array $guarded)
     {
         return Auth::guard('seller');

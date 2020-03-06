@@ -99,4 +99,8 @@ class Admin extends Authenticatable
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+
+    public function commentNotification($name){
+        return "Admin Replied On $name Product";
+    }
 }

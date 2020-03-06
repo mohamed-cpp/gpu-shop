@@ -35,6 +35,14 @@ class Comment extends Model
         return $this->hasMany(Comment::class,'parent_id');
     }
 
+    public function parent(){
+        return $this->belongsTo(Comment::class,'parent_id');
+    }
+
+    public function product(){
+        return $this->belongsTo(Product::class,'product_id');
+    }
+
     public function commentable()
     {
         return $this->morphTo();

@@ -166,6 +166,8 @@ Route::get('/test', function () {
 //$paypal->checkout(1,2,3);
 //    echo auth('client')->user()->notifications()->get();
 
+//    event(new App\Events\NewComment(App\Comment::find(4),auth('client')->user()));
+return Auth::guard('seller')->user();
 
 }) ;
 Route::get('/testt', function () {

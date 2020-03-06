@@ -219,6 +219,11 @@ class Client extends Authenticatable implements MustVerifyEmail
          auth('client')->user();
         return auth('client')->user()->code == $code;
     }
+
+    public function commentNotification($name){
+        return $this->name." Replied On $name Product";
+    }
+
     /**
      * Get the guard to be used during password reset.
      * @param array $guarded

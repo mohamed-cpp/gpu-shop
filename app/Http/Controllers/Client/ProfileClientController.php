@@ -150,7 +150,7 @@ class ProfileClientController extends Controller
      */
     public function notification(Request $request){
         if(auth('client')->check() && $request->wantsJson()){
-            $notifications = auth('client')->user()->notifications()->paginate(7);
+            $notifications = auth('client')->user()->notifications()->paginate(10);
             return response()->json([$notifications->items(),$notifications->lastPage()]);
         }
 

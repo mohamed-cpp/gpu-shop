@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewComment;
 use App\Product;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use mysql_xdevapi\Exception;
 
 class CommentController extends Controller
 {
@@ -32,7 +34,8 @@ class CommentController extends Controller
                 if($order){
                     $comment = $user->comment()->save(new \App\Comment($data));
                     $comment['commentable'] = $user;
-                    return response(['Add comment successfully',$comment], 200);
+                }else{
+                    throw new \Exception('Need to buy first');
                 }
                 }catch (\Exception $exception){
                     return response('You should buy the product first',422);
@@ -40,20 +43,22 @@ class CommentController extends Controller
 
             }elseif(auth('seller')->check()){
                 $user = auth('seller')->user();
-                if($user->username == $product->username_seller){
-                    $comment = $user->comment()->save(new \App\Comment($data));
-                    $comment['commentable'] = $user;
-                    return response(['Add comment successfully',$comment], 200);
+                if($user->username != $product->username_seller){
+                    return response('you dont have this product to comment',422);
                 }
-                return response('you dont have this product to comment',422);
+                $comment = $user->comment()->save(new \App\Comment($data));
+                $comment['commentable'] = $user;
 
             }elseif(auth('web')->check()){
                 $user = auth('web')->user();
                 $comment = $user->comment()->save(new \App\Comment($data));
                 $comment['commentable'] = $user;
-                return response(['Add comment successfully',$comment], 200);
+            }else{
+                return response('there something wrong try again later',422);
             }
-            return response('there something wrong try again later',422);
+
+            event(new NewComment($comment,$user));
+            return response(['Add comment successfully',$comment], 200);
         }
     }
 

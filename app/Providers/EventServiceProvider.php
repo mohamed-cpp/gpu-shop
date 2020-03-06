@@ -22,6 +22,9 @@ class EventServiceProvider extends ServiceProvider
           'App\Listeners\NewOrderNotification',
           'App\Listeners\NewOrderMessage',
         ],
+        'App\Events\NewComment' =>[
+          'App\Listeners\NewCommentNotification',
+        ],
     ];
 
     /**
