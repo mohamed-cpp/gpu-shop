@@ -77,7 +77,7 @@
                     <a class="active" href="#pro-dec" data-toggle="tab" role="tab" aria-selected="true">
                         Description
                     </a>
-                    <a href="#pro-review" data-toggle="tab" role="tab" aria-selected="false">
+                    <a href="#pro-review" id="pro-review-anchor" data-toggle="tab" role="tab" aria-selected="false">
                         Comments
                     </a>
                 </div>
@@ -89,6 +89,7 @@
                         <comment
                                 :comments="{{ json_encode($comments->items()) }}"
                                 :product="{{ json_encode($product) }}"
+                                :current_page="{{$currentPage}}"
                         >
                         </comment>
                         {{ $comments->links() }}
@@ -176,6 +177,19 @@
             }
             i++;
         });
+
+        var id = '#parentComment';
+        var url = window.location.href;
+        var pos = url.search(id);
+        if(pos !== -1){
+            let idEl = url.substr(pos,id.length+2);
+            document.getElementById('pro-review-anchor').click();
+            document.getElementById(idEl)
+                .scrollIntoView({ block: 'end',  behavior: 'smooth' });
+        }
+
+
+
     </script>
 @endpush
 

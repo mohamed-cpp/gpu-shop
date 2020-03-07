@@ -31,12 +31,6 @@ class NewCommentNotification implements ShouldQueue
             $comment = $event->comment->parent()->get()->first()->load('replies');
             $product = $comment->product()->first();
 
-            if(get_class($comment->commentable) != "App\Seller" &&
-                $comment->commentable->username != $event->user->username)
-            {
-                $comment->commentable->notify(new NotificationNewReply($product,$event->user));
-            }
-
             foreach ($comment->replies as $reply){
                 if(get_class($reply->commentable) != "App\Seller" &&
                     $reply->commentable->username != $event->user->username)
@@ -44,7 +38,13 @@ class NewCommentNotification implements ShouldQueue
                     $users[$reply->commentable->username] = $reply->commentable;
                 }
             }
-            Notification::send($users, new NotificationNewReply($product,$event->user));
+            if(get_class($comment->commentable) != "App\Seller" &&
+                $comment->commentable->username != $event->user->username)
+            {
+                $users[$comment->commentable->username] = $comment->commentable;
+            }
+
+            Notification::send($users, new NotificationNewReply($product,$event->user,$event->request));
             $seller = $product->seller()->get()->first();
         }else{
             $product = $event->comment->product()->first();
@@ -52,6 +52,10 @@ class NewCommentNotification implements ShouldQueue
         }
 
         $seller->notify(new SellerNotificationCommentProduct($product));
+
+    }
+    public function failed(NewComment $event, $exception)
+    {
 
     }
 }

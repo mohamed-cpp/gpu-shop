@@ -2,7 +2,7 @@
     <div>
         <div class="row mt-30">
             <div class="col-lg-10 col-xl-8 comments">
-                <div class="media d-block d-md-flex comment-box" v-for="(comment, commentIndex) in vueComments">
+                <div class="media d-block d-md-flex comment-box" :id="'parentComment'+commentIndex" v-for="(comment, commentIndex) in vueComments">
                     <img class="d-flex rounded-circle avatar z-depth-1-half mb-3 mx-auto" :src="comment.commentable.img ? '/storage/client/images/'+comment.commentable.img : defaultImage"
                          alt="Avatar">
                     <div class="media-body text-center text-md-left ml-md-3 ml-0">
@@ -87,7 +87,7 @@
 
 <script>
     export default {
-        props:['comments','product'],
+        props:['comments','product','current_page'],
         data(){
             return{
                 loggedUser:null,
@@ -107,6 +107,8 @@
                 if(Number.isInteger(commentIndex)){
                     var parent_id = commetID;
                     var el = $('#reply'+commentIndex);
+                    var id_comment = '#parentComment'+commentIndex;
+                    var current_page = this.current_page;
                 }else {
                     var parent_id = null;
                     var el = $('#comment');
@@ -117,6 +119,8 @@
                     axios.post('/'+this.lang+'/comment/store/'+this.product['slug_'+this.lang],{
                         parent_id : parent_id,
                         body: body,
+                        idComment: id_comment,
+                        currentPage: current_page
                     })
                     .catch(error => {
                         if(error.response.status === 422){
@@ -149,7 +153,10 @@
                 }
             },
             showReply(index){
-                $('#comment'+index).fadeIn(700);
+                $('#comment'+index).fadeIn(700,function () {
+                    document.getElementById('comment'+index)
+                        .scrollIntoView({ block: 'end',  behavior: 'smooth' });
+                });
             },
             editReply(commentIndex,replyIndex = false){
                 if (Number.isInteger(replyIndex)) {

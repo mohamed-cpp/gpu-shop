@@ -167,7 +167,6 @@ Route::get('/test', function () {
 //    echo auth('client')->user()->notifications()->get();
 
 //    event(new App\Events\NewComment(App\Comment::find(4),auth('client')->user()));
-return md5('football') ;
 
 }) ;
 Route::get('/testt', function () {

@@ -12,17 +12,19 @@ class NotificationNewReply extends Notification
     use Queueable;
     private $product;
     private $user;
+    private $request;
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($product,$user)
+    public function __construct($product,$user,$request)
     {
         //
         $this->product = $product;
         $this->user = $user;
+        $this->request = $request;
     }
 
     /**
@@ -46,7 +48,10 @@ class NotificationNewReply extends Notification
     {
         return [
             'message' => $this->user->commentNotification($this->product->name),
-            'path'    => route('show.product.client',$this->product->slug),
+            'path'    => route('show.product.client',[
+                'product'   =>$this->product->slug,
+                'page'      =>$this->request['currentPage']
+            ]).$this->request['idComment'],
         ];
     }
 }

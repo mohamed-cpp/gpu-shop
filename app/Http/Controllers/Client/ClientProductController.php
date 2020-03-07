@@ -68,6 +68,7 @@ class ClientProductController extends Controller
         $comments = Comment::with('replies')
             ->whereNull('parent_id')
             ->where('product_id',$product->id)
+            ->orderBy('created_at', 'desc')
             ->paginate(15);
         $relatedProduct = $product->withAnyTags($product->tagList)
                             ->where('approved',1)->where('status',true)
@@ -102,6 +103,7 @@ class ClientProductController extends Controller
         return view('client.products.show_product', [
                 'product'=> $product,
                 'comments'=> $comments,
+                'currentPage'=> $comments->currentPage(),
                 'relatedProducts' => $filtered,
                 'price'=>[
                     'normalPrice' => $product->offerPrice(false),

@@ -57,7 +57,7 @@ class CommentController extends Controller
                 return response('there something wrong try again later',422);
             }
 
-            event(new NewComment($comment,$user));
+            event(new NewComment($comment,$user,$request->all()));
             return response(['Add comment successfully',$comment], 200);
         }
     }
