@@ -104,6 +104,7 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
     ->name('client.change.password.phone');
 
 
+Route::get("search", "Client\ClientProductController@search")->name('search.product');
 Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
 Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');

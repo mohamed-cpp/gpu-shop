@@ -12,10 +12,12 @@ use App\Http\Controllers\Controller;
 use App\ProductOrder;
 use App\Rating;
 use App\SubCategory;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Redis\RedisManager;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Session;
@@ -176,6 +178,16 @@ class ClientProductController extends Controller
             }
         }
         return response([],403);
+
+    }
+    public function search(Request $request){
+
+        $productTags = Product::withAnyTags('gta');
+        $products = Product::where('name_en','like','%ed%')
+            ->union($productTags)
+            ->paginate(15);
+
+        return $products;
 
     }
 
