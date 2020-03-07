@@ -71,23 +71,22 @@ class CommentController extends Controller
                 $comment = $user->comment()->find($request->id);
                 $comment->update(['body'=>$request->body]);
                 $comment['commentable'] = $user;
-                return response(['Updated comment successfully',$comment], 200);
 
             }elseif(auth('seller')->check()){
                 $user = auth('seller')->user();
                 $comment = $user->comment()->find($request->id);
                 $comment->update(['body'=>$request->body]);
                 $comment['commentable'] = $user;
-                return response(['Updated comment successfully',$comment], 200);
 
             }elseif(auth('web')->check()){
                 $user = auth('web')->user();
                 $comment = $user->comment()->find($request->id);
                 $comment->update(['body'=>$request->body]);
                 $comment['commentable'] = $user;
-                return response(['Updated comment successfully',$comment], 200);
+            }else{
+                return response('there something wrong try again later',422);
             }
-            return response('there something wrong try again later',422);
+            return response(['Updated comment successfully',$comment], 200);
         }
     }
 
