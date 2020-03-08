@@ -181,14 +181,46 @@ class ClientProductController extends Controller
 
     }
     public function search(Request $request){
+//        $keywords = preg_replace("#[\s]+#", " ", $request->keywords);
 
-        $productTags = Product::withAnyTags('gta');
-        $products = Product::where('name_en','like','%ed%')
-            ->union($productTags)
-            ->paginate(15);
+        $arrayWords = explode(" ",  $request->keywords);
+        $tags =  str_replace(" ",",",$request->keywords);
 
-        return $products;
+        $productTags = Product::withAnyTags($tags);
+        $productsEn = Product::where("name_en",'like',"%{$request->keywords}%");
+        $productsAr = Product::where("name_ar",'like',"%{$request->keywords}%");
+        $productsArrayEn = Product::where(function($query) use($arrayWords){
+            foreach($arrayWords as $arrayWord) {
+                $query->orWhere('name_en', 'LIKE', "%$arrayWord%");
+            }
+        });
+        $products = Product::where(function($query) use($arrayWords){
+            foreach($arrayWords as $arrayWord) {
+                $query->orWhere('name_ar', 'LIKE', "%$arrayWord%");
+            }
+        })
+        ->union($productTags)
+        ->union($productsEn)
+        ->union($productsAr)
+        ->union($productsArrayEn)
+        ->paginate(15);
 
+        return view('client.products.search',[
+            'products' => $products,
+            'count'=>$this->count($products),
+        ]);
+    }
+
+    protected function count($products){
+        if( $products->perPage() != count($products->items()) ){
+            $count = $products->currentPage() * $products->perPage();
+            $currentItems = $products->perPage() - count($products->items());
+            $countArray[] = [$count - $currentItems];
+        }else{
+            $countArray[] = [$products->currentPage() * count($products->items())];
+        }
+        $countArray[] = [$products->total()];
+        return $countArray;
     }
 
 }

@@ -39,9 +39,9 @@
         <button class="search-close"><span class="ion-android-close"></span></button>
     </div>
     <div class="sidebar-search-input">
-        <form>
+        <form action="{{route('search.product')}}" method="get">
             <div class="form-search">
-                <input id="search" class="input-text" value="" placeholder="Search Entire Store" type="search">
+                <input id="search" class="input-text" value="" name="keywords" placeholder="Search Entire Store" type="search" autocomplete="off" >
                 <button>
                     <i class="ion-ios-search-strong"></i>
                 </button>
