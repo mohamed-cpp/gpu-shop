@@ -78,7 +78,6 @@ class OrderController extends Controller
     public function store(CheckoutClient $request){
         $input = $request->all();
         $cart = session()->get('cart');
-        session()->put('cart',null);
         session()->put('newCart',$cart);
         $client = auth('client')->user();
 
@@ -112,14 +111,17 @@ class OrderController extends Controller
 
         switch ($input['pay']) {
             case "cash":
+                cashPayment(true);
                 $order_id_or_url = $this->cash($cart,$client,$input);
                 break;
             case "paypal":
+                PayPalPayment(true);
                 $order_id_or_url = $this->paypal($cart,$input);
                 if (!is_numeric($order_id_or_url)){
                     break;
                 }
             case "cards":
+                creditCardPayment(true);
                 $order = $this->cards($cart,$client,$input);
                 $order_id_or_url = $order['message'];
                 if (!$order['error']){
@@ -141,6 +143,7 @@ class OrderController extends Controller
     }
 
     protected function cash($cart,$client,$input){
+        session()->put('cart',null);
         $input['pay_by'] = 'Cash';
         $order = Order::create($input);
         $cash = new CashPayment();
@@ -158,6 +161,7 @@ class OrderController extends Controller
      * @return PayPalPayment
      */
     protected function paypal($cart, $input){
+        session()->put('cart',null);
         $input['pay_by'] = 'PayPal';
         $order = Order::create($input);
         $paypal= new PayPalPayment();
@@ -167,6 +171,7 @@ class OrderController extends Controller
     }
 
     protected function cards($cart,$client,$input){
+        session()->put('cart',null);
         $input['pay_by'] = 'Credit Card';
         $order = Order::create($input);
 

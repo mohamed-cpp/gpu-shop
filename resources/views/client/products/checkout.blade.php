@@ -84,7 +84,7 @@
     <script src="https://js.stripe.com/v3/"></script>
 @endpush
 @section('content')
-    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(/assets/img/bg/breadcrumb.jpg)">
+    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{checkoutImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
                 <h2>checkout</h2>
@@ -243,6 +243,7 @@
                         <div class="payment-method">
                             <div class="payment-accordion">
                                 <div class="panel-group" id="faq">
+                                    @if(cashPayment())
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h5 class="panel-title"><a data-toggle="collapse" aria-expanded="true" class="slideToggle" data-slide="cash"  href="#cash">Cash.</a></h5>
@@ -254,6 +255,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if(creditCardPayment())
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="cards"  href="#cards">Credit Cards</a></h5>
@@ -266,6 +269,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
+                                    @if(PayPalPayment())
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="paypal" href="#paypal">PayPal</a></h5>
@@ -286,6 +291,7 @@
                                             </div>
                                         </div>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -321,8 +327,10 @@
             iconColor: "#fa755a"
         },
     };
-    var cardElement = elements.create('card', {hidePostalCode: true,style: style});
-    cardElement.mount('#card-element');
+    if(document.getElementById("card-element")){
+        var cardElement = elements.create('card', {hidePostalCode: true,style: style});
+        cardElement.mount('#card-element');
+    }
     var form = document.getElementById('payment-form');
 
     $('#payment-form').on('submit', function(e) {

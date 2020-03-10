@@ -81,6 +81,10 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereUsername($value)
  * @mixin \Eloquent
+ * @property string|null $img
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comment
+ * @property-read int|null $comment_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Seller whereImg($value)
  */
 
 class Seller extends Authenticatable implements MustVerifyEmail

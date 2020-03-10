@@ -65,6 +65,18 @@ use Spatie\Permission\Traits\HasRoles;
  * @property-read int|null $orders_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
  * @property-read int|null $rating_count
+ * @property string|null $img
+ * @property string|null $address
+ * @property string|null $city
+ * @property string|null $country
+ * @property string|null $zip
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comment
+ * @property-read int|null $comment_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereZip($value)
  */
 
 class Client extends Authenticatable implements MustVerifyEmail

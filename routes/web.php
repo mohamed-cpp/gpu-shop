@@ -169,6 +169,21 @@ Route::get('/test', function () {
 
 //    event(new App\Events\NewComment(App\Comment::find(4),auth('client')->user()));
 
+
+//    $image = App\GpuShopSetting::create([
+//        'name' => 'CASH_PAYMENT',
+//        'val' => 1,
+//        'type' => 'boolean',
+//    ]);
+    //
+//
+    $image = App\GpuShopSetting::find(4)->update([
+        'val' => 1,
+    ]);
+
+    dd( cashPayment() );
+
+//return $image;
 }) ;
 Route::get('/testt', function () {
 

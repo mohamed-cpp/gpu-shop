@@ -72,7 +72,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(/assets/img/bg/breadcrumb.jpg)">
+    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{wishlistGuestImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
                 <h2>wishlist</h2>

@@ -53,6 +53,12 @@ use Spatie\Permission\Traits\HasRoles;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereUsername($value)
  * @mixin \Eloquent
+ * @property string|null $img
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comment
+ * @property-read int|null $comment_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Admin whereImg($value)
  */
 class Admin extends Authenticatable
 {

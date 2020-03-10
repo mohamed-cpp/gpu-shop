@@ -119,6 +119,11 @@ use Cviebrock\EloquentTaggable\Taggable;
  * @property-read int|null $rating_count
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereCountRating($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereRatingOfProduct($value)
+ * @property string $username_seller
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comments
+ * @property-read int|null $comments_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product enabled()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Product whereUsernameSeller($value)
  */
 class Product extends Model
 {

@@ -238,7 +238,7 @@
     </style>
 @endpush
 @section('content')
-    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(/assets/img/bg/breadcrumb.jpg)">
+    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{cartImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
                 <h2>cart</h2>
