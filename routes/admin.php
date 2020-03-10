@@ -24,6 +24,7 @@ Route::group(['prefix' => 'admin'], function () {
         Route::get("filter/products", "Admin\AdminProductController@filter")->name("products.filter");
 
         Route::resource('settings','Admin\GpuShopSettingController');
+        Route::resource('slider','Admin\AdminSliderController');
 
 
     });

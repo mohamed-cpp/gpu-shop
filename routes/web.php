@@ -188,7 +188,7 @@ Route::get('/test', function () {
 
 //    $image = App\GpuShopSetting::find(8);
 //    return json_decode($image->val,true);
-
+    return sliderImages();
 }) ;
 Route::get('/testt', function () {
 

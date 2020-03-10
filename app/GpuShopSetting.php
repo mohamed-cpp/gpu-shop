@@ -74,6 +74,9 @@ class GpuShopSetting extends Model
             case 'boolean':
                 return boolval($val);
                 break;
+            case 'json':
+                return json_decode($val,true);
+                break;
 
             default:
                 return $val;

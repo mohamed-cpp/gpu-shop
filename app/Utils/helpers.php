@@ -42,6 +42,11 @@ function wishlistGuestImage(){
     return asset('/assets/img/bg/breadcrumb.jpg');
 }
 
+function sliderImages(){
+    $slider = GpuShopSetting::getAllSettings()->where('name','SLIDER_HOMEPAGE');
+    return $slider;
+}
+
 function cashPayment($exception = false){
     if ( $payment = GpuShopSetting::getAllSettings()->where('name','CASH_PAYMENT')->first()){
         $status = $payment->castValue($payment->val, $payment->type);
@@ -82,4 +87,9 @@ function PayPalPayment($exception = false){
         throw new InvalidArgumentException('Not found Payment');
     }
     return false;
+}
+
+function moveImage($image,$path){
+    $image->move($path,$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
+    return $name;
 }

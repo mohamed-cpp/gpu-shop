@@ -30,7 +30,7 @@ class GpuShopSettingController extends Controller
         ];
         $date = $this->validate( $request , $rules);
         if($request->file('main_image')){
-            $name = $this->moveImage($request->file('main_image'));
+            $name = moveImage($request->file('main_image'),config('websiteSettings.IMAGE_DIR'));
             $date['val'] = $name;
         }
         GpuShopSetting::create($date);
@@ -50,7 +50,7 @@ class GpuShopSettingController extends Controller
         ];
         $date = $this->validate( $request , $rules);
         if($request->file('main_image')){
-            $name = $this->moveImage($request->file('main_image'));
+            $name = moveImage($request->file('main_image'),config('websiteSettings.IMAGE_DIR'));
             $date['val'] = $name;
         }
         $setting->update($date);
@@ -60,10 +60,5 @@ class GpuShopSettingController extends Controller
     public function destroy(GpuShopSetting $setting){
         $setting->delete();
         return redirect()->route('settings.index')->with('flash','Setting Deleted Successfully');
-    }
-    private function moveImage($image){
-        $path = config('websiteSettings.IMAGE_DIR');
-        $image->move($path,$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
-        return $name;
     }
 }
