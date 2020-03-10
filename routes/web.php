@@ -169,21 +169,26 @@ Route::get('/test', function () {
 
 //    event(new App\Events\NewComment(App\Comment::find(4),auth('client')->user()));
 
-
+//
+//    $data = array(
+//        'dt' => 1,
+//        'dt2' => 2,
+//        'dt3' => 2,
+//        'dt4' => 2,
+//        'dt5' => [
+//            'one' => 1,
+//            'two' => 1
+//        ],
+//    );
 //    $image = App\GpuShopSetting::create([
-//        'name' => 'CASH_PAYMENT',
-//        'val' => 1,
+//        'name' => 'SLIDER_HOMEPAGE',
+//        'val' => json_encode($data),
 //        'type' => 'boolean',
 //    ]);
-    //
-//
-    $image = App\GpuShopSetting::find(4)->update([
-        'val' => 1,
-    ]);
 
-    dd( cashPayment() );
+//    $image = App\GpuShopSetting::find(8);
+//    return json_decode($image->val,true);
 
-//return $image;
 }) ;
 Route::get('/testt', function () {
 

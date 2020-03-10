@@ -37,7 +37,6 @@
     @include('client.layout._featured_products')
     @include('client.layout._limited_edition')
     @include('client.layout._new_collection')
-    @include('client.layout.top_stories')
 
     @include('client.layout._footer')
     @include('client.layout._sideBar')
