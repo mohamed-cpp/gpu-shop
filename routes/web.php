@@ -116,79 +116,9 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 
 Route::get('/test', function () {
-//    session(['key' => 'valuew2']);
-//    session()->put('cart','uew2');.
-//    session()->forget('cart');
-//    session()->flush();
-//    session()->put('cart',null);
-//    $cart = new App\Cart(session()->get('cart'));
-//    $test = $cart->updateItems(Cookie::get('currency'));
-//    $cart =session()->get('cart');
-//    $update = [['quantity' => 100],['quantity' => 200]];
-////    \DB::table('products')->whereIn('id', [1, 2])->update([['quantity' => 100],['quantity' => 200]]);
-//    dd( $update);
-//    $ids = Arr::pluck($cart->items, 'item.seller_id');
-//    $emails = \App\Seller::findMany($ids)->pluck('email');
-//
-//    Mail::to($emails)->send(new \App\Mail\SendMailOrderToSeller(5000));
-
-//
-//    dd(\App\Product::findMany($ids)->keyBy('slug_en'));
-//    return session()->get('cart');
-
-//    return App\SubCategory::whereId(5)->with('manyProduct','manyProduct.images')->get();
-//    return now()->format('jS F Y h:i:s A');
-    //Rule::unique('clients')->ignore($this->id, "id")
-//    $data = [
-//        'body' => 'hello!',
-//        'product_id' => 3,
-//    ];
-////    dd($data);
-//    return \App\Seller::find(1)->comment()
-//        ->save(new \App\Comment($data));
-//    $user = auth('web')->user();
-//    $user->comment()->find(96)->delete();
-
-
-//dd(App\Admin::role('Super Admin')->get());
-//    event(new App\Events\NewOrder(App\Order::first(),1,auth('client')->user()));
-
-
-//    $shapes = array(
-//        new \App\Payments\PayPalPayment('test'),
-//        new \App\Payments\StripePayment('test'),
-//    );
-//
-//foreach ($shapes as $shape){
-//    echo $shape->checkout(1,2,3);
-//}
-//    $paypal = new \App\Payments\PayPalPayment('test');
-//    dd($paypal);
-//$paypal->checkout(1,2,3);
-//    echo auth('client')->user()->notifications()->get();
-
-//    event(new App\Events\NewComment(App\Comment::find(4),auth('client')->user()));
-
-//
-//    $data = array(
-//        'dt' => 1,
-//        'dt2' => 2,
-//        'dt3' => 2,
-//        'dt4' => 2,
-//        'dt5' => [
-//            'one' => 1,
-//            'two' => 1
-//        ],
-//    );
-//    $image = App\GpuShopSetting::create([
-//        'name' => 'SLIDER_HOMEPAGE',
-//        'val' => json_encode($data),
-//        'type' => 'boolean',
-//    ]);
-
-//    $image = App\GpuShopSetting::find(8);
-//    return json_decode($image->val,true);
-    return sliderImages();
+$test = rand(100,500);
+$test2 = rand(100,500);
+    return 'asd';
 }) ;
 Route::get('/testt', function () {
 

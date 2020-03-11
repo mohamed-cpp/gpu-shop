@@ -1,4 +1,4 @@
-<div class="product-area pb-100">
+<div class="product-area pt-80">
     <div class="container">
         <div class="section-title text-center mb-35">
             <h2>Featured Products</h2>

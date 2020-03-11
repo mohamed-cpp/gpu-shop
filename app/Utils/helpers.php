@@ -93,3 +93,24 @@ function moveImage($image,$path){
     $image->move($path,$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
     return $name;
 }
+
+function castVal($val, $castTo)
+{
+    switch ($castTo) {
+        case 'int':
+        case 'integer':
+            return intval($val);
+            break;
+
+        case 'bool':
+        case 'boolean':
+            return boolval($val);
+            break;
+        case 'json':
+            return json_decode($val,true);
+            break;
+
+        default:
+            return $val;
+    }
+}

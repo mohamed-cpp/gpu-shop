@@ -24,6 +24,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Name</th>
+                            <th>Header</th>
                             <th>Updated at</th>
                             <th>Edit</th>
                         </tr>
@@ -33,6 +34,7 @@
                                 <tr>
                                 <td>{{$setting->id}}</td>
                                 <td>{{$setting->name}}</td>
+                                <td>{{castVal($setting->val, $setting->type)['header']}}</td>
                                 <td>{{$setting->updated_at->format('jS F Y')}}</td>
                                 <td width="25%">
                                     <div class=" text-center">

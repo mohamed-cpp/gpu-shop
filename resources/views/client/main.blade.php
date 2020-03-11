@@ -12,6 +12,17 @@
 <!-- all css here -->
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <style>
+        .ptb-301{
+            padding: 301px 0;
+        }
+        .ptb-332{
+            padding: 332px 0;
+        }
+        .ptb-247{
+            padding: 247px 0;
+        }
+    </style>
     @stack('styles')
     <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
     <script>
@@ -33,9 +44,7 @@
 
 
     @include('client.layout._slider-area')
-    @include('client.layout._banner-area')
     @include('client.layout._featured_products')
-    @include('client.layout._limited_edition')
     @include('client.layout._new_collection')
 
     @include('client.layout._footer')

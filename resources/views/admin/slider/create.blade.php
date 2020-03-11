@@ -38,7 +38,7 @@
 
     .containerImg .btn-home-page{
         position: absolute;
-        top: 275px;
+        top: 300px;
         left: 16px;
         border: 2px solid #000000;
         color: #000000;
@@ -154,6 +154,16 @@
             </select>
         </div>
         </div>
+            <div class="form-group">
+                <h2>Text Direction</h2>
+                <div class="form-group">
+                    <label for="direction">select direction</label>
+                    <select class="form-control" id="direction" name="direction">
+                        <option value="">Left To Right</option>
+                        <option value="slider-text-right">Right To Left</option>
+                    </select>
+                </div>
+            </div>
 
             <button type="submit" class="btn btn-primary btn-user btn-block">{{ __('Add') }}</button>
         </form>
