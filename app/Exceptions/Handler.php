@@ -8,6 +8,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Session\TokenMismatchException;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -43,12 +44,14 @@ class Handler extends ExceptionHandler
             $this->recordLog($exception,request(),'tokenMismatch');
             return redirect()->back()->with([
                 'flash',
-                'The form has expired due to inactivity. Please try again'
+                'The form has expired. Please try again.'
             ]);
         }elseif ($exception instanceof ValidationException) {
             $this->recordLog($exception,request(),'validationLog');
+        } elseif($exception instanceof NotFoundHttpException){
+            $this->recordLog($exception,request(),'notFoundHttp');
         } else {
-//            GpuException::report($exception);
+            GpuException::reportException($exception);
         }
         parent::report($exception);
     }
@@ -65,6 +68,7 @@ class Handler extends ExceptionHandler
     {
         return parent::render($request, $exception);
     }
+
     private function recordLog($e,$r,$channel){
         Log::channel($channel)->info($e,[
            'url' => $r->url(),

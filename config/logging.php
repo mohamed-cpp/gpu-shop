@@ -105,6 +105,11 @@ return [
             'path' => storage_path('logs/tokenMismatch/tokenMismatch.log'),
             'level' => 'info',
         ],
+        'notFoundHttp' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/notFoundHttp/notFoundHttp.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

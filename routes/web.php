@@ -116,9 +116,7 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 
 Route::get('/test', function () {
-$test = rand(100,500);
-$test2 = rand(100,500);
-    return 'asd';
+    return ;
 }) ;
 Route::get('/testt', function () {
 
