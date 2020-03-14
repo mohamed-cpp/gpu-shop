@@ -21,6 +21,7 @@
         "mcamara/laravel-localization": "^1.4",
         "paypal/rest-api-sdk-php": "^1.14",
         "spatie/laravel-permission": "^3.3",
+        "spatie/laravel-sitemap": "^5.7",
         "stripe/stripe-php": "^7.25",
         "twilio/sdk": "^5.38"
     },
