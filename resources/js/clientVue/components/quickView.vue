@@ -241,19 +241,19 @@
     [v-cloak] {
         display: none;
     }
-    .quickview-btn-cart > a{
+    #exampleModal .quickview-btn-cart > a{
         letter-spacing: -0.92px;
         margin: 0 6px;
         color: #fff !important;
         padding: 17px 15px !important;
     }
-    .quick-view-tab-content .tab-pane > img{
+    #exampleModal .quick-view-tab-content .tab-pane > img{
         width: 350px;
     }
-    a img{
+    #exampleModal a img{
         margin-bottom: 5px;
     }
-    .quick-view-thumbnail{
+    #exampleModal .quick-view-thumbnail{
         width: 360px;
     }
     .qty{
@@ -261,7 +261,7 @@
         font-weight: 600;
         text-decoration: underline;
     }
-    .rating-widget div{
+    #exampleModal .rating-widget div{
         display: inline;
     }
 </style>

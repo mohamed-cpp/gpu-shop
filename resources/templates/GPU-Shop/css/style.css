@@ -1202,7 +1202,7 @@
   margin-bottom: 30px;
 }
 .quick-view-number > span {
-  color: #808080;
+  color: #535252;
   display: block;
   font-size: 16px;
   margin: 3px 0 0 10px;
@@ -1288,15 +1288,20 @@ input.cart-plus-minus-box {
 }
 .quickview-btn-cart > a {
   background-color: #ee3333;
-  color: #fff;
+  color: #000000 !important;
   display: inline-block;
   font-weight: 600;
   letter-spacing: 0.08px;
   line-height: 1;
   padding: 17px 35px;
   position: relative;
+  cursor: pointer;
   text-transform: uppercase;
   z-index: 5;
+}
+
+.quickview-btn-cart > a:hover {
+  color: #fff !important;
 }
 .quickview-btn-wishlist > a {
   border: 1px solid #dcdcdc;
@@ -3185,7 +3190,7 @@ input.cart-plus-minus-box {
 /*------------ 13. breadcrumb style 2 -----------*/
 
 .breadcrumb-content-2 > ul li {
-  color: #929191;
+  color: #535252;
   display: inline-block;
   font-size: 15px;
   font-weight: 600;
@@ -3194,13 +3199,13 @@ input.cart-plus-minus-box {
   text-transform: uppercase;
 }
 .breadcrumb-content-2 > ul li a {
-  color: #929191;
+  color: #535252;
 }
 .breadcrumb-content-2 > ul li a:hover {
   color: #ff4136;
 }
 .breadcrumb-content-2 ul li:after {
-  background-color: #929191;
+  background-color: #535252;
   content: "";
   font-size: 8px;
   height: 11px;
@@ -3254,7 +3259,7 @@ input.cart-plus-minus-box {
   transition: all 400ms ease-in 0s;
   z-index: 10;
 }
-.product-details-content > h3 {
+.product-details-content > h1 {
   color: #707070;
   font-size: 24px;
   font-weight: 600;
@@ -3323,7 +3328,7 @@ input.cart-plus-minus-box {
   /*margin-bottom: 44px;*/
 }
 .description-review-title a {
-  color: #e0e0e0;
+  color: #545454;
   font-size: 30px;
   font-weight: bold;
   margin: 0 20px;
@@ -3353,7 +3358,7 @@ input.cart-plus-minus-box {
   display: flex;
 }
 .product-details-btn > a {
-  color: #929191;
+  color: #535252;
   font-size: 20px;
   margin-left: 10px;
 }
@@ -3560,7 +3565,7 @@ a.bundle-btn {
   z-index: 9;
 }
 .btn-hover-black:before {
-  background: #333 none repeat scroll 0 0;
+  background: #454545 none repeat scroll 0 0;
   bottom: 0;
   content: "";
   left: 0;
@@ -3589,7 +3594,7 @@ a.bundle-btn {
           transform: scaleX(1);
 }
 .btn-hover-black:hover {
-  color: white;
+  color: #1b1b1b;
 }
 .bundle-social li {
   display: inline-block;
@@ -3862,7 +3867,7 @@ h1.cart-heading {
   width: 40px;
 }
 .table-content table .product-price .amount {
-  color: #555;
+  color: #3a3a3a;
   font-size: 15px;
 }
 

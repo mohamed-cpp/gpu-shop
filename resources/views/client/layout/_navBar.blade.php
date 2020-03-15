@@ -5,13 +5,13 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-6">
                     <div class="logo">
-                        <a href="/"><img src="/assets/img/logo/logo.png" alt="" /></a>
+                        <a href="/"><img src="/assets/img/logo/logo.png" alt="GPU Shop" /></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-6">
                     <div class="header-search-cart">
                         <div class="header-search common-style">
-                            <button class="sidebar-trigger-search">
+                            <button class="sidebar-trigger-search" aria-label="search">
                                 <span class="ion-ios-search-strong"></span>
                             </button>
                         </div>
@@ -20,7 +20,7 @@
                         <notification></notification>
                         @endif
                         <div class="header-sidebar common-style">
-                            <button class="header-navbar-active">
+                            <button class="header-navbar-active" aria-label="sidebar">
                                 <span class="ion-navicon"></span>
                             </button>
                         </div>
@@ -36,13 +36,13 @@
 </div>
 <div class="main-search-active">
     <div class="sidebar-search-icon">
-        <button class="search-close"><span class="ion-android-close"></span></button>
+        <button class="search-close" aria-label="search-close"><span class="ion-android-close"></span></button>
     </div>
     <div class="sidebar-search-input">
         <form action="{{route('search.product')}}" method="get">
             <div class="form-search">
-                <input id="search" class="input-text" value="" name="keywords" placeholder="Search Entire Store" type="search" autocomplete="off" >
-                <button>
+                <input id="search" class="input-text" aria-label="Search" name="keywords" placeholder="Search Entire Store" type="search" autocomplete="off" >
+                <button aria-label="search-button">
                     <i class="ion-ios-search-strong"></i>
                 </button>
             </div>
@@ -53,7 +53,7 @@
 <div class="cur-lang-acc-active">
     <div class="wrap-sidebar">
         <div class="sidebar-nav-icon">
-            <button class="op-sidebar-close"><span class="ion-android-close"></span></button>
+            <button class="op-sidebar-close" aria-label="sidebar-close"><span class="ion-android-close"></span></button>
         </div>
         <div class="cur-lang-acc-all">
             <div class="single-currency-language-account">
@@ -74,11 +74,11 @@
             @endif
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Language: <span><img src="/assets/img/icon-img/{{$lang}}.png" alt=""> {{$lang}} </span></h4>
+                    <h4>Language: <span><img src="/assets/img/icon-img/{{$lang}}.png" alt="{{$lang}}"> {{$lang}} </span></h4>
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{ str_replace("/".app()->getLocale()."/",$anotherLocale,Request::url()) }}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt=""> {{$anotherLang}} </a></li>
+                        <li><a href="{{ str_replace("/".app()->getLocale()."/",$anotherLocale,Request::url()) }}" alt="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{$anotherLang}} </a></li>
                     </ul>
                 </div>
             </div>

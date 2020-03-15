@@ -4,7 +4,8 @@
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield("title",__("GPU-Shop"))</title>
-    <meta name="description" content="">
+    <link rel="icon" href="{{asset('assets\img\icon-img\iconLogo.png')}}">
+    <meta name="description" content="New Online Shopping">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Favicon -->
 {{--    <link rel="shortcut icon" type="image/x-icon" href="">--}}

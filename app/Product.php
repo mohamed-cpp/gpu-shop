@@ -232,6 +232,19 @@ class Product extends Model
         return $this->{$column};
     }
 
+    public function getMetaTitleAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "title_meta_" . $locale;
+        return $this->{$column};
+    }
+
+    public function getMetaDescriptionAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "description_meta_" . $locale;
+        return $this->{$column};
+    }
     public function getFeeCurrencyAttribute()
     {
         $currency = Cookie::get('currency');

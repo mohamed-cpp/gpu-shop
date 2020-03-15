@@ -1,29 +1,27 @@
 @extends('client.app')
 @section('title', $product->name)
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ $product->meta_description ? $product->meta_description : strip_tags($product->description) }}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ $product->meta_title ? $product->meta_title : $product->name }}"/>
+    <meta property="og:description" content="{{ $product->meta_description ? $product->meta_description : strip_tags($product->description) }}"/>
+    <meta property="og:image" content="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}"/>
+    <meta property="og:url" content="{{ route('show.product.client',$product->slug) }}"/>
+    <meta name="keywords" content="{{$product->tagList}}">
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 @push('styles')
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{asset('GPU-Shop/css/product_page.css')}}" rel="stylesheet">
 @endpush
 @section('content')
-    <div class="breadcrumb-area bg-img border-top-1 pt-55">
-        <div class="container">
-            <div class="breadcrumb-content-2">
-                <ul>
-                    <li><a class="active" href="/">home</a></li>
-                    <li>{{$product->name}}</li>
-                </ul>
-            </div>
-        </div>
-    </div>
     <div id="app">
-    <div class="product-details ptb-100 pb-90">
+    <div class="product-details ptb-50 pb-90">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="product-details-btn">
-                        <a class="active" href="{{ URL::previous() }}"><i class="ion-arrow-left-c"></i></a>
-                    </div>
-                </div>
                 <client_product wishlistadded="{{$addedWishlist}}"
                                 :product="{{ json_encode($product) }}"
                                 :price="{{ json_encode($price) }}"
@@ -112,7 +110,7 @@
                         <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
                         <div class="single-product mb-35">
                             <div class="product-img">
-                                <a href="{{route('show.product.client', $relatedProduct->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$relatedProduct->main_image)}}" height="270" alt="{{$relatedProduct->name}}"></a>
+                                <a href="{{route('show.product.client', $relatedProduct->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$relatedProduct->main_image)}}"  alt="{{$relatedProduct->name}}"></a>
                                 @if($isOffer = $relatedProduct->isOffer == true) <span>sale</span> @endif
                                 <div class="product-action">
                                     <add_wishlist idproduct="{{$relatedProduct->id}}"></add_wishlist>
@@ -126,7 +124,7 @@
                                     </div>
                                     <div class="product-price">
                                         <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$relatedProduct->offerPrice(false)}}</span></div>
-                                        @if($isOffer)<span class="offer" >{{$currency}}{{$relatedProduct->offerPrice()}}</span>@endif
+                                        @if($isOffer)<div class="offer" >{{$currency}}{{$relatedProduct->offerPrice()}}</div>@endif
                                     </div>
                                 </div>
                                 <div class="product-cart-categori">

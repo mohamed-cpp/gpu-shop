@@ -4,7 +4,7 @@
         <div class="wrap-sidebar">
             <div class="sidebar-cart-all">
                 <div class="sidebar-cart-icon">
-                    <button class="op-sidebar-close"><span class="ion-android-close"></span></button>
+                    <button class="op-sidebar-close" aria-label="sidebar-close"><span class="ion-android-close"></span></button>
                 </div>
                 <div v-if="emptyCart()" class="cart-content">
                     <h3>Shopping Cart</h3>

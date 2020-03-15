@@ -187,11 +187,10 @@ input[type=number] {
     padding-right: 5px !important;
 }
 .offer{
-    color: red !important;
-    font-size: 15px;
+    padding-top: 2px;
+    color: #941a1a !important;
 }
 .price{
-    font-size: 15px;
     font-weight: 550;
 }
 .input-number {

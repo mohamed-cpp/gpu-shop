@@ -41,8 +41,8 @@ mix.styles('resources/templates/GPU-Shop/css/product_page.css',
 
 mix.babel([
     'resources/templates/GPU-Shop/js/bootstrap4.4.min.js',
-    'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
-    //'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
+    // 'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
+    'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
     'resources/templates/GPU-Shop/js/popper.js',
     // 'resources/templates/GPU-Shop/js/bootstrap.min.js',
     // 'resources/templates/GPU-Shop/js/bootstrap4.min.js',
@@ -54,6 +54,7 @@ mix.babel([
     'resources/templates/GPU-Shop/js/slinky.min.js',
     'resources/templates/GPU-Shop/js/ajax-mail.js',
     'resources/templates/GPU-Shop/js/owl.carousel.min.js',
+    'resources/templates/GPU-Shop/js/jquery-ui.min.js',
     'resources/templates/GPU-Shop/js/plugins.js',
     'resources/templates/GPU-Shop/js/main.js',
 ], 'public/GPU-Shop/js/app.js').sourceMaps();

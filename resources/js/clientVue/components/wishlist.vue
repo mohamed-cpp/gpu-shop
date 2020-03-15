@@ -187,35 +187,35 @@
     };
 </script>
 <style>
-    .product-sort{
+    .table-content .product-sort{
         width: 20%;
     }
-    .product-sort div{
+    .table-content .product-sort div{
         margin-bottom: 5px;
     }
-    .fa{
+    .table-content .fa{
         font-size: 25px;
         margin-left: 5px;
     }
-    .fa:hover{
+    .table-content .fa:hover{
         color: #ff3243;
         cursor: pointer;
     }
 
-    .oldprice{
+    .table-content .oldprice{
         text-decoration-line: line-through;
         padding-right: 5px !important;
     }
-    .statusProduct{
+    .table-content .statusProduct{
         text-decoration-line: line-through;
     }
-    .offer{
+    .table-content .offer{
         display: block;
         font-size: 16px;
         color: red;
         font-weight: 700;
     }
-    .removeButton{
+    .table-content .removeButton{
         border: none;
         cursor: pointer;
     }

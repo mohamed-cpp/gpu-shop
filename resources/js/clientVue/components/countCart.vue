@@ -1,6 +1,6 @@
 <template>
     <div class="header-cart common-style">
-        <button class="sidebar-trigger">
+        <button class="sidebar-trigger" aria-label="cart">
            <span v-if="cart" class="number">{{cart}}</span> <span class="ion-bag"></span>
         </button>
     </div>

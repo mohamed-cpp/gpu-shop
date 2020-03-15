@@ -1,12 +1,12 @@
 {{--    side bar--}}
 <div class="clickable-mainmenu-btn">
-    <a class="clickable-mainmenu-active" href="#"><i class="ion-navicon"></i></a>
+    <a class="clickable-mainmenu-active" href="#" aria-label="side bar"><i class="ion-navicon"></i></a>
 </div>
 
 
 <div class="clickable-mainmenu text-center">
     <div class="clickable-mainmenu-icon">
-        <button class="clickable-mainmenu-close">
+        <button class="clickable-mainmenu-close" aria-label="mainmenu-close">
             <span class="ion-android-close"></span>
         </button>
     </div>
