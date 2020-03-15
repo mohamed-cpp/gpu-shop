@@ -105,3 +105,6 @@ mix.babel('resources/templates/dashboard/js/demo/chart-pie-demo.js',
     'public/dashboard/js/demo/chart-pie-demo.js')
     .sourceMaps();
 
+if (mix.inProduction()) {
+    mix.version();
+}

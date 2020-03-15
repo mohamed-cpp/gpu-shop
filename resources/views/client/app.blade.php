@@ -10,13 +10,13 @@
 {{--    <link rel="shortcut icon" type="image/x-icon" href="">--}}
 
     <!-- all css here -->
-    <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ mix('GPU-Shop/css/main.css') }}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <link rel="icon" href="{{asset('assets\img\icon-img\iconLogo.png')}}">
     <link rel="canonical" href="{{request()->fullUrl()}}" />
     @stack('styles')
-    <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
+    <script src="{{ mix('GPU-Shop/js/modernizr-2.8.3.min.js') }}"></script>
     <script>
         @if(auth('client')->check())
             @php $user = auth('client')->user(); @endphp
@@ -42,8 +42,8 @@
     </div>
 </div>
 <!-- all js here -->
-<script src="{{asset('GPU-Shop/js/vue.js')}}"></script>
-<script src="{{asset('GPU-Shop/js/app.js')}}"></script>
+<script src="{{mix('GPU-Shop/js/vue.js')}}"></script>
+<script src="{{mix('GPU-Shop/js/app.js')}}"></script>
 @stack('scripts')
 @yield('extra-scripts')
 </body>
