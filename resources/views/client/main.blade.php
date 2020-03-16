@@ -48,7 +48,6 @@
     @include('client.layout._footer')
     @include('client.layout._sideBar')
 
-    @include('client.layout._quickView')
 
 </div>
 <!-- all js here -->
