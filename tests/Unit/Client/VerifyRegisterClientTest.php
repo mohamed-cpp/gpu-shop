@@ -42,7 +42,7 @@ class VerifyRegisterClientTest extends TestCase
             ->get(route('client.email.verifyForm', [
                 "email" => $client->email,
                 "token" => $token
-            ]))->assertRedirect(route('client.home'));
+            ]))->assertRedirect(route('homepage'));
 
         tap($client->fresh(), function ($user) {
             $this->assertNotNull($user->email_verified_at);
@@ -57,7 +57,7 @@ class VerifyRegisterClientTest extends TestCase
         $this->get(route('client.email.verifyForm', [
             "email" => $client->email,
             "token" => $token
-        ]))->assertRedirect(route('client.home'));
+        ]))->assertRedirect(route('homepage'));
 
         tap($client->fresh(), function ($user) {
             $this->assertNull($user->email_verified_at);

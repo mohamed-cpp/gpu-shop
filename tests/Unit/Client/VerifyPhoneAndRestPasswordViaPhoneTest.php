@@ -212,7 +212,7 @@ class VerifyPhoneAndRestPasswordViaPhoneTest extends TestCase
             'password' => 'p@ssword',
             'password_confirmation' => 'p@ssword'
         ])
-            ->assertRedirect(route('client.home'));
+            ->assertRedirect(route('homepage'));
         $this->assertTrue(Hash::check('p@ssword', $client->fresh()->password));
         $this->assertEquals(null, $client->fresh()->code);
         $this->assertEquals(null, $client->fresh()->create_code_at);

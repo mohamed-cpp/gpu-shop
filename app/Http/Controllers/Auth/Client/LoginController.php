@@ -136,7 +136,7 @@ class LoginController extends Controller
     public function redirectPath()
     {
         $intended = session('link');
-        return $intended ?? route('client.home');
+        return $intended ?? route('homepage');
     }
 
     /**

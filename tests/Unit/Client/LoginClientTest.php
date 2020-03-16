@@ -31,7 +31,7 @@ class  LoginClientTest extends TestCase
             'password' => 'password'
         ]);
         $response->assertStatus(302);
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
     }
     public function test_can_user_login_via_phone(){
         $response = $this->post(route('client.login'), [
@@ -39,7 +39,7 @@ class  LoginClientTest extends TestCase
             'password' => 'password'
         ]);
         $response->assertStatus(302);
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
     }
     public function test_validate_user_login_via_phone(){
         $response = $this->post(route('client.login'), [

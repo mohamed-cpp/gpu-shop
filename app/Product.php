@@ -292,7 +292,7 @@ class Product extends Model
     }
 
     public function offerPrice($status = true){
-        $currency = Cookie::get('currency');
+        $currency = Cookie::get('currency') ? Cookie::get('currency') : 'usd' ;
         $price = "offer_price_$currency";
         if($this->isOffer() == true && $status){
             return $this->$price;

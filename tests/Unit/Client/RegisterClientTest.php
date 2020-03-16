@@ -45,7 +45,7 @@ class  RegisterClientTest extends TestCase
         ]);
         $response->assertStatus(302);
         $this->assertDatabaseHas('clients', [ 'username' => 'johnDeo123', ]);
-        $response->assertRedirect('/home');
+        $response->assertRedirect('/');
 
 
     }

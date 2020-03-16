@@ -203,7 +203,7 @@ class PhoneVerifyClientController extends Controller
             ]);
             $user->save();
             auth('client')->login($user);
-            return redirect(route('client.home'));
+            return redirect(route('homepage'));
         }
         return response()->view('client.errors.error',['errorCode' => 500,
             'errorMessage'=>'something wrong please connect us or try again later.']);

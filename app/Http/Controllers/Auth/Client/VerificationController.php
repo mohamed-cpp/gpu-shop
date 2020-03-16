@@ -47,12 +47,12 @@ class VerificationController extends Controller
 
             $client->markEmailAsVerified();
             session()->flash('success', '<b>Success</b>, You have verified your email successfully!');
-            return redirect(route("client.home"));
+            return redirect(route("homepage"));
 
         }
 
         session()->flash('fail', __("<b>Oops!!</b>, The verification link may not be correct."));
-        return redirect(route("client.home"));
+        return redirect(route("homepage"));
     }
 
     /**

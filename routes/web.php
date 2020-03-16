@@ -13,9 +13,6 @@
 Route::get("/", 'Client\ClientsHomePageController@homepage')->name('homepage');
 
 Route::group(['middleware' => 'client'], function () {
-//    Route::get('/home', function () {
-//        return view('client.main');
-//    })->name('client.home');
 
     Route::prefix('profile')->group(function () {
         Route::get('/', 'Client\ProfileClientController@show')->name('client.profile');
