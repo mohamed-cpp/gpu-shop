@@ -14,7 +14,6 @@
     <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
 @endsection
 @push('styles')
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="{{asset('GPU-Shop/css/product_page.css')}}" rel="stylesheet">
 @endpush
 @section('content')

@@ -1,17 +1,28 @@
 @extends('client.app')
+@section('title', $subcategory->name)
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ $subcategory->description }}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ $subcategory->title }}"/>
+    <meta property="og:description" content="{{ $subcategory->description }}"/>
+    <meta property="og:image" content="{{asset($subcategory->image)}}"/>
+    <meta property="og:url" content="{{ route('subcategories.show',$subcategory->slug) }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 @push('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{{asset('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
-
+    <link href="{{asset('GPU-Shop/css/jquery-ui.min.css')}}" rel="stylesheet">
+    <link href="{{mix('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
 @endpush
 @section('content')
     <div id="appView">
-    @php $subcategoryName = $subcategory->name ; $horizontal= request()->get('horizontal'); @endphp
+    @php $horizontal= request()->get('horizontal'); @endphp
     <div class="breadcrumb-area pt-205 pb-210 bg-img" style="background-image: url('{{asset($subcategory->image)}}')">
         <div class="container">
             <div class="breadcrumb-content">
-                <h2>{{ $subcategoryName }}</h2>
+                <h1>{{ $subcategory->name  }}</h1>
                 <ul>
                     <li><a href="/">home</a></li>
                     <li>{{ $subcategory->name }}</li>
@@ -135,10 +146,10 @@
                                 <a class="shop-filter-active" href="#">Filters <i class="ion-android-options"></i></a>
                             </div>
                             <div class="shop-tab nav" role=tablist>
-                                <a class="{{ $horizontal ? : 'active' }}" href="#grid-5-col1" data-toggle="tab" role="tab" aria-selected="false">
+                                <a class="{{ $horizontal ? : 'active' }}" href="#grid-5-col1" aria-label="Products Style" data-toggle="tab" role="tab" aria-selected="false">
                                     <i class="ion-android-apps"></i>
                                 </a>
-                                <a class="{{ $horizontal ? 'active' : '' }}" href="#grid-5-col2" data-toggle="tab" role="tab" aria-selected="true">
+                                <a class="{{ $horizontal ? 'active' : '' }}" href="#grid-5-col2" aria-label="Products Style" data-toggle="tab" role="tab" aria-selected="true">
                                     <i class="ion-android-menu"></i>
                                 </a>
                             </div>
@@ -153,7 +164,7 @@
                                 <div class="custom-col-5 custom-col-style">
                                 <div class="single-product mb-35">
                                     <div class="product-img">
-                                        <a href="{{route('show.product.client', $product->slug)}}"><img height="270" src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
+                                        <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                         @if($isOffer = $product->isOffer )
                                             <span>sale
                                                 <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
@@ -205,7 +216,7 @@
                                 <div class="col-md-12 col-lg-12 col-xl-6">
                                 <div class="single-product single-product-list product-list-right-pr mb-40">
                                     <div class="product-img list-img-width">
-                                        <a href="{{route('show.product.client', $product->slug )}}"><img height="270"  src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
+                                        <a href="{{route('show.product.client', $product->slug )}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                         <div class="product-action">
 {{--                                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>--}}
                                             <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
@@ -250,15 +261,14 @@
     </div>
 @endsection
 @push('scripts')
-    <script src="{{asset('GPU-Shop/js/products_page.js')}}"></script>
+    <script src="{{mix('GPU-Shop/js/products_page.js')}}"></script>
     <script>
         $(function() {
             var $slider = $("#slider-range");
-            //Get min and max values
+
             var priceMin = $slider.attr("data-price-min"),
                 priceMax = $slider.attr("data-price-max");
 
-            //Set min and max values where relevant
             $("#price-filter-min, #price-filter-max").map(function(){
                 $(this).attr({
                     "min": priceMin,

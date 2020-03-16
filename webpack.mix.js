@@ -37,6 +37,8 @@ mix.styles('resources/templates/GPU-Shop/css/products_page.css',
     'public/GPU-Shop/css/products_page.css');
 mix.styles('resources/templates/GPU-Shop/css/product_page.css',
     'public/GPU-Shop/css/product_page.css');
+mix.styles('resources/templates/GPU-Shop/css/jquery-ui1.12.1.min.css',
+    'public/GPU-Shop/css/jquery-ui.min.css');
 
 
 mix.babel([

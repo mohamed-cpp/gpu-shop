@@ -63,13 +63,37 @@ class SubCategory extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image','parent','parent_id'
+        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image','parent','parent_id',
+        'title_en','title_ar','description_en','description_ar'
     ];
 
     protected $casts = [
         'status' => 'boolean',
         'parent' => 'boolean',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function () {
+            \Cache::forget('categories');
+        });
+
+        static::created(function() {
+            \Cache::forget('categories');
+        });
+
+        static::deleted(function() {
+            \Cache::forget('categories');
+        });
+    }
+
 //    protected $with = ['child'];
     /**
      * Category
@@ -143,6 +167,18 @@ class SubCategory extends Model
         return $this->{$column};
     }
 
+    public function getTitleAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "title_" . $locale;
+        return $this->{$column};
+    }
+    public function getDescriptionAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "description_" . $locale;
+        return $this->{$column};
+    }
     /**
      * Get the route key name.
      *

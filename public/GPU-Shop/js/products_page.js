@@ -1,5 +1,4 @@
-//price animate
-$(document).ready(function(){
+(function() {
     $(function animateByMe(time = 500) {
         $('.offer').animate({
             fontWeight:'200',
@@ -11,9 +10,7 @@ $(document).ready(function(){
         setTimeout(animateByMe, 200);
     }());
 
-});
 
-(function() {
 
     window.inputNumber = function(el) {
 

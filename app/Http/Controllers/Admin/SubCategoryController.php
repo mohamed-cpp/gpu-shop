@@ -46,18 +46,21 @@ class SubCategoryController extends Controller
             'category_id' => 'required',
             'name_en' => 'required|string',
             'name_ar' => 'required|string',
-            'slug_en' => 'required|string',
-            'slug_ar' => 'required|string',
+            'title_en' => 'required|string',
+            'title_ar' => 'required|string',
+            'description_ar' => 'required|string',
+            'description_en' => 'required|string',
+            'slug_en' => 'required|string|unique:sub_categories',
+            'slug_ar' => 'required|string|unique:sub_categories',
             'sort'    => 'required|numeric|min:0',
             'status'  => 'required|boolean',
             'image'   => 'required|mimes:jpeg,png,jpg,gif,svg|dimensions:width=1920,height=500'
         ];
-        $this->validate($request, $rules);
+        $input = $this->validate($request, $rules);
         $file = $request->file('image');
-        $input = $request->all();
         $input['image'] = $this->moveImage($file,$request);
         SubCategory::create($input);
-        \Cache::forget('categories');
+
         return redirect(route('categories.show',$request->category_id))->with('flash','The Subcategory Added Successfully');
     }
 
@@ -109,20 +112,22 @@ class SubCategoryController extends Controller
         $rules = [
             'name_en' => 'required|string',
             'name_ar' => 'required|string',
-            'slug_en' => 'required|string',
-            'slug_ar' => 'required|string',
+            'title_en' => 'required|string',
+            'title_ar' => 'required|string',
+            'description_ar' => 'required|string',
+            'description_en' => 'required|string',
+            'slug_en' => 'required|string|unique:sub_categories,slug_en,'.$subcategory->id,
+            'slug_ar' => 'required|string|unique:sub_categories,slug_ar,'.$subcategory->id,
             'sort'    => 'required|numeric|min:0',
             'status'  => 'required|boolean',
             'image'   => 'sometimes|mimes:jpeg,png,jpg,gif,svg|dimensions:width=1920,height=500'
         ];
-        $this->validate($request, $rules);
+        $input =$this->validate($request, $rules);
 
-        $input = $request->all();
         if($image = $request->file('image')){
             $input['image'] = $this->moveImage($image,$request);
         }
         $subcategory->update($input);
-        \Cache::forget('categories');
         if($subcategory->parent_id){
             return redirect(route('subcategories.show',$subcategory->parent_id))
                 ->with('flash','The Child Updated Successfully');
@@ -142,7 +147,6 @@ class SubCategoryController extends Controller
     {
         $subcategory = SubCategory::find($subcategory);
         $subcategory->delete();
-        \Cache::forget('categories');
         return back()->with('flash','The Subcategory Deleted Successfully');
     }
 
@@ -156,7 +160,6 @@ class SubCategoryController extends Controller
             'status' => !$subcategory->status
         ]);
         $subcategory->save();
-        \Cache::forget('categories');
         $status = $subcategory->status == true ? 'Enabled' : 'Disabled';
         return back()->with('flash',"The Subcategory $status Successfully");
     }
@@ -176,7 +179,6 @@ class SubCategoryController extends Controller
         $input = $request->all();
         $input['parent'] = true;
         SubCategory::create($input);
-        \Cache::forget('categories');
         return redirect(route('categories.show',$request->category_id))
             ->with('flash','The Parent Subcategory Added Successfully');
     }
@@ -191,7 +193,6 @@ class SubCategoryController extends Controller
         $this->validate($request, $rules);
         $input = $request->all();
         $subcategory->update($input);
-        \Cache::forget('categories');
         return redirect(route('categories.show',$subcategory->category_id))
             ->with('flash',"Parent $subcategory->name Updated Successfully");
     }
@@ -207,8 +208,12 @@ class SubCategoryController extends Controller
             'parent_id' => 'required',
             'name_en' => 'required|string',
             'name_ar' => 'required|string',
-            'slug_en' => 'required|string',
-            'slug_ar' => 'required|string',
+            'title_en' => 'required|string',
+            'title_ar' => 'required|string',
+            'description_ar' => 'required|string',
+            'description_en' => 'required|string',
+            'slug_en' => 'required|string|unique:sub_categories',
+            'slug_ar' => 'required|string|unique:sub_categories',
             'sort'    => 'required|numeric|min:0',
             'status'  => 'required|boolean',
             'image'   => 'required|mimes:jpeg,png,jpg,gif,svg|dimensions:width=1920,height=500'
@@ -218,7 +223,6 @@ class SubCategoryController extends Controller
         $input = $request->all();
         $input['image'] = $this->moveImage($file,$request);
         SubCategory::create($input);
-        \Cache::forget('categories');
         return redirect(route('subcategories.show',$request->parent_id))
             ->with('flash','The Child Added Successfully');
     }

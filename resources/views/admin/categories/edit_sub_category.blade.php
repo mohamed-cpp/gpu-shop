@@ -25,6 +25,39 @@
             </div>
             <hr>
             <div class="form-group">
+                <label for="titleEn">English Title of Subcategory For SEO</label>
+                <input type="text" class="form-control @error('title_en') is-invalid @enderror" name="title_en" id="titleEn" value="{{$subcategory->title_en}}" placeholder="Electronics">
+                @error('title_en')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+                <label for="titleAr">Arabic Title of Subcategory For SEO</label>
+                <input type="text" class="form-control @error('title_ar') is-invalid @enderror" name="title_ar" id="titleAr" value="{{$subcategory->name_ar}}" placeholder="إلكترونيات">
+                @error('title_ar')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <label for="descriptionEn">English Description of Subcategory For SEO</label>
+                <input type="text" class="form-control @error('description_en') is-invalid @enderror" name="description_en" id="descriptionEn" value="{{$subcategory->description_en}}" placeholder="Electronics">
+                @error('description_en')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+                <label for="descriptionAr">Arabic Description of Subcategory For SEO</label>
+                <input type="text" class="form-control @error('description_ar') is-invalid @enderror" name="description_ar" id="descriptionAr" value="{{$subcategory->description_ar}}" placeholder="إلكترونيات">
+                @error('description_ar')
+                <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+                @enderror
+            </div>
+            <hr>
+            <div class="form-group">
                 <label for="nameEn">English URL of Subcategory</label>
                 <input type="text" class="form-control @error('slug_en') is-invalid @enderror" name="slug_en" id="nameEn" value="{{$subcategory->slug_en}}" placeholder="electronics-home-projects">
                 @error('slug_en')
