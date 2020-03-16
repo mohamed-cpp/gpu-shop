@@ -63,7 +63,7 @@
                             <li class="single-product-cart">
                                 <div class="cart-checkout-btn">
                                     <a class="btn-hover cart-btn-style" href="/">Home</a>
-                                    <a class="no-mrg btn-hover cart-btn-style" href="">hot sale</a>
+                                    <a class="no-mrg btn-hover cart-btn-style" href="/hot-sale">hot sale</a>
                                 </div>
                             </li>
                         </ul>

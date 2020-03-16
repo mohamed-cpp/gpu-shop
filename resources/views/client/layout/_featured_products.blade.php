@@ -4,7 +4,6 @@
     <div class="container">
         <div class="section-title text-center mb-35">
             <h2>Featured Products</h2>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when look</p>
         </div>
         <div class="product-style">
             <div class="product-tab-list text-center mb-45 nav product-menu-mrg" role="tablist">

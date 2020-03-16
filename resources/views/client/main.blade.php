@@ -43,7 +43,6 @@
 
     @include('client.layout._slider-area')
     @include('client.layout._featured_products')
-    @include('client.layout._limited_edition')
     @include('client.layout._new_collection')
 
     @include('client.layout._footer')

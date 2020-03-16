@@ -2,7 +2,7 @@
     <div class="container">
         <div class="shop-limited-content text-center">
             <h2>Shop Limited Edition.</h2>
-            <a class="btn-hover limited-btn" href="#">view more</a>
+            <a class="btn-hover limited-btn" href="/hot-sale">view more</a>
         </div>
     </div>
 </div>
