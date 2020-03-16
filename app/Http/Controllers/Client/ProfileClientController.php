@@ -10,6 +10,7 @@ use App\Product;
 use App\Seller;
 use Hash;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 use Str;
 
 class ProfileClientController extends Controller
@@ -124,7 +125,13 @@ class ProfileClientController extends Controller
         }
         if ($image = $request->file('image')){
             $path = 'storage/client/images/';
-            $image->move(public_path($path),$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
+
+            $name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension();
+            $image_resize = Image::make($image->getRealPath());
+            $image_resize->resize(140, 140);
+            $image_resize->save(public_path($path.$name));
+
+
             $input['img'] = $name;
         }
 

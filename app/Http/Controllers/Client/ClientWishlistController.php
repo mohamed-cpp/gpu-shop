@@ -34,7 +34,7 @@ class ClientWishlistController extends Controller
             ->orderBy('sort','desc')
             ->where('public',1)
             ->paginate(15);
-        return view('client.products.wishlist_guest',['wishlistProducts'=> $wishlist]);
+        return view('client.products.wishlist_guest',['wishlistProducts'=> $wishlist,'client'=> $client]);
 
     }
 

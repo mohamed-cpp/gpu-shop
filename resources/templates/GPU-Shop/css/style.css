@@ -4307,7 +4307,7 @@ h5.panel-title {
 
 /*--------- 23. Login page ---------*/
 .login-form-container {
-  background: transparent none repeat scroll 0 0;
+  background: rgba(0, 0, 0, 0.12) none repeat scroll 0 0;
   border: 1px solid #ddd;
   padding: 60px 40px;
   text-align: left;
@@ -4368,7 +4368,7 @@ h5.panel-title {
   color: #000;
 }
 .button-box .default-btn {
-  background: transparent none repeat scroll 0 0;
+  background: #fff none repeat scroll 0 0;
   border: 1px solid #ddd;
   color: #777;
   font-size: 14px;

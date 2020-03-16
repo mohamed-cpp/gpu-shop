@@ -1,7 +1,17 @@
 @extends('client.app')
-@push('styles')
-
-@endpush
+@section('title', $client->name)
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ __('Profile') }} {{ $client->name}}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ __('Profile') }}"/>
+    <meta property="og:description" content="{{ __('Profile') }}"/>
+    <meta property="og:image" content="{{asset('storage/client/images/'.$client->img)}}"/>
+    <meta property="og:url" content="{{ route('view.profile',$client->username) }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 
 @section('content')
             <div class="col">
@@ -14,7 +24,7 @@
                                         <div class="col-12 col-sm-auto mb-3">
                                             <div class="mx-auto" style="width: 140px;">
                                                 <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                                                    <img width="140" height="140" id="profile_image" src="{{$client->img ?asset('storage/client/images/'.$client->img) : '/GPU-Shop/img/avatar.jpg'}}" />
+                                                    <img alt="{{$client->name}}" id="profile_image" src="{{$client->img ?asset('storage/client/images/'.$client->img) : '/GPU-Shop/img/avatar.jpg'}}" />
                                                 </div>
                                             </div>
                                         </div>

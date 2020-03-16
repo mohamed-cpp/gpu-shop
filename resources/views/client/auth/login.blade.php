@@ -1,5 +1,16 @@
 @extends('client.app')
-
+@section('title',  __('Login'))
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ __('Login') }}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ __('Login') }}"/>
+    <meta property="og:description" content="{{ __('Login') }}"/>
+    <meta property="og:url" content="{{ route('client.loginForm') }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 @push('styles')
     <style>
         a.fb {
@@ -35,7 +46,7 @@
 @endpush
 @section('content')
 
-    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(assets/img/bg/breadcrumb.jpg)">
+    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{loginImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
                 <h2>{{ __('Login') }}</h2>
@@ -56,14 +67,14 @@
                             <div class="login-form">
                                 <form action="{{ route('client.login') }}" method="POST">
                                     @csrf
-                                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address Or Phone Number') }}">
+                                    <input type="text" aria-label="E-Mail Address Or Phone Number" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address Or Phone Number') }}">
                                     @error('email')
                                     <span class="invalid-feedback" role="alert" style="display: block !important;">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
 
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
+                                    <input type="password" aria-label="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -72,7 +83,7 @@
 
                                     <div class="button-box">
                                         <div class="login-toggle-btn">
-                                            <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                            <input class="form-check-input" aria-label="Remember Me" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
                                             <label>{{ __('Remember Me') }}</label>
                                             @if (Route::has('client.password.request'))
                                                 <a href="{{ route('client.password.request') }}">

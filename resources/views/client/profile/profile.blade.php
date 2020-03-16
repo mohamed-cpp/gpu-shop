@@ -192,7 +192,6 @@
     </script>
     <script>
         $("#file").on("change", function(evt) {
-            // var tgt = evt.target || window.event.srcElement,
             var tgt = evt.target ,
                 files = tgt.files;
 

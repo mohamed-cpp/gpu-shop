@@ -1,6 +1,6 @@
 <template>
     <div class="cart-checkout-btn">
-        <a class="btn-hover cart-btn-style" v-on:click="addCart()">add cart</a>
+        <a class="btn-hover cart-btn-style" aria-label="Add Cart"  v-on:click="addCart()">add cart</a>
     </div>
 </template>
 

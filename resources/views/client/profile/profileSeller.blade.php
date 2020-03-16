@@ -1,7 +1,19 @@
 @extends('client.app')
+@section('title', $seller->name.' '.__('Seller'))
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ __('Profile') }} {{ $seller->name}} {{__('Seller')}}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ __('Profile') }}"/>
+    <meta property="og:description" content="{{ __('Profile') }}"/>
+    <meta property="og:image" content="{{asset('storage/client/images/'.$seller->img)}}"/>
+    <meta property="og:url" content="{{ route('view.profile',$seller->username) }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 @push('styles')
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <link href="{{asset('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
+    <link href="{{mix('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
 @endpush
 
 @section('content')
@@ -15,7 +27,7 @@
                                 <div class="col-12 col-sm-auto mb-3">
                                     <div class="mx-auto" style="width: 140px;">
                                         <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                                            <img width="140" height="140" id="profile_image" src="{{$seller->img ?asset('storage/client/images/'.$client->img) : '/GPU-Shop/img/avatar.jpg'}}" />
+                                            <img width="140" height="140" alt="{{$seller->name}}" id="profile_image" src="{{$seller->img ?asset('storage/client/images/'.$client->img) : '/GPU-Shop/img/avatar.jpg'}}" />
                                         </div>
                                     </div>
                                 </div>
@@ -37,7 +49,7 @@
                                         </div>
                                     </div>
                                     <div class="text-center text-sm-right">
-                                        <span class="badge badge-secondary">Seller</span>
+                                        <span class="badge badge-secondary">{{__('Seller')}}</span>
                                         <div class="text-muted"><small>Joined {{$seller->created_at->format('jS F Y')}}</small></div>
                                     </div>
                                 </div>
@@ -54,7 +66,7 @@
                                         <div class="col-md-3 col-lg-3 col-sm-4 col-xs-12">
                                             <div class="single-product mb-35">
                                                 <div class="product-img">
-                                                    <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" height="270" alt="{{$product->name}}"></a>
+                                                    <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name}}"></a>
                                                     @if($isOffer = $product->isOffer == true) <span>sale</span> @endif
                                                     <div class="product-action">
                                                         <add_wishlist idproduct="{{$product->id}}"></add_wishlist>
