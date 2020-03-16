@@ -180,6 +180,11 @@ class ClientProductController extends Controller
         return response([],403);
 
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function search(Request $request){
 //        $keywords = preg_replace("#[\s]+#", " ", $request->keywords);
 
@@ -210,6 +215,11 @@ class ClientProductController extends Controller
             'count'=>$this->count($products),
         ]);
     }
+
+    /**
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function hotSale(Request $request){
         $currency = Cookie::get('currency') ;
         $column = "name_" . app()->getLocale();
@@ -230,7 +240,13 @@ class ClientProductController extends Controller
         ]);
     }
 
-    protected function sort($sort = null,$name,$currency){
+    /**
+     * @param null $sort
+     * @param $name
+     * @param $currency
+     * @return array
+     */
+    protected function sort($sort = null, $name, $currency){
         $sortArray = [];
         if ($sort=='Z' || $sort=='H'){
             $sortArray[] =['desc'];
@@ -248,6 +264,10 @@ class ClientProductController extends Controller
         return $sortArray;
     }
 
+    /**
+     * @param $products
+     * @return array
+     */
     protected function count($products){
         if( $products->perPage() != count($products->items()) ){
             $count = $products->currentPage() * $products->perPage();
