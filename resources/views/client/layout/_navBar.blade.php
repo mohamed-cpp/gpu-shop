@@ -60,17 +60,16 @@
                 <div class="cur-lang-acc-title">
                     <h4>Currency: <span>{{ $currency = Cookie::get('currency') === 'egp' ? 'EGP' : 'USD' }} </span></h4>
                 </div>
-                @php $currency = $currency === 'USD' ? 'EGP' : 'USD' @endphp
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{route('currency.product.client')}}">{{$currency}}</a></li>
+                        <li><a href="{{route('currency.product.client')}}">{{$currency === 'USD' ? 'EGP' : 'USD'}}</a></li>
                     </ul>
                 </div>
             </div>
             @if(app()->getLocale() == 'ar')
-                @php $lang = 'Arabic'; $anotherLocale= '/en/'; $anotherLang= 'English' @endphp
+                @php $lang = 'Arabic'; $anotherLocale= '/en'; $anotherLang= 'English' @endphp
             @else
-                @php $lang = 'English'; $anotherLocale = '/ar/'; $anotherLang= 'Arabic' @endphp
+                @php $lang = 'English'; $anotherLocale = '/ar'; $anotherLang= 'Arabic' @endphp
             @endif
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
@@ -78,7 +77,7 @@
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{ str_replace("/".app()->getLocale()."/",$anotherLocale,Request::url()) }}" alt="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{$anotherLang}} </a></li>
+                        <li><a href="{{ Str::replaceLast("/".app()->getLocale(),$anotherLocale,request()->url()) }}" aria-label="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{$anotherLang}} </a></li>
                     </ul>
                 </div>
             </div>

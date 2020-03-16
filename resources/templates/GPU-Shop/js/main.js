@@ -99,7 +99,8 @@
     $('.slider-active').owlCarousel({
         loop: true,
         nav: false,
-        autoplay: false,
+        autoplay: true,
+        stopOnHover: true,
         autoplayTimeout: 5000,
         animateOut: 'fadeOut',
         animateIn: 'fadeIn',
@@ -167,8 +168,12 @@
     
     /* product slider active */
     $('.product-slider-active').owlCarousel({
-        loop: true,
+        rewind:true,
+        loop: false,
         nav: false,
+        autoplay: true,
+        stopOnHover: true,
+        autoplayTimeout: 3000,
         item: 4,
         responsive: {
             0: {
@@ -188,8 +193,12 @@
     
     /* new collection slider active */
     $('.new-collection-slider').owlCarousel({
+        rewind:true,
         loop: false,
         nav: false,
+        autoplay: true,
+        stopOnHover: true,
+        autoplayTimeout: 5000,
         item: 4,
         responsive: {
             0: {

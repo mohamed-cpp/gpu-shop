@@ -189,6 +189,7 @@ input[type=number] {
 .offer{
     padding-top: 2px;
     color: #941a1a !important;
+    font-weight: 750;
 }
 .price{
     font-weight: 550;

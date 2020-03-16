@@ -86,7 +86,7 @@
                 <div><h4 class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</h4></div>
                 <h4 v-if="product.isOffer" class="offer" >{{currency}}{{offerPrice}}</h4>
             </div>
-            <h3 v-if="product.details.length !== 0">Options</h3>
+            <h4 v-if="product.details.length !== 0">Options</h4>
             <section v-for="(detail, index) in product.details">
                 <h6 style="font-weight: bold;" >{{ detail['name_'+lang] }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">

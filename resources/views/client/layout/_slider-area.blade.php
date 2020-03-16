@@ -11,7 +11,7 @@
                         <p class="animated" style="color: {{$slider['textColor']}}">{{$slider['text']}} </p>
                     </div>
                     @if($slider['button-text'])
-                    <a class="btn-hover slider-btn-style animated" href="{{$slider['urlButton']}}">{{$slider['button-text']}}</a>
+                        <a class="btn-hover slider-btn-style animated" aria-label="{{$slider['header']}}" href="{{$slider['urlButton']}}">{{$slider['button-text']}}</a>
                     @endif
                 </div>
             </div>

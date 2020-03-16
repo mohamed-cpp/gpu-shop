@@ -42,6 +42,30 @@ function wishlistGuestImage(){
     return asset('/assets/img/bg/breadcrumb.jpg');
 }
 
+function registerImage(){
+    $image = GpuShopSetting::getAllSettings()->where('name','REGISTER_IMAGE')->first();
+    if($image){
+        return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
+    }
+    return asset('/assets/img/bg/breadcrumb.jpg');
+}
+
+function loginImage(){
+    $image = GpuShopSetting::getAllSettings()->where('name','LOGIN_IMAGE')->first();
+    if($image){
+        return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
+    }
+    return asset('/assets/img/bg/breadcrumb.jpg');
+}
+
+function SEODescription(){
+    $description = GpuShopSetting::getAllSettings()->where('name','SEO_DESCRIPTION_'. strtoupper(app()->getLocale()) )->first();
+    if($description){
+        return $description->val;
+    }
+    return 'New Online Shopping';
+}
+
 function sliderImages(){
     $slider = GpuShopSetting::getAllSettings()->where('name','SLIDER_HOMEPAGE');
     return $slider;

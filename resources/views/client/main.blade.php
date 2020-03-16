@@ -1,31 +1,28 @@
 <!doctype html>
-<html class="no-js" lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html class="no-js" lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>@yield("title",__("GPU-Shop"))</title>
     <link rel="icon" href="{{asset('assets\img\icon-img\iconLogo.png')}}">
-    <meta name="description" content="New Online Shopping">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Favicon -->
-{{--    <link rel="shortcut icon" type="image/x-icon" href="">--}}
 
-<!-- all css here -->
-    <link rel="stylesheet" href="{{asset('GPU-Shop/css/main.css')}}">
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ SEODescription() }}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ __("GPU_Shop") }}"/>
+    <meta property="og:description" content="{{ SEODescription() }}"/>
+    <meta property="og:image" content="{{asset('assets\img\icon-img\iconLogo.png')}}"/>
+    <meta property="og:url" content="{{ route('homepage') }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+
+    <link rel="stylesheet" href="{{mix('GPU-Shop/css/main.css')}}">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-    <style>
-        .ptb-301{
-            padding: 301px 0;
-        }
-        .ptb-332{
-            padding: 332px 0;
-        }
-        .ptb-247{
-            padding: 247px 0;
-        }
-    </style>
+    <link href="{{mix('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
     @stack('styles')
-    <script src="{{asset('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
+    <script src="{{mix('GPU-Shop/js/modernizr-2.8.3.min.js')}}"></script>
     <script>
         @if(auth('client')->check())
                 @php $user = auth('client')->user(); @endphp
@@ -46,6 +43,7 @@
 
     @include('client.layout._slider-area')
     @include('client.layout._featured_products')
+    @include('client.layout._limited_edition')
     @include('client.layout._new_collection')
 
     @include('client.layout._footer')
@@ -55,8 +53,9 @@
 
 </div>
 <!-- all js here -->
-<script src="{{asset('GPU-Shop/js/vue.js')}}"></script>
-<script src="{{asset('GPU-Shop/js/app.js')}}"></script>
+<script src="{{mix('GPU-Shop/js/vue.js')}}"></script>
+<script src="{{mix('GPU-Shop/js/app.js')}}"></script>
+<script src="{{mix('GPU-Shop/js/products_page.js')}}"></script>
 @stack('scripts')
 @yield('extra-scripts')
 </body>

@@ -1,7 +1,18 @@
 @extends('client.app')
+@section('title', __('Search'))
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ __('Search') }}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{ __('Search') }}"/>
+    <meta property="og:description" content="{{ __('Search') }}"/>
+    <meta property="og:url" content="{{ route('search.product') }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 @push('styles')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.css" integrity="sha256-rByPlHULObEjJ6XQxW/flG2r+22R5dKiAoef+aXWfik=" crossorigin="anonymous" />
-    <link href="{{asset('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
+    <link href="{{mix('GPU-Shop/css/products_page.css')}}" rel="stylesheet">
     <style>
         .padding-filter{
             padding: 26px 89px 60px !important;
@@ -14,7 +25,6 @@
         @php $currency = Cookie::get('currency') == 'egp' ? '£' : '$' @endphp
         <div class="shop-page-wrapper hidden-items padding-filter">
             <div class="container-fluid">
-                @php $locale = app()->getLocale() @endphp
                 <div class="shop-filters-right">
                     <div class="shop-bar-area pb-60">
                         <div class="shop-bar">

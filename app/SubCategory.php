@@ -116,22 +116,20 @@ class SubCategory extends Model
             'id',
             'id',
             'productable_id')
-            ->where('products.status','=',1)
-            ->where('products.approved','=',1);
+            ->enabled();
     }
 
     public function child(){
         return $this->hasMany(SubCategory::class,'parent_id');
     }
     public function paginateManyProducts(){
-        return $this->manyProducts()->paginate(15);
+        return $this->manyProducts();
     }
 
     public function paginateManyOfferProducts(){
         return $this->manyProducts()
             ->where([['products.offer_start_at', '<', now()],
-                    ['products.offer_end_at', '>', now()]])
-            ->paginate(15);
+                    ['products.offer_end_at', '>', now()]]);
     }
 
     public function paginateManyFilterProducts($column,$keywords,$currency,$request,$isOfferPage,$sort){
@@ -140,8 +138,7 @@ class SubCategory extends Model
                 ["products.{$isOfferPage[0]}price_".$currency, '<=',  $request['max'] ],
                 ["products.{$isOfferPage[0]}price_".$currency, '>=',  $request['min'] ],])
             ->where($isOfferPage[1])
-            ->orderBy($sort[1][0], $sort[0][0])
-            ->paginate(15);
+            ->orderBy($sort[1][0], $sort[0][0]);
     }
 
     public static function findBySlugsOrFail($slug){

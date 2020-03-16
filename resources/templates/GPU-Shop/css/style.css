@@ -4899,8 +4899,16 @@ input#newsletter-permission {
     transform: rotate(360deg);
   }
 }
-
-
+/* custom padding */
+.ptb-301{
+  padding: 301px 0;
+}
+.ptb-332{
+  padding: 332px 0;
+}
+.ptb-247{
+  padding: 247px 0;
+}
 
 
 

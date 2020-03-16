@@ -1,246 +1,46 @@
-<div class="product-collection-area pt-100 pb-50">
+<div class="product-collection-area pt-70 pb-50">
+    @php $currency = Cookie::get('currency') == 'egp' ? '£' : '$'; @endphp
     <div class="container">
         <div class="section-title text-center mb-55">
-            <h2>New Collection</h2>
-            <p>It is a long established fact that a reader will be distracted by the readable content of a page when look</p>
+            <h2>New Products</h2>
         </div>
         <div class="row">
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/5.jpg" alt=""></a>
-                        <span>sale</span>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$110.00</span>
+            @foreach($newProducts as $product)
+                <div class="col-md-6 col-lg-4 col-xl-3">
+                    <div class="single-product mb-35">
+                        <div class="product-img">
+                            <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
+                            @if($isOffer = $product->isOffer )
+                                <span>sale
+                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
+                                            </span>
+                            @endif
+                            <div class="product-action">
+                                <add_wishlist idproduct="{{$product->id}}"></add_wishlist>
+                                <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
                             </div>
                         </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
+                        <div class="product-content">
+                            <div class="product-title-price">
+                                <div class="product-title">
+                                    <h4><a href="{{route('show.product.client', $product->slug )}}">{{$product->name }}</a></h4>
+                                </div>
+                                <div class="product-price" >
+                                    <div><span class="{{ $isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPrice(false) }}</span></div>
+                                    @if($isOffer)
+                                        <span class="offer" >{{$currency}}{{$product->offerPrice()}}</span>
+                                    @endif
+                                </div>
                             </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/6.jpg" alt=""></a>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$120.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
+                            <div class="product-cart-categori">
+                                <add_cart slug="{{$product->slug }}" tablist="true"></add_cart>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/7.jpg" alt=""></a>
-                        <span>sale</span>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">HANDCRAFTED MUG</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$130.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/8.jpg" alt=""></a>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">HANDCRAFTED MUG</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$140.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/9.jpg" alt=""></a>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">HANDCRAFTED MUG</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$150.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/10.jpg" alt=""></a>
-                        <span>sale</span>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$160.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/11.jpg" alt=""></a>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$170.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-4 col-xl-3">
-                <div class="single-product mb-35">
-                    <div class="product-img">
-                        <a href="#"><img src="assets/img/product/12.jpg" alt=""></a>
-                        <span>sale</span>
-                        <div class="product-action">
-                            <a title="Wishlist" class="animate-left" href="#"><i class="ion-ios-heart-outline"></i></a>
-                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>
-                        </div>
-                    </div>
-                    <div class="product-content">
-                        <div class="product-title-price">
-                            <div class="product-title">
-                                <h4><a href="product-details-6.html">WOODEN FURNITURE</a></h4>
-                            </div>
-                            <div class="product-price">
-                                <span>$180.00</span>
-                            </div>
-                        </div>
-                        <div class="product-cart-categori">
-                            <div class="product-cart">
-                                <span>Furniter</span>
-                            </div>
-                            <div class="product-categori">
-                                <a href="#"><i class="ion-bag"></i> Add to cart</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
+</div>
+<quick_view locale="@if(app()->getLocale() == 'ar') 'ar' @endif" currencyprop="{{ Cookie::get('currency') }}"></quick_view>
 </div>

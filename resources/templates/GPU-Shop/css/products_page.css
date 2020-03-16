@@ -159,11 +159,12 @@
 }
 .offer2,
 .offer{
-    color: #820000 !important;
+    color: #a40000 !important;
     font-size: 15px;
+    font-weight: 750;
 }
 .price{
-    color: rgba(0, 7, 255, 0.8) !important;
+    color: #686868 !important;
     font-size: 15px;
     font-weight: 550;
     /*margin-left: 55px;*/

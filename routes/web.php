@@ -13,9 +13,9 @@
 Route::get("/", 'Client\ClientsHomePageController@homepage')->name('homepage');
 
 Route::group(['middleware' => 'client'], function () {
-    Route::get('/home', function () {
-        return view('client.main');
-    })->name('client.home');
+//    Route::get('/home', function () {
+//        return view('client.main');
+//    })->name('client.home');
 
     Route::prefix('profile')->group(function () {
         Route::get('/', 'Client\ProfileClientController@show')->name('client.profile');
@@ -105,7 +105,7 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
 
 
 Route::get("search", "Client\ClientProductController@search")->name('search.product');
-Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
+Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.products');
 Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
 Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
@@ -116,7 +116,7 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 
 Route::get('/test', function () {
-    return ;
+    dd() ;
 }) ;
 Route::get('/testt', function () {
 

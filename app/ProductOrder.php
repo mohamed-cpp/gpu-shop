@@ -59,6 +59,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ProductOrder extends Model
 {
     use SoftDeletes;
+
+
+    const ORDERED = 0;
+    const PROCESSING = 1;
+    const PACKED = 2;
+    const SHIPPED = 3;
+    const DELIVERED = 4;
+
     /**
      * The attributes that are mass assignable.
      *

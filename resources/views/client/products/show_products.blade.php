@@ -9,7 +9,7 @@
     <meta property="og:title" content="{{ $subcategory->title }}"/>
     <meta property="og:description" content="{{ $subcategory->description }}"/>
     <meta property="og:image" content="{{asset($subcategory->image)}}"/>
-    <meta property="og:url" content="{{ route('subcategories.show',$subcategory->slug) }}"/>
+    <meta property="og:url" content="{{ route('show.products',$subcategory->slug) }}"/>
     <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
 @endsection
 @push('styles')
@@ -218,7 +218,6 @@
                                     <div class="product-img list-img-width">
                                         <a href="{{route('show.product.client', $product->slug )}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                         <div class="product-action">
-{{--                                            <a title="Quick View" data-toggle="modal" data-target="#exampleModal" class="animate-right" href="#"><i class="ion-ios-eye-outline"></i></a>--}}
                                             <click_quick_view slugproduct="{{$product->slug_en}}"></click_quick_view>
                                         </div>
                                     </div>

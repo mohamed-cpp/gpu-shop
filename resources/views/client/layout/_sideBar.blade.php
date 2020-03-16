@@ -22,12 +22,12 @@
                                 <li><a href="#" class="next">{{$sub_category->name}}</a>
                                     <ul class="" style="display: none;">
                                 @foreach($sub_category->child as $child)
-                                        <li><a href="{{route('show.product',$child)}}">{{$child->name}}</a></li>
+                                        <li><a href="{{route('show.products',$child)}}">{{$child->name}}</a></li>
                                 @endforeach
                                     </ul>
                                 </li>
                             @else
-                            <li><a href="{{route('show.product',$sub_category)}}">{{$sub_category->name}}</a></li>
+                            <li><a href="{{route('show.products',$sub_category)}}">{{$sub_category->name}}</a></li>
                             @endif
                         @endforeach
                     </ul>

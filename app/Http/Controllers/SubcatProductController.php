@@ -54,7 +54,9 @@ class SubcatProductController extends Controller
     public function show(SubCategory $subcategory)
     {
         if($subcategory->status){
-            $products = $subcategory->paginateManyProducts();
+            $products = $subcategory->paginateManyProducts()
+                ->orderBy('created_at', 'desc')
+                ->paginate(15);
 
             return view('client.products.show_products',[
                 'products' => $products,
@@ -112,7 +114,8 @@ class SubcatProductController extends Controller
             ['products.offer_end_at', '>', now()]]] : ['',null];
         $sort = $this->sort($request->sort,$column,$currency,$isOfferPage[0]);
         $products = $subcategory->paginateManyFilterProducts($column,$keywords,$currency,
-                                                            $request->all(),$isOfferPage,$sort);
+                                                            $request->all(),$isOfferPage,$sort)
+            ->paginate(15);
         $parameters = $request->all();
         $parameters['keywords'] = $keywords;
         return view('client.products.show_products',[
@@ -127,7 +130,8 @@ class SubcatProductController extends Controller
     }
     public function showOffers(SubCategory $subcategory){
         if($subcategory->status){
-            $products = $subcategory->paginateManyOfferProducts();
+            $products = $subcategory->paginateManyOfferProducts()
+                ->paginate(15);
             return view('client.products.show_products',[
                 'products' => $products,
                 'subcategory' => $subcategory,
@@ -141,28 +145,24 @@ class SubcatProductController extends Controller
     }
 
     protected function minMaxPriceCache($subcategory){
-        $products = $subcategory->products();
-        if ($cachePrice =  Cache::get($subcategory->slug_en)){
-            return $cachePrice;
-        }
-        $currency = Cookie::get('currency') ?strtolower(Cookie::get('currency')) : 'usd';
-        $prices = Cache::remember($subcategory->slug_en, 900, function() use ($products,$currency) {
+        return Cache::remember($subcategory->slug_en, 900, function() use ($subcategory) {
+            $products = $subcategory->products();
+            $currency = Cookie::get('currency') ;
             $productsPrices = $products->get()
                 ->pluck('productable');
             return ['min_price' =>  $productsPrices->min("price_$currency")
                 ,'max_price' =>  $productsPrices->max("price_$currency")];
         });
-        return $prices;
     }
     protected function minMaxPriceOffer($subcategory){
-        $currency = Cookie::get('currency') ?strtolower(Cookie::get('currency')) : 'usd';
+        $currency = Cookie::get('currency') ? Cookie::get('currency') : 'usd';
         $products = $subcategory->products()->get()->pluck('productable');
         return ['min_price' =>  $products->min("offer_price_$currency")
             ,'max_price' =>  $products->max("offer_price_$currency")];
     }
     protected function sort($sort,$name,$currency,$offer){
         $sortArray = [];
-        if ($sort=='Z' || $sort=='H'){
+        if ($sort=='Z' || $sort=='H' || $sort=='D'){
             $sortArray[] =['desc'];
         }else{
             $sortArray[] =['asc'];
