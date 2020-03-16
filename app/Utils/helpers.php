@@ -49,6 +49,13 @@ function registerImage(){
     }
     return asset('/assets/img/bg/breadcrumb.jpg');
 }
+function hotSaleImage(){
+    $image = GpuShopSetting::getAllSettings()->where('name','HOT_SALE_IMAGE')->first();
+    if($image){
+        return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
+    }
+    return asset('/assets/img/bg/breadcrumb.jpg');
+}
 
 function loginImage(){
     $image = GpuShopSetting::getAllSettings()->where('name','LOGIN_IMAGE')->first();

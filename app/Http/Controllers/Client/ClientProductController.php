@@ -210,6 +210,43 @@ class ClientProductController extends Controller
             'count'=>$this->count($products),
         ]);
     }
+    public function hotSale(Request $request){
+        $currency = Cookie::get('currency') ;
+        $column = "name_" . app()->getLocale();
+        $sort = $this->sort($request->sort,$column,$currency);
+        $keywords = $request->keywords ?  $request->keywords : null ;
+
+        $products = Product::enabled()
+            ->where('name_en','like',"%$keywords%")
+            ->where('offer_start_at','<',now())
+            ->where('offer_end_at','>',now())
+            ->orderBy($sort[1][0], $sort[0][0])
+            ->paginate(15);
+
+        return view('client.products.hotSale',[
+            'products' => $products,
+            'sort'=> $request->all(),
+            'count'=>$this->count($products),
+        ]);
+    }
+
+    protected function sort($sort = null,$name,$currency){
+        $sortArray = [];
+        if ($sort=='Z' || $sort=='H'){
+            $sortArray[] =['desc'];
+        }else{
+            $sortArray[] =['asc'];
+        }
+        if ($sort=='L' || $sort=='H'){
+            $sortArray[] =[ "offer_price_" . $currency];
+        }elseif($sort=='A' || $sort=='Z'){
+            $sortArray[] =[$name];
+
+        }else{
+            $sortArray[] =["offer_start_at"];
+        }
+        return $sortArray;
+    }
 
     protected function count($products){
         if( $products->perPage() != count($products->items()) ){

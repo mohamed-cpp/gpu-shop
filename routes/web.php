@@ -107,6 +107,7 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
 Route::get("search", "Client\ClientProductController@search")->name('search.product');
 Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.products');
 Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
+Route::get('hot-sale', 'Client\ClientProductController@hotSale')->name('hotSale.client');
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
 Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
 Route::get('change/currency', 'Client\ClientController@currency')->name('currency.product.client');
