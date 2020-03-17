@@ -67,14 +67,14 @@
                             <div class="login-form">
                                 <form action="{{ route('client.login') }}" method="POST">
                                     @csrf
-                                    <input type="text" aria-label="E-Mail Address Or Phone Number" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address Or Phone Number') }}">
+                                    <input type="text" aria-label="{{ __('E-Mail Address Or Phone Number') }}" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="{{ __('E-Mail Address Or Phone Number') }}">
                                     @error('email')
                                     <span class="invalid-feedback" role="alert" style="display: block !important;">
                                         <strong>{{ $message }}</strong>
                                     </span>
                                     @enderror
 
-                                    <input type="password" aria-label="Password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
+                                    <input type="password" aria-label="{{ __('Password') }}" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="{{ __('Password') }}">
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
@@ -83,8 +83,8 @@
 
                                     <div class="button-box">
                                         <div class="login-toggle-btn">
-                                            <input class="form-check-input" aria-label="Remember Me" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
-                                            <label>{{ __('Remember Me') }}</label>
+                                            <input class="form-check-input" id="rememberMe" aria-label="Remember Me" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                            <label for="rememberMe">{{ __('Remember Me') }}</label>
                                             @if (Route::has('client.password.request'))
                                                 <a href="{{ route('client.password.request') }}">
                                                     {{ __('Forgot Your Password?') }}
@@ -93,7 +93,7 @@
                                         </div>
                                         <button type="submit" class="default-btn floatright">{{ __('Login') }}</button>
                                     </div>
-                                    <a href="{{route('login.facebook')}}" class="fb connect">Sign in with Facebook</a>
+                                    <a href="{{route('login.facebook')}}" class="fb connect">{{__('Sign in with Facebook')}}</a>
                                 </form>
                             </div>
                         </div>

@@ -1,4 +1,5 @@
 @extends('client.app')
+@section('title', __('Checkout'))
 @push('styles')
     <style>
         .oldprice{
@@ -11,7 +12,7 @@
             color: red !important;
             font-weight: 600;
         }
-        .btn {
+        .checkout-area .btn {
             box-sizing: border-box;
             appearance: none;
             background-color: transparent;
@@ -44,13 +45,13 @@
         }
         .third {
             border-color: #e74c3c;
-            color: #fff;
+            color: #fff !important;
             box-shadow: 0 0 40px 40px #e74c3c inset, 0 0 0 0 #e74c3c;
             transition: all 150ms ease-in-out;
         }
         .third:hover {
             box-shadow: 0 0 10px 0 #e74c3c inset, 0 0 10px 4px #e74c3c;
-            color: #404040;
+            color: #404040 !important;
         }
         .invalid-feedback{
             display: block !important;
@@ -87,10 +88,10 @@
     <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{checkoutImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
-                <h2>checkout</h2>
+                <h2>@lang('Checkout')</h2>
                 <ul>
-                    <li><a href="/">home</a></li>
-                    <li> checkout </li>
+                    <li><a href="/">@lang('Home')</a></li>
+                    <li> @lang('Checkout') </li>
                 </ul>
             </div>
         </div>
@@ -104,11 +105,11 @@
             <div class="row">
                 <div class="col-lg-6 col-md-12 col-12">
                         <div class="checkbox-form">
-                            <h3>Billing Details</h3>
+                            <h3>@lang('Billing Details')</h3>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>First Name <span class="required">*</span></label>
+                                        <label>@lang('First Name') <span class="required">*</span></label>
                                         <input type="text" id="first_name" name="first_name" value="{{old('first_name')}}" required />
                                         @error('first_name')
                                         <span class="invalid-feedback" role="alert">
@@ -119,7 +120,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>Last Name <span class="required">*</span></label>
+                                        <label>@lang('Last Name') <span class="required">*</span></label>
                                         <input type="text" id="last_name" name="last_name" value="{{old('last_name')}}" required />
                                         @error('last_name')
                                         <span class="invalid-feedback" role="alert">
@@ -130,7 +131,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Address <span class="required">*</span></label>
+                                        <label>@lang('Address') <span class="required">*</span></label>
                                         <input type="text" id="address" name="address" value="{{old('address')}}" placeholder="Street address" required/>
                                         @error('address')
                                         <span class="invalid-feedback" role="alert">
@@ -141,7 +142,7 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="checkout-form-list">
-                                        <label>Town / City <span class="required">*</span></label>
+                                        <label>@lang('Town / City') <span class="required">*</span></label>
                                         <input type="text" id="city" name="city" value="{{old('city')}}" required/>
                                         @error('city')
                                         <span class="invalid-feedback" role="alert">
@@ -152,7 +153,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>State / County <span class="required">*</span></label>
+                                        <label>@lang('State / County') <span class="required">*</span></label>
                                         <input type="text" id="country" placeholder="" value="{{old('country')}}" name="country" required />
                                         @error('country')
                                         <span class="invalid-feedback" role="alert">
@@ -163,19 +164,19 @@
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>Postcode / Zip</label>
+                                        <label>@lang('Postcode / Zip')</label>
                                         <input type="text" name="zip" value="{{old('zip')}}" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>Email Address</label>
+                                        <label>@lang('Email Address')</label>
                                         <input type="email" name="e-mail" value="{{old('e-mail') ? old('e-mail') : auth('client')->user()->email}}" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="checkout-form-list">
-                                        <label>Phone  <span class="required">*</span></label>
+                                        <label>@lang('Phone Number') <span class="required">*</span></label>
                                         <input type="text" id="phone" name="phone" required value="{{old('phone') ? old('phone') :auth('client')->user()->phone_number}}" />
                                         @error('phone')
                                         <span class="invalid-feedback" role="alert">
@@ -187,21 +188,21 @@
                             </div>
                             <div class="order-notes">
                                 <div class="checkout-form-list mrg-nn">
-                                    <label>Order Notes</label>
-                                    <textarea id="checkout-mess" name="client_note" value="{{old('client_note')}}" cols="30" rows="10" placeholder="Notes about your order, e.g. special notes for delivery." ></textarea>
+                                    <label>@lang('Order Notes')</label>
+                                    <textarea id="checkout-mess" name="client_note" value="{{old('client_note')}}" cols="30" rows="10" placeholder="@lang('Notes about your order, e.g. special notes for delivery.')" ></textarea>
                                 </div>
                             </div>
                         </div>
                 </div>
                 <div class="col-lg-6 col-md-12 col-12">
                     <div class="your-order">
-                        <h3>Your order</h3>
+                        <h3>@lang('Your order')</h3>
                         <div class="your-order-table table-responsive">
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="product-name">Product</th>
-                                    <th class="product-total">Total</th>
+                                    <th class="product-name">@lang('Products')</th>
+                                    <th class="product-total">@lang('Total')</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -227,7 +228,7 @@
 
                                 <tfoot>
                                 <tr class="order-total">
-                                    <th>Order Total</th>
+                                    <th>@lang('Order Total')</th>
                                     @if($cart->coupon)
                                         <td>
                                         <strong><span class="amount oldprice">{{$currency}}{{$cart->totalPrice}}</span></strong>
@@ -246,12 +247,11 @@
                                     @if(cashPayment())
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h5 class="panel-title"><a data-toggle="collapse" aria-expanded="true" class="slideToggle" data-slide="cash"  href="#cash">Cash.</a></h5>
+                                            <h5 class="panel-title"><a data-toggle="collapse" aria-expanded="true" class="slideToggle" data-slide="cash"  href="#cash">@lang('Cash').</a></h5>
                                         </div>
                                         <div id="cash" class="panel-collapse collapse show">
                                             <div class="panel-body">
-                                                <p>Pay when you got order.</p>
-                                                <button type="submit" class="btn third checkout-button" id="cash">Buy Now</button>
+                                                <button type="submit" class="btn third checkout-button" id="cash">@lang('Buy Now')</button>
                                             </div>
                                         </div>
                                     </div>
@@ -259,13 +259,13 @@
                                     @if(creditCardPayment())
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="cards"  href="#cards">Credit Cards</a></h5>
+                                            <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="cards"  href="#cards">@lang('Credit Card')</a></h5>
                                         </div>
                                         <div id="cards" class="panel-collapse collapse">
                                             <div class="panel-body">
-                                                <p>Pay by Credit Cards or Debit Cards</p>
+                                                <p>@lang('Pay by Credit Cards or Debit Cards')</p>
                                                 <div id="card-element"></div>
-                                                <button type="submit" class="btn first checkout-button" id="cards_submit" value="cards_submit">Buy Now</button>
+                                                <button type="submit" class="btn first checkout-button" id="cards_submit" value="cards_submit">@lang('Buy Now')</button>
                                             </div>
                                         </div>
                                     </div>
@@ -273,11 +273,11 @@
                                     @if(PayPalPayment())
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
-                                            <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="paypal" href="#paypal">PayPal</a></h5>
+                                            <h5 class="panel-title"><a class="collapsed slideToggle" data-toggle="collapse" aria-expanded="false" data-slide="paypal" href="#paypal">@lang('PayPal')</a></h5>
                                         </div>
                                         <div id="paypal" class="panel-collapse collapse checkout-button">
                                             <div class="panel-body">
-                                                <p>Pay by PayPal.</p>
+                                                <p>@lang('Pay by PayPal').</p>
                                                 <script src="https://www.paypalobjects.com/api/button.js?"
                                                         data-merchant="braintree"
                                                         data-id="paypal"

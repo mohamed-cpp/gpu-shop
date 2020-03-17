@@ -12,7 +12,8 @@ class GpuShopSettingController extends Controller
     public function index(){
         return view('admin.settings.index',
             [
-                'settings'=> GpuShopSetting::where('name','!=','SLIDER_HOMEPAGE')
+                'settings'=> GpuShopSetting::where('name','!=','SLIDER_HOMEPAGE_EN')
+                    ->where('name','!=','SLIDER_HOMEPAGE_AR')
                         ->paginate(15)
             ]);
     }
@@ -44,7 +45,7 @@ class GpuShopSettingController extends Controller
     public function update(Request $request,GpuShopSetting $setting){
         $rules = [
             'name' => 'required',
-            'val' => 'required_without:main_image',
+            'val' => 'sometimes|main_image',
             'type' => 'required',
             'main_image' => 'sometimes|mimes:jpeg,png,jpg|dimensions:width=1920,height=500'
         ];

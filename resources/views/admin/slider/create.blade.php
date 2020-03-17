@@ -164,7 +164,14 @@
                     </select>
                 </div>
             </div>
-
+            <hr>
+            <div class="form-group">
+                <label for="lang">Slider locale</label>
+                <select class="form-control" id="lang" name="locale">
+                    <option value="EN">English</option>
+                    <option value="AR">Arabic</option>
+                </select>
+            </div>
             <button type="submit" class="btn btn-primary btn-user btn-block">{{ __('Add') }}</button>
         </form>
     </div>

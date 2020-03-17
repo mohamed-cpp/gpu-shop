@@ -2,7 +2,7 @@
     @php $currency = Cookie::get('currency') == 'egp' ? '£' : '$'; @endphp
     <div class="container">
         <div class="section-title text-center mb-55">
-            <h2>New Products</h2>
+            <h2>{{__('New Products')}}</h2>
         </div>
         <div class="row">
             @foreach($newProducts as $product)

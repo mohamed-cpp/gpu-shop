@@ -241,10 +241,10 @@
     <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{cartImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
-                <h2>cart</h2>
+                <h2>@lang('Cart')</h2>
                 <ul>
-                    <li><a href="#">home</a></li>
-                    <li> cart </li>
+                    <li><a href="/">@lang('Home')</a></li>
+                    <li> @lang('Cart') </li>
                 </ul>
             </div>
         </div>
@@ -257,7 +257,7 @@
             @endif
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1 class="cart-heading">cart</h1>
+                    <h1 class="cart-heading">@lang('Cart')</h1>
                     <div id="cart">
                         <cart_vue :cart_session="{{ $cart }}" ></cart_vue>
                     </div>

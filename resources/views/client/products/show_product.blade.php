@@ -32,7 +32,7 @@
     <div class="product-description-review-area pb-100 pt-10">
         <div class="container">
             <div class="reviews-container">
-                <h2>Reviews</h2>
+                <h2>@lang('Reviews')</h2>
                 <div class="review">
                     <span class="icon-container">5 <i class="fa fa-star"></i></span>
                     <div class="progress">
@@ -72,10 +72,10 @@
             <div class="product-description-review text-center">
                 <div class="description-review-title nav" role=tablist>
                     <a class="active" href="#pro-dec" data-toggle="tab" role="tab" aria-selected="true">
-                        Description
+                        @lang('Description')
                     </a>
                     <a href="#pro-review" id="pro-review-anchor" data-toggle="tab" role="tab" aria-selected="false">
-                        Comments
+                        @lang('Comments')
                     </a>
                 </div>
                 <div class="description-review-text tab-content">
@@ -100,7 +100,7 @@
     <div class="product-collection-area pb-60">
         <div class="container">
             <div class="section-title text-center mb-55">
-                <h2>Related products</h2>
+                <h2>@lang('Related products')</h2>
             </div>
             <div class="row" id="appView">
                 <div class="new-collection-slider owl-carousel">
@@ -110,7 +110,7 @@
                         <div class="single-product mb-35">
                             <div class="product-img">
                                 <a href="{{route('show.product.client', $relatedProduct->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$relatedProduct->main_image)}}"  alt="{{$relatedProduct->name}}"></a>
-                                @if($isOffer = $relatedProduct->isOffer == true) <span>sale</span> @endif
+                                @if($isOffer = $relatedProduct->isOffer == true) <span>@lang('Sale')</span> @endif
                                 <div class="product-action">
                                     <add_wishlist idproduct="{{$relatedProduct->id}}"></add_wishlist>
                                     <click_quick_view slugproduct="{{$relatedProduct->slug_en}}"></click_quick_view>

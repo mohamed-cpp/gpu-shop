@@ -1,4 +1,5 @@
 @extends('client.app')
+@section('title', __('Orders'))
 @push('styles')
     <style type="text/css">
         .list-group {
@@ -409,32 +410,32 @@
     <div class="cart-main-area">
         <div class="container">
             <ol class="progtrckr" data-progtrckr-steps="5">
-                <li class="progtrckr-todo">Ordered</li>
-                <li class="progtrckr-todo">Processing</li>
-                <li class="progtrckr-todo">Packed</li>
-                <li class="progtrckr-todo">Shipped</li>
-                <li class="progtrckr-todo">Delivered</li>
+                <li class="progtrckr-todo">@lang('Ordered')</li>
+                <li class="progtrckr-todo">@lang('Processing')</li>
+                <li class="progtrckr-todo">@lang('Packed')</li>
+                <li class="progtrckr-todo">@lang('Shipped')</li>
+                <li class="progtrckr-todo">@lang('Delivered')</li>
             </ol>
             @php $currency = $order->currency == 'usd' ? '$' : '£' @endphp
-            <h2 class="text-charcoal hidden-sm-down">Your Details Orders</h2>
+            <h2 class="text-charcoal hidden-sm-down">@lang('Your Details Orders')</h2>
             <div class="details details-right">
-                <p><b>Order date:</b> {{$order->created_at->format('jS F Y h:i:s A')}}</p>
-                <p><b>Payment:</b> {{$order->pay_by}}</p>
+                <p><b>@lang('Order date'):</b> {{$order->created_at}}</p>
+                <p><b>@lang('Payment'):</b> @lang($order->pay_by)</p>
             </div>
             <div class="details">
-                <p><b>Consignee name:</b> {{$order->first_name}} {{$order->last_name}}</p>
-                <p><b>Contact telephone:</b> {{$order->phone}}</p>
-                <p><b>Receipt address:</b> {{$order->address}}</p>
-                <p><b>City:</b> {{$order->city}}</p>
-                <p><b>Country:</b> {{$order->country}}</p>
+                <p><b>@lang('Consignee name'):</b> {{$order->first_name}} {{$order->last_name}}</p>
+                <p><b>@lang('Contact telephone'):</b> {{$order->phone}}</p>
+                <p><b>@lang('Receipt address'):</b> {{$order->address}}</p>
+                <p><b>@lang('City'):</b> {{$order->city}}</p>
+                <p><b>@lang('Country'):</b> {{$order->country}}</p>
                 @if($order['e-mail'])
-                    <p><b>E-mail:</b> {{$order['e-mail']}}</p>
+                    <p><b>@lang('Email Address'):</b> {{$order['e-mail']}}</p>
                 @endif
                 @if($order->zip)
-                    <p><b>Zip:</b> {{$order->zip}}</p>
+                    <p><b>@lang('Postcode / Zip'):</b> {{$order->zip}}</p>
                 @endif
                 @if($order->client_note)
-                    <p><b>Your Note:</b> {{$order->client_note}}</p>
+                    <p><b>@lang('Your Note'):</b> {{$order->client_note}}</p>
                 @endif
             </div>
             <div class="row">
@@ -443,26 +444,26 @@
                         <div class="list-group-item p-3 bg-snow" style="position: relative;">
                             <div class="row w-100 no-gutters">
                                 <div class="col-6 col-md">
-                                    <h6 class="text-charcoal mb-0 w-100">Order Number</h6>
+                                    <h6 class="text-charcoal mb-0 w-100">@lang('Order Number')</h6>
                                     <span class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$order->id}}</span>
                                 </div>
                                 <div class="col-6 col-md">
-                                    <h6 class="text-charcoal mb-0 w-100">Total</h6>
+                                    <h6 class="text-charcoal mb-0 w-100">@lang('Total')</h6>
                                     <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$currency}}{{$order->total_after_discount ? $order->total_after_discount :$order->total}}</p>
                                 </div>
                                 <div class="col-6 col-md">
-                                    <h6 class="text-charcoal mb-0 w-100">Status</h6>
-                                    <span class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$order->status_order}}</span>
+                                    <h6 class="text-charcoal mb-0 w-100">@lang('Status')</h6>
+                                    <span class="text-pebble mb-0 w-100 mb-2 mb-md-0">@lang($order->status_order)</span>
                                 </div>
                                 @if($order->where)
                                     <div class="col-6 col-md">
-                                        <h6 class="text-charcoal mb-0 w-100">Where's the order</h6>
+                                        <h6 class="text-charcoal mb-0 w-100">@lang("Where's the order")</h6>
                                         <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$order->where}}</p>
                                     </div>
                                 @endif
                                 @if($order->coupon)
                                     <div class="col-6 col-md">
-                                        <h6 class="text-charcoal mb-0 w-100">Coupon Used</h6>
+                                        <h6 class="text-charcoal mb-0 w-100">@lang('Coupon Used')</h6>
                                         <p class="text-pebble mb-0 w-100 mb-2 mb-md-0">{{$order->coupon}}</p>
                                     </div>
                                 @endif
@@ -471,7 +472,7 @@
                                         <form method="post" action="{{route('delivered.client')}}">
                                             @csrf
                                             <input type="hidden" name="id" value="{{$order->id}}">
-                                            <input class="btn btn-primary w-100" type="submit" value="Got Order?">
+                                            <input class="btn btn-primary w-100" type="submit" value="@lang('Got Order?')">
                                         </form>
                                     </div>
                                 @endif
@@ -482,7 +483,7 @@
                                 @if($order->shipped_at)
                                     <div class="col-12 col-md-13 pr-0 pr-md-3">
                                         <div class="alert p-2 alert-success w-100 mb-0">
-                                            <h6 class="text-green mb-0"><b>Shipped</b></h6>
+                                            <h6 class="text-green mb-0"><b>@lang('Shipped')</b></h6>
                                             <p class="text-green hidden-sm-down mb-0">
                                                 At {{$order->shipped_at->format('jS F Y h:i:s A')}}
                                             </p>

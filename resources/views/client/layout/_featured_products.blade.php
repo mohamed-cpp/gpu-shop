@@ -3,21 +3,21 @@
 <div class="product-area pt-80">
     <div class="container">
         <div class="section-title text-center mb-35">
-            <h2>Featured Products</h2>
+            <h2>{{__('Featured Products')}}</h2>
         </div>
         <div class="product-style">
             <div class="product-tab-list text-center mb-45 nav product-menu-mrg" role="tablist">
                 <a class="active" href="#home2" data-toggle="tab" role="tab" aria-selected="false" aria-controls="home2">
-                    <h4>ON SALE</h4>
+                    <h4>{{__('On Sale')}}</h4>
                 </a>
                 <a href="#home3" data-toggle="tab" role="tab" aria-selected="false" aria-controls="home3">
-                    <h4>Bestsellers</h4>
+                    <h4>{{__('Bestsellers')}}</h4>
                 </a>
                 <a href="#home4" data-toggle="tab" role="tab" aria-selected="false" aria-controls="home4">
-                    <h4>HIGHEST RATING</h4>
+                    <h4>{{__('HIGHEST RATING')}}</h4>
                 </a>
                 <a href="#home5" data-toggle="tab" role="tab" aria-selected="false" aria-controls="home5">
-                    <h4>Random products</h4>
+                    <h4>{{__('Random products')}}</h4>
                 </a>
             </div>
             <div class="tab-content jump">

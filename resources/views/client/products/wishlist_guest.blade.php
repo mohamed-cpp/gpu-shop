@@ -90,8 +90,8 @@
             <div class="breadcrumb-content">
                 <h2>{{$client->name}} {{__('Wishlist')}}</h2>
                 <ul>
-                    <li><a href="#">home</a></li>
-                    <li> wishlist </li>
+                    <li><a href="/">{{__('Home')}}</a></li>
+                    <li> {{__('Wishlist')}} </li>
                 </ul>
             </div>
         </div>
@@ -101,19 +101,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1 class="cart-heading">wishlist</h1>
+                    <h1 class="cart-heading">{{__('Wishlist')}}</h1>
                     <form action="{{route('show.wishlist.guest', app()->runningUnitTests() ?  'phpunit' : request()->segment(3) )}}" method="get">
-                        <input placeholder='Search...' aria-label="Search In Wishlist" class='js-search' name="keywords" type="text">
+                        <input placeholder='{{__('Search')}}' aria-label="Search In Wishlist" class='js-search' name="keywords" type="text">
                         <button type="submit" class="removeButton" aria-label="Search In Wishlist"><i class="fa fa-search"></i></button>
                     </form>
                         <div class="table-content table-responsive" id="appView">
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="product-price">images</th>
-                                    <th class="product-name">name</th>
-                                    <th class="product-price">Price</th>
-                                    <th>Cart</th>
+                                    <th class="product-price">@lang('images')</th>
+                                    <th class="product-name">@lang('Product Name')</th>
+                                    <th class="product-price">@lang('Price')</th>
+                                    <th>@lang('Cart')</th>
                                 </tr>
                                 </thead>
                                 @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$'@endphp

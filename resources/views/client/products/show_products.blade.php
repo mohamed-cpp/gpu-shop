@@ -24,7 +24,7 @@
             <div class="breadcrumb-content">
                 <h1>{{ $subcategory->name  }}</h1>
                 <ul>
-                    <li><a href="/">home</a></li>
+                    <li><a href="/">{{__('Home')}}</a></li>
                     <li>{{ $subcategory->name }}</li>
                 </ul>
             </div>
@@ -36,21 +36,21 @@
             <div class="shop-filters-left overflowScroll">
                 <div class="shop-sidebar">
                     <a href="{{route('offers.product.client',$subcategory)}}" class="boton">
-                        Show ALL Offers &#128516;
+                        @lang('Show ALL Offers') &#128516;
                     </a>
                     <form action="{{route('filter.product.client', $subcategory)}}" method="GET">
                         <input type="hidden" name="offer" value="{{Request::is('*/offer/*') ? Request::is('*/offer/*') : Request::get('offer')}}">
                         <div class="sidebar-widget mb-50">
-                            <h3 class="sidebar-title">Search Products</h3>
+                            <h3 class="sidebar-title">@lang('Search In Products')</h3>
                             <div class="sidebar-search">
                                 <div>
-                                    <input name="keywords" value="{{$sortBlade?  $sortBlade['keywords'] : ''}}" placeholder="Search Products..." type="text">
+                                    <input name="keywords" value="{{$sortBlade?  $sortBlade['keywords'] : ''}}" placeholder="@lang('Search Products...')" type="text">
                                     <button type="submit"><i class="ion-ios-search-strong"></i></button>
                                 </div>
                             </div>
                         </div>
                         <div class="sidebar-widget mb-30">
-                        <h3 class="sidebar-title">Filter by Price</h3>
+                        <h3 class="sidebar-title">@lang('Filter by Price')</h3>
                         <div class="filters_price">
                         <div id="slider-range" data-price-min="{{$priceMinMax['min_price']}}" data-price-max="{{$priceMinMax['max_price']}}"></div>
                         <p class="price-filters">
@@ -62,38 +62,38 @@
                         </div>
                     </div>
                         <div class="sidebar-widget mb-30">
-                            <h3 class="sidebar-title">Sort By :</h3>
+                            <h3 class="sidebar-title">@lang('Sort By') :</h3>
                             <section class="section_niitty section--niitty">
                                 <div class="toggle-button toggle-button--niitty">
                                     <input id="toggleButton13" name="sort" value="D" type="radio" checked>
-                                    <label for="toggleButton13">Default</label>
+                                    <label for="toggleButton13">@lang('Default')</label>
                                     <div class="toggle-button__icon"></div>
                                 </div>
                                 <div class="toggle-button toggle-button--niitty">
                                     <input id="toggleButton14" {{$sortBlade?  $sortBlade['sort'] == 'A' ? 'checked' :'' : ''}} name="sort" value="A" type="radio">
-                                    <label for="toggleButton14">A to Z</label>
+                                    <label for="toggleButton14">@lang('A to Z')</label>
                                     <div class="toggle-button__icon"></div>
                                 </div>
                                 <div class="toggle-button toggle-button--niitty">
                                     <input id="toggleButton15" {{$sortBlade?  $sortBlade['sort'] == 'Z' ? 'checked' :'' : ''}} name="sort" value="Z" type="radio">
-                                    <label for="toggleButton15">Z to A</label>
+                                    <label for="toggleButton15">@lang('Z to A')</label>
                                     <div class="toggle-button__icon"></div>
                                 </div>
                                 <div class="toggle-button toggle-button--niitty">
                                     <input id="toggleButton16" {{$sortBlade?  $sortBlade['sort'] == 'L' ? 'checked' :'' : ''}} name="sort" value="L" type="radio">
-                                    <label for="toggleButton16">Low to High</label>
+                                    <label for="toggleButton16">@lang('Low to High')</label>
                                     <div class="toggle-button__icon"></div>
                                 </div>
                                 <div class="toggle-button toggle-button--niitty">
                                     <input id="toggleButton17" name="sort" {{$sortBlade?  $sortBlade['sort'] == 'H' ? 'checked' :'' : ''}} value="H" type="radio">
-                                    <label for="toggleButton17">High to Low</label>
+                                    <label for="toggleButton17">@lang('High to Low')</label>
                                     <div class="toggle-button__icon"></div>
                                 </div>
                             </section>
                         </div>
                     </form>
                     <div class="sidebar-widget mb-50">
-                        <h3 class="sidebar-title">Top rated products</h3>
+                        <h3 class="sidebar-title">@lang('Top rated products')</h3>
                         <div class="sidebar-top-rated-all">
                             @foreach($topRated as $product)
                             <div class="sidebar-top-rated mb-30">
@@ -117,7 +117,7 @@
                                                     @endif
                                                 @endfor
                                             </ul>
-                                            <span>({{$product->count_rating}}) Reviews</span>
+                                            <span>({{$product->count_rating}}) @lang('Reviews')</span>
                                         </div>
                                         <div><span class="{{ $product->isOffer? 'oldprice' : '' }} price">{{$currency}}{{$product->offerPrice(false) }}</span></div>
                                         @if($product->isOffer)
@@ -138,12 +138,12 @@
                     <div class="shop-bar">
                         <div class="shop-found-selector">
                             <div class="shop-found">
-                                <p><span>{{$count[0][0]}}</span> Product Found of <span>{{$count[1][0]}}</span></p>
+                                <p> {!!  __('text.Product Found',[ 'found'=> $count[0][0],'show'=> $count[1][0] ] )!!}  </p>
                             </div>
                         </div>
                         <div class="shop-filter-tab">
                             <div class="shop-filter">
-                                <a class="shop-filter-active" href="#">Filters <i class="ion-android-options"></i></a>
+                                <a class="shop-filter-active" href="#">{{__('Filters')}} <i class="ion-android-options"></i></a>
                             </div>
                             <div class="shop-tab nav" role=tablist>
                                 <a class="{{ $horizontal ? : 'active' }}" href="#grid-5-col1" aria-label="Products Style" data-toggle="tab" role="tab" aria-selected="false">
@@ -166,8 +166,7 @@
                                     <div class="product-img">
                                         <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                         @if($isOffer = $product->isOffer )
-                                            <span>sale
-                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
+                                            <span>@lang('text.sale_off',['num'=>round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) ])
                                             </span>
                                         @endif
                                         <div class="product-action">

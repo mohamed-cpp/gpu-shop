@@ -1,4 +1,5 @@
 @extends('client.app')
+@section('title', __('Profile'))
 @push('styles')
     <link rel="stylesheet" href="{{asset('GPU-Shop/css/intlTelInput.css')}}">
     <style>
@@ -28,7 +29,7 @@
                                         <div class="col-12 col-sm-auto mb-3">
                                             <div class="mx-auto" style="width: 140px;">
                                                 <div class="d-flex justify-content-center align-items-center rounded" style="height: 140px; background-color: rgb(233, 236, 239);">
-                                                    <img width="140" height="140" id="profile_image" src="{{$client->img ?asset('storage/client/images/'.$client->img) : '/GPU-Shop/img/avatar.jpg'}}" />
+                                                    <img id="profile_image" src="{{$client->img ?asset('storage/client/images/'.$client->img) : '/GPU-Shop/img/avatar.jpg'}}" />
                                                 </div>
                                             </div>
                                         </div>
@@ -39,13 +40,12 @@
                                                 <div class="mt-2">
                                                     <div class="custom-file">
                                                         <input type="file" class="custom-file-input" name="image" id="file">
-                                                        <label class="custom-file-label" for="file">Choose file</label>
+                                                        <label class="custom-file-label" for="file">@lang('Choose file')</label>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="text-center text-sm-right">
-{{--                                                <span class="badge badge-secondary">administrator</span>--}}
-                                                <div class="text-muted"><small>Joined {{$client->created_at->format('jS F Y')}}</small></div>
+                                                <div class="text-muted"><small>Joined {{$client->created_at->format('jS F Y') }}</small></div>
                                             </div>
                                         </div>
                                     </div>
@@ -57,13 +57,13 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>Full Name</label>
+                                                                    <label>@lang('Name')</label>
                                                                     <input class="form-control" type="text" name="name" value="{{$client->name}}">
                                                                 </div>
                                                             </div>
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>Username</label>
+                                                                    <label>@lang('Username')</label>
                                                                     <input class="form-control @error('username') is-invalid @enderror" type="text" name="username" value="{{$client->username}}">
                                                                 </div>
                                                             </div>
@@ -71,7 +71,7 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>Email</label>
+                                                                    <label>@lang('Email Address')</label>
                                                                     <input class="form-control @error('email') is-invalid @enderror @if(! $client->email_verified_at && $client->email)is-invalid @elseif($client->email_verified_at) is-valid @endif" type="email" name="email" value="{{$client->email}}">
                                                                     @if(!$client->email_verified_at)
                                                                     <small  class="form-text text-muted">{{__("Need to verify Email")}}</small>
@@ -83,7 +83,7 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>Phone Number</label><br>
+                                                                    <label>@lang('Phone Number')</label><br>
                                                                     <input type="tel" id="phone" class="form-control @error('phone_number') is-invalid @enderror @if(!$client->phone_verified_at)is-invalid @else is-valid @endif" min="11" value="{{$client->phone_number}}" required>
                                                                     @if(! $client->phone_verified_at)
                                                                     <small  class="form-text text-muted">{{__("Need to verify phone number")}}</small>
@@ -94,17 +94,17 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <h5>Main Address</h5>
+                                                <h5>@lang('Main Address')</h5>
                                                 <div class="row">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <label>Address</label>
+                                                            <label>@lang('Address')</label>
                                                             <input class="form-control" type="text" name="address" value="{{$client->address}}">
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <label>Town / City </label>
+                                                            <label>@lang('Town / City')</label>
                                                             <input class="form-control" type="text" name="city" value="{{$client->city}}">
                                                         </div>
                                                     </div>
@@ -112,24 +112,24 @@
                                                 <div class="row mb-12">
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <label>State / County</label>
+                                                            <label>@lang('State / County')</label>
                                                             <input class="form-control" type="text" name="country" value="{{$client->country}}">
                                                         </div>
                                                     </div>
                                                     <div class="col">
                                                         <div class="form-group">
-                                                            <label>Postcode / Zip</label>
+                                                            <label>@lang('Postcode / Zip')</label>
                                                             <input class="form-control" type="text" name="zip" value="{{$client->zip}}">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="row">
                                                     <div class="col-12 col-sm-6 mb-3">
-                                                        <h5 class="mb-2"><b>Change Password</b></h5>
+                                                        <h5 class="mb-2"><b>@lang('Change Password')</b></h5>
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>Current Password</label>
+                                                                    <label>@lang('Current Password')</label>
                                                                     <input class="form-control @error('old_password') is-invalid @enderror" type="password" name="old_password">
                                                                 </div>
                                                             </div>
@@ -137,7 +137,7 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>New Password</label>
+                                                                    <label>@lang('New Password')</label>
                                                                     <input class="form-control @error('new_password') is-invalid @enderror" type="password" name="new_password">
                                                                 </div>
                                                             </div>
@@ -145,7 +145,7 @@
                                                         <div class="row">
                                                             <div class="col">
                                                                 <div class="form-group">
-                                                                    <label>Confirm <span class="d-none d-xl-inline">Password</span></label>
+                                                                    <label>@lang('Confirm Password')</label>
                                                                     <input class="form-control" type="password" name="new_password_confirmation">
                                                                 </div>
                                                             </div>
@@ -154,7 +154,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col d-flex justify-content-end">
-                                                        <button class="btn btn-primary" type="submit">Save Changes</button>
+                                                        <button class="btn btn-primary" type="submit">@lang('حفظ التغييرات')</button>
                                                     </div>
                                                 </div>
                                         </div>

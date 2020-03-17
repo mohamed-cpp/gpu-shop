@@ -41,7 +41,7 @@
     <div class="sidebar-search-input">
         <form action="{{route('search.product')}}" method="get">
             <div class="form-search">
-                <input id="search" class="input-text" aria-label="Search" name="keywords" placeholder="Search Entire Store" type="search" autocomplete="off" >
+                <input id="search" class="input-text" aria-label="{{__('Search Entire Store')}}" name="keywords" placeholder="{{__('Search Entire Store')}}" type="search" autocomplete="off" >
                 <button aria-label="search-button">
                     <i class="ion-ios-search-strong"></i>
                 </button>
@@ -58,11 +58,11 @@
         <div class="cur-lang-acc-all">
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Currency: <span>{{ $currency = Cookie::get('currency') === 'egp' ? 'EGP' : 'USD' }} </span></h4>
+                    <h4>{{__('Currency')}}: <span>{{ Cookie::get('currency') == 'egp' ? __('EGP') : __('USD') }} </span></h4>
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{route('currency.product.client')}}">{{$currency === 'USD' ? 'EGP' : 'USD'}}</a></li>
+                        <li><a href="{{route('currency.product.client')}}">{{ Cookie::get('currency') == 'usd' ? __('EGP') : __('USD') }}</a></li>
                     </ul>
                 </div>
             </div>
@@ -73,25 +73,26 @@
             @endif
             <div class="single-currency-language-account">
                 <div class="cur-lang-acc-title">
-                    <h4>Language: <span><img src="/assets/img/icon-img/{{$lang}}.png" alt="{{$lang}}"> {{$lang}} </span></h4>
+                    <h4>{{__('Language')}}: <span><img src="/assets/img/icon-img/{{$lang}}.png" alt="{{__($lang)}}"> {{__($lang)}} </span></h4>
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{ Str::replaceLast("/".app()->getLocale(),$anotherLocale,request()->url()) }}" aria-label="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{$anotherLang}} </a></li>
+                        <li><a href="{{ Str::replaceLast("/".app()->getLocale(),$anotherLocale,request()->url()) }}" aria-label="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{__($anotherLang)}} </a></li>
                     </ul>
                 </div>
             </div>
             <div class="single-currency-language-account">
-                <div class="cur-lang-acc-title">
-                    <h4>My Account:</h4>
-                </div>
+
                 <div class="cur-lang-acc-dropdown">
-                    <ul>
-                        @if( Auth::guard('client')->check() )
-                            <li><a href="{{route('client.profile')}}">Profile</a></li>
-                            <li><a href="{{route('show.wishlist.client')}}">My Wish List</a></li>
-                            <li><a href="{{route('cart.client')}}">Cart</a></li>
-                            <li><a href="{{route('orders.client')}}">Orders</a></li>
+                    @if( Auth::guard('client')->check() )
+                        <div class="cur-lang-acc-title">
+                            <h4>{{__('My Account')}}:</h4>
+                        </div>
+                        <ul>
+                            <li><a href="{{route('client.profile')}}">{{__('Profile')}}</a></li>
+                            <li><a href="{{route('show.wishlist.client')}}">{{__('My Wish List')}}</a></li>
+                            <li><a href="{{route('cart.client')}}">{{__('Cart')}}</a></li>
+                            <li><a href="{{route('orders.client')}}">{{__('Orders')}}</a></li>
                             <li><a href="{{ route('client.logout') }}"
                                    onclick="event.preventDefault();
                             document.getElementById('logout-form').submit();">

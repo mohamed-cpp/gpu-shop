@@ -3,7 +3,7 @@
 use App\GpuShopSetting;
 
 function cartImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','CART_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','CART_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -11,7 +11,7 @@ function cartImage(){
 }
 
 function wishlistImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','WISHLIST_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','WISHLIST_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -19,7 +19,7 @@ function wishlistImage(){
 }
 
 function orderImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','ORDER_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','ORDER_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -27,7 +27,7 @@ function orderImage(){
 }
 
 function checkoutImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','CHECKOUT_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','CHECKOUT_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -35,7 +35,7 @@ function checkoutImage(){
 }
 
 function wishlistGuestImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','WISHLIST_GUEST_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','WISHLIST_GUEST_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -43,14 +43,14 @@ function wishlistGuestImage(){
 }
 
 function registerImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','REGISTER_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','REGISTER_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
     return asset('/assets/img/bg/breadcrumb.jpg');
 }
 function hotSaleImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','HOT_SALE_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','HOT_SALE_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -58,7 +58,7 @@ function hotSaleImage(){
 }
 
 function loginImage(){
-    $image = GpuShopSetting::getAllSettings()->where('name','LOGIN_IMAGE')->first();
+    $image = GpuShopSetting::getAllSettings()->where('name','LOGIN_IMAGE_'. strtoupper(app()->getLocale()))->first();
     if($image){
         return asset(config('websiteSettings.IMAGE_PUBLIC_DIR'))."/{$image->val}";
     }
@@ -74,7 +74,7 @@ function SEODescription(){
 }
 
 function sliderImages(){
-    $slider = GpuShopSetting::getAllSettings()->where('name','SLIDER_HOMEPAGE');
+    $slider = GpuShopSetting::getAllSettings()->where('name','SLIDER_HOMEPAGE_'. strtoupper(app()->getLocale()));
     return $slider;
 }
 

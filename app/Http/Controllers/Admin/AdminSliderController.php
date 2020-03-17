@@ -11,7 +11,7 @@ class AdminSliderController extends Controller
     public function index(){
         return view('admin.slider.index',
             [
-                'settings'=> GpuShopSetting::where('name','SLIDER_HOMEPAGE')
+                'settings'=> GpuShopSetting::where('name','like','SLIDER_HOMEPAGE_%')
                     ->paginate(15)
             ]);
     }
@@ -30,7 +30,7 @@ class AdminSliderController extends Controller
         $input['image'] = $name;
         unset($input['_token']);
         GpuShopSetting::create([
-            'name' => 'SLIDER_HOMEPAGE',
+            'name' => 'SLIDER_HOMEPAGE_'.$input['locale'],
             'val' => json_encode($input),
             'type' => 'json',
         ]);
@@ -58,7 +58,6 @@ class AdminSliderController extends Controller
 
         unset($input['_token']);
         $slider->update([
-            'name' => 'SLIDER_HOMEPAGE',
             'val' => json_encode($input),
             'type' => 'json',
         ]);

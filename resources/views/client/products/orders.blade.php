@@ -1,4 +1,5 @@
 @extends('client.app')
+@section('title', __('Orders'))
 @push('styles')
     <style>
         tbody span{
@@ -25,10 +26,10 @@
     <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{orderImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
-                <h2>Orders</h2>
+                <h2>{{__('Orders')}}</h2>
                 <ul>
-                    <li><a href="/">home</a></li>
-                    <li> Orders </li>
+                    <li><a href="/">{{__('Home')}}</a></li>
+                    <li> {{__('Orders')}} </li>
                 </ul>
             </div>
         </div>
@@ -38,24 +39,24 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1 class="cart-heading">Orders</h1>
+                    <h1 class="cart-heading">{{__('Orders')}}</h1>
                         <div class="table-content table-responsive">
                             <table>
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Price</th>
-                                    <th>Where Orders</th>
-                                    <th>Status</th>
-                                    <th>Order date</th>
-                                    <th>Review</th>
+                                    <th>{{__('Price')}}</th>
+                                    <th>{{__('Where Orders')}}</th>
+                                    <th>{{__('Status')}}</th>
+                                    <th>{{__('Order date')}}</th>
+                                    <th>{{__('More Details')}}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 @foreach($orders as $order)
                                     @php $currency = $order->currency == 'usd' ? '$' : '£' @endphp
                                     <tr>
-                                        <td><span>Order No.:{{$order->id}}</span></td>
+                                        <td><span>@lang('text.OrderNum',['id'=>$order->id])</span></td>
                                         <td>
                                             @if($order->total_after_discount)
                                                 <span class="amount oldPrice">{{$currency}}{{$order->total}}</span>
@@ -72,7 +73,7 @@
                                             @endif
                                         </td>
                                         <td>
-                                            <span><b>{{$order->status_order}}</b></span>
+                                            <span><b>{{__($order->status_order)}}</b></span>
                                         </td>
                                         <td>
                                             <span>{{$order->created_at}}</span>
@@ -83,7 +84,7 @@
                                             @endif
                                             <button type="button" class="btn btn-secondary">
                                                 <a href="{{route('order.client',$order->id)}}">
-                                                    Review Order
+                                                    {{__('Review Order')}}
                                                 </a>
                                             </button>
                                         </td>

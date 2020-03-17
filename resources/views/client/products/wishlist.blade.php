@@ -1,6 +1,5 @@
 @extends('client.app')
 @push('styles')
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
         .product-sort{
             width: 20%;
@@ -70,10 +69,10 @@
     <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{wishlistImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
-                <h2>wishlist</h2>
+                <h2>@lang('Wishlist')</h2>
                 <ul>
-                    <li><a href="#">home</a></li>
-                    <li> wishlist </li>
+                    <li><a href="/">@lang('Home')</a></li>
+                    <li> @lang('Wishlist') </li>
                 </ul>
             </div>
         </div>
@@ -83,15 +82,15 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1 class="cart-heading">Wishlist</h1>
+                    <h1 class="cart-heading">@lang('Wishlist')</h1>
                     <form action="{{route('show.wishlist.client')}}" method="get" style="display: inline">
-                        <input placeholder='Search...' class='js-search' name="keywords" type="text">
+                        <input placeholder='@lang('Search')' class='js-search' name="keywords" type="text">
                         <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
                     </form>
                     <div id="wishlist">
-                        <label for="inputCopy" >To Share Wishlist Copy Link and Share It With Your Friends :</label>
+                        <label for="inputCopy" >@lang('To Share Wishlist Copy Link and Share It With Your Friends'):</label>
                         <input type="text" value="gpu-shop.local/wishlists/{{auth('client')->user()->username}}" id="inputCopy">
-                        <input type="button" onclick="copy()" id="copyButton" value="Copy Url">
+                        <input type="button" onclick="copy()" id="copyButton" value="@lang('Copy Url')">
                         <wishlist currencyprop="{{ Cookie::get('currency') }}" locale="@if(app()->getLocale() == 'ar') 'ar' @endif" :wishlists="{{ json_encode($wishlistProducts->getCollection())}}"></wishlist>
                     </div>
                 </div>

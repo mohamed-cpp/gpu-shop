@@ -12,8 +12,8 @@
     </div>
     <div id="menu" class="text-left">
         <ul>
-            <li><a href="/">home</a></li>
-            <li><a href="/">about us</a></li>
+            <li><a href="/">{{__('Home')}}</a></li>
+            <li><a href="/">{{__('About Us')}}</a></li>
             @foreach($categories as $category)
                 <li><a href="/">{{$category->name}}</a>
                     <ul class="dropdown">

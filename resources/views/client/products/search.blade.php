@@ -30,7 +30,7 @@
                         <div class="shop-bar">
                             <div class="shop-found-selector">
                                 <div class="shop-found">
-                                    <p><span>{{$count[0][0]}}</span> Product Found of <span>{{$count[1][0]}}</span></p>
+                                    <p> {!!  __('text.Product Found',[ 'found'=> $count[0][0],'show'=> $count[1][0] ] )!!}  </p>
                                 </div>
                             </div>
                             <div class="shop-filter-tab">
