@@ -9,7 +9,7 @@
 
                 <ul class="dropdown-menu dropdown-menu-right" id="dropdown-menu" @scroll="scrolling()">
                     <li>
-                        <a class="btn btn-default makeAsRead" v-on:click="makeAsRead()" >Make All as Read</a>
+                        <a class="btn btn-default makeAsRead" v-on:click="makeAsRead()" >{{'Make All as Read' | langJson}}</a>
                     </li>
                     <li v-for="(notification,index) in notifications" :id="'notification'+index" v-bind:class="{ 'unread' : !notification.read_at}" v-on:click="aRead(notification,index)">
                         <a :href="notification.data.path" class="top-text-block">
