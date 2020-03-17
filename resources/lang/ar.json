@@ -122,7 +122,41 @@
   "Send message via WhatsApp": "إرسال رسالة عبر WhatsApp",
   "Send message via SMS": "إرسال رسالة عبر SMS",
   "Reset Password": "إعادة تعيين كلمة المرور",
-  "Connect with us": "اتصل بنا"
+  "Connect with us": "اتصل بنا",
+  "Remove": "حذف",
+  "Quantity": "كمية",
+  "Remove coupon": "إزالة الكوبون",
+  "Apply coupon": "استخدام الكوبون",
+  "Coupon Code": "الكوبون",
+  "Cart totals": "مجموع عربة التسوق",
+  "Proceed to checkout": "استكمال عملية الدفع",
+  "Add to cart": "أضف إلى السلة",
+  "Options": "خيارات",
+  "Share": "مشاركة",
+  "Replay": "رد",
+  "Edit": "تعديل",
+  "Delete": "حذف",
+  "Update": "تحديث",
+  "Close": "اغلق",
+  "Add comment": "اضف تعليق",
+  "Write your comment...": "اكتب تعليقك...",
+  "Report": "إبلاغ",
+  "You need to login for add comment": "تحتاج إلى تسجيل الدخول لإضافة تعليق.",
+  "you are buying for": "تشترى المنتج لشخص",
+  "View cart": "عرض السلة",
+  "You need to login to view your cart": "تحتاج الى تسجيل الدخول لعرض السلة",
+  "Your cart is empty": "السلة فارغة",
+  "Sort": "ترتيب",
+  "Visibility": "عامة",
+  "Sorry The Product Out of Stock": "اسف إنتهى المنتج من المخزن",
+  "Seller": "بائع",
+  "Joined": "انضم",
+  "Latest Products From": "أحدث المنتجات من",
+  "Administrator": "مدير",
+  "View wishlist": "اضهر المنتجات المفضلة"
+
+
+
 
 
 

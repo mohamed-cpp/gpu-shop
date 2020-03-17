@@ -32,11 +32,10 @@
                                             <div class="text-center text-sm-left mb-2 mb-sm-0">
                                                 <h4 class="pt-sm-2 pb-1 mb-0 text-nowrap">{{$client->name}}</h4>
                                                 <p class="mb-0">{{'@'. $client->username }}</p>
-                                                <a href="{{route('show.wishlist.guest',$client->username)}}">view wishlist</a>
+                                                <a href="{{route('show.wishlist.guest',$client->username)}}">@lang('View wishlist')</a>
                                             </div>
                                             <div class="text-center text-sm-right">
-{{--                                                <span class="badge badge-secondary">administrator</span>--}}
-                                                <div class="text-muted"><small>Joined {{$client->created_at->format('jS F Y')}}</small></div>
+                                                <div class="text-muted"><small>@lang('Joined') {{$client->created_at->format('jS F Y')}}</small></div>
                                             </div>
                                         </div>
                                     </div>
@@ -47,6 +46,3 @@
                 </div>
             </div>
 @endsection
-@push('scripts')
-
-@endpush

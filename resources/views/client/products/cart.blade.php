@@ -1,4 +1,5 @@
 @extends('client.app')
+@section('title', __('Cart'))
 @push('styles')
     <style>
         .removeButton{

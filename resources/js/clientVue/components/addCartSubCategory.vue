@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-if="tablist == 'true'" class="cart-add">
-            <i class="ion-bag"></i> <a v-on:click="addCart()" > Add to cart</a>
+            <i class="ion-bag"></i> <a v-on:click="addCart()" >{{ 'Add to cart'| langJson }}</a>
         </div>
         <div v-else class="product-list-cart">
-            <a class="btn-hover list-btn-style" v-on:click="addCart()">add to cart</a>
+            <a class="btn-hover list-btn-style" v-on:click="addCart()">{{ 'Add to cart'| langJson }}</a>
         </div>
     </div>
 </template>

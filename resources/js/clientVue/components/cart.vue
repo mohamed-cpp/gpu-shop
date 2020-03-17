@@ -8,12 +8,12 @@
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="product-name">remove</th>
-                                    <th class="product-price">images</th>
-                                    <th class="product-name">Product</th>
-                                    <th class="product-price">Price</th>
-                                    <th class="product-quantity">Quantity</th>
-                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-name">{{'Remove' | langJson}}</th>
+                                    <th class="product-price">{{'images' | langJson}}</th>
+                                    <th class="product-name">{{'Products' | langJson}}</th>
+                                    <th class="product-price">{{'Price' | langJson}}</th>
+                                    <th class="product-quantity">{{'Quantity' | langJson}}</th>
+                                    <th class="product-subtotal">{{'Total' | langJson}}</th>
                                 </tr>
                                 </thead>
                                 <tbody v-for="(product, index) in cart.items">
@@ -73,11 +73,11 @@
                                 <div class="coupon-all">
                                     <div class="coupon" v-if="cart.coupon">
                                         <input id="coupon_code" class="input-text" name="coupon_code" :value="cart.coupon.code" placeholder="Coupon code" type="text" disabled>
-                                        <input class="button" name="apply_coupon" value="Remove coupon" type="submit" v-on:click="removeCoupon()" >
+                                        <input class="button" name="apply_coupon" :value="'Remove coupon'| langJson" type="submit" v-on:click="removeCoupon()" >
                                     </div>
                                     <div class="coupon" v-else>
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code"  type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit" v-on:click="coupon()" >
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" :placeholder="'Coupon Code'| langJson"  type="text">
+                                        <input class="button" name="apply_coupon" :value="'Apply coupon'| langJson" type="submit" v-on:click="coupon()" >
                                         <div v-if="alert" class="alert alert-danger" role="alert">
                                             {{alert}}
                                         </div>
@@ -90,7 +90,7 @@
                         <div class="row">
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
-                                    <h2>Cart totals</h2>
+                                    <h2>{{'Cart totals' | langJson}}</h2>
                                     <ul class="totals">
                                         <li v-for="(product, index) in cart.items">
                                             <span  :class="{ 'oldpriceCoupon' : product.couponPrice != null}">{{currency}}{{product.totalPriceQty}}</span>
@@ -104,12 +104,12 @@
 
                                     </ul>
                                     <ul>
-                                        <li>Total
+                                        <li>{{'Total' | langJson}}
                                             <span :class="{ 'oldpriceCoupon' : cart.couponTotalPrice != 0}" >{{currency}}{{cart.totalPrice}} </span>
                                             <span v-if="cart.couponTotalPrice" class="offerCoupon">{{currency}}{{cart.couponTotalPrice}}</span>
                                         </li>
                                     </ul>
-                                    <a href="/checkout">Proceed to checkout</a>
+                                    <a href="/checkout">{{'Proceed to checkout' | langJson}}</a>
                                 </div>
                             </div>
                         </div>

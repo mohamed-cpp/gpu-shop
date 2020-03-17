@@ -22,6 +22,21 @@ import moment from 'moment';
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+import ar from "../../lang/ar.json";
+import en from "../../lang/en.json";
+
+Vue.filter('langJson',function(data){
+    if(window.App.lang === 'ar'){
+        var lang = ar[data];
+    }else {
+        var lang = en[data];
+    }
+    if (lang){
+        return lang;
+    }
+    return data;
+});
+
 Vue.filter('dateFormat',function(date){
     return moment(date).fromNow();
 });

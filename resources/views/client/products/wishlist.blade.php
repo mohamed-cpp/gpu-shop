@@ -1,4 +1,5 @@
 @extends('client.app')
+@section('title', __('Wishlist'))
 @push('styles')
     <style>
         .product-sort{

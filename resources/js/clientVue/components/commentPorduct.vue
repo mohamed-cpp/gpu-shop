@@ -6,22 +6,22 @@
                     <img class="d-flex rounded-circle avatar z-depth-1-half mb-3 mx-auto" :src="comment.commentable.img ? '/storage/client/images/'+comment.commentable.img : defaultImage"
                          alt="Avatar">
                     <div class="media-body text-center text-md-left ml-md-3 ml-0">
-                        <button v-if="loggedUser" class="reply  btn btn-primary btn-sm" v-on:click="showReply(commentIndex)">Replay</button>
+                        <button v-if="loggedUser" class="reply  btn btn-primary btn-sm" v-on:click="showReply(commentIndex)">{{ 'Replay'| langJson }}</button>
                         <h5 v-bind:class="{ 'sellerBox' : comment.commentable_type == 'App\\Seller','adminBox' : comment.commentable_type == 'App\\Admin'}">{{comment.commentable.name}}</h5>
                         <small class="mb-3">@<a :href="'/en/profile/'+comment.commentable.username">{{comment.commentable.username}}</a></small>
                         <div class="mt-15" :id="'commentBody'+commentIndex">
                             <div class="reply" v-if="comment.commentable.username ==  username">
                                 <div class="edit">
-                                    <button class="btn btn-info btn-sm" v-on:click="editReply(commentIndex)">Edit</button>
-                                    <button class="btn btn-danger btn-sm" v-on:click="deleteReply(commentIndex,false,comment.id)">Delete</button>
+                                    <button class="btn btn-info btn-sm" v-on:click="editReply(commentIndex)">{{ 'Edit'| langJson }}</button>
+                                    <button class="btn btn-danger btn-sm" v-on:click="deleteReply(commentIndex,false,comment.id)">{{ 'Delete'| langJson }}</button>
                                 </div>
                                 <div class="update"  style="display: none">
-                                    <button class="btn btn-outline-info btn-sm" v-on:click="updateReply(commentIndex,false,comment.id)">Update</button>
-                                    <button class="btn btn-outline-danger btn-sm" v-on:click="closeReply(commentIndex)">Close</button>
+                                    <button class="btn btn-outline-info btn-sm" v-on:click="updateReply(commentIndex,false,comment.id)">{{ 'Update'| langJson }}</button>
+                                    <button class="btn btn-outline-danger btn-sm" v-on:click="closeReply(commentIndex)">{{ 'Close'| langJson }}</button>
                                 </div>
                             </div>
                             <div class="reply" v-else-if="product.username_seller ==  username">
-                                <button type="button" class="btn btn-danger btn-xs">Report</button>
+                                <button type="button" class="btn btn-danger btn-xs">{{ 'Report'| langJson }}</button>
                             </div>
                             <div>{{comment.body}}</div>
                         </div>
@@ -39,16 +39,16 @@
                                 <div class="form-group basic-textarea rounded-corners mt-15 mb-md-0 mb-4" :id="'commentBody'+commentIndex+'reply'+replyIndex">
                                     <div class="reply" v-if="reply.commentable.username ==  username">
                                         <div class="edit">
-                                            <button class="btn btn-info btn-sm" v-on:click="editReply(commentIndex,replyIndex)">Edit</button>
-                                            <button class="btn btn-danger btn-sm" v-on:click="deleteReply(commentIndex,replyIndex,reply.id)">Delete</button>
+                                            <button class="btn btn-info btn-sm" v-on:click="editReply(commentIndex,replyIndex)">{{ 'Edit'| langJson }}</button>
+                                            <button class="btn btn-danger btn-sm" v-on:click="deleteReply(commentIndex,replyIndex,reply.id)">{{ 'Delete'| langJson }}</button>
                                         </div>
                                         <div class="update" style="display: none">
-                                            <button class="btn btn-outline-info btn-sm" v-on:click="updateReply(commentIndex,replyIndex,reply.id)">Update</button>
-                                            <button class="btn btn-outline-danger btn-sm" v-on:click="closeReply(commentIndex,replyIndex)">Close</button>
+                                            <button class="btn btn-outline-info btn-sm" v-on:click="updateReply(commentIndex,replyIndex,reply.id)">{{ 'Update'| langJson }}</button>
+                                            <button class="btn btn-outline-danger btn-sm" v-on:click="closeReply(commentIndex,replyIndex)">{{ 'Close'| langJson }}</button>
                                         </div>
                                     </div>
                                     <div class="reply" v-else-if="product.username_seller ==  username">
-                                        <button type="button" class="btn btn-danger btn-xs">Report</button>
+                                        <button type="button" class="btn btn-danger btn-xs">{{ 'Report'| langJson }}</button>
                                     </div>
                                     <div>{{reply.body}}</div>
 
@@ -62,8 +62,8 @@
                             <div class="media-body text-center text-md-left ml-md-3 ml-0">
                                 <h5 class="mt-0 font-weight-bold blue-text mb-3">{{loggedUser.name}}</h5>
                                 <div class="form-group basic-textarea rounded-corners mb-md-0 mb-4">
-                                    <textarea class="form-control z-depth-1" :id="'reply'+commentIndex" rows="3" placeholder="Write your comment..."></textarea>
-                                    <button class="reply mt-1 btn btn-primary btn-sm" v-on:click="postComment(commentIndex,comment.id)">Post</button>
+                                    <textarea class="form-control z-depth-1" :id="'reply'+commentIndex" rows="3" :placeholder=" 'Write your comment...'| langJson "></textarea>
+                                    <button class="reply mt-1 btn btn-primary btn-sm" v-on:click="postComment(commentIndex,comment.id)">{{ 'Add comment'| langJson }}</button>
                                 </div>
                             </div>
                         </div>
@@ -75,11 +75,11 @@
                          alt="Avatar">
                     <div class="media-body text-center text-md-left ml-md-3 ml-0">
                         <h5 class="mt-0 font-weight-bold blue-text">{{loggedUser.name}}</h5>
-                        <textarea class="form-control z-depth-1" id="comment" rows="3" placeholder="Write your comment..."></textarea>
-                        <button class="reply mt-1 btn btn-primary btn-sm" v-on:click="postComment()">Post</button>
+                        <textarea class="form-control z-depth-1" id="comment" rows="3" :placeholder=" 'Write your comment...'| langJson "></textarea>
+                        <button class="reply mt-1 btn btn-primary btn-sm" v-on:click="postComment()">{{ 'Add comment'| langJson }}</button>
                     </div>
                 </div>
-                <div v-else><h4>You need to login for add comment</h4></div>
+                <div v-else><h4>{{ 'You need to login for add comment.'| langJson }}</h4></div>
             </div>
         </div>
     </div>

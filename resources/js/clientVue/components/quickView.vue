@@ -38,8 +38,8 @@
                     </div>
                     <div class="qwick-view-right">
                         <div class="qwick-view-content">
-                            <h3 v-if="locale">{{ product.name_ar }}</h3>
-                            <h3 v-else>{{ product.name_en }}</h3>
+                            <h3>{{ product['name_'+lang] }}</h3>
+
                             <div class="price">
                                 <div><span v-bind:class=" { 'old' : product.isOffer }">{{currency}}{{normalPrice}}</span></div>
                                 <span v-if="product.isOffer" class="new" >{{currency}}{{offerPrice}}</span>
@@ -56,12 +56,12 @@
                                     </div>
                                 </form>
                                 <div class="quick-view-number">
-                                    <span>{{product.count_rating}} Reviews</span>
+                                    <span>{{product.count_rating}} {{ 'Reviews'| langJson }}</span>
                                 </div>
                             </div>
 
                             <div style="width: 363px; height: 314px; overflow: auto;" v-show="description" v-html="locale ? product.description_ar : product.description_en "></div>
-                            <h3 v-if="detailsArray.length !== 0">Options</h3>
+                            <h3 v-if="detailsArray.length !== 0">{{ 'Options'| langJson }}</h3>
                             <section v-if="!description" v-for="(detail, index) in detailsArray">
                                 <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
                                 <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
@@ -75,12 +75,12 @@
 
 
 
-                            <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
+                            <h3 v-if="quantity !== 0" >{{ 'Quantity'| langJson }}: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
                             <div>
                                 <div class="quickview-plus-minus">
                                     <span class="input-number-decrement">–</span><input class="input-number" type="text" :value="1" min="0" :max="quantity"><span class="input-number-increment">+</span>
                                     <div v-if="description === true" class="quickview-btn-cart">
-                                        <a class="btn-hover-black" v-on:click="viewDetails()" >add to cart</a>
+                                        <a class="btn-hover-black" v-on:click="viewDetails()" >{{ 'Add to cart'| langJson }}</a>
                                     </div>
                                     <div v-else class="quickview-btn-cart">
                                         <addCartbutton v-if="quantity !== 0" :slug="product.slug_en" :options="detailsArray"></addCartbutton>
@@ -126,6 +126,7 @@
                 detailsArray: [],
                 detailsPriceArray: [],
                 id:null,
+                lang: window.App.lang,
             }
         },
         mounted() {

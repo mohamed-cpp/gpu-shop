@@ -44,7 +44,7 @@
                                     </div>
                                     <div class="text-center text-sm-right">
                                         <span class="badge badge-secondary">{{__('Administrator')}}</span>
-                                        <div class="text-muted"><small>Joined {{$admin->created_at->format('jS F Y')}}</small></div>
+                                        <div class="text-muted"><small>@lang('Joined') {{$admin->created_at->format('jS F Y')}}</small></div>
                                     </div>
                                 </div>
                             </div>

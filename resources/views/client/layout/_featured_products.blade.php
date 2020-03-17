@@ -30,8 +30,7 @@
                                         <div class="product-img">
                                             <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                             @if($isOffer = $product->isOffer )
-                                                <span>sale
-                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
+                                                <span>@lang('text.sale_off',['num'=>round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) ])
                                             </span>
                                             @endif
                                             <div class="product-action">
@@ -70,9 +69,7 @@
                                         <div class="product-img">
                                             <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                             @if($isOffer = $product->isOffer )
-                                                <span>sale
-                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
-                                            </span>
+                                                <span>@lang('text.sale_off',['num'=>round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) ])</span>
                                             @endif
                                             <div class="product-action">
                                                 <add_wishlist idproduct="{{$product->id}}"></add_wishlist>
@@ -110,9 +107,7 @@
                                         <div class="product-img">
                                             <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                             @if($isOffer = $product->isOffer )
-                                                <span>sale
-                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
-                                            </span>
+                                                <span>@lang('text.sale_off',['num'=>round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) ])</span>
                                             @endif
                                             <div class="product-action">
                                                 <add_wishlist idproduct="{{$product->id}}"></add_wishlist>
@@ -150,9 +145,7 @@
                                         <div class="product-img">
                                             <a href="{{route('show.product.client', $product->slug)}}"><img src="{{asset('storage/product/images/thumbnail/'.$product->main_image)}}" alt="{{$product->name }}"></a>
                                             @if($isOffer = $product->isOffer )
-                                                <span>sale
-                                                <span>{{round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) }}% Off</span>
-                                            </span>
+                                                <span>@lang('text.sale_off',['num'=>round(($product->offerPrice(false) - $product->offerPrice()) / $product->offerPrice(false) * 100) ])</span>
                                             @endif
                                             <div class="product-action">
                                                 <add_wishlist idproduct="{{$product->id}}"></add_wishlist>

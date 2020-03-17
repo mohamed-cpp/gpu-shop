@@ -45,19 +45,19 @@
                                                     @endif
                                                 @endfor
                                             </ul>
-                                            <span>({{$count}}) Products</span>
+                                            <span>({{$count}}) @lang('Products')</span>
                                         </div>
                                     </div>
                                     <div class="text-center text-sm-right">
                                         <span class="badge badge-secondary">{{__('Seller')}}</span>
-                                        <div class="text-muted"><small>Joined {{$seller->created_at->format('jS F Y')}}</small></div>
+                                        <div class="text-muted"><small>@lang('Joined') {{$seller->created_at->format('jS F Y')}}</small></div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="container">
                             <div class="section-title text-center mb-55">
-                                <h4>Latest Products From {{'@'. $seller->username }}</h4>
+                                <h4>@lang('Latest Products From') {{'@'. $seller->username }}</h4>
                             </div>
                             <div class="row" id="appView">
                                 <div class="new-collection-slider owl-carousel">

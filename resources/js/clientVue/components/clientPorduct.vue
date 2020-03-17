@@ -78,7 +78,7 @@
                 </form>
 
                 <div class="quick-view-number">
-                    <span><b>{{count}} Reviews</b></span>
+                    <span><b>{{count}} {{ 'Reviews'| langJson }}</b></span>
                 </div>
 
             </div>
@@ -86,7 +86,7 @@
                 <div><h4 class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</h4></div>
                 <h4 v-if="product.isOffer" class="offer" >{{currency}}{{offerPrice}}</h4>
             </div>
-            <h4 v-if="product.details.length !== 0">Options</h4>
+            <h4 v-if="product.details.length !== 0">{{ 'Options'| langJson }}</h4>
             <section v-for="(detail, index) in product.details">
                 <h6 style="font-weight: bold;" >{{ detail['name_'+lang] }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
@@ -96,7 +96,7 @@
             </div>
             </section>
 
-            <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
+            <h3 v-if="quantity !== 0" >{{ 'Quantity'| langJson }}: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
             <h3 v-else >Sorry Sold Out &#128577;<p v-if="product.details.length !== 0">Select another option </p></h3>
             <div class="quickview-plus-minus">
                 <span class="input-number-decrement">–</span><input class="input-number" type="text" aria-label="Qty" value="1" min="1" :max="quantity"><span class="input-number-increment">+</span>
@@ -110,7 +110,7 @@
 
             <div class="product-share">
                 <ul>
-                    <li class="categories-title">Share :</li>
+                    <li class="categories-title">{{ 'Share'| langJson }}:</li>
                     <li>
                         <a :href="'https://www.facebook.com/sharer/sharer.php?u='+url" rel="noreferrer" target="_blank" aria-label="Facebook">
                             <i class="ion-social-facebook"></i>
