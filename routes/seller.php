@@ -1,12 +1,5 @@
 <?php
 
-Route::get('/', function () {
-    return view('seller.main');
-})->name('home.seller');
-Route::get('/dashboard', function () {
-    return view('seller.main');
-});
-
 // Authentication Routes
 Route::get("login", "Auth\Seller\LoginController@showLoginForm")->name("seller.loginForm")->middleware('guest:seller');
 Route::post("login", "Auth\Seller\LoginController@login")->name('seller.login')->middleware('guest:seller');
@@ -27,6 +20,12 @@ Route::post('password/reset', 'Auth\Seller\ResetPasswordController@reset')
     ->name('seller.password.update');
 
 Route::group(['middleware' => 'seller'], function (){
+    Route::get('/', function () {
+        return view('seller.main');
+    })->name('home.seller');
+    Route::get('/dashboard', function () {
+        return view('seller.main');
+    });
     Route::resource('product','Seller\ProductController');
     Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons");
     Route::get("product/{product}/details", "Seller\ProductController@addDetails")->name("product.details.create");

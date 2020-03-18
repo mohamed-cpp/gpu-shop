@@ -5,6 +5,33 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * App\Image
+ *
+ * @property int $id
+ * @property string $path
+ * @property int $imageable_id
+ * @property string $imageable_type
+ * @property string|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string $thumb
+ * @property-read string $thumb_url
+ * @property-read \App\Image $imageable
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $product
+ * @property-read int|null $product_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereImageableId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereImageableType($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image wherePath($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Image whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Image extends Model
 {
 

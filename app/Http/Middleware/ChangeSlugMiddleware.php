@@ -39,7 +39,7 @@ class ChangeSlugMiddleware
                 $subcategory= request()->segment(3);
                 $updateRoute = $this->changeSlug($subcategory);
                 if ($updateRoute[0]) {
-                    return redirect(route("show.product", $updateRoute[1]));
+                    return redirect(route("show.products", $updateRoute[1]));
                 }
             }elseif (strpos($request->getPathInfo(), '/offer/') !== false){
                 $subcategory= request()->segment(3);

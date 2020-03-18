@@ -34,7 +34,7 @@ class ClientWishlistController extends Controller
             ->orderBy('sort','desc')
             ->where('public',1)
             ->paginate(15);
-        return view('client.products.wishlist_guest',['wishlistProducts'=> $wishlist]);
+        return view('client.products.wishlist_guest',['wishlistProducts'=> $wishlist,'client'=> $client]);
 
     }
 
@@ -70,7 +70,7 @@ class ClientWishlistController extends Controller
             $client->wishlist()->create($data);
             return response([], 204);
         } catch (\Illuminate\Database\QueryException $e) {
-            return response('Already In wishlist', 400);
+            return response(trans('Already in wishlist'), 400);
         }
     }
 

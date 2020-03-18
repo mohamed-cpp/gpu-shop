@@ -7,7 +7,7 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-body">
-                    <div class="qwick-view-left">
+                    <div class="qwick-view-left" v-if="product.main_image">
                         <div class="quick-view-learg-img">
                             <div class="quick-view-tab-content tab-content">
 
@@ -38,46 +38,49 @@
                     </div>
                     <div class="qwick-view-right">
                         <div class="qwick-view-content">
-                            <h3 v-if="locale">{{ product.name_ar }}</h3>
-                            <h3 v-else>{{ product.name_en }}</h3>
+                            <h3>{{ product['name_'+lang] }}</h3>
+
                             <div class="price">
                                 <div><span v-bind:class=" { 'old' : product.isOffer }">{{currency}}{{normalPrice}}</span></div>
                                 <span v-if="product.isOffer" class="new" >{{currency}}{{offerPrice}}</span>
                             </div>
                             <div class="rating-number">
-                                <div class="quick-view-rating">
-                                    <i class="ion-ios-star red-star"></i>
-                                    <i class="ion-ios-star red-star"></i>
-                                    <i class="ion-android-star-outline"></i>
-                                    <i class="ion-android-star-outline"></i>
-                                    <i class="ion-android-star-outline"></i>
-                                </div>
+
+                                <form class="rating-widget">
+                                    <div v-for="(n,index) in 5">
+                                        <input :checked="index+1 <= product.rating_of_product" disabled type="checkbox" class="star-input" :id="index" />
+                                        <label class="star-input-label" :for="index">{{index}}
+                                            <i class="fa fa-star"></i>
+                                            <i class="fa fa-star orange"></i>
+                                        </label>
+                                    </div>
+                                </form>
                                 <div class="quick-view-number">
-                                    <span>2 Ratting (S)</span>
+                                    <span>{{product.count_rating}} {{ 'Reviews'| langJson }}</span>
                                 </div>
                             </div>
 
                             <div style="width: 363px; height: 314px; overflow: auto;" v-show="description" v-html="locale ? product.description_ar : product.description_en "></div>
-                            <h3 v-if="detailsArray.length !== 0">Options</h3>
+                            <h3 v-if="detailsArray.length !== 0">{{ 'Options'| langJson }}</h3>
                             <section v-if="!description" v-for="(detail, index) in detailsArray">
-                                <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
-                                <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
+                                <h6 style="font-weight: bold;" v-if="locale">{{ detail['name_'+lang] }}:</h6>
+
                                 <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
                                     <input :checked="clickedInput(sub_detail,index)" :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en,index)">
-                                    <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
-                                    <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                                    <label :for="detail.name_en+index" :data-text="sub_detail['name_'+lang]"></label>
+
                                     <div class="toggle-button__icon"></div>
                                 </div>
                             </section>
 
 
 
-                            <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
+                            <h3 v-if="quantity !== 0" >{{ 'Quantity'| langJson }}: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
                             <div>
                                 <div class="quickview-plus-minus">
                                     <span class="input-number-decrement">–</span><input class="input-number" type="text" :value="1" min="0" :max="quantity"><span class="input-number-increment">+</span>
                                     <div v-if="description === true" class="quickview-btn-cart">
-                                        <a class="btn-hover-black" v-on:click="viewDetails()" >add to cart</a>
+                                        <a class="btn-hover-black" v-on:click="viewDetails()" >{{ 'Add to cart'| langJson }}</a>
                                     </div>
                                     <div v-else class="quickview-btn-cart">
                                         <addCartbutton v-if="quantity !== 0" :slug="product.slug_en" :options="detailsArray"></addCartbutton>
@@ -123,6 +126,7 @@
                 detailsArray: [],
                 detailsPriceArray: [],
                 id:null,
+                lang: window.App.lang,
             }
         },
         mounted() {
@@ -238,25 +242,28 @@
     [v-cloak] {
         display: none;
     }
-    .quickview-btn-cart > a{
+    #exampleModal .quickview-btn-cart > a{
         letter-spacing: -0.92px;
         margin: 0 6px;
         color: #fff !important;
         padding: 17px 15px !important;
     }
-    .quick-view-tab-content .tab-pane > img{
+    #exampleModal .quick-view-tab-content .tab-pane > img{
         width: 350px;
     }
-    a img{
+    #exampleModal a img{
         margin-bottom: 5px;
     }
-    .quick-view-thumbnail{
+    #exampleModal .quick-view-thumbnail{
         width: 360px;
     }
     .qty{
         color: red;
         font-weight: 600;
         text-decoration: underline;
+    }
+    #exampleModal .rating-widget div{
+        display: inline;
     }
 </style>
 

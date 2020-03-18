@@ -19,10 +19,15 @@
         "laravelcollective/html": "^6.0",
         "mavinoo/laravel-batch": "^2.1",
         "mcamara/laravel-localization": "^1.4",
+        "paypal/rest-api-sdk-php": "^1.14",
+        "renatomarinho/laravel-page-speed": "^1.8",
         "spatie/laravel-permission": "^3.3",
+        "spatie/laravel-sitemap": "^5.7",
+        "stripe/stripe-php": "^7.25",
         "twilio/sdk": "^5.38"
     },
     "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.6",
         "facade/ignition": "^1.4",
         "fzaninotto/faker": "^1.4",
         "laravel/ui": "^1.1",
@@ -47,6 +52,9 @@
         "classmap": [
             "database/seeds",
             "database/factories"
+        ],
+        "files": [
+            "app/Utils/helpers.php"
         ]
     },
     "autoload-dev": {
@@ -60,7 +68,9 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

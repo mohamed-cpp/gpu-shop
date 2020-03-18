@@ -4,10 +4,10 @@
         <div class="wrap-sidebar">
             <div class="sidebar-cart-all">
                 <div class="sidebar-cart-icon">
-                    <button class="op-sidebar-close"><span class="ion-android-close"></span></button>
+                    <button class="op-sidebar-close" aria-label="sidebar-close"><span class="ion-android-close"></span></button>
                 </div>
                 <div v-if="emptyCart()" class="cart-content">
-                    <h3>Shopping Cart</h3>
+                    <h3>{{ 'Cart'| langJson }}</h3>
                     <ul v-if="cart" v-for="(product, index) in cart.items">
                         <li class="single-product-cart">
                             <div class="cart-img">
@@ -22,7 +22,7 @@
                                 <h3 v-if="lang == 'ar'" ><a :href="'/p/' + product.item.slug_ar"> {{product.item.name_ar}}</a></h3>
                                 <h3 v-else><a :href="'/p/' + product.item.slug_en"> {{product.item.name_en}}</a></h3>
                                 <span>{{product.qty}} x {{currency}}{{product.price}}</span>
-                                <span v-if="product.for">you are buying for @{{product.for}}</span>
+                                <span v-if="product.for">{{ 'you are buying for'| langJson }} @{{product.for}}</span>
                             </div>
                             <div class="cart-delete">
                                 <button class="removeButton" v-on:click="remove(index)">
@@ -35,35 +35,35 @@
                     <ul>
                         <li class="single-product-cart">
                             <div class="cart-total">
-                                <h4>Total : <span>{{currency}} {{cart.totalPrice}}</span></h4>
+                                <h4>{{ 'Total'| langJson }} : <span>{{currency}} {{cart.totalPrice}}</span></h4>
                             </div>
                         </li>
                         <li class="single-product-cart">
                             <div class="cart-checkout-btn">
-                                <a class="btn-hover cart-btn-style" href="/cart">view cart</a>
-                                <a class="no-mrg btn-hover cart-btn-style" href="#">checkout</a>
+                                <a class="btn-hover cart-btn-style" href="/cart">{{ 'View cart'| langJson }}</a>
+                                <a class="no-mrg btn-hover cart-btn-style" href="/checkout">{{ 'Checkout'| langJson }}</a>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div v-else-if="!signedIn">
-                    <h3>You need to login to view your cart</h3>
+                    <h3>{{ 'You need to login to view your cart'| langJson }}</h3>
                     <ul>
                         <li class="single-product-cart">
                             <div class="cart-checkout-btn">
-                                <a class="btn-hover cart-btn-style" href="/login">login</a>
-                                <a class="no-mrg btn-hover cart-btn-style" href="/register">register</a>
+                                <a class="btn-hover cart-btn-style" href="/login">{{ 'Login'| langJson }}</a>
+                                <a class="no-mrg btn-hover cart-btn-style" href="/register">{{ 'Register'| langJson }}</a>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div v-else>
-                        <h3>Your cart is empty</h3>
+                        <h3>{{ 'Your cart is empty'| langJson }}</h3>
                         <ul>
                             <li class="single-product-cart">
                                 <div class="cart-checkout-btn">
-                                    <a class="btn-hover cart-btn-style" href="/">Home</a>
-                                    <a class="no-mrg btn-hover cart-btn-style" href="">hot sale</a>
+                                    <a class="btn-hover cart-btn-style" href="/">{{ 'Home'| langJson }}</a>
+                                    <a class="no-mrg btn-hover cart-btn-style" href="/hot-sale">{{ 'Hot Sale'| langJson }}</a>
                                 </div>
                             </li>
                         </ul>
@@ -80,6 +80,11 @@
         watch: {
             '$root.cart': function(newVal, oldVal) {
                 this.cart = newVal;
+                if( newVal.cookie === 'egp' ){
+                    this.currency =  '£';
+                }else{
+                    this.currency = '$';
+                }
             }
         },
         data(){

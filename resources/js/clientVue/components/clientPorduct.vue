@@ -10,34 +10,34 @@
                     <div class="tab-pane active show fade" id="pro-details99" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
                             <a :href="'/storage/product/images/'+ product.main_image">
-                                <img height="570" width="665" :src="'/storage/product/images/'+ product.main_image" alt="">
+                                <img :src="'/storage/product/images/'+ product.main_image" :alt="product['name_'+lang]">
                             </a>
                         </div>
                     </div>
                     <div class="tab-pane fade"  v-for="(image, mainIndex) in product.images" :id="'pro-details'+mainIndex" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
                             <a :href="'/storage/product/images/'+ image.path">
-                                <img height="570" width="665" :src="'/storage/product/images/'+ image.path" alt="">
+                                <img :src="'/storage/product/images/'+ image.path" :alt="product['name_'+lang]">
                             </a>
                         </div>
                     </div>
                     <div class="tab-pane fade"  v-for="(image, detailsIndex) in images" :id="'pro-details'+detailsIndex+imagesLength" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
                             <a :href="'/storage/product/images/'+ image.path">
-                                <img height="570" width="665" :src="'/storage/product/images/'+ image.path" alt="">
+                                <img :src="'/storage/product/images/'+ image.path" :alt="product['name_'+lang]">
                             </a>
                         </div>
                     </div>
                 </div>
                 <div class="product-details-small nav mt-12 main-product-details" role=tablist>
                     <a class="active mr-12" href="#pro-details99" data-toggle="tab" role="tab" aria-selected="true">
-                        <img :src="'/storage/product/images/thumbnail/'+ product.main_image" alt="">
+                        <img :src="'/storage/product/images/thumbnail/'+ product.main_image" :alt="product['name_'+lang]">
                     </a>
                     <a class="mr-12" v-for="(image, mainIndex2) in product.images"  :href="'#pro-details'+mainIndex2" data-toggle="tab" role="tab" aria-selected="true">
-                        <img :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                        <img :src="'/storage/product/images/thumbnail/'+ image.path" :alt="product['name_'+lang]">
                     </a>
                     <a class="mr-12" v-for="(image, detailsIndex2) in images"  :href="'#pro-details'+detailsIndex2+imagesLength" data-toggle="tab" role="tab" aria-selected="true">
-                        <img :src="'/storage/product/images/thumbnail/'+ image.path" alt="">
+                        <img :src="'/storage/product/images/thumbnail/'+ image.path" :alt="product['name_'+lang]">
                     </a>
                 </div>
             </div>
@@ -46,45 +46,62 @@
 
     <div class="col-md-12 col-lg-5 col-12">
         <div class="product-details-content">
-            <h3 v-if="locale">{{ product.name_ar }}</h3>
-            <h3 v-else>{{ product.name_en }}</h3>
+            <h1>{{ product['name_'+lang] }}</h1>
             <div class="rating-number">
-                <div class="quick-view-rating">
-                    <i class="ion-ios-star red-star"></i>
-                    <i class="ion-ios-star red-star"></i>
-                    <i class="ion-android-star-outline"></i>
-                    <i class="ion-android-star-outline"></i>
-                    <i class="ion-android-star-outline"></i>
-                </div>
+
+                <form class="rating-widget">
+                    <input type="checkbox" class="star-input" id="one" v-on:click="sendRating(1)"/>
+                    <label class="star-input-label" for="one">1
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="two" v-on:click="sendRating(2)"/>
+                    <label class="star-input-label" for="two">2
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="three" v-on:click="sendRating(3)"/>
+                    <label class="star-input-label" for="three">3
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="four" v-on:click="sendRating(4)"/>
+                    <label class="star-input-label" for="four">4
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                    <input type="checkbox" class="star-input" id="5" v-on:click="sendRating(5)"/>
+                    <label class="star-input-label" for="5">5
+                        <i class="fa fa-star"></i>
+                        <i class="fa fa-star orange"></i>
+                    </label>
+                </form>
+
                 <div class="quick-view-number">
-                    <span>2 Ratting (S)</span>
+                    <span><b>{{count}} {{ 'Reviews'| langJson }}</b></span>
                 </div>
+
             </div>
             <div class="details-price">
-                <div><span class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</span></div>
-                <span v-if="product.isOffer" class="offer" >{{currency}}{{offerPrice}}</span>
+                <div><h4 class="price" v-bind:class=" { 'oldprice' : product.isOffer }">{{currency}}{{normalPrice}}</h4></div>
+                <h4 v-if="product.isOffer" class="offer" >{{currency}}{{offerPrice}}</h4>
             </div>
-            <h3 v-if="product.details.length !== 0">Options</h3>
+            <h4 v-if="product.details.length !== 0">{{ 'Options'| langJson }}</h4>
             <section v-for="(detail, index) in product.details">
-                <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
-                <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
+                <h6 style="font-weight: bold;" >{{ detail['name_'+lang] }}:</h6>
             <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
                 <input :checked="clickedInput(sub_detail,index)" :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en,index)">
-                <label v-if="locale" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
-                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                <label :for="detail.name_en+index" :data-text="sub_detail['name_'+lang]"></label>
                 <div class="toggle-button__icon"></div>
             </div>
-
             </section>
 
-
-
-            <h3 v-if="quantity !== 0" >Quantity: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
+            <h3 v-if="quantity !== 0" >{{ 'Quantity'| langJson }}: <span :class="{'qty': quantity <= 5 }">{{quantity}}</span></h3>
             <h3 v-else >Sorry Sold Out &#128577;<p v-if="product.details.length !== 0">Select another option </p></h3>
             <div class="quickview-plus-minus">
-                <span class="input-number-decrement">–</span><input class="input-number" type="text" value="1" min="1" :max="quantity"><span class="input-number-increment">+</span>
+                <span class="input-number-decrement">–</span><input class="input-number" type="text" aria-label="Qty" value="1" min="1" :max="quantity"><span class="input-number-increment">+</span>
                 <div v-if="quantity !== 0" class="quickview-btn-cart">
-                    <addCartbutton :slug="product.slug_en" :options="product.details"></addCartbutton>
+                    <addCartbutton :slug="product['slug_'+lang]" :options="product.details"></addCartbutton>
                 </div>
                 <div class="quickview-btn-wishlist">
                     <addWishlist :list="2" :idproduct="product.id" :wishlistadded="wishlistadded"></addWishlist>
@@ -93,24 +110,19 @@
 
             <div class="product-share">
                 <ul>
-                    <li class="categories-title">Share :</li>
+                    <li class="categories-title">{{ 'Share'| langJson }}:</li>
                     <li>
-                        <a href="#">
-                            <i class="ion-social-twitter"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
-                            <i class="ion-social-tumblr"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#">
+                        <a :href="'https://www.facebook.com/sharer/sharer.php?u='+url" rel="noreferrer" target="_blank" aria-label="Facebook">
                             <i class="ion-social-facebook"></i>
                         </a>
                     </li>
                     <li>
-                        <a href="#">
+                        <a :href="'https://twitter.com/share?text='+product.name_en+'&via=gpu_shop&url='+url" rel="noreferrer" target="_blank" aria-label="Twitter">
+                            <i class="ion-social-twitter"></i>
+                        </a>
+                    </li>
+                    <li>
+                        <a :href="'https://www.instagram.com/?url='+url" rel="noreferrer" target="_blank" aria-label="Instagram">
                             <i class="ion-social-instagram-outline"></i>
                         </a>
                     </li>
@@ -126,7 +138,7 @@
     import addCartbutton from './addCartbutton.vue';
     export default {
         components: { addWishlist, addCartbutton },
-        props:['product','currencyprop','price','wishlistadded'],
+        props:['product','currencyprop','price','wishlistadded','reviews'],
         data(){
             return{
                 images: [],
@@ -137,6 +149,9 @@
                 quantity: this.product.quantity,
                 detailsArray: [],
                 locale:null,
+                count:this.reviews,
+                url: window.location.href,
+                lang: window.App.lang,
             }
         },
         mounted() {
@@ -213,6 +228,31 @@
                     }
                 }
             },
+            sendRating(rating){
+                if(rating <= 5 && window.signed.signedIn){
+                    axios.post('/'+ window.App.lang  + '/rating',{
+                        product:this.product.id,
+                        rating:rating,
+                    })
+                    .catch(error => {
+                       if(error.response.status === 422){
+                           flash(error.response.data,'danger');
+                       }
+                        flash(this.$options.filters.langJson('Sorry You need to buy the product first'),'warning');
+                    })
+                    .then((response) => {
+                        if(response.status === 200) {
+                            flash(this.$options.filters.langJson('Thank you to reviews our product'));
+                            if(response.data[0] === 'created'){
+                                this.count = parseInt(this.count) + 1;
+                            }
+                        }
+                    });
+                }else {
+                    flash( this.$options.filters.langJson('You should to login first') ,'warning');
+                }
+
+            }
         }
     };
 </script>
@@ -222,9 +262,6 @@
         border-radius: 5px;
         border: 2px solid #ee3333;
         color: black;
-    }
-    .quickview-btn-cart{
-        color: white;
     }
     .qty {
         color: red;

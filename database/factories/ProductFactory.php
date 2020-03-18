@@ -27,6 +27,7 @@ $factory->define(\App\Product::class, function (Faker $faker,$id = null) {
         'weight'  => rand(1,50),
         'offer_price_egp' => null,
         'offer_price_usd' => null,
+        'username_seller' => $faker->name,
     ];
 });
 
@@ -70,6 +71,14 @@ $factory->define(\App\Wishlist::class, function (Faker $faker) {
     return [
         'product_id' => \App\Product::first() ? \App\Product::first()->id : factory('App\Product')->create()->id,
         'client_id' => \App\Client::first() ? \App\Client::first()->id : factory('App\Client')->create()->id,
+    ];
+});
+
+$factory->define(\App\Rating::class, function (Faker $faker) {
+    return [
+        'product_id' => 3,
+        'client_id' => rand(9999999,99999999),
+        'rating' => 4,
     ];
 });
 

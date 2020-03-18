@@ -4,6 +4,30 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * App\Wishlist
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property int $client_id
+ * @property bool $public
+ * @property float $sort
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Client $clients
+ * @property-read \App\Product $products
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist whereClientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist wherePublic($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Wishlist whereUpdatedAt($value)
+ * @mixin \Eloquent
+ */
 class Wishlist extends Model
 {
     /**

@@ -95,6 +95,21 @@ return [
             'driver' => 'monolog',
             'handler' => NullHandler::class,
         ],
+        'validationLog' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/validation/validation.log'),
+            'level' => 'info',
+        ],
+        'tokenMismatch' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/tokenMismatch/tokenMismatch.log'),
+            'level' => 'info',
+        ],
+        'notFoundHttp' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/notFoundHttp/notFoundHttp.log'),
+            'level' => 'info',
+        ],
     ],
 
 ];

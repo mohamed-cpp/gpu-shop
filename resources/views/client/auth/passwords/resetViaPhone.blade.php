@@ -1,5 +1,5 @@
 @extends('client.app')
-
+@section('title', __('Reset Password'))
 @section('content')
 
     <div class="container">

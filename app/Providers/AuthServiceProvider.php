@@ -18,6 +18,7 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Product' => 'App\Policies\SellerProductPolicy',
         'App\Wishlist' => 'App\Policies\ClientWishlistPolicy',
+        'App\Order' => 'App\Policies\OrderPolicy',
 //        Product::class => SellerProductPolicy::class,
     ];
 
@@ -33,5 +34,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::before(function ($user, $ability) {
             return $user->hasRole('Super Admin') ? true : null;
         });
+
     }
 }

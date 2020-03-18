@@ -20,10 +20,10 @@
         methods:{
             productWishlist(){
                 if(window.signed.signedIn){
-                    axios.post('/'+window.App.lang+'/wishlist/'+this.id)
+                    axios.post('/'+window.App.lang+'/wishlist/'+this.idproduct)
                         .then(function (response) {
                             if(response && response.status === 204){
-                                flash('added to wishlist');
+                                flash(this.$options.filters.langJson('Added to wishlist'));
                             }
                         })
                         .catch(error => {
@@ -42,7 +42,7 @@
                         .then(function (response) {
                             if(response.status === 204){
                                 self.heart = true;
-                                flash('added to wishlist');
+                                flash(this.$options.filters.langJson('Added to wishlist'));
                             }
                         });
                 }else if(window.signed.signedIn && this.heart){
@@ -50,7 +50,7 @@
                         .then(function (response) {
                             if(response.status === 204){
                                 self.heart = false;
-                                flash('removed from wishlist');
+                                flash(this.$options.filters.langJson('Removed from wishlist'));
                             }
                         });
                 }else {

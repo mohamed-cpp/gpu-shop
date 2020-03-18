@@ -21,6 +21,10 @@ $factory->define(\App\SubCategory::class, function (Faker $faker) {
     return [
         'name_en' => $faker->word ,
         'name_ar' => $faker->word ,
+        'title_en' => $faker->title ,
+        'title_ar' => $faker->title ,
+        'description_en' => $faker->text,
+        'description_ar' => $faker->text,
         'slug_en' => $faker->slug,
         'slug_ar' => $faker->slug,
         'image'   => $faker->image('public/storage/admin/subcategory/images',100,100, null, false) ,

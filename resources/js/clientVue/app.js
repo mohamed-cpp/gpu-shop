@@ -7,7 +7,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
-
+import moment from 'moment';
 // if (process.env.MIX_APP_ENV === 'production') {
 //     Vue.config.productionTip = false;
 //     Vue.config.devtools = false;
@@ -22,6 +22,25 @@ window.Vue = require('vue');
  *
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
+import ar from "../../lang/ar.json";
+import en from "../../lang/en.json";
+
+Vue.filter('langJson',function(data){
+    if(window.App.lang === 'ar'){
+        var lang = ar[data];
+    }else {
+        var lang = en[data];
+    }
+    if (lang){
+        return lang;
+    }
+    return data;
+});
+
+Vue.filter('dateFormat',function(date){
+    return moment(date).fromNow();
+});
+
 let globalData = new Vue({
     data: { $productSlug: null }
 });
@@ -39,6 +58,7 @@ Vue.mixin({
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('client_product', require('./components/clientPorduct.vue').default);
+Vue.component('comment', require('./components/commentPorduct.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -63,8 +83,10 @@ const app = new Vue({
 });
 
 import sidebar from "./components/sidebarCart.vue";
+import count_cart from "./components/countCart.vue";
 import cart_vue from "./components/cart.vue";
 import add_cart_button from "./components/addCartbutton.vue";
+import notification from "./components/notification.vue";
 
 new Vue({
     el: '#cart',
@@ -76,9 +98,11 @@ new Vue({
 });
 
 new Vue({
-    el: '#cartnew',
+    el: '#sidebar',
     components: {
         sidebar,
+        count_cart,
+        notification,
     },
     data:cartDate
 });

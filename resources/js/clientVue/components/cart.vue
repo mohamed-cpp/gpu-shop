@@ -8,12 +8,12 @@
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="product-name">remove</th>
-                                    <th class="product-price">images</th>
-                                    <th class="product-name">Product</th>
-                                    <th class="product-price">Price</th>
-                                    <th class="product-quantity">Quantity</th>
-                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-name">{{'Remove' | langJson}}</th>
+                                    <th class="product-price">{{'images' | langJson}}</th>
+                                    <th class="product-name">{{'Products' | langJson}}</th>
+                                    <th class="product-price">{{'Price' | langJson}}</th>
+                                    <th class="product-quantity">{{'Quantity' | langJson}}</th>
+                                    <th class="product-subtotal">{{'Total' | langJson}}</th>
                                 </tr>
                                 </thead>
                                 <tbody v-for="(product, index) in cart.items">
@@ -35,7 +35,7 @@
                                             <div v-for="(option, index) in product.options">
                                                 <span>{{index}}: {{option.name}}</span><br>
                                             </div>
-                                            <button v-if="Object.keys(product.options).length != 0"  v-on:click="modelOptions(index,product)" id="optionsBtn">Change Options</button>
+                                            <button v-if="Object.keys(product.options).length != 0"  v-on:click="modelOptions(index,product)" id="optionsBtn">{{ 'Change Options' | langJson }}</button>
                                             <div>
                                                 <span v-if="product.for">you are buying for @{{product.for}}</span>
                                             </div>
@@ -73,11 +73,11 @@
                                 <div class="coupon-all">
                                     <div class="coupon" v-if="cart.coupon">
                                         <input id="coupon_code" class="input-text" name="coupon_code" :value="cart.coupon.code" placeholder="Coupon code" type="text" disabled>
-                                        <input class="button" name="apply_coupon" value="Remove coupon" type="submit" v-on:click="removeCoupon()" >
+                                        <input class="button" name="apply_coupon" :value="'Remove coupon'| langJson" type="submit" v-on:click="removeCoupon()" >
                                     </div>
                                     <div class="coupon" v-else>
-                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" placeholder="Coupon code"  type="text">
-                                        <input class="button" name="apply_coupon" value="Apply coupon" type="submit" v-on:click="coupon()" >
+                                        <input id="coupon_code" class="input-text" name="coupon_code" value="" :placeholder="'Coupon Code'| langJson"  type="text">
+                                        <input class="button" name="apply_coupon" :value="'Apply coupon'| langJson" type="submit" v-on:click="coupon()" >
                                         <div v-if="alert" class="alert alert-danger" role="alert">
                                             {{alert}}
                                         </div>
@@ -90,28 +90,26 @@
                         <div class="row">
                             <div class="col-md-5 ml-auto">
                                 <div class="cart-page-total">
-                                    <h2>Cart totals</h2>
-                                    <ul>
+                                    <h2>{{'Cart totals' | langJson}}</h2>
+                                    <ul class="totals">
                                         <li v-for="(product, index) in cart.items">
-                                            {{product.name}} x{{product.qty}}
-                                            <div v-if="product.for">
-                                                For:{{product.for}}
-                                            </div>
                                             <span  :class="{ 'oldpriceCoupon' : product.couponPrice != null}">{{currency}}{{product.totalPriceQty}}</span>
                                             <span v-if="product.couponPrice" class="offerCoupon">{{currency}}{{product.couponTotalPrice}}</span>
+                                            {{product.name}} x{{product.qty}}
+                                            <small v-if="product.for" style="display: block;">
+                                                For:@{{product.for}}
+                                            </small>
+
                                         </li>
 
                                     </ul>
                                     <ul>
-                                        <li>Shipping
-                                            <span>20$</span>
-                                        </li>
-                                        <li>Total
+                                        <li>{{'Total' | langJson}}
                                             <span :class="{ 'oldpriceCoupon' : cart.couponTotalPrice != 0}" >{{currency}}{{cart.totalPrice}} </span>
                                             <span v-if="cart.couponTotalPrice" class="offerCoupon">{{currency}}{{cart.couponTotalPrice}}</span>
                                         </li>
                                     </ul>
-                                    <a>Proceed to checkout</a>
+                                    <a href="/checkout">{{'Proceed to checkout' | langJson}}</a>
                                 </div>
                             </div>
                         </div>
@@ -137,13 +135,13 @@
                             <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
                             <div v-for="(sub_detail, index) in detail.sub_details_without_image" class="toggle-button toggle-button--nummi">
                                 <input :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" >
-                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"></label>
-                                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                                <label v-if="lang === 'ar'" :for="detail.name_en+index" :data-text="sub_detail.name_ar"  @click="flashMessage(sub_detail,index)"></label>
+                                <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"  @click="flashMessage(sub_detail,index)"></label>
                                 <div class="toggle-button__icon"></div>
                             </div>
                         </section>
                         <div class="coupon-all">
-                            <input class="button" value="Change Options" type="submit" v-on:click="updateOptions()">
+                            <input class="button" :value="'Change Options' | langJson" type="submit" v-on:click="updateOptions()">
                         </div>
                     </div>
                 </div>
@@ -167,7 +165,7 @@
         data(){
             return{
                 cart: this.cart_session,
-                lang: null,
+                lang: window.App.lang,
                 currency: null,
                 info: null,
                 modelName:null,
@@ -179,7 +177,6 @@
         },
         // mixins: [sidebar],
         mounted() {
-            this.lang = document.documentElement.lang;
             if( this.cart.cookie === 'egp' ){
                 this.currency =  '£';
             }else{
@@ -190,11 +187,11 @@
             remove(index,name){
                 var self = this;
                 axios.delete('/'+ this.lang + '/cart/remove/' + index)
-                    .then(function (response,) {
+                    .then(function (response) {
                         if(response.status === 200){
                             self.cart = response.data;
                             self.$root.cart = response.data;
-                            flash(name+' Removed');
+                            flash(name+' '+self.$options.filters.langJson('Removed'));
                         }
                     });
             },
@@ -207,22 +204,21 @@
                     var qty = document.getElementById(index).value;
                     var self = this;
                     axios.post('/'+ this.lang + '/cart/qty/'+index+'/'+qty)
+                        .catch(error => {
+                            flash(error.response.data,'danger');
+                        })
                         .then(function (response,) {
                             if(response.status === 200) {
                                 self.cart = response.data;
                                 self.$root.cart = response.data;
-                                flash(name+' qty is '+qty);
+                                flash(name+' '+self.$options.filters.langJson('Quantity')+' '+qty);
                             }
                         });
                 }, 1500);
 
             },
             modelOptions(index,product){
-                if( this.lang === 'ar' ){
-                    this.modelName =  product.item.name_ar;
-                }else{
-                    this.modelName =  product.item.name_en;
-                }
+                this.modelName =  product.item['name_'+this.lang];
                 this.detailsArray = axios.get('/api/details/'+product.item.id+'/'+true)
                     .then(response => this.detailsArray = response.data);
                 document.getElementById("optionsModal").style.display = "block";
@@ -237,26 +233,19 @@
                     optionsArray[item.name_en] = {id: item.id, sub: subOption};
                     optionsString +='.'+subOption;
                 });
-                var self = this;
-                axios.post('/' + window.App.lang + '/cart/page/' + this.modelProduct.item.slug_en, {
-                    options: optionsArray,
-                    qty: this.modelProduct.qty,
-                    string: this.modelIndex,
-                    subOptions: optionsString,
-                }).then(function (response) {
-                        if (response.status === 200) {
-                            self.cart = response.data;
-                            self.$root.cart = response.data;
-                            flash('The product\'s options Updated');
-                            document.getElementById("optionsModal").style.display = "none";
-                        }
-                    });
+                if (this.modelProduct.item.id+optionsString !== this.modelIndex){
+                    this.callServerUpdateOptions(optionsArray,optionsString);
+                }else{
+                    document.getElementById("optionsModal").style.display = "none";
+                    flash(this.$options.filters.langJson("Same options"),'secondary');
+                }
+
             },
             coupon(){
                 var coupon = $('#coupon_code').val();
                 var self = this;
                 if (coupon && coupon.length === 20) {
-                    axios.post('/' + window.App.lang + '/cart/coupon/' + coupon)
+                    axios.post('/' + this.lang + '/cart/coupon/' + coupon)
                         .catch(error => {
                             self.alert = error.response.data;
                         })
@@ -264,24 +253,24 @@
                             if (response.status === 200) {
                                 self.cart = response.data;
                                 self.$root.cart = response.data;
-                                flash('Validation coupon');
+                                flash(self.$options.filters.langJson("Validated coupon"));
                             }
                         });
                 }else if(coupon.length === 0){
-                    this.alert = "The input is empty.";
+                    this.alert = flash(this.$options.filters.langJson("The input is empty"));
                 }else {
-                    this.alert = "The coupon is not validation.";
+                    this.alert = flash(this.$options.filters.langJson("The coupon does not validate"));
                 }
             },
             removeCoupon(){
                 var self = this;
-                axios.delete('/' + window.App.lang + '/cart/remove/coupon/')
+                axios.delete('/' + this.lang + '/cart/remove/coupon/')
                     .then(function (response) {
                         if (response.status === 200) {
                             self.cart = response.data;
                             self.$root.cart = response.data;
                             self.alert = null;
-                            flash('coupon removed');
+                            flash(self.$options.filters.langJson("Coupon removed"));
 
                         }
                     });
@@ -296,6 +285,31 @@
                 }
                 return true;
             },
+            flashMessage(sub_detail,index){
+                let qty = this.modelProduct.minQty;
+                if(index !== 0 && sub_detail.quantity !== 0){
+                    return false;
+                }else if(index === 0 && qty !== 0 ){
+                    return false;
+                }
+                flash(this.$options.filters.langJson("Sold Out"),'secondary');
+            },
+            callServerUpdateOptions(optionsArray,optionsString){
+                var self = this;
+                axios.post('/' + window.App.lang + '/cart/page/' + this.modelProduct.item['slug_'+this.lang], {
+                    options: optionsArray,
+                    qty: this.modelProduct.qty,
+                    string: this.modelIndex,
+                    subOptions: optionsString,
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        self.cart = response.data;
+                        self.$root.cart = response.data;
+                        flash(self.$options.filters.langJson("The product's options updated"));
+                        document.getElementById("optionsModal").style.display = "none";
+                    }
+                });
+            }
         }
     };
 </script>
@@ -314,5 +328,8 @@
     .oldpriceCoupon{
         margin-left: 25px;
         text-decoration-line: line-through;
+    }
+    .totals li {
+        height: 55px;
     }
 </style>

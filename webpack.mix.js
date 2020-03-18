@@ -33,14 +33,21 @@ mix.styles([
 mix.styles('node_modules/intl-tel-input/build/css/intlTelInput.css',
     'public/GPU-Shop/css/intlTelInput.css');
 
+mix.styles('resources/templates/GPU-Shop/css/products_page.css',
+    'public/GPU-Shop/css/products_page.css');
+mix.styles('resources/templates/GPU-Shop/css/product_page.css',
+    'public/GPU-Shop/css/product_page.css');
+mix.styles('resources/templates/GPU-Shop/css/jquery-ui1.12.1.min.css',
+    'public/GPU-Shop/css/jquery-ui.min.css');
+
 
 mix.babel([
-    'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
-    //'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
+    'resources/templates/GPU-Shop/js/bootstrap4.4.min.js',
+    // 'resources/templates/GPU-Shop/js/vendor/jquery-1.12.0.min.js',
+    'resources/templates/GPU-Shop/js/vendor/jquery-3.4.1.min.js',
     'resources/templates/GPU-Shop/js/popper.js',
     // 'resources/templates/GPU-Shop/js/bootstrap.min.js',
     // 'resources/templates/GPU-Shop/js/bootstrap4.min.js',
-    'resources/templates/GPU-Shop/js/bootstrap4.4.min.js',
     'resources/templates/GPU-Shop/js/jquery.magnific-popup.min.js',
     'resources/templates/GPU-Shop/js/isotope.pkgd.min.js',
     'resources/templates/GPU-Shop/js/imagesloaded.pkgd.min.js',
@@ -49,12 +56,18 @@ mix.babel([
     'resources/templates/GPU-Shop/js/slinky.min.js',
     'resources/templates/GPU-Shop/js/ajax-mail.js',
     'resources/templates/GPU-Shop/js/owl.carousel.min.js',
+    'resources/templates/GPU-Shop/js/jquery-ui.min.js',
     'resources/templates/GPU-Shop/js/plugins.js',
     'resources/templates/GPU-Shop/js/main.js',
 ], 'public/GPU-Shop/js/app.js').sourceMaps();
 
 mix.copy('resources/templates/GPU-Shop/js/vendor/modernizr-2.8.3.min.js',
     'public/GPU-Shop/js/modernizr-2.8.3.min.js');
+mix.copy('resources/templates/GPU-Shop/js/product_page.js',
+    'public/GPU-Shop/js/product_page.js');
+mix.copy('resources/templates/GPU-Shop/js/products_page.js',
+    'public/GPU-Shop/js/products_page.js');
+
 mix.babel('node_modules/intl-tel-input/build/js/intlTelInput.js','public/GPU-Shop/js/intlTelInput.js')
     .sourceMaps();
 mix.babel('node_modules/intl-tel-input/build/js/utils.js','public/GPU-Shop/js/utils.js')
@@ -94,3 +107,6 @@ mix.babel('resources/templates/dashboard/js/demo/chart-pie-demo.js',
     'public/dashboard/js/demo/chart-pie-demo.js')
     .sourceMaps();
 
+if (mix.inProduction()) {
+    mix.version();
+}

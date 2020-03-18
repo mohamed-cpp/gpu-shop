@@ -18,7 +18,7 @@ class CreateClientsTable extends Migration
             $table->boolean('approved')->default(1);
             $table->unsignedInteger('provider_id')->nullable();
             $table->string('name', 30);
-            $table->string('username', 30)->unique();
+            $table->string('username', 30)->unique()->index();
             $table->string('phone_number')->unique();
             $table->string('email')->nullable()->unique();
             $table->unsignedInteger('code')->nullable()->unique();

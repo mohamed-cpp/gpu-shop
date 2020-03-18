@@ -2,22 +2,98 @@
 
 namespace App;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\App;
 
+/**
+ * App\SubCategory
+ *
+ * @property int $id
+ * @property string $name_en
+ * @property string $name_ar
+ * @property string|null $slug_en
+ * @property string|null $slug_ar
+ * @property string|null $image
+ * @property int|null $category_id
+ * @property int|null $sort
+ * @property bool $status
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property bool $parent
+ * @property int|null $parent_id
+ * @property-read \App\Category|null $category
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\SubCategory[] $child
+ * @property-read int|null $child_count
+ * @property-read mixed $name
+ * @property-read mixed $slug
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\SubcatProduct[] $products
+ * @property-read int|null $products_count
+ * @method static bool|null forceDelete()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory newQuery()
+ * @method static \Illuminate\Database\Query\Builder|\App\SubCategory onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory query()
+ * @method static bool|null restore()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereCategoryId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereImage($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereParent($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereParentId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereSlugAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereSlugEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereSort($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Query\Builder|\App\SubCategory withTrashed()
+ * @method static \Illuminate\Database\Query\Builder|\App\SubCategory withoutTrashed()
+ * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Product[] $manyProducts
+ * @property-read int|null $many_products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\SubCategory status()
+ */
 class SubCategory extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image','parent','parent_id'
+        'name_en','name_ar','sort','status','slug_en','slug_ar','category_id','image','parent','parent_id',
+        'title_en','title_ar','description_en','description_ar'
     ];
 
     protected $casts = [
         'status' => 'boolean',
         'parent' => 'boolean',
     ];
+
+    /**
+     * The "booting" method of the model.
+     *
+     * @return void
+     */
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::updated(function () {
+            \Cache::forget('categories');
+        });
+
+        static::created(function() {
+            \Cache::forget('categories');
+        });
+
+        static::deleted(function() {
+            \Cache::forget('categories');
+        });
+    }
+
 //    protected $with = ['child'];
     /**
      * Category
@@ -32,8 +108,37 @@ class SubCategory extends Model
         return $this->hasMany(SubcatProduct::class,'subcategoryable_id');
     }
 
+    public function manyProducts(){
+        return $this->hasManyThrough(
+            'App\Product',
+            'App\SubcatProduct',
+            'subcategoryable_id',
+            'id',
+            'id',
+            'productable_id')
+            ->enabled();
+    }
+
     public function child(){
         return $this->hasMany(SubCategory::class,'parent_id');
+    }
+    public function paginateManyProducts(){
+        return $this->manyProducts();
+    }
+
+    public function paginateManyOfferProducts(){
+        return $this->manyProducts()
+            ->where([['products.offer_start_at', '<', now()],
+                    ['products.offer_end_at', '>', now()]]);
+    }
+
+    public function paginateManyFilterProducts($column,$keywords,$currency,$request,$isOfferPage,$sort){
+        return $this->manyProducts()
+            ->where([[$column, 'LIKE', '%' . $keywords . '%' ],
+                ["products.{$isOfferPage[0]}price_".$currency, '<=',  $request['max'] ],
+                ["products.{$isOfferPage[0]}price_".$currency, '>=',  $request['min'] ],])
+            ->where($isOfferPage[1])
+            ->orderBy($sort[1][0], $sort[0][0]);
     }
 
     public static function findBySlugsOrFail($slug){
@@ -59,6 +164,18 @@ class SubCategory extends Model
         return $this->{$column};
     }
 
+    public function getTitleAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "title_" . $locale;
+        return $this->{$column};
+    }
+    public function getDescriptionAttribute()
+    {
+        $locale = App::getLocale();
+        $column = "description_" . $locale;
+        return $this->{$column};
+    }
     /**
      * Get the route key name.
      *
@@ -68,5 +185,14 @@ class SubCategory extends Model
     {
         $locale = App::getLocale();
         return "slug_" . $locale;
+    }
+
+    /**
+     * @param Builder $query
+     * @return mixed
+     */
+    public function scopeStatus(Builder $query)
+    {
+        return $query->where('status', 1);
     }
 }

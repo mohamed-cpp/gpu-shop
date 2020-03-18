@@ -1,4 +1,16 @@
 @extends('client.app')
+@section('title', $client->name.' '.__('Wishlist'))
+@section("SEO")
+    <link rel="canonical" href="{{request()->fullUrl()}}" />
+    <meta name="robots" content="index,follow">
+    <meta property="og:locale" content="{{app()->getLocale()}}">
+    <meta name="description" content="{{ __('Guest.Wishlist') }}">
+    <meta property="og:type" content="product"/>
+    <meta property="og:title" content="{{$client->name}} {{__('Wishlist')}}"/>
+    <meta property="og:description" content="{{ __('Guest.Wishlist') }}"/>
+    <meta property="og:url" content="{{ route('show.wishlist.guest',$client->username) }}"/>
+    <meta property="og:site_name" content="{{ __("GPU_Shop") }}"/>
+@endsection
 @push('styles')
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <style>
@@ -64,18 +76,22 @@
             width: 28%;
         }
         .product-card .cart-checkout-btn a{
-            border: 1px solid rgba(0, 0, 0, 0.55);
+            border: 1px solid rgba(0, 0, 0, 0.69);
+            background-color: rgba(0, 0, 0, 0.23);
+        }
+        .product-card a:hover{
+            color: #fff !important;
         }
     </style>
 @endpush
 @section('content')
-    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url(/assets/img/bg/breadcrumb.jpg)">
+    <div class="breadcrumb-area pt-205 pb-210" style="background-image: url({{wishlistGuestImage()}})">
         <div class="container">
             <div class="breadcrumb-content">
-                <h2>wishlist</h2>
+                <h2>{{$client->name}} {{__('Wishlist')}}</h2>
                 <ul>
-                    <li><a href="#">home</a></li>
-                    <li> wishlist </li>
+                    <li><a href="/">{{__('Home')}}</a></li>
+                    <li> {{__('Wishlist')}} </li>
                 </ul>
             </div>
         </div>
@@ -85,20 +101,19 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                    <h1 class="cart-heading">wishlist</h1>
+                    <h1 class="cart-heading">{{__('Wishlist')}}</h1>
                     <form action="{{route('show.wishlist.guest', app()->runningUnitTests() ?  'phpunit' : request()->segment(3) )}}" method="get">
-                        <input placeholder='Search...' class='js-search' name="keywords" type="text">
-                        <button type="submit" class="removeButton"><i class="fa fa-search"></i></button>
+                        <input placeholder='{{__('Search')}}' aria-label="Search In Wishlist" class='js-search' name="keywords" type="text">
+                        <button type="submit" class="removeButton" aria-label="Search In Wishlist"><i class="fa fa-search"></i></button>
                     </form>
-                    <form action="#">
                         <div class="table-content table-responsive" id="appView">
                             <table>
                                 <thead>
                                 <tr>
-                                    <th class="product-price">images</th>
-                                    <th class="product-name">name</th>
-                                    <th class="product-price">Price</th>
-                                    <th>Cart</th>
+                                    <th class="product-price">@lang('images')</th>
+                                    <th class="product-name">@lang('Product Name')</th>
+                                    <th class="product-price">@lang('Price')</th>
+                                    <th>@lang('Cart')</th>
                                 </tr>
                                 </thead>
                                 @php $currency = Cookie::get('currency') == 'EGP' ? '£' : '$'@endphp
@@ -110,7 +125,7 @@
                                         @if($wishlistProduct->products->status == false || $wishlistProduct->products->approved != 1)
                                             <i class="fa fa-times-circle" style="font-size: 47px;"></i>
                                         @else
-                                            <a href="{{$wishlistProduct->products->slug}}">
+                                            <a href="{{route('show.product.client',$wishlistProduct->products->slug)}}">
                                                 <img width="80" height="80" src="{{asset('storage/product/images/thumbnail/'.$wishlistProduct->products->main_image)}}" alt="">
                                             </a>
                                         @endif
@@ -122,7 +137,7 @@
                                             </span>
                                             <p>Sorry The Product Out of Stock</p>
                                         @else
-                                            <a href="{{$wishlistProduct->products->slug}}">
+                                            <a href="{{route('show.product.client',$wishlistProduct->products->slug)}}">
                                                 {{$wishlistProduct->products->name}}
                                             </a>
                                         @endif
@@ -141,7 +156,6 @@
                                 @endforeach
                             </table>
                         </div>
-                    </form>
                 </div>
             </div>
         </div>

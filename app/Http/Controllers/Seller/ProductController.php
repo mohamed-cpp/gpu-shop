@@ -80,8 +80,11 @@ class ProductController extends Controller
      */
     public function store(ProductCreateRequest $request)
     {
-        $input = $request->all();
         $seller = auth('seller')->user();
+        $input = $request->all();
+        $input['username_seller'] = $seller->username;
+        $input['slug_ar'] = preg_replace("/\s+/","_",$input['slug_ar']);
+        $input['slug_en'] = preg_replace("/\s+/","_",$input['slug_en']);
         $input = $this->storeFee($input,$seller);
         $image = $request->file('main_image');
         $input['main_image'] = $this->moveImage($image);
@@ -326,7 +329,12 @@ class ProductController extends Controller
 
     public function moveImage($image){
         $path = 'storage/product/images/';
-        $image->move(public_path($path),$name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension());
+        $name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension();
+
+        $image_resize = Image::make($image->getRealPath());
+        $image_resize->resize(1200, 1125);
+        $image_resize->save(public_path($path.$name));
+
         $this->addWatermark($name);
         $this->addWatermark($name,'storage/product/images/thumbnail/',true);
         return $name;
@@ -334,7 +342,7 @@ class ProductController extends Controller
     protected function addWatermark($name,$path = 'storage/product/images/',$thumbnail=false){
         $img = Image::make(public_path('storage/product/images/'.$name));
         $img->insert(public_path('assets/img/logo/watermark.png'), 'bottom-left', 10, 10);
-        if($thumbnail === true) {$img->resize(365, 302);}
+        if($thumbnail === true) {$img->resize(365, 400);}
         $img->save(public_path($path.$name));
     }
     protected function searchImages($imagesArray , $value){

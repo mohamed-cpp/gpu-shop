@@ -20,7 +20,7 @@ class CreateSubCategoriesTable extends Migration
             $table->string('slug_en')->index()->nullable();
             $table->string('slug_ar')->index()->nullable();
             $table->string('image')->nullable();
-            $table->unsignedInteger('category_id')->nullable();
+            $table->unsignedInteger('category_id')->nullable()->index();
             $table->unsignedTinyInteger('sort')->nullable();
             $table->boolean('status');
             $table->softDeletes();

@@ -1,4 +1,17 @@
-Sitemap: http://ako.am/sitemaps/sitemap.xml
 User-agent: *
-Disallow: /en/admin/
-Disallow: sellers.gpu-shop.local
+Disallow: /admin
+Disallow: /profile
+Disallow: /wishlist
+Disallow: /cart
+Disallow: /orders
+Disallow: /checkout
+Disallow: /checkout
+Disallow: /confirm
+Disallow: /paypal
+Disallow: /rating
+Disallow: /comment
+Disallow: /notification
+Disallow: /password
+Disallow: /register/verify
+Disallow: /register/verify/resend
+

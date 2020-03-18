@@ -131,6 +131,10 @@ class CategotiresAdminTest extends TestCase
             'category_id' => $this->category->id,
             'name_en' => 'MobileSub',
             'name_ar' => 'MobileAR',
+            'title_en' => 'Title En Seo',
+            'title_ar' => 'Title Ar Seo',
+            'description_en' => 'Description En Seo',
+            'description_ar' => 'Description Ar Seo',
             'slug_en' => 'Apple_Mobile',
             'slug_ar' => 'Apple_MobileAR',
             'sort'    => '1',
@@ -185,16 +189,19 @@ class CategotiresAdminTest extends TestCase
     public function test_update_a_subcategories(){
         $this->actingAs($this->admin,'web');
         $this->patch(route('subcategories.update',[$this->subcategory]),[
-            'category_id' => $this->category->id,
             'name_en' => 'MobileSub',
             'name_ar' => 'MobileAR',
+            'title_en' => 'Title En Seo',
+            'title_ar' => 'Title Ar Seo',
+            'description_en' => 'Description En Seo',
+            'description_ar' => 'Description Ar Seo',
             'slug_en' => 'Apple_Mobile',
             'slug_ar' => 'Apple_MobileAR',
             'sort'    => '1',
             'status'  => '1',
         ])
             ->assertStatus(302)
-            ->assertRedirect(route('categories.show',[$this->category->id]));
+            ->assertRedirect(route('categories.show',[$this->subcategory->category_id]));
         $this->assertDatabaseHas('sub_categories',['name_en' => 'MobileSub']);
     }
 

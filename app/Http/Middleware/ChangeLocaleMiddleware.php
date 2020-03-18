@@ -26,9 +26,11 @@ class ChangeLocaleMiddleware
         }
         if (!preg_match('/\b'. app()->getLocale().'\b/', url()->previous()) ){
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
-            $cart = new Cart($oldCart);
-            $cart->updateItems(Cookie::get('currency'));
-            session()->put('cart',$cart);
+            if ($oldCart){
+                $cart = new Cart($oldCart);
+                $cart->updateItems(Cookie::get('currency'));
+                session()->put('cart',$cart);
+            }
         }
         return $next($request);
     }

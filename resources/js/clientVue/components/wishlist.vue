@@ -3,12 +3,12 @@
             <table>
                 <thead>
                 <tr>
-                    <th class="product-name">remove</th>
-                    <th class="product-price">images</th>
-                    <th class="product-name">name</th>
-                    <th class="product-price">Price</th>
-                    <th class="product-price">Visibility</th>
-                    <th class="product-sort">sort</th>
+                    <th class="product-name">{{ 'Remove'| langJson }}</th>
+                    <th class="product-price">{{ 'images'| langJson }}</th>
+                    <th class="product-name">{{ 'Name'| langJson }}</th>
+                    <th class="product-price">{{ 'Price'| langJson }}</th>
+                    <th class="product-price">{{ 'Visibility'| langJson }}</th>
+                    <th class="product-sort">{{ 'Sort'| langJson }}</th>
                 </tr>
                 </thead>
                 <tbody v-for="(wishlist, index) in wishlistsVue" v-if="wishlist.products">
@@ -21,30 +21,22 @@
                     <td class="product-thumbnail">
                         <i v-if="wishlist.products.status == false || wishlist.products.approved != 1" class="fa fa-times-circle" style="font-size: 47px;"></i>
                         <div v-else>
-                            <a v-if="locale" :href="'/p/' + wishlist.products.slug_ar">
+                            <a :href="'/'+lang+'/p/' + wishlist.products['slug_'+lang]">
                                 <img width="80" height="80" :src="'/storage/product/images/thumbnail/'+ wishlist.products.main_image" alt="">
                             </a>
-                            <a v-else :href="'/p/' + wishlist.products.slug_en">
-                                <img width="80" height="80" :src="'/storage/product/images/thumbnail/'+ wishlist.products.main_image" alt="">
-                            </a>
+
                         </div>
                     </td>
                     <td class="product-name">
                         <div v-if="wishlist.products.status == false || wishlist.products.approved != 1">
-                            <span v-if="locale" class="statusProduct">
-                                {{ wishlist.products.name_ar }}
+                            <span class="statusProduct">
+                                {{ wishlist.products['name_'+lang] }}
                             </span>
-                            <span v-else class="statusProduct">
-                                {{ wishlist.products.name_en }}
-                            </span>
-                            <p>Sorry The Product Out of Stock</p>
+                            <p>{{'Sorry The Product Out of Stock'| langJson }}</p>
                         </div>
                         <div v-else >
-                            <a v-if="locale"  :href="'/p/' + wishlist.products.slug_ar">
-                                {{ wishlist.products.name_ar }}
-                            </a>
-                            <a v-else  :href="'/p/' + wishlist.products.slug_en">
-                                {{ wishlist.products.name_en }}
+                            <a :href="'/'+lang+'/p/' + wishlist.products['slug_'+lang]">
+                                {{ wishlist.products['name_'+lang] }}
                             </a>
                         </div>
                     </td>
@@ -52,21 +44,14 @@
                         <i v-if="wishlist.products.status == false || wishlist.products.approved != 1" class="fa fa-times-circle" style="font-size: 47px;"></i>
                         <div v-else>
                             <div v-if="wishlist.products.isOffer == true">
-                                <div v-if="currency === '$'">
-                                    <span class="oldprice amount">$ {{wishlist.products.price_usd}}</span>
-                                    <span class="offer">$ {{wishlist.products.offer_price_usd}}</span>
-                                </div>
-                                <div v-else>
-                                    <span class="oldprice amount">£ {{wishlist.products.price_egp}}</span>
-                                    <span class="offer">£ {{wishlist.products.offer_price_egp}}</span>
+                                <div>
+                                    <span class="oldprice amount">{{currency}}{{wishlist.products['price_'+currencyprop.toLowerCase() ]}}</span>
+                                    <span class="offer">{{currency}}{{wishlist.products['offer_price_'+currencyprop.toLowerCase() ]}}</span>
                                 </div>
                             </div>
                             <div v-else>
-                                <div v-if="currency === '$'">
-                                    <span class="amount">$ {{wishlist.products.price_usd}}</span>
-                                </div>
-                                <div v-else>
-                                    <span class="amount">£ {{wishlist.products.price_egp}}</span>
+                                <div>
+                                    <span class="amount">{{currency}}{{wishlist.products['price_'+currencyprop.toLowerCase() ]}}</span>
                                 </div>
                             </div>
                         </div>
@@ -101,6 +86,7 @@
             return{
                 currency:null,
                 wishlistsVue: this.wishlists,
+                lang: window.App.lang,
             }
         },
         mounted() {
@@ -131,7 +117,7 @@
                     .then(function (response,) {
                         if(response.status === 204){
                             self.$delete(self.wishlists, index);
-                            flash('removed');
+                            flash(this.$options.filters.langJson('Removed'));
                         }
                     });
 
@@ -155,7 +141,7 @@
                             }else {
                                 self.wishlists.splice(index+1, 0, theWishlist);
                             }
-                            flash('moved');
+                            flash(this.$options.filters.langJson('Moved'));
                         }
                     });
             },
@@ -178,7 +164,7 @@
                             }else {
                                 self.wishlists.push(theWishlist);
                             }
-                            flash('moved');
+                            flash(this.$options.filters.langJson('Moved'));
                         }
                     });
             }
@@ -187,35 +173,35 @@
     };
 </script>
 <style>
-    .product-sort{
+    .table-content .product-sort{
         width: 20%;
     }
-    .product-sort div{
+    .table-content .product-sort div{
         margin-bottom: 5px;
     }
-    .fa{
+    .table-content .fa{
         font-size: 25px;
         margin-left: 5px;
     }
-    .fa:hover{
+    .table-content .fa:hover{
         color: #ff3243;
         cursor: pointer;
     }
 
-    .oldprice{
+    .table-content .oldprice{
         text-decoration-line: line-through;
         padding-right: 5px !important;
     }
-    .statusProduct{
+    .table-content .statusProduct{
         text-decoration-line: line-through;
     }
-    .offer{
+    .table-content .offer{
         display: block;
         font-size: 16px;
         color: red;
         font-weight: 700;
     }
-    .removeButton{
+    .table-content .removeButton{
         border: none;
         cursor: pointer;
     }

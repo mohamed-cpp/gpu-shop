@@ -19,7 +19,7 @@ class CreateAdminsTable extends Migration
             $table->increments('id');
             $table->boolean('enable')->default(0);
             $table->string('name', 30);
-            $table->string('username', 30)->unique();
+            $table->string('username', 30)->unique()->index();
             $table->string('phone_number')->unique();
             $table->string('email')->nullable()->unique();
             $table->integer('code',false)->nullable()->unique();

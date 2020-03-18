@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Arr;
 use Illuminate\Support\Facades\Cookie;
 
 class Cart
@@ -27,6 +28,7 @@ class Cart
     public function add( $item, $username ){
         $storedItem = null;
         $optionString = null;
+        $foundItem = null;
         $qty = $item->isOffer ? $item->quantity_offer : $item->quantity;
         $options = $item->details()
             ->with('subDetailsWithoutImage')
@@ -46,6 +48,7 @@ class Cart
         if($this->items){
             if(array_key_exists($item->id.$optionString.$username,$this->items)){
                 $storedItem = $this->items[$item->id.$optionString.$username];
+                $foundItem = true;
             }
         }
         if(!$storedItem){
@@ -77,13 +80,16 @@ class Cart
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$item->id.$optionString.$username] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
+            $this->totalPrice = round($this->totalPrice, 2);
             if ($this->coupon){
                 $this->coupon($this->coupon);
             }
             return true;
         }
-        return false;
-
+        if ($foundItem){
+            return false;
+        }
+        return null;
     }
 
     public function addWithQtyOptions($item,$options){
@@ -153,11 +159,12 @@ class Cart
             'totalPriceQty' => 0,
             'minQty'        => min($optionsQty),
         ];
-        if($storedItem['qty'] < min($optionsQty)){
+        if($storedItem['qty'] <= min($optionsQty)){
             $this->totalPrice -= $oldItem ? $oldItem['totalPriceQty'] : 0 ;
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$keyProduct] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
+            $this->totalPrice = round($this->totalPrice, 2);
             if ($this->coupon){
                 $this->coupon($this->coupon);
             }
@@ -185,7 +192,9 @@ class Cart
     public function qtyUpdate($index,$qty){
         if(array_key_exists($index,$this->items)){
             $storedItem = $this->items[$index];
-            if($qty <= $storedItem['minQty']){
+            if($storedItem['minQty'] == $storedItem['qty']){
+                return false;
+            } elseif ($qty <= $storedItem['minQty']){
                 if ($this->coupon){
                     $this->couponTotalPrice -= $storedItem['couponTotalPrice'];
                     $storedItem['couponTotalPrice'] = round($storedItem['couponPrice'] * $qty,2);
@@ -196,7 +205,13 @@ class Cart
                 $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
                 $this->totalPrice += $storedItem['totalPriceQty'];
+                $this->totalPrice = round($this->totalPrice, 2);
+                if ($this->coupon){
+                    $this->coupon($this->coupon);
+                }
+                return true;
             }
+            return false;
         }
     }
 
@@ -206,14 +221,21 @@ class Cart
             $total = 0;
             $optionsPrices = 0;
             $optionsArray = [];
+            $minQtyArray = [];
+            $deletedItems = [];
+            $ids = Arr::pluck($this->items, 'item.id');
+            $products = Product::findMany($ids)->keyBy('slug_en');
             foreach ($this->items as $index => $item){
-                if ($item['item']->isOffer) {
+                $product = $products[$item['item']->slug_en];
+                if ($product->isOffer) {
                     $currency = "offer_price_$this->cookie";
+                    $minQtyArray[]= $product->quantity_offer;
                 } else {
                     $currency = "price_$this->cookie";
+                    $minQtyArray[]= $product->quantity;
                 }
                 if ($item['options']) {
-                    $optionsItem = $item['item']->details()
+                    $optionsItem = $product->details()
                         ->with('subDetailsWithoutImage')
                         ->without('subDetails')
                         ->get();
@@ -226,29 +248,45 @@ class Cart
                             'name' => $singleSubOption->name,
                         ];
                         $optionsPrices += $singleSubOption['price_' . $currency];
+                        if ($singleSubOption->quantity > 0){
+                            $minQtyArray[] =  $singleSubOption->quantity;
+                        }
                     }
                 }
                 $storedItem = [
                     'for'           => $item['for'],
-                    'name'          => $item['item']->name,
-                    'slug'          => $item['item']->slug,
+                    'name'          => $product->name,
+                    'slug'          => $product->slug,
                     'qty'           => $item['qty'],
-                    'price'         => $item['item']->$currency + $optionsPrices,
+                    'price'         => $product->$currency + $optionsPrices,
                     'couponPrice'   => null,
                     'couponTotalPrice'   => null,
-                    'item'          => $item['item'],
+                    'item'          => $product,
                     'options'       => $optionsArray,
-                    'totalPriceQty' => $item['item']->$currency * $item['qty'],
-                    'minQty'        => $item['minQty'],
+                    'totalPriceQty' => $product->$currency * $item['qty'],
+                    'minQty'        => min($minQtyArray),
                 ];
-                $total += $storedItem['totalPriceQty'];
-                $this->items[$index] = $storedItem;
+                if ( $product->isOffer != $item['item']->isOffer){
+                    $storedItem['message'] = $product->isOffer ?
+                        trans("The Offer Started!!! You can add the product to cart with new price.")
+                        : trans('The Offer Ended.') ;
+                    $deletedItems[] = $storedItem;
+                    unset($this->items[$index]);
+                }elseif ($storedItem['qty'] > $storedItem['minQty']){
+                    $storedItem['message'] = trans('Sorry But Quantity of The Product Is Over');
+                    $deletedItems[] = $storedItem;
+                    unset($this->items[$index]);
+                }else{
+                    $total += $storedItem['totalPriceQty'];
+                    $this->items[$index] = $storedItem;
+                }
                 $optionsArray = [];
             }
             $this->totalPrice = $total;
             if ($this->coupon){
                 $this->coupon($this->coupon);
             }
+            return $deletedItems;
         }
 
     }
@@ -282,13 +320,7 @@ class Cart
         foreach ($this->items as $index => $item){
             if ($item['item']->seller_id === $seller_id){
                 $storedItem = $this->items[$index];
-                if($coupon->is_percent){
-                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) *  $storedItem['price'], 2);
-
-
-                }else{
-                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
-                }
+                $storedItem['couponPrice'] = $this->couponPrice($coupon,$storedItem['price']);
                 $total -= $storedItem['totalPriceQty'];
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
@@ -299,7 +331,8 @@ class Cart
                 }
             }
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
     }
 
     protected function product($coupon,$product){
@@ -308,12 +341,7 @@ class Cart
         foreach ($this->items as $index => $item){
             if ($item['item']->id === $product){
                 $storedItem = $this->items[$index];
-                if($coupon->is_percent){
-                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) *  $storedItem['price'], 2);
-
-                }else{
-                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
-                }
+                $storedItem['couponPrice'] = $this->couponPrice($coupon,$storedItem['price']);
                 $total -= $storedItem['totalPriceQty'];
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
@@ -324,7 +352,8 @@ class Cart
                 }
             }
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
     }
 
     protected function subcategory($coupon,$subCategories){
@@ -338,11 +367,7 @@ class Cart
         foreach ($this->items as $index => $item){
             if (in_array($item['item']->id,$SubCategoryProducts)) {
                 $storedItem = $this->items[$index];
-                if ($coupon->is_percent) {
-                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) * $storedItem['price'], 2);
-                } else {
-                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
-                }
+                $storedItem['couponPrice'] = $this->couponPrice($coupon,$storedItem['price']);
                 $total -= $storedItem['totalPriceQty'];
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[$index] = $storedItem;
@@ -353,7 +378,8 @@ class Cart
                 }
             }
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
     }
 
     protected function allItems($coupon){
@@ -361,12 +387,7 @@ class Cart
         $i=0;
         foreach ($this->items as $index => $item){
                 $storedItem = $this->items[$index];
-                if($coupon->is_percent){
-                    $storedItem['couponPrice'] = round(((100 - $coupon->discount) * 0.01) *  $storedItem['price'], 2);
-
-                }else{
-                    $storedItem['couponPrice'] = $storedItem['price'] - $coupon->price();
-                }
+                $storedItem['couponPrice'] = $this->couponPrice($coupon,$storedItem['price']);
                 $total -= $storedItem['totalPriceQty'];
                 $storedItem['couponTotalPrice'] = $storedItem['couponPrice'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
@@ -377,7 +398,8 @@ class Cart
                 }
 
         }
-        $this->couponTotalPrice = round($this->couponTotalPrice, 2) + $total;
+        $this->couponTotalPrice = $this->couponTotalPrice + $total;
+        $this->couponTotalPrice = round($this->couponTotalPrice, 2);
 
     }
 
@@ -390,6 +412,14 @@ class Cart
             $storedItem['couponPrice'] = null ;
             $storedItem['couponTotalPrice'] = null ;
             $this->items[ $index ] = $storedItem;
+        }
+    }
+
+    protected function couponPrice($coupon,$price){
+        if($coupon->is_percent){
+            return round(((100 - $coupon->discount) * 0.01) *  $price, 2);
+        }else{
+            return $price - $coupon->price();
         }
     }
 

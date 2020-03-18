@@ -13,12 +13,10 @@
 Route::get("/", 'Client\ClientsHomePageController@homepage')->name('homepage');
 
 Route::group(['middleware' => 'client'], function () {
-    Route::get('/home', function () {
-        return view('client.main');
-    })->name('client.home');
 
     Route::prefix('profile')->group(function () {
         Route::get('/', 'Client\ProfileClientController@show')->name('client.profile');
+        Route::post('/', 'Client\ProfileClientController@update')->name('update.client.profile');
 
         Route::get('phone/verify', 'Client\PhoneVerifyClientController@index')->name('verify.phone.client');
         Route::post('phone/verify', 'Client\PhoneVerifyClientController@create')->name('code.phone.client');
@@ -39,10 +37,31 @@ Route::group(['middleware' => 'client'], function () {
     Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
     Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
     Route::post('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
-    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon');
+    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon')
+        ->middleware('throttle:5,1');
     Route::delete('cart/remove/coupon', 'Client\ClientCartController@removeCoupon');
     Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
 
+    Route::get('orders', 'Client\OrderController@index')->name('orders.client');
+    Route::get('orders/{order}', 'Client\OrderController@show')->name('order.client');
+    Route::post('orders', 'Client\OrderController@delivered')->name('delivered.client');
+    Route::get('checkout', 'Client\OrderController@create')->name('checkout.client');
+    Route::post('checkout', 'Client\OrderController@store')->name('create.checkout.client');
+    Route::get('confirm', 'Client\OrderController@confirm')->name('confirm.checkout.client');
+    Route::get('paypal/checkout', 'Client\OrderController@paypalCheckout')->name('checkout.paypal.client');
+    Route::get('paypal/cancel', 'Client\OrderController@paypalCancel')->name('cancel.paypal.client');
+
+    Route::post('rating', 'Client\ClientProductController@rating')
+        ->name('create.rating.client')
+        ->middleware('throttle:5,1');
+
+    Route::post('comment/store/{product}', 'CommentController@store');
+    Route::patch('comment/update', 'CommentController@update');
+    Route::delete('comment/delete/{id}', 'CommentController@delete');
+
+    Route::get('notification', 'Client\ProfileClientController@notification')->name('notification.client');
+    Route::patch('notification/read', 'Client\ProfileClientController@readNotification')->name('read.notification.client');
+    Route::patch('notification/read/{id}', 'Client\ProfileClientController@aReadNotification')->name('read.notification.client');
 });
 
 // Authentication Routes
@@ -82,25 +101,21 @@ Route::post('password/change/phone', 'Client\PhoneVerifyClientController@changeP
     ->name('client.change.password.phone');
 
 
-Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.product');
+Route::get("search", "Client\ClientProductController@search")->name('search.product');
+Route::get("s/{subcategory}", "SubcatProductController@show")->name('show.products');
 Route::get('p/{product}', 'Client\ClientProductController@show')->name('show.product.client');
+Route::get('hot-sale', 'Client\ClientProductController@hotSale')->name('hotSale.client');
 Route::get('f/{subcategory}/', 'SubcatProductController@filter')->name('filter.product.client');
 Route::get('offer/{subcategory}/', 'SubcatProductController@showOffers')->name('offers.product.client');
 Route::get('change/currency', 'Client\ClientController@currency')->name('currency.product.client');
 
 Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
+Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('view.profile');
 
 
 Route::get('/test', function () {
-//    session(['key' => 'valuew2']);
-//    session()->put('cart','uew2');.
-//    session()->forget('cart');
-//    session()->flush();
-//    session()->put('cart',null);
-
-//    dd(session()->get('cart'),session()->get('cart2'));
-//    return session()->get('cart');
+    return sliderImages() ;
 }) ;
 Route::get('/testt', function () {
-    return App\Category::find(4)->subCategories()->get();
-}) ;
+
+})->name('test') ;

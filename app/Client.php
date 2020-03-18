@@ -16,6 +16,67 @@ use Spatie\Permission\Traits\HasRoles;
  * App\Models\Client
  *
  * @method static Builder|Client whereEmail($value)
+ * @property int $id
+ * @property int $approved
+ * @property int|null $provider_id
+ * @property string $name
+ * @property string $username
+ * @property string $phone_number
+ * @property string|null $email
+ * @property int|null $code
+ * @property \Illuminate\Support\Carbon|null $create_code_at
+ * @property \Illuminate\Support\Carbon|null $email_verified_at
+ * @property \Illuminate\Support\Carbon|null $phone_verified_at
+ * @property string $password
+ * @property string|null $deleted_at
+ * @property string|null $remember_token
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
+ * @property-read int|null $permissions_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Role[] $roles
+ * @property-read int|null $roles_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Wishlist[] $wishlist
+ * @property-read int|null $wishlist_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client permission($permissions)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client role($roles, $guard = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereApproved($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCreateCodeAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereEmailVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client wherePhoneNumber($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client wherePhoneVerifiedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereProviderId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereRememberToken($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereUsername($value)
+ * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Order[] $orders
+ * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Rating[] $rating
+ * @property-read int|null $rating_count
+ * @property string|null $img
+ * @property string|null $address
+ * @property string|null $city
+ * @property string|null $country
+ * @property string|null $zip
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Comment[] $comment
+ * @property-read int|null $comment_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereAddress($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCity($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereCountry($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereImg($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Client whereZip($value)
  */
 
 class Client extends Authenticatable implements MustVerifyEmail
@@ -28,7 +89,7 @@ class Client extends Authenticatable implements MustVerifyEmail
 
     protected $fillable = [
         'name', 'username', 'phone_number','email', 'password', 'email_verified_at'
-        , 'code', 'phone_verified_at', 'create_code_at'
+        , 'code', 'phone_verified_at', 'create_code_at', 'img', 'address', 'city', 'country', 'zip'
     ];
 
     protected $hidden = ['password', 'remember_token'];
@@ -43,6 +104,21 @@ class Client extends Authenticatable implements MustVerifyEmail
     public function wishlist()
     {
         return $this->hasMany(Wishlist::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function rating()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function comment()
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
     /**
      * Send an email with a verification code for the client
@@ -155,6 +231,14 @@ class Client extends Authenticatable implements MustVerifyEmail
          auth('client')->user();
         return auth('client')->user()->code == $code;
     }
+
+    public function commentNotification($product){
+        return [
+            'message_en' => $this->name." Replied On $product->name_en Product",
+            'message_ar' => 'منتج ' . $product->name_ar . " رد فى تعليق على " . $this->name
+        ];
+    }
+
     /**
      * Get the guard to be used during password reset.
      * @param array $guarded
