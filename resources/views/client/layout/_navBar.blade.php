@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-6">
                     <div class="logo">
-                        <a href="/"><img src="/assets/img/logo/logo.png" alt="GPU Shop" /></a>
+                        <a href="/"><img src="{{asset('/assets/img/logo/logo.png')}}" alt="GPU Shop" /></a>
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-6">

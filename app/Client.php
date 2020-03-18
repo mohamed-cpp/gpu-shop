@@ -232,8 +232,11 @@ class Client extends Authenticatable implements MustVerifyEmail
         return auth('client')->user()->code == $code;
     }
 
-    public function commentNotification($name){
-        return $this->name." Replied On $name Product";
+    public function commentNotification($product){
+        return [
+            'message_en' => $this->name." Replied On $product->name_en Product",
+            'message_ar' => 'منتج ' . $product->name_ar . " رد فى تعليق على " . $this->name
+        ];
     }
 
     /**

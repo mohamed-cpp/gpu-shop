@@ -230,8 +230,11 @@ class Seller extends Authenticatable implements MustVerifyEmail
             );
     }
 
-    public function commentNotification($name){
-        return "Seller Replied On Has Product $name";
+    public function commentNotification($product){
+        return [
+            'message_en' => "Seller Replied On Has Product $product->name_en",
+            'message_ar' => 'منتج ' . $product->name_ar . " رد بائع فى تعليق على " . $this->name
+        ];
     }
 
     public function guard(array $guarded)
@@ -239,8 +242,5 @@ class Seller extends Authenticatable implements MustVerifyEmail
         return Auth::guard('seller');
     }
 
-    public function hello(){
-        return 'hello';
-    }
 
 }

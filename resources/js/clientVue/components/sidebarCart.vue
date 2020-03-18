@@ -80,6 +80,11 @@
         watch: {
             '$root.cart': function(newVal, oldVal) {
                 this.cart = newVal;
+                if( newVal.cookie === 'egp' ){
+                    this.currency =  '£';
+                }else{
+                    this.currency = '$';
+                }
             }
         },
         data(){

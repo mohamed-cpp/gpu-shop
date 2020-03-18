@@ -43,7 +43,10 @@ class ClientNotificationNewOrder extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'The Order Registered successfully ID:' . $this->order->id,
+            'message' => [
+                'message_en' => 'The Order Registered Successfully ID:' . $this->order->id,
+                'message_ar' =>  $this->order->id .':تم تسجيل الطلب بنجاح, رقم الطلب '
+            ],
             'path'    => route('order.client',$this->order->id),
         ];
     }

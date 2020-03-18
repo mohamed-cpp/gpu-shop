@@ -47,7 +47,7 @@ class NotificationNewReply extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => $this->user->commentNotification($this->product->name),
+            'message' => $this->user->commentNotification($this->product),
             'path'    => route('show.product.client',[
                 'product'   =>$this->product->slug,
                 'page'      =>$this->request['currentPage']
