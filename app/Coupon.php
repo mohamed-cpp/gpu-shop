@@ -108,12 +108,12 @@ class Coupon extends Model
             if (!$appliedCoupon){
                 return true;
             }
-            return 'You used the coupon before';
+            return trans('You used the coupon before');
         }
         if ($this->uses >= $this->max_uses){
-            return 'All available coupon used';
+            return trans('All available coupon used');
         }else{
-            return 'Sorry but the coupon expired';
+            return trans('Sorry the coupon expired');
         }
     }
     /**

@@ -174,7 +174,7 @@ class ClientProductController extends Controller
                 return response(['updated'], 200);
 
             }catch (\Exception $exception){
-                return response('there something wrong try later',422);
+                return response(trans('There something wrong try later'),422);
             }
         }
         return response([],403);

@@ -154,7 +154,33 @@
   "Latest Products From": "أحدث المنتجات من",
   "Administrator": "مدير",
   "View wishlist": "اضهر المنتجات المفضلة",
-  "Make All as Read": "تعليم الكل كمقروء"
+  "Make All as Read": "تعليم الكل كمقروء",
+  "You should to login first": "يجب عليك تسجيل الدخول أولا",
+  "Thank you to reviews our product": "شكرا لتقييم المنتج",
+  "Sorry You need to buy the product first": "آسف ، تحتاج إلى شراء المنتج أولاً",
+  "There something wrong try later": "هناك خطأ ما حاول لاحقا",
+  "Added to wishlist": "أضيف لقائمة الرغبات",
+  "Removed from wishlist": "تمت إزالته من قائمة الرغبات",
+  "Already in wishlist": "في قائمة الرغبات بالفعل",
+  "Removed": "تم الحذف",
+  "Moved": "تم انتقل",
+  "The product's options updated": "تم تحديث خيارات المنتج",
+  "Validated coupon": "الكوبون صالحة",
+  "Coupon removed": "تمت إزالة الكوبون",
+  "Sold Out": "مباعة",
+  "The input is empty": "حقل الإدخال فارغ",
+  "The coupon does not validate": "الكوبون غير صالح",
+  "You used the coupon before": "لقد استخدمت الكوبون من قبل",
+  "All available coupon use": "جميع الكوبونات مستخدما",
+  "Sorry the coupon expired": "عذرا انتهت صلاحية الكوبون",
+  "Max Quantity": "لا يوجد كمية",
+  "Same options": "نفس الخيارات",
+  "Sorry But Quantity of The Product Is Over": "آسف ولكن كمية المنتج انتهت",
+  "The Offer Started!!! You can add the product to cart with new price.": "بدأ العرض !!! يمكنك إضافة المنتج إلى سلة التسوق بسعر جديد.",
+  "The Offer Ended.": "انتهى العرض.",
+  "Out of stack": "انتهاء من المخزن",
+  "Change Options": "تغير المواصفات"
+
 
 
 

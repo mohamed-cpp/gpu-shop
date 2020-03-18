@@ -28,9 +28,9 @@ class ClientCartController extends Controller
             session()->put('cart',$cart);
             return response(json_encode($cart));
         }elseif($add === null){
-            return response('Out of stack',422);
+            return response(trans('Out of stack'),422);
         }
-        return response('Max Qty',422);
+        return response(trans('Max Quantity'),422);
     }
 
     public function addProductCart(Product $product,Request $request){
@@ -50,7 +50,7 @@ class ClientCartController extends Controller
             session()->put('cart',$cart);
             return response(json_encode($cart));
         }
-        return response('Max Qty',422);
+        return response(trans('Max Quantity'),422);
 
     }
 

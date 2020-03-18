@@ -63,12 +63,12 @@
                             <div style="width: 363px; height: 314px; overflow: auto;" v-show="description" v-html="locale ? product.description_ar : product.description_en "></div>
                             <h3 v-if="detailsArray.length !== 0">{{ 'Options'| langJson }}</h3>
                             <section v-if="!description" v-for="(detail, index) in detailsArray">
-                                <h6 style="font-weight: bold;" v-if="locale">{{ detail.name_ar }}:</h6>
-                                <h6 style="font-weight: bold;"  v-else>{{ detail.name_en }}:</h6>
+                                <h6 style="font-weight: bold;" v-if="locale">{{ detail['name_'+lang] }}:</h6>
+
                                 <div v-for="(sub_detail, index) in detail.sub_details" class="toggle-button toggle-button--nummi">
                                     <input :checked="clickedInput(sub_detail,index)" :disabled="disabledInput(sub_detail,index)" :id="detail.name_en+index" :name="detail.name_en" :value="sub_detail.id" type="radio" v-on:click="details(sub_detail,detail.name_en,index)">
-                                    <label v-if="locale" :for="detail.name_en+index" :data-text="'sub_detail.name_ar'"></label>
-                                    <label v-else :for="detail.name_en+index"  :data-text="sub_detail.name_en"></label>
+                                    <label :for="detail.name_en+index" :data-text="sub_detail['name_'+lang]"></label>
+
                                     <div class="toggle-button__icon"></div>
                                 </div>
                             </section>

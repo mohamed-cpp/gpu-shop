@@ -101,7 +101,7 @@
             <div class="quickview-plus-minus">
                 <span class="input-number-decrement">–</span><input class="input-number" type="text" aria-label="Qty" value="1" min="1" :max="quantity"><span class="input-number-increment">+</span>
                 <div v-if="quantity !== 0" class="quickview-btn-cart">
-                    <addCartbutton :slug="product.slug_en" :options="product.details"></addCartbutton>
+                    <addCartbutton :slug="product['slug_'+lang]" :options="product.details"></addCartbutton>
                 </div>
                 <div class="quickview-btn-wishlist">
                     <addWishlist :list="2" :idproduct="product.id" :wishlistadded="wishlistadded"></addWishlist>
@@ -238,18 +238,18 @@
                        if(error.response.status === 422){
                            flash(error.response.data,'danger');
                        }
-                        flash('Sorry You need to buy the product first','warning');
+                        flash(this.$options.filters.langJson('Sorry You need to buy the product first'),'warning');
                     })
                     .then((response) => {
                         if(response.status === 200) {
-                            flash('Thank you to reviews our product');
+                            flash(this.$options.filters.langJson('Thank you to reviews our product'));
                             if(response.data[0] === 'created'){
                                 this.count = parseInt(this.count) + 1;
                             }
                         }
                     });
                 }else {
-                    flash('You need to login first','warning');
+                    flash( this.$options.filters.langJson('You should to login first') ,'warning');
                 }
 
             }

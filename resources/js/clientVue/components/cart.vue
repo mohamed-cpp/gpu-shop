@@ -35,7 +35,7 @@
                                             <div v-for="(option, index) in product.options">
                                                 <span>{{index}}: {{option.name}}</span><br>
                                             </div>
-                                            <button v-if="Object.keys(product.options).length != 0"  v-on:click="modelOptions(index,product)" id="optionsBtn">Change Options</button>
+                                            <button v-if="Object.keys(product.options).length != 0"  v-on:click="modelOptions(index,product)" id="optionsBtn">{{ 'Change Options' | langJson }}</button>
                                             <div>
                                                 <span v-if="product.for">you are buying for @{{product.for}}</span>
                                             </div>
@@ -141,7 +141,7 @@
                             </div>
                         </section>
                         <div class="coupon-all">
-                            <input class="button" value="Change Options" type="submit" v-on:click="updateOptions()">
+                            <input class="button" :value="'Change Options' | langJson" type="submit" v-on:click="updateOptions()">
                         </div>
                     </div>
                 </div>
@@ -165,7 +165,7 @@
         data(){
             return{
                 cart: this.cart_session,
-                lang: null,
+                lang: window.App.lang,
                 currency: null,
                 info: null,
                 modelName:null,
@@ -177,7 +177,6 @@
         },
         // mixins: [sidebar],
         mounted() {
-            this.lang = document.documentElement.lang;
             if( this.cart.cookie === 'egp' ){
                 this.currency =  '£';
             }else{
@@ -188,11 +187,11 @@
             remove(index,name){
                 var self = this;
                 axios.delete('/'+ this.lang + '/cart/remove/' + index)
-                    .then(function (response,) {
+                    .then(function (response) {
                         if(response.status === 200){
                             self.cart = response.data;
                             self.$root.cart = response.data;
-                            flash(name+' Removed');
+                            flash(name+' '+self.$options.filters.langJson('Removed'));
                         }
                     });
             },
@@ -212,18 +211,14 @@
                             if(response.status === 200) {
                                 self.cart = response.data;
                                 self.$root.cart = response.data;
-                                flash(name+' qty is '+qty);
+                                flash(name+' '+self.$options.filters.langJson('Quantity')+' '+qty);
                             }
                         });
                 }, 1500);
 
             },
             modelOptions(index,product){
-                if( this.lang === 'ar' ){
-                    this.modelName =  product.item.name_ar;
-                }else{
-                    this.modelName =  product.item.name_en;
-                }
+                this.modelName =  product.item['name_'+this.lang];
                 this.detailsArray = axios.get('/api/details/'+product.item.id+'/'+true)
                     .then(response => this.detailsArray = response.data);
                 document.getElementById("optionsModal").style.display = "block";
@@ -238,26 +233,19 @@
                     optionsArray[item.name_en] = {id: item.id, sub: subOption};
                     optionsString +='.'+subOption;
                 });
-                var self = this;
-                axios.post('/' + window.App.lang + '/cart/page/' + this.modelProduct.item.slug_en, {
-                    options: optionsArray,
-                    qty: this.modelProduct.qty,
-                    string: this.modelIndex,
-                    subOptions: optionsString,
-                }).then(function (response) {
-                        if (response.status === 200) {
-                            self.cart = response.data;
-                            self.$root.cart = response.data;
-                            flash('The product\'s options Updated');
-                            document.getElementById("optionsModal").style.display = "none";
-                        }
-                    });
+                if (this.modelProduct.item.id+optionsString !== this.modelIndex){
+                    this.callServerUpdateOptions(optionsArray,optionsString);
+                }else{
+                    document.getElementById("optionsModal").style.display = "none";
+                    flash(this.$options.filters.langJson("Same options"),'secondary');
+                }
+
             },
             coupon(){
                 var coupon = $('#coupon_code').val();
                 var self = this;
                 if (coupon && coupon.length === 20) {
-                    axios.post('/' + window.App.lang + '/cart/coupon/' + coupon)
+                    axios.post('/' + this.lang + '/cart/coupon/' + coupon)
                         .catch(error => {
                             self.alert = error.response.data;
                         })
@@ -265,24 +253,24 @@
                             if (response.status === 200) {
                                 self.cart = response.data;
                                 self.$root.cart = response.data;
-                                flash('Validation coupon');
+                                flash(self.$options.filters.langJson("Validated coupon"));
                             }
                         });
                 }else if(coupon.length === 0){
-                    this.alert = "The input is empty.";
+                    this.alert = flash(this.$options.filters.langJson("The input is empty"));
                 }else {
-                    this.alert = "The coupon is not validation.";
+                    this.alert = flash(this.$options.filters.langJson("The coupon does not validate"));
                 }
             },
             removeCoupon(){
                 var self = this;
-                axios.delete('/' + window.App.lang + '/cart/remove/coupon/')
+                axios.delete('/' + this.lang + '/cart/remove/coupon/')
                     .then(function (response) {
                         if (response.status === 200) {
                             self.cart = response.data;
                             self.$root.cart = response.data;
                             self.alert = null;
-                            flash('coupon removed');
+                            flash(self.$options.filters.langJson("Coupon removed"));
 
                         }
                     });
@@ -304,7 +292,23 @@
                 }else if(index === 0 && qty !== 0 ){
                     return false;
                 }
-                flash('Sold Out of '+sub_detail.name_en,'secondary');
+                flash(this.$options.filters.langJson("Sold Out"),'secondary');
+            },
+            callServerUpdateOptions(optionsArray,optionsString){
+                var self = this;
+                axios.post('/' + window.App.lang + '/cart/page/' + this.modelProduct.item['slug_'+this.lang], {
+                    options: optionsArray,
+                    qty: this.modelProduct.qty,
+                    string: this.modelIndex,
+                    subOptions: optionsString,
+                }).then(function (response) {
+                    if (response.status === 200) {
+                        self.cart = response.data;
+                        self.$root.cart = response.data;
+                        flash(self.$options.filters.langJson("The product's options updated"));
+                        document.getElementById("optionsModal").style.display = "none";
+                    }
+                });
             }
         }
     };

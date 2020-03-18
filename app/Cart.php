@@ -164,6 +164,7 @@ class Cart
             $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
             $this->items[$keyProduct] = $storedItem;
             $this->totalPrice += $storedItem['totalPriceQty'];
+            $this->totalPrice = round($this->totalPrice, 2);
             if ($this->coupon){
                 $this->coupon($this->coupon);
             }
@@ -204,6 +205,7 @@ class Cart
                 $storedItem['totalPriceQty'] = $storedItem['price'] * $storedItem['qty'];
                 $this->items[ $index ] = $storedItem;
                 $this->totalPrice += $storedItem['totalPriceQty'];
+                $this->totalPrice = round($this->totalPrice, 2);
                 if ($this->coupon){
                     $this->coupon($this->coupon);
                 }
@@ -265,11 +267,13 @@ class Cart
                     'minQty'        => min($minQtyArray),
                 ];
                 if ( $product->isOffer != $item['item']->isOffer){
-                    $storedItem['message'] = $product->isOffer ? 'The Offer Started!!! You can add the product to cart with new price.' : 'The Offer Ended' ;
+                    $storedItem['message'] = $product->isOffer ?
+                        trans("The Offer Started!!! You can add the product to cart with new price.")
+                        : trans('The Offer Ended.') ;
                     $deletedItems[] = $storedItem;
                     unset($this->items[$index]);
                 }elseif ($storedItem['qty'] > $storedItem['minQty']){
-                    $storedItem['message'] = "Sorry But Qty of The Product Is Over";
+                    $storedItem['message'] = trans('Sorry But Quantity of The Product Is Over');
                     $deletedItems[] = $storedItem;
                     unset($this->items[$index]);
                 }else{

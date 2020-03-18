@@ -117,7 +117,7 @@
                     .then(function (response,) {
                         if(response.status === 204){
                             self.$delete(self.wishlists, index);
-                            flash('removed');
+                            flash(this.$options.filters.langJson('Removed'));
                         }
                     });
 
@@ -141,7 +141,7 @@
                             }else {
                                 self.wishlists.splice(index+1, 0, theWishlist);
                             }
-                            flash('moved');
+                            flash(this.$options.filters.langJson('Moved'));
                         }
                     });
             },
@@ -164,7 +164,7 @@
                             }else {
                                 self.wishlists.push(theWishlist);
                             }
-                            flash('moved');
+                            flash(this.$options.filters.langJson('Moved'));
                         }
                     });
             }
