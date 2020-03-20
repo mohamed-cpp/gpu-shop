@@ -64,6 +64,7 @@ class ClientCartTest extends TestCase
         $key = array_keys(session()->get('cart')->items)[0];
         $this->post('/cart/qty/'.$key.'/'. 5 );
         $qty = session()->get('cart')->items[$key]['qty'];
+
         $this->assertEquals($qty,  5 );
     }
 

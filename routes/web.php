@@ -114,8 +114,8 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 
 Route::get('/test', function () {
-    dd(now()->addDays(1) ,now() );
-    return sliderImages() ;
+
+    echo app()->environment('local') ;
 }) ;
 Route::get('/testt', function () {
 
