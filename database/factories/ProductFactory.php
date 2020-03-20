@@ -90,8 +90,29 @@ $factory->define(\App\Coupon::class, function (Faker $faker) {
         'max_uses' => rand(100,500),
         'is_disposable' => 1,
         'start_at' => now(),
-        'end_at' => now() ,
+        'end_at' => now()->addDays(1) ,
         'discount' => rand(1,99),
         'is_percent' => 1,
+    ];
+});
+
+$factory->define(\App\Order::class, function (Faker $faker) {
+    $prodcut = factory('App\Product')->create();
+    $client = factory('App\Client')->create();
+    $name = $faker->name;
+    return [
+        'first_name' => $name,
+        'last_name' => $name,
+        'address' => $name,
+        'city' => $name,
+        'country' => $name,
+        'phone' => $faker->unique()->phoneNumber,
+        'client_id' => $client->id,
+        'client_username' => $client->username,
+        'status' => 4,
+        'pay_by' => 'Cash',
+        'total' => $prodcut->price_usd,
+        'currency' => 'usd',
+        'ip' => '127.0.0.1',
     ];
 });

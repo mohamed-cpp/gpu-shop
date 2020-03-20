@@ -16,7 +16,7 @@ class Cart
 
     public function __construct($oldCart)
     {
-        $this->cookie = Cookie::get('currency');
+        $this->cookie = Cookie::get('currency') ? Cookie::get('currency') : 'usd';
         if($oldCart){
             $this->items = $oldCart->items;
             $this->totalPrice = $oldCart->totalPrice;

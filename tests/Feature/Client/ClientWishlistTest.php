@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Feature;
+namespace Tests\Feature\Client;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;

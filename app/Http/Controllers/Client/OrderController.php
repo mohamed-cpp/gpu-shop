@@ -61,18 +61,20 @@ class OrderController extends Controller
 
     public function create(){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
-        $cart = new Cart($oldCart);
-        $removedItems =  $cart->updateItems($oldCart->cookie);
-        session()->put('cart',$cart);
-        if($removedItems){
-            return redirect()->route('cart.client')->with(['removedItems' => $removedItems]);
-        } elseif(isset($cart->items)){
-            return view('client.products.checkout',[
-                'cart' => $cart,
-            ]);
+        if ($oldCart){
+            $cart = new Cart($oldCart);
+            $removedItems =  $cart->updateItems($oldCart->cookie);
+            session()->put('cart',$cart);
+            if($removedItems){
+                return redirect()->route('cart.client')->with(['removedItems' => $removedItems]);
+            } elseif(isset($cart->items)){
+                return view('client.products.checkout',[
+                    'cart' => $cart,
+                ]);
+            }
         }
         return view('client.pages.sorry')
-            ->with(['message'=> 'Your Cart is Empty']);
+            ->with(['message'=> trans('Your cart is empty')]);
     }
 
     public function store(CheckoutClient $request){
@@ -130,8 +132,8 @@ class OrderController extends Controller
             default:
                 return view('client.pages.sorry')
                     ->with([
-                        'message'=> 'sorry try again or message us, we will be happy to help you',
-                        'id' => $order_id_or_url ? $order_id_or_url : null,
+                        'message'=> trans('Sorry try again or message us, we will be happy to help you'),
+                        'id' => isset($order_id_or_url) ? $order_id_or_url : null,
                     ]);
         }
 
@@ -212,7 +214,7 @@ class OrderController extends Controller
 
             return view('client.pages.sorry')
                 ->with([
-                    'message'=> 'there is something wrong please contact with your bank',
+                    'message'=> trans('There is something wrong please contact with your bank'),
                     'id'=> $order->id
                 ]);
         }
@@ -238,7 +240,7 @@ class OrderController extends Controller
                 ]);
                 return view('client.pages.sorry')
                     ->with([
-                        'message'=> 'sorry try again or message us, we will be happy to help you',
+                        'message'=> trans('Sorry try again or message us, we will be happy to help you'),
                         'id' => $order->id
                     ]);
             }
