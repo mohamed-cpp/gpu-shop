@@ -178,6 +178,7 @@ class Cart
             if( array_key_exists($item,$this->items) ){
                 $storedItem = $this->items[$item];
                 $this->totalPrice -= $storedItem['totalPriceQty'];
+                $this->totalPrice = round($this->totalPrice, 2);
                 if ($this->coupon){
                     $this->couponTotalPrice -= $storedItem['couponTotalPrice'];
                     $this->couponTotalPrice = round($this->couponTotalPrice , 2);

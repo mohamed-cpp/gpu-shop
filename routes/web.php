@@ -115,7 +115,6 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 Route::get('/test', function () {
 
-    echo app()->environment('local') ;
 }) ;
 Route::get('/testt', function () {
 

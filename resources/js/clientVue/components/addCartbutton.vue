@@ -1,5 +1,5 @@
 <template>
-    <a class="btn-hover-black" v-on:click="optionsPage(slug,options)">{{ 'Add to cart'| langJson }}</a>
+    <a class="btn-hover-black" dusk="task-submit" v-on:click="optionsPage(slug,options)">{{ 'Add to cart'| langJson }}</a>
 </template>
 
 <script>

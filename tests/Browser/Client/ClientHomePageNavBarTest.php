@@ -65,6 +65,7 @@ class ClientHomePageNavBarTest extends DuskTestCase
         $this->browse(function (Browser $browser) use  ($client,$notification) {
             $browser->loginAs($client,'client')
                 ->visit(New HomePage())
+                ->pause(200)
                 ->click('.top-head-dropdown a')
                 ->click('.top-head-dropdown a')
                 ->whenAvailable('.dropdown-menu-right', function ($modal) {
