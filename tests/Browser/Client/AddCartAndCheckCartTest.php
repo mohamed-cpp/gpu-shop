@@ -36,6 +36,7 @@ class AddCartAndCheckCartTest extends DuskTestCase
                 ->click('@add-cart-product')
                 ->pause(2000)
                 ->click('.sidebar-trigger')
+                ->pause(400)
                 ->whenAvailable('.onepage-sidebar-area', function ($modal) use ($product1) {
                     $modal->assertSeeIn('.cart-title span', $product1->offerPrice(false))
                             ->assertSeeIn('.cart-total h4 span', $product1->offerPrice(false));
@@ -46,6 +47,7 @@ class AddCartAndCheckCartTest extends DuskTestCase
                 ->click('@add-cart-product')
                 ->pause(2000)
                 ->click('.sidebar-trigger')
+                ->pause(400)
                 ->whenAvailable('.onepage-sidebar-area', function ($modal) use ($product2) {
                     $modal->assertSeeIn('.cart-title span', $product2->offerPrice(false))
                         ->assertSeeIn('.cart-total h4 span', $product2->offerPrice(false));

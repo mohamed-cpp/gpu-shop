@@ -129,6 +129,7 @@ class ProfileClientController extends Controller
         if ($image = $request->file('image')){
             $path = 'storage/client/images/';
 
+//            $name = $request->image->hashName();
             $name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension();
             $image_resize = Image::make($image->getRealPath());
             $image_resize->resize(140, 140);
