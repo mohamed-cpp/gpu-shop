@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Browser;
+namespace Tests\Browser\Client;
 
 use App\Client;
 use App\Product;
@@ -31,21 +31,25 @@ class AddCartAndCheckCartTest extends DuskTestCase
 
         $this->browse(function ($first, $second) use ($client,$product1,$product2) {
 
-
             $first->loginAs($client,'client')
                 ->visit(route('show.product.client',$product1->slug))
-                ->click('@task-submit')
-                ->press('@task-submit')
-                ->screenshot('asd1')
-            ;
+                ->click('@add-cart-product')
+                ->pause(2000)
+                ->click('.sidebar-trigger')
+                ->whenAvailable('.onepage-sidebar-area', function ($modal) use ($product1) {
+                    $modal->assertSeeIn('.cart-title span', $product1->offerPrice(false))
+                            ->assertSeeIn('.cart-total h4 span', $product1->offerPrice(false));
+                });
 
-
-//            $second->loginAs($client,'client')
-//                ->visit(route('show.product.client',$product2->slug))
-//                ->pause(2000)
-//                ->script('document.querySelector(".quickview-btn-cart > a").click();');
-//            $second->pause(1000)
-//                ->screenshot('asd2');
+            $second->loginAs($client,'client')
+                ->visit(route('show.product.client',$product2->slug))
+                ->click('@add-cart-product')
+                ->pause(2000)
+                ->click('.sidebar-trigger')
+                ->whenAvailable('.onepage-sidebar-area', function ($modal) use ($product2) {
+                    $modal->assertSeeIn('.cart-title span', $product2->offerPrice(false))
+                        ->assertSeeIn('.cart-total h4 span', $product2->offerPrice(false));
+                });
 
         });
     }

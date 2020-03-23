@@ -1,5 +1,5 @@
 <template>
-    <a class="btn-hover-black" dusk="task-submit" v-on:click="optionsPage(slug,options)">{{ 'Add to cart'| langJson }}</a>
+    <a class="btn-hover-black" dusk="add-cart-product" v-on:click="optionsPage(slug,options)">{{ 'Add to cart'| langJson }}</a>
 </template>
 
 <script>
@@ -28,7 +28,7 @@
                     // console.log(location.pathname);
                     var qty = $('.input-number').val();
                     var self = this;
-                    axios.post( '/'+window.App.lang+'/cart/page/'+slug, { options: optionsArray, qty: qty, string:optionsString })
+                    axios.put( '/'+window.App.lang+'/cart/page/'+slug, { options: optionsArray, qty: qty, string:optionsString })
                         .then(function (response) {
                             if(response.status === 200){
                                 self.$root.cart = response.data;

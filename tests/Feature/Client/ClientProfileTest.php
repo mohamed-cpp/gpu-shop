@@ -39,7 +39,7 @@ class ClientProfileTest extends TestCase
             'old_password' => null,
             'email' => null,
             ];
-        $this->post(route('update.client.profile'),$input)
+        $this->put(route('update.client.profile'),$input)
             ->assertStatus(302)
             ->assertRedirect(route('client.profile'));
         $this->assertDatabaseHas('clients',['username' => 'New Username']);
@@ -55,7 +55,7 @@ class ClientProfileTest extends TestCase
             'old_password' => null,
             'email' => null,
             ];
-        $this->post(route('update.client.profile'),$input)
+        $this->put(route('update.client.profile'),$input)
             ->assertSessionHasErrors();
         $this->assertDatabaseMissing('clients',['username' => 'New Username']);
 

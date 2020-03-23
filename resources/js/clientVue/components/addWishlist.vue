@@ -21,7 +21,7 @@
             productWishlist(){
                 if(window.signed.signedIn){
                     axios.post('/'+window.App.lang+'/wishlist/'+this.idproduct)
-                        .then(function (response) {
+                        .then( response => {
                             if(response && response.status === 204){
                                 flash(this.$options.filters.langJson('Added to wishlist'));
                             }

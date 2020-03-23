@@ -50,7 +50,7 @@ class ClientCartTest extends TestCase
 
     public function test_add_cart_at_product_page_client(){
         $this->actingAs($this->client,'client');
-        $this->post('/cart/page/'.$this->product->slug,[
+        $this->put('/cart/page/'.$this->product->slug,[
             'options' => [],
             'qty' => 5,
             'string' => ''
@@ -62,7 +62,7 @@ class ClientCartTest extends TestCase
         $this->actingAs($this->client,'client');
         $this->post('/cart/add/'.$this->product->slug );
         $key = array_keys(session()->get('cart')->items)[0];
-        $this->post('/cart/qty/'.$key.'/'. 5 );
+        $this->put('/cart/qty/'.$key.'/'. 5 );
         $qty = session()->get('cart')->items[$key]['qty'];
 
         $this->assertEquals($qty,  5 );
@@ -72,7 +72,7 @@ class ClientCartTest extends TestCase
         $this->actingAs($this->client,'client');
         $coupon = create('App\Coupon');
         $this->post('/cart/add/'.$this->product->slug );
-        $this->post('/cart/coupon/'.$coupon->code );
+        $this->patch('/cart/coupon/'.$coupon->code );
         $this->assertTrue( !! session()->get('cart')->coupon );
         $this->delete('/cart/remove/coupon' );
         $this->assertTrue( ! session()->get('cart')->coupon );
