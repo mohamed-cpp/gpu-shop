@@ -16,7 +16,7 @@ class ClientCartController extends Controller
 
         return view('client.products.cart',[
             'cart' => json_encode($oldCart),
-            'cartEmpty' => !! $oldCart->items,
+            'cartEmpty' => isset($oldCart->items) ? !! $oldCart->items : false ,
         ]);
     }
     public function addCart(Product $product, Request $request){

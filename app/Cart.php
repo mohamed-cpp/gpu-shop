@@ -16,7 +16,7 @@ class Cart
 
     public function __construct($oldCart)
     {
-        $this->cookie = Cookie::get('currency');
+        $this->cookie = Cookie::get('currency') ? Cookie::get('currency') : 'usd';
         if($oldCart){
             $this->items = $oldCart->items;
             $this->totalPrice = $oldCart->totalPrice;
@@ -178,6 +178,7 @@ class Cart
             if( array_key_exists($item,$this->items) ){
                 $storedItem = $this->items[$item];
                 $this->totalPrice -= $storedItem['totalPriceQty'];
+                $this->totalPrice = round($this->totalPrice, 2);
                 if ($this->coupon){
                     $this->couponTotalPrice -= $storedItem['couponTotalPrice'];
                     $this->couponTotalPrice = round($this->couponTotalPrice , 2);

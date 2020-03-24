@@ -17,7 +17,9 @@ class ChangeSlugMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if (!preg_match('/\b'. app()->getLocale().'\b/', url()->previous()) ){
+        if (!preg_match('/\b'. app()->getLocale().'\b/', url()->previous()) &&
+            array_key_exists(request()->segment(1),config('laravellocalization.supportedLocales'))
+        ){
             if (strpos($request->getPathInfo(), '/p/') !== false){
                 $updateRoute = false;
                 $UrlProduct= request()->segment(3);

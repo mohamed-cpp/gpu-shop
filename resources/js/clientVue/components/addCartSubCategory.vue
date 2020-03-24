@@ -28,7 +28,7 @@
                         .then(function (response) {
                             if(response.status === 200){
                                 self.$root.cart = response.data;
-                                flash('Added To Cart');
+                                flash(self.$options.filters.langJson('Added to cart'));
                             }
                         });
 

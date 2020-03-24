@@ -203,7 +203,7 @@
                 this.timer = setTimeout(() => {
                     var qty = document.getElementById(index).value;
                     var self = this;
-                    axios.post('/'+ this.lang + '/cart/qty/'+index+'/'+qty)
+                    axios.put('/'+ this.lang + '/cart/qty/'+index+'/'+qty)
                         .catch(error => {
                             flash(error.response.data,'danger');
                         })
@@ -245,7 +245,7 @@
                 var coupon = $('#coupon_code').val();
                 var self = this;
                 if (coupon && coupon.length === 20) {
-                    axios.post('/' + this.lang + '/cart/coupon/' + coupon)
+                    axios.patch('/' + this.lang + '/cart/coupon/' + coupon)
                         .catch(error => {
                             self.alert = error.response.data;
                         })
@@ -296,7 +296,7 @@
             },
             callServerUpdateOptions(optionsArray,optionsString){
                 var self = this;
-                axios.post('/' + window.App.lang + '/cart/page/' + this.modelProduct.item['slug_'+this.lang], {
+                axios.put('/' + window.App.lang + '/cart/page/' + this.modelProduct.item['slug_'+this.lang], {
                     options: optionsArray,
                     qty: this.modelProduct.qty,
                     string: this.modelIndex,

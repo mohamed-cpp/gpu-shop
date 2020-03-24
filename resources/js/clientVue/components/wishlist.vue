@@ -99,7 +99,7 @@
         },
         methods:{
             public(wishlist,id){
-                axios.post('/'+window.App.lang+'/vcisibility/'+wishlist)
+                axios.put('/'+window.App.lang+'/vcisibility/'+wishlist)
                     .then(function (response) {
                         if(response.status === 204){
                             var el = $(id);
@@ -117,7 +117,7 @@
                     .then(function (response,) {
                         if(response.status === 204){
                             self.$delete(self.wishlists, index);
-                            flash(this.$options.filters.langJson('Removed'));
+                            flash(self.$options.filters.langJson('Removed'));
                         }
                     });
 
@@ -131,7 +131,7 @@
             },
             moveDownOrUp(wishlist,anotherWishlist,index,isUp){
                 var self = this;
-                axios.post('/'+window.App.lang+'/wishlist/move/'+wishlist+'/'+anotherWishlist+'/'+isUp)
+                axios.put('/'+window.App.lang+'/wishlist/move/'+wishlist+'/'+anotherWishlist+'/'+isUp)
                     .then(function (response) {
                         if(response.status === 204){
                             var theWishlist = self.wishlists[index];
@@ -141,7 +141,7 @@
                             }else {
                                 self.wishlists.splice(index+1, 0, theWishlist);
                             }
-                            flash(this.$options.filters.langJson('Moved'));
+                            flash(self.$options.filters.langJson('Moved'));
                         }
                     });
             },
@@ -154,7 +154,7 @@
             },
             moveToTopOrDown(wishlist,index,isTop){
                 var self = this;
-                axios.post('/'+window.App.lang+'/wishlist/move/'+wishlist+'/'+isTop)
+                axios.put('/'+window.App.lang+'/wishlist/move/'+wishlist+'/'+isTop)
                     .then(function (response) {
                         if(response.status === 204){
                             var theWishlist = self.wishlists[index];
@@ -164,7 +164,7 @@
                             }else {
                                 self.wishlists.push(theWishlist);
                             }
-                            flash(this.$options.filters.langJson('Moved'));
+                            flash(self.$options.filters.langJson('Moved'));
                         }
                     });
             }

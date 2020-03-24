@@ -76,7 +76,7 @@
             },
             makeAsRead(){
                 if (this.isUnreadNotifications){
-                    axios.patch('/notification/read')
+                    axios.put('/notification/read')
                     .then(response =>{
                         if (response.status === 204){
                             $("li").removeClass("unread");
