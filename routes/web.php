@@ -115,7 +115,11 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 Route::get('/test', function () {
 
+<<<<<<< HEAD
 }) ;
+=======
+});
+>>>>>>> 830bdc7d864e4f967e614b161573c7304b54d3fd
 Route::get('/testt', function () {
 
 })->name('test') ;

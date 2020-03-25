@@ -41,7 +41,7 @@ class ProductCreateRequest extends FormRequest
             "offer_end_at" => 'required_with:offer_start_at|nullable|date|after_or_equal:offer_start_at',
             "offer_price_egp" => 'required_with:offer_start_at|min:0',
             "offer_price_usd" => 'required_with:offer_start_at|min:0',
-            "quantity_offer" => 'required_with:offer_start_at|min:1',
+            "quantity_offer" => 'required_with:offer_start_at|nullable|min:1',
             'status'  => 'required|boolean',
             'main_image'   => 'required|mimes:jpeg,png,jpg',
             'images.*'  => 'required|mimes:jpeg,png,jpg',

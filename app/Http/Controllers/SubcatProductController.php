@@ -57,7 +57,6 @@ class SubcatProductController extends Controller
             $products = $subcategory->paginateManyProducts()
                 ->orderBy('created_at', 'desc')
                 ->paginate(15);
-
             return view('client.products.show_products',[
                 'products' => $products,
                 'subcategory' => $subcategory,
