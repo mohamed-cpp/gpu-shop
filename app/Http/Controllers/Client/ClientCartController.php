@@ -26,7 +26,7 @@ class ClientCartController extends Controller
         $add = $cart->add($product,$username);
         if ($add){
             session()->put('cart',$cart);
-            return response(json_encode($cart));
+            return response()->json($cart);
         }elseif($add === null){
             return response(trans('Out of stack'),422);
         }
