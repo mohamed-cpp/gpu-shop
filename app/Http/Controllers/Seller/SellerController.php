@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Seller;
 
 use App\Seller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SellerController extends Controller
 {
@@ -14,7 +15,7 @@ class SellerController extends Controller
      */
     public function index()
     {
-        //
+        return view('seller.main');
     }
 
     /**

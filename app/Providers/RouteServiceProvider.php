@@ -74,7 +74,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->prefix($locale)
             ->namespace($this->namespace)
-            ->domain(env('APP_DOMAIN'))
+            ->domain(config('app.domain'))
             ->group(base_path('routes/web.php'));
     }
 
@@ -90,7 +90,7 @@ class RouteServiceProvider extends ServiceProvider
         Route::middleware('web')
             ->prefix($locale)
             ->namespace($this->namespace)
-            ->domain('sellers.' . env('APP_DOMAIN'))
+            ->domain('sellers.' . config('app.domain'))
             ->group(base_path('routes/seller.php'));
     }
 

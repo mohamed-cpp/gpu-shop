@@ -2,10 +2,8 @@
 Route::group(['prefix' => 'admin'], function () {
 
     Route::group(['middleware' => 'admin'], function (){
-
-        Route::get('/', function () {
-            return view('admin.main');
-        })->name('admin.home');
+    
+        Route::get("/", "Admin\AdminController@index")->name('admin.home');
 
         Route::resource('categories','Admin\CategoryController');
         Route::patch("categorises/quick/{category}", "Admin\CategoryController@quickButtons")->name("quick.buttons");
@@ -36,29 +34,6 @@ Route::group(['prefix' => 'admin'], function () {
     Route::get("login", "Auth\Admin\LoginController@showLoginForm")->name("admin.loginForm");
     Route::post("login", "Auth\Admin\LoginController@login")->name('admin.login');
     Route::post("logout", "Auth\Admin\LoginController@logout")->name("admin.logout");
-
-    Route::get('/test2', function () {
-        $output = "
-            //remove comment
-            this1 //remove comment
-            this2 /* remove comment */
-            this3 /* remove
-            comment */
-            this4 /* * * remove
-            * * * *
-            comment * * */
-            this5 http://removecomment.com
-            id = id.replace(/\//g,''); //do not remove the regex //
-            HTTP+'//www.googleadservices.com/pagead/conversion'
-            ";
-
-        $pattern = '/(?:(?:\/\*(?:[^*]|(?:\*+[^*\/]))*\*+\/)|(?:(?<!\:|\\\|\')\/\/.*))/';
-        $output = preg_replace($pattern, '', $output);
-
-        echo nl2br($output);
-    });
-
-    Route::get("test", "Test@test");
 
 
 });

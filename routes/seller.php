@@ -20,12 +20,11 @@ Route::post('password/reset', 'Auth\Seller\ResetPasswordController@reset')
     ->name('seller.password.update');
 
 Route::group(['middleware' => 'seller'], function (){
-    Route::get('/', function () {
-        return view('seller.main');
-    })->name('home.seller');
-    Route::get('/dashboard', function () {
-        return view('seller.main');
-    });
+
+    Route::get("/", "Seller\SellerController@index")->name('home.seller');
+    Route::get("/dashboard", "Seller\SellerController@index")->name('seller.main');
+    
+
     Route::resource('product','Seller\ProductController');
     Route::patch("product/quick/{product}", "Seller\ProductController@quickButtons")->name("product.quick.buttons");
     Route::get("product/{product}/details", "Seller\ProductController@addDetails")->name("product.details.create");
@@ -35,8 +34,3 @@ Route::group(['middleware' => 'seller'], function (){
     Route::delete("details/{details}/delete", "Seller\ProductController@destroyDetails")->name("product.details.delete");
     Route::get("filter/product", "Seller\ProductController@filter")->name("products.filter.seller");
 });
-
-
-Route::get('/test', function () {
-    return ;
-}) ;
