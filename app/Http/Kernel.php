@@ -45,7 +45,7 @@ class Kernel extends HttpKernel
             \Mcamara\LaravelLocalization\Middleware\LaravelLocalizationViewPath::class,
             \Mcamara\LaravelLocalization\Middleware\LocaleSessionRedirect::class,
 
-//            \App\Http\Middleware\HttpsProtocolMiddleware::class,
+            \App\Http\Middleware\HttpsProtocolMiddleware::class,
             \App\Http\Middleware\ChangeLocaleMiddleware::class,
 //            \App\Http\Middleware\OptimizeMiddleware::class, // from stack overflow
 

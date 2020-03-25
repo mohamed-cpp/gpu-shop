@@ -114,8 +114,8 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 
 
 Route::get('/test', function () {
-    return App\Product::find(1) ;
-}) ;
+
+});
 Route::get('/testt', function () {
 
 })->name('test') ;
