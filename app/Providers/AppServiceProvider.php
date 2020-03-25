@@ -37,11 +37,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton('LaravelLocalization', function () {
             return new LaravelLocalization();
         });
-
+        
+        /*
         if($this->app->isLocal() || env('DEBUGBAR_ENABLED')){
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
             //$this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
+        */
+        
     }
 
     /**
