@@ -42,10 +42,14 @@ class ClientsHomePageController extends Controller
             return array_keys($orders->toArray());
 
         });
-        $ids_ordered = implode(',', $ids);
-        return Product::enabled()
-            ->whereIn('id', $ids)
+
+        if(!empty($ids)){
+         $ids_ordered = implode(',', $ids);
+         return Product::enabled()
+             ->whereIn('id', $ids)
             ->orderByRaw("FIELD(id, $ids_ordered)")
-            ->get();
+             ->get();
+        }
+
     }
 }

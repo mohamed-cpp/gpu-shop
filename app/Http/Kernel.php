@@ -48,7 +48,7 @@ class Kernel extends HttpKernel
             \App\Http\Middleware\HttpsProtocolMiddleware::class,
             \App\Http\Middleware\ChangeLocaleMiddleware::class,
 //            \App\Http\Middleware\OptimizeMiddleware::class, // from stack overflow
-            \RenatoMarinho\LaravelPageSpeed\Middleware\InlineCss::class,
+            //\RenatoMarinho\LaravelPageSpeed\Middleware\InlineCss::class,
             \RenatoMarinho\LaravelPageSpeed\Middleware\ElideAttributes::class,
             \RenatoMarinho\LaravelPageSpeed\Middleware\InsertDNSPrefetch::class,
             \RenatoMarinho\LaravelPageSpeed\Middleware\RemoveComments::class,

@@ -75,8 +75,6 @@
 
                 event.preventDefault();
                 $('div[id^="inputDetails"]:last .disabled').removeAttr("hidden");
-                // var num = parseInt( $div.prop("id").match(/\d+/g), 10 ) +1;
-                // var $inputDetails = $div.clone().prop('id', 'inputDetails'+num );
             });
         });
     </script>
