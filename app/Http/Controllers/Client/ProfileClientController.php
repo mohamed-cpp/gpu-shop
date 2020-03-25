@@ -34,12 +34,15 @@ class ProfileClientController extends Controller
         }
         $seller = Seller::whereUsername($username)->first();
         if ($seller){
+            $rating = 0;
             $products = Product::whereSellerId($seller->id)
                 ->enabled()
                 ->orderBy('updated_at', 'desc')
                 ->get();
             $count = count($products);
-            $rating =  round($products->sum('rating_of_product') / $count );
+            if ($count != 0){
+                $rating =  round($products->sum('rating_of_product') / $count );
+            }
             return view('client.profile.profileSeller')->with([
                 'seller'=>$seller,
                 'products'=>$products->take(10),
@@ -126,6 +129,7 @@ class ProfileClientController extends Controller
         if ($image = $request->file('image')){
             $path = 'storage/client/images/';
 
+//            $name = $request->image->hashName();
             $name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension();
             $image_resize = Image::make($image->getRealPath());
             $image_resize->resize(140, 140);

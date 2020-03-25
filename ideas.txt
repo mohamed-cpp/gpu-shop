@@ -30,6 +30,17 @@ php artisan queue:work --queue=high,medium,low,default
         start_measure('render','Time for rendering');
         stop_measure('render');
 
+<<<<<<< HEAD
+Homestead no longer supports Dusk out of the box.
+
+You can install the required packages manually:
+
+sudo apt-get update
+sudo apt-get -y install libnss3 chromium-browser
+Enabling the webdriver feature in Homestead.yaml should also work, but doesn't for me:
+
+webdriver: true
+=======
 ./certbot-auto certonly --webroot -w /home/gpuadmin/html/public  -d *.gpushop.xyz -d gpushop.xyz --non-interactive --agree-tos --email muhamed.gamal9876@gmail.com
 ./certbot-auto certonly --webroot -w /home/gpuadmin/html/public  -d sellers.gpushop.xyz --non-interactive --agree-tos --email muhamed.gamal9876@gmail.com
 
@@ -187,3 +198,4 @@ server {
 #               try_files $uri $uri/ =404;
 #       }
 #}
+>>>>>>> 830bdc7d864e4f967e614b161573c7304b54d3fd

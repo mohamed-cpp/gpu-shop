@@ -16,6 +16,7 @@
                         <div class="card">
                             <form class="form" method="POST" action="{{route('update.client.profile')}}" enctype="multipart/form-data">
                                 @csrf
+                                @method('put')
                             <div class="card-body">
                                 <div class="e-profile w-75 mx-auto p-3">
                                     @if($errors)
@@ -154,7 +155,7 @@
                                                 </div>
                                                 <div class="row">
                                                     <div class="col d-flex justify-content-end">
-                                                        <button class="btn btn-primary" type="submit">@lang('حفظ التغييرات')</button>
+                                                        <button class="btn btn-primary" type="submit">@lang('Save Changes')</button>
                                                     </div>
                                                 </div>
                                         </div>

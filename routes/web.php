@@ -16,7 +16,7 @@ Route::group(['middleware' => 'client'], function () {
 
     Route::prefix('profile')->group(function () {
         Route::get('/', 'Client\ProfileClientController@show')->name('client.profile');
-        Route::post('/', 'Client\ProfileClientController@update')->name('update.client.profile');
+        Route::put('/', 'Client\ProfileClientController@update')->name('update.client.profile');
 
         Route::get('phone/verify', 'Client\PhoneVerifyClientController@index')->name('verify.phone.client');
         Route::post('phone/verify', 'Client\PhoneVerifyClientController@create')->name('code.phone.client');
@@ -27,17 +27,17 @@ Route::group(['middleware' => 'client'], function () {
     Route::get('wishlist', 'Client\ClientWishlistController@index')->name('show.wishlist.client');
     // axios wishlist
     Route::post('wishlist/{id}', 'Client\ClientWishlistController@storeWishlist');
-    Route::post('vcisibility/{wishlist}', 'Client\ClientWishlistController@visibilityWishlist');
-    Route::post('wishlist/move/{id}/{anotherId}/{up}', 'Client\ClientWishlistController@moveWishlist');
-    Route::post('wishlist/move/{id}/{up}', 'Client\ClientWishlistController@topOrBottomWishlist');
+    Route::put('vcisibility/{wishlist}', 'Client\ClientWishlistController@visibilityWishlist');
+    Route::put('wishlist/move/{id}/{anotherId}/{up}', 'Client\ClientWishlistController@moveWishlist');
+    Route::put('wishlist/move/{id}/{up}', 'Client\ClientWishlistController@topOrBottomWishlist');
     Route::delete('wishlist/{id}', 'Client\ClientWishlistController@destroyWishlistInProducts');
     Route::delete('wishlist/page/{wishlist}', 'Client\ClientWishlistController@destroyWishlist');
 
     Route::get('cart', 'Client\ClientCartController@index')->name('cart.client');
     Route::post('cart/add/{product}', 'Client\ClientCartController@addCart');
-    Route::post('cart/page/{product}', 'Client\ClientCartController@addProductCart');
-    Route::post('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
-    Route::post('cart/coupon/{coupon}', 'Client\ClientCartController@coupon')
+    Route::put('cart/page/{product}', 'Client\ClientCartController@addProductCart');
+    Route::put('cart/qty/{index}/{qty}', 'Client\ClientCartController@qtyCart');
+    Route::patch('cart/coupon/{coupon}', 'Client\ClientCartController@coupon')
         ->middleware('throttle:5,1');
     Route::delete('cart/remove/coupon', 'Client\ClientCartController@removeCoupon');
     Route::delete('cart/remove/{index}', 'Client\ClientCartController@removeProductCart');
@@ -60,7 +60,7 @@ Route::group(['middleware' => 'client'], function () {
     Route::delete('comment/delete/{id}', 'CommentController@delete');
 
     Route::get('notification', 'Client\ProfileClientController@notification')->name('notification.client');
-    Route::patch('notification/read', 'Client\ProfileClientController@readNotification')->name('read.notification.client');
+    Route::put('notification/read', 'Client\ProfileClientController@readNotification')->name('read.notification.client');
     Route::patch('notification/read/{id}', 'Client\ProfileClientController@aReadNotification')->name('read.notification.client');
 });
 
@@ -116,6 +116,4 @@ Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('
 Route::get('/test', function () {
 
 });
-Route::get('/testt', function () {
 
-})->name('test') ;

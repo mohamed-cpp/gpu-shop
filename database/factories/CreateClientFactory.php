@@ -19,3 +19,13 @@ $factory->define(Client::class, function (Faker $faker) {
     ];
 });
 
+$factory->define(Illuminate\Notifications\DatabaseNotification::class, function (Faker $faker) {
+    return [
+        'id' => $faker->uuid,
+        'type' => 'Notification',
+        'notifiable_type' => 'App\Client',
+        'notifiable_id' => 1,
+        'data' => 'data',
+    ];
+});
+

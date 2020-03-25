@@ -77,7 +77,7 @@
                 </div>
                 <div class="cur-lang-acc-dropdown">
                     <ul>
-                        <li><a href="{{ Str::replaceLast("/".app()->getLocale(),$anotherLocale,request()->url()) }}" aria-label="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{__($anotherLang)}} </a></li>
+                        <li><a href="{{ Str::replaceFirst("/".app()->getLocale(),$anotherLocale,request()->url()) }}" aria-label="Change Language To {{$anotherLang}}"><img src="/assets/img/icon-img/{{$anotherLang}}.png" alt="Change Language To {{$anotherLang}}"> {{__($anotherLang)}} </a></li>
                     </ul>
                 </div>
             </div>

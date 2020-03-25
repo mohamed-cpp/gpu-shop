@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tests\Feature;
+namespace Tests\Feature\Client;
 
 use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
@@ -46,7 +46,7 @@ class ClientWishlistTest extends TestCase
             'client_id'=>$this->client->id,
             'sort'=>1,
             ]);
-        $this->postJson('/vcisibility/'.$wishlist->id)
+        $this->putJson('/vcisibility/'.$wishlist->id)
             ->assertStatus(204);
         $this->assertEquals($wishlist->fresh()->public,true);
     }
@@ -65,7 +65,7 @@ class ClientWishlistTest extends TestCase
             'client_id'=>$this->client->id,
             'sort'=>2,
             ]);
-        $this->postJson("/wishlist/move/{$wishlist->id}/{$wishlist2->id}/true")
+        $this->putJson("/wishlist/move/{$wishlist->id}/{$wishlist2->id}/true")
             ->assertStatus(204);
         $this->assertEquals($wishlist->fresh()->sort,2);
     }
@@ -83,7 +83,7 @@ class ClientWishlistTest extends TestCase
             'client_id'=>$this->client->id,
             'sort'=>2,
         ]);
-        $this->postJson("/wishlist/move/{$wishlist->id}/true")
+        $this->putJson("/wishlist/move/{$wishlist->id}/true")
             ->assertStatus(204);
         $this->assertEquals($wishlist->fresh()->sort,3);
     }
