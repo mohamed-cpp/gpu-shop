@@ -21,9 +21,6 @@ class ChangeLocaleMiddleware
      */
     public function handle($request, Closure $next)
     {
-        if(Cookie::get('currency') == null){
-            Cookie::queue(Cookie::make('currency', 'usd', 0, '/', config('session.domain'), true, false));
-        }
         if (!preg_match('/\b'. app()->getLocale().'\b/', url()->previous()) ){
             $oldCart = Session::has('cart') ? Session::get('cart') : null;
             if ($oldCart){
@@ -31,6 +28,13 @@ class ChangeLocaleMiddleware
                 $cart->updateItems(Cookie::get('currency'));
                 session()->put('cart',$cart);
             }
+        }
+        if(Cookie::get('currency') == null){
+            
+            //Cookie::queue(Cookie::forever('currency', 'usd', 99999));
+            //cookie('currency', 'usd', 0, '/', config('session.domain'), true, false);
+            //Cookie::queue(Cookie::make('currency', 'usd',0, '/', config('session.domain'), true, false ));
+            return $next($request)->withCookie(cookie('currency', 'usd'));
         }
         return $next($request);
     }

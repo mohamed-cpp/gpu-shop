@@ -46,7 +46,7 @@ class ClientsHomePageController extends Controller
         $ids_ordered = implode(',', $ids);
         return Product::enabled()
             ->whereIn('id', $ids)
-            ->orderByRaw("FIELD(id, "+$ids_ordered+")")
+            ->orderByRaw("FIELD(id, ".$ids_ordered.")")
             ->get();
         }
 
