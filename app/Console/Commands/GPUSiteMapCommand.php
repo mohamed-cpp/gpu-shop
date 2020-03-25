@@ -52,15 +52,15 @@ class GPUSiteMapCommand extends Command
     public function handle()
     {
 
-        $products_ar_sitemap = SitemapGenerator::create(env("APP_URL"))->getSitemap();
-        $products_en_sitemap = SitemapGenerator::create(env("APP_URL"))->getSitemap();
+        $products_ar_sitemap = SitemapGenerator::create(config("app.url"))->getSitemap();
+        $products_en_sitemap = SitemapGenerator::create(config('app.url'))->getSitemap();
         $products_en_sitemap->add(
-            Url::create(env("APP_URL").'/en')
+            Url::create(config('app.url').'/en')
                 ->setLastModificationDate(now())
                 ->setChangeFrequency('daily')
         );
         $products_ar_sitemap->add(
-            Url::create(env("APP_URL").'/ar')
+            Url::create(config('app.url').'/ar')
                 ->setLastModificationDate(now())
                 ->setChangeFrequency('daily')
         );
@@ -81,8 +81,8 @@ class GPUSiteMapCommand extends Command
         $products_ar_sitemap->writeToFile(public_path("products_ar_sitemap.xml"));
 
 
-        $sub_categories_ar_sitemap = SitemapGenerator::create(env("APP_URL"))->getSitemap();
-        $sub_categories_en_sitemap = SitemapGenerator::create(env("APP_URL"))->getSitemap();
+        $sub_categories_ar_sitemap = SitemapGenerator::create(config('app.url'))->getSitemap();
+        $sub_categories_en_sitemap = SitemapGenerator::create(config('app.url'))->getSitemap();
         foreach ($this->sub_categories as $sub_category) {
             $sub_categories_en_sitemap->add(
                 Url::create('en/s/'.$sub_category->slug_en)
