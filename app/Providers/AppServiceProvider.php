@@ -17,7 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \View::composer('client.layout._sideBar', function ($view) {
+	    \View::composer('client.layout._sideBar', function ($view) {
             $categories = \Cache::rememberForever('categories', function () {
 
                 return Category::with(array('subCategories' => function($query){
@@ -33,14 +33,14 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with('categories', $categories);
         });
-
+	   
         $this->app->singleton('LaravelLocalization', function () {
             return new LaravelLocalization();
         });
 
         if($this->app->isLocal() || env('DEBUGBAR_ENABLED')){
             $this->app->register(\Barryvdh\Debugbar\ServiceProvider::class);
-            $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
+           // $this->app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
         }
     }
 

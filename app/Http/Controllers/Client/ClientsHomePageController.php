@@ -12,7 +12,7 @@ class ClientsHomePageController extends Controller
     public function homepage()
     {
 
-        $newProduct = Product::enabled()->orderBy('created_at', 'desc')->take(8)->get();
+	      $newProduct = Product::enabled()->orderBy('created_at', 'desc')->take(8)->get();
         $highestRating = Product::enabled()->orderBy('rating_of_product', 'desc')->take(12)->get();
         $offerProduct = Product::enabled()
             ->where('offer_start_at','<',now())
@@ -42,10 +42,13 @@ class ClientsHomePageController extends Controller
             return array_keys($orders->toArray());
 
         });
+        if(!empty($ids)){
         $ids_ordered = implode(',', $ids);
         return Product::enabled()
             ->whereIn('id', $ids)
-            ->orderByRaw("FIELD(id, $ids_ordered)")
+            ->orderByRaw("FIELD(id, "+$ids_ordered+")")
             ->get();
+        }
+
     }
 }

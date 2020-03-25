@@ -60,6 +60,7 @@
                         </div>
                     </div>
                 </div>
+                @if(!empty($bestsellers))
                 <div class="tab-pane fade" id="home3" role="tabpanel">
                     <div class="row">
                         <div class="product-slider-active owl-carousel">
@@ -98,6 +99,7 @@
                         </div>
                     </div>
                 </div>
+                @endif
                 <div class="tab-pane fade" id="home4" role="tabpanel">
                     <div class="row">
                         <div class="product-slider-active owl-carousel">
