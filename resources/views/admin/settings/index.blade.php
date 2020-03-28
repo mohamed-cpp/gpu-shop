@@ -56,7 +56,7 @@
                 </div>
                 <div class="row">
                     <div class="col-sm-6 col-sm-offset-5">
-                            {{ $setting->links() }}
+                            {{ $settings->links() }}
                     </div>
                 </div>
             </div>
