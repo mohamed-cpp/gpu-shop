@@ -5,8 +5,6 @@
     <style>
     #card {
             text-align: center;
-            /*padding: 40px 0;*/
-            /*background: #EBF0F5;*/
     }
     .card h1 {
         color: #88B04B;
@@ -56,11 +54,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.6.3/lottie.min.js" integrity="sha256-lZIvAx83WLHALrd5UIfVRAkDgVmAIxUt8JqPhNZIs4Q=" crossorigin="anonymous"></script>
     <script>
     lottie.loadAnimation({
-        container: el5, // the dom element that will contain the animation
+        container: el5,
         renderer: 'svg',
         loop: true,
         autoplay: true,
-        path: '/assets/img/json/29-motorcycle.json' // the path to the animation json
+        path: '/assets/img/json/29-motorcycle.json'
     });
     window.setTimeout(function () {
         window.location = "/";
