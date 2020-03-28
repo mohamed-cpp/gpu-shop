@@ -8,12 +8,12 @@ require('./bootstrap');
 
 window.Vue = require('vue');
 import moment from 'moment';
-// if (process.env.MIX_APP_ENV === 'production') {
-//     Vue.config.productionTip = false;
-//     Vue.config.devtools = false;
-//     Vue.config.debug = false;
-//     Vue.config.silent = true;
-// }
+if (process.env.MIX_APP_ENV === 'production') {
+    Vue.config.productionTip = false;
+    Vue.config.devtools = false;
+    Vue.config.debug = false;
+    Vue.config.silent = true;
+}
 //Vue.config.productionTip = false;
 /**
  * The following block of code may be used to automatically register your

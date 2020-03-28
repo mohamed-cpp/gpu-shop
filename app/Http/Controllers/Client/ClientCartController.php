@@ -21,12 +21,13 @@ class ClientCartController extends Controller
     }
     public function addCart(Product $product, Request $request){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $product->setHidden(['description_ar','description_en']);
         $username = $request->username != auth('client')->user()->username ? $request->username : null ;
         $cart = new Cart($oldCart);
         $add = $cart->add($product,$username);
         if ($add){
             session()->put('cart',$cart);
-            return response()->json($cart);
+            return response(json_encode($cart));
         }elseif($add === null){
             return response(trans('Out of stack'),422);
         }
@@ -35,6 +36,7 @@ class ClientCartController extends Controller
 
     public function addProductCart(Product $product,Request $request){
         $oldCart = Session::has('cart') ? Session::get('cart') : null;
+        $product->setHidden(['description_ar','description_en']);
         $cart = new Cart($oldCart);
         $addWithQtyOptions = $cart->addWithQtyOptions($product,$request->all());
         session()->put('cart',$cart);

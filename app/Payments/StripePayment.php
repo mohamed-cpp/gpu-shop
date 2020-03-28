@@ -21,7 +21,7 @@ class StripePayment implements PaymentsInterface
     {
         $client = $this->client;
         $totalPrice = $cart->couponTotalPrice ? $cart->couponTotalPrice : $cart->totalPrice;
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        \Stripe\Stripe::setApiKey(config('stripe.STRIPE_SECRET_KEY'));
 
         $intent = \Stripe\PaymentIntent::create([
             'payment_method' => $input['stripeToken'],
@@ -55,7 +55,7 @@ class StripePayment implements PaymentsInterface
 
     public function confirm($order, $request)
     {
-        \Stripe\Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
+        \Stripe\Stripe::setApiKey(config('stripe.STRIPE_SECRET_KEY'));
         $intent = \Stripe\PaymentIntent::retrieve($request['payment_intent']);
 
         try{

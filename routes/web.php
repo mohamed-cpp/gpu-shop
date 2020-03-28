@@ -111,3 +111,9 @@ Route::get('change/currency', 'Client\ClientController@currency')->name('currenc
 
 Route::get('wishlists/{client}', 'Client\ClientWishlistController@show')->name('show.wishlist.guest');
 Route::get('profile/{username}', 'Client\ProfileClientController@index')->name('view.profile');
+//Route::get('/test',function (){
+//    $products = App\Product::findMany([1,2])->keyBy('slug_en');
+//    $products->setHidden(['description_ar','description_en']);
+//
+//    \Log::info([json_encode($products)]);
+//});

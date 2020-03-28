@@ -310,7 +310,7 @@
         $("#"+$(this).attr('data-slide')).slideDown(600);
     });
 
-    var stripe = Stripe('{{env('STRIPE_PUBLIC_KEY')}}');
+    var stripe = Stripe('{{config('stripe.STRIPE_PUBLIC_KEY')}}');
     var elements = stripe.elements();
     var style = {
         base: {

@@ -226,6 +226,10 @@ class Cart
             $deletedItems = [];
             $ids = Arr::pluck($this->items, 'item.id');
             $products = Product::findMany($ids)->keyBy('slug_en');
+            $products->each(function ($item){
+                unset($item->description_ar);
+                unset($item->description_en);
+            });
             foreach ($this->items as $index => $item){
                 $product = $products[$item['item']->slug_en];
                 if ($product->isOffer) {
