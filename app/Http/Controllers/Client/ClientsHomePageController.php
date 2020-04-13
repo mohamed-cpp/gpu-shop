@@ -36,7 +36,7 @@ class ClientsHomePageController extends Controller
 
     private function bestsellers(){
         $ids = \Cache::remember('bestsellers',86400, function () {
-            $bestsellers = ProductOrder::where('status',ProductOrder::ORDERED)
+            $bestsellers = ProductOrder::where('status',ProductOrder::DELIVERED)
                 ->get()->groupBy('product_id');
             $orders = $bestsellers->sort()->reverse()->take(12);
             return array_keys($orders->toArray());
