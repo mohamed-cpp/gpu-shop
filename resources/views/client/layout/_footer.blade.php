@@ -6,9 +6,9 @@
                     <div class="footer-widget-l-content">
                         <h4>@lang('Connect with us'):</h4>
                         <ul>
-                            <li><a href="twitter.com"  target="_blank" aria-label="Twitter"><i class="ion-social-twitter"></i></a></li>
-                            <li><a href="facebook.com" target="_blank" aria-label="Facebook"><i class="ion-social-facebook"></i></a></li>
-                            <li><a href="facebook.com" target="_blank" aria-label="Instagram"><i class="ion-social-instagram-outline"></i></a></li>
+                            <li><a href="https://twitter.com"  target="_blank" aria-label="Twitter"><i class="ion-social-twitter"></i></a></li>
+                            <li><a href="https://www.facebook.com" target="_blank" aria-label="Facebook"><i class="ion-social-facebook"></i></a></li>
+                            <li><a href="https://www.instagram.com" target="_blank" aria-label="Instagram"><i class="ion-social-instagram-outline"></i></a></li>
                         </ul>
                     </div>
                 </div>
