@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Cache;
  */
 class GpuShopSetting extends Model
 {
+    const WATERMARK = "assets/img/logo/watermark.png";
 
     /**
      * @var array

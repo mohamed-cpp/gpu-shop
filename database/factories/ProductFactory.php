@@ -3,6 +3,7 @@
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
+use Illuminate\Http\UploadedFile;
 
 $factory->define(\App\Product::class, function (Faker $faker,$id = null) {
     return [
@@ -16,7 +17,7 @@ $factory->define(\App\Product::class, function (Faker $faker,$id = null) {
         'description_meta_en' => $faker->text,
         'slug_en' => $faker->slug,
         'slug_ar' => $faker->slug,
-        'main_image' => $faker->image('public/storage/product/images/',400,400, null, false),
+        'main_image' => UploadedFile::fake()->image('photo1.jpg'),
         'status' => 1,
         'approved' => 1,
         'price_egp' => rand(100,500),

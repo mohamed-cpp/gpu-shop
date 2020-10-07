@@ -6,9 +6,12 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Filesystem\Filesystem;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use Cviebrock\EloquentTaggable\Taggable;
+use Intervention\Image\Facades\Image as EditerImage;
 
 /**
  * App\Product
@@ -137,6 +140,12 @@ class Product extends Model
     const DISAPPROVED = 0;
     const APPROVED = 1;
     const REJECTED = 2;
+
+    // Image
+    const PATH = 'storage/product/images/';
+    const BIG_IMAGE_PATH = "storage/product/images/big_";
+    const THUMBNAIL_PATH = "storage/product/images/thumbnail/";
+
 
     static public $priceIs = ["egp", "usd"];
 
@@ -279,6 +288,27 @@ class Product extends Model
         return $this->attributes['offer_end_at'] = empty($value) ? null : \Carbon\Carbon::parse($value)->format('Y-m-d H:i:s');
     }
 
+    public function setMainImageAttribute($file)
+    {
+        if ($file instanceof UploadedFile) {
+            (new Filesystem())->delete(self::PATH.$this->main_image);
+            (new Filesystem())->delete(self::BIG_IMAGE_PATH.$this->main_image);
+
+            $name = $file->hashName();
+            $normal_image = EditerImage::make($file->getRealPath());
+            $normal_image->save(public_path(self::PATH.$name));
+
+            $image_resize = EditerImage::make(public_path(self::PATH.$name));
+            $image_resize->resize(1200, 1125);
+            $image_resize->save(public_path(self::BIG_IMAGE_PATH.$name));
+
+            addWatermark($name);
+            addWatermark($name,self::BIG_IMAGE_PATH);
+            thumbnail($name);
+
+            $this->attributes['main_image'] = $name;
+        }
+    }
     public function isOffer(){
         $now = Carbon::now();
         $start = $this->offer_start_at;

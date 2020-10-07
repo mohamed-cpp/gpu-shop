@@ -9,21 +9,22 @@
 
                     <div class="tab-pane active show fade" id="pro-details99" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
-                            <a :href="'/storage/product/images/'+ product.main_image">
+                            <a :href="'/storage/product/images/'+'big_'+product.main_image">
                                 <img :src="'/storage/product/images/'+ product.main_image" :alt="product['name_'+lang]">
                             </a>
                         </div>
                     </div>
                     <div class="tab-pane fade"  v-for="(image, mainIndex) in product.images" :id="'pro-details'+mainIndex" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
-                            <a :href="'/storage/product/images/'+ image.path">
+                            <a :href="'/storage/product/images/'+ 'big_'+image.path">
                                 <img :src="'/storage/product/images/'+ image.path" :alt="product['name_'+lang]">
                             </a>
                         </div>
                     </div>
                     <div class="tab-pane fade"  v-for="(image, detailsIndex) in images" :id="'pro-details'+detailsIndex+imagesLength" role="tabpanel">
                         <div class="easyzoom easyzoom--overlay">
-                            <a :href="'/storage/product/images/'+ image.path">
+<!--                            <a :href="'/storage/product/images/'+ 'big_'+image.path">-->
+                            <a>
                                 <img :src="'/storage/product/images/'+ image.path" :alt="product['name_'+lang]">
                             </a>
                         </div>

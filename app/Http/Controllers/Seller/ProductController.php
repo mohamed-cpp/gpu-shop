@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
+use Illuminate\Filesystem\Filesystem;
 
 class ProductController extends Controller
 {
@@ -83,25 +84,27 @@ class ProductController extends Controller
         $seller = auth('seller')->user();
         $input = $request->all();
         $input['username_seller'] = $seller->username;
+        $input['seller_id'] = $seller->id;
         $input['slug_ar'] = preg_replace("/\s+/","_",$input['slug_ar']);
         $input['slug_en'] = preg_replace("/\s+/","_",$input['slug_en']);
         $input = $this->storeFee($input,$seller);
-        $image = $request->file('main_image');
-        $input['main_image'] = $this->moveImage($image);
-        $product = $seller->products()->create($input);
+        $input['main_image'] = $request->file('main_image');
+        $product = Product::create($input);
         $product->tag($input['tags']);
         $images = [];
         if ($request->file('images')){
             foreach ($request->file('images') as $requestImage){
-                $images[] = new \App\Image(['path' => $this->moveImage($requestImage)]) ;
+//                $images[] = new \App\Image(['path' => $requestImage]) ; // here image
+                $images[] = ['path' => $requestImage];
             }
         }
         $subcategories = [];
         foreach ($input['subcategories'] as $subcategor){
-            $subcategories[] = new \App\SubcatProduct(['subcategoryable_id' => $subcategor]);
+            $subcategories[] = ['subcategoryable_id' => $subcategor];
         }
-        $product->images()->saveMany($images);
-        $product->subcategories()->saveMany($subcategories);
+        $product->images()->createMany($images);
+//        $product->images()->saveMany($images); // here image
+        $product->subcategories()->createMany($subcategories);
         if ($request->agree){
             return redirect(route('product.details.create',$product->slug));
         }
@@ -139,7 +142,7 @@ class ProductController extends Controller
                 $this->validate($request, ["$i.*" => 'sometimes|mimes:jpeg,png,jpg']);
                 $images = [];
                 foreach ($requestImages as $requestImage) {
-                    $images[] = ['path' => $this->moveImage($requestImage),'imagesNumber'=> $i];
+                    $images[] = ['path' => $requestImage,'imagesNumber'=> $i];
                 }
                 $Allimages[] = $images;
             }
@@ -201,7 +204,7 @@ class ProductController extends Controller
                 $images = [];
                 foreach ($requestImages as $requestImage) {
 
-                    $images[] = ['path' => $this->moveImage($requestImage),'imagesNumber'=> $i];
+                    $images[] = ['path' => $requestImage,'imagesNumber'=> $i];
                 }
                 $Allimages[] = $images;
             }
@@ -268,9 +271,6 @@ class ProductController extends Controller
         $input = $request->all();
         $seller = auth('seller')->user();
         $input = $this->addFee($input,$product,$seller);
-        if($image = $request->file('main_image')){
-            $input['main_image'] = $this->moveImage($image);
-        }
         $product->update($input);
         if ($input['tags'] != $product->tagList){
             $product->detag();
@@ -288,7 +288,7 @@ class ProductController extends Controller
         if ($request->file('images')){
             $images = [];
             foreach ($request->file('images') as $requestImage){
-                $images[] = ['path' => $this->moveImage($requestImage)];
+                $images[] = ['path' => $requestImage];
             }
             $product->images()->createMany($images);
         }
@@ -327,24 +327,6 @@ class ProductController extends Controller
         return back()->with('flash',"The Product $status Successfully");
     }
 
-    public function moveImage($image){
-        $path = 'storage/product/images/';
-        $name = md5(Str::random(10).$image->getClientOriginalName()).'.'.$image->getClientOriginalExtension();
-
-        $image_resize = Image::make($image->getRealPath());
-        $image_resize->resize(1200, 1125);
-        $image_resize->save(public_path($path.$name));
-
-        $this->addWatermark($name);
-        $this->addWatermark($name,'storage/product/images/thumbnail/',true);
-        return $name;
-    }
-    protected function addWatermark($name,$path = 'storage/product/images/',$thumbnail=false){
-        $img = Image::make(public_path('storage/product/images/'.$name));
-        $img->insert(public_path('assets/img/logo/watermark.png'), 'bottom-left', 10, 10);
-        if($thumbnail === true) {$img->resize(365, 400);}
-        $img->save(public_path($path.$name));
-    }
     protected function searchImages($imagesArray , $value){
         foreach ($imagesArray as $key => $val) {
             if ($val[0]['imagesNumber'] == $value) {

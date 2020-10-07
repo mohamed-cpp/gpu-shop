@@ -1,6 +1,7 @@
 <?php
 
 use App\GpuShopSetting;
+use Intervention\Image\Facades\Image as EditerImage;
 
 function cartImage(){
     $image = GpuShopSetting::getAllSettings()->where('name','CART_IMAGE_'. strtoupper(app()->getLocale()))->first();
@@ -144,4 +145,15 @@ function castVal($val, $castTo)
         default:
             return $val;
     }
+}
+
+function addWatermark($name,$path = \App\Product::PATH){
+    $img = EditerImage::make(public_path($path.$name));
+    $img->insert(public_path(\App\GpuShopSetting::WATERMARK), 'bottom-left', 10, 10);
+    $img->save(public_path($path.$name));
+}
+function thumbnail($name,$path = \App\Product::PATH){
+    $img = EditerImage::make(public_path($path.$name));
+    $img->resize(365, 400);
+    $img->save(public_path(\App\Product::THUMBNAIL_PATH.$name));
 }
