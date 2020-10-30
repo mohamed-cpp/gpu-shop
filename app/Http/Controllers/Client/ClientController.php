@@ -93,7 +93,7 @@ class ClientController extends Controller
         $cart = new Cart($oldCart);
         $cart->updateItems($currency);
         session()->put('cart',$cart);
-        return back();
+        return redirect()->back();
 
 //        return back()->withCookies($cookies); //$cookies is an array
     }

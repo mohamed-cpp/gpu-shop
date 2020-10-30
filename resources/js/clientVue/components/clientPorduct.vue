@@ -21,10 +21,9 @@
                             </a>
                         </div>
                     </div>
-                    <div class="tab-pane fade"  v-for="(image, detailsIndex) in images" :id="'pro-details'+detailsIndex+imagesLength" role="tabpanel">
-                        <div class="easyzoom easyzoom--overlay">
-<!--                            <a :href="'/storage/product/images/'+ 'big_'+image.path">-->
-                            <a>
+                    <div class="tab-pane fade"  v-for="(image, detailsIndex) in images" v-for-callback="{key: detailsIndex, array: images, callback: easyZoomReload}" :id="'details'+detailsIndex+imagesLength" role="tabpanel">
+                        <div class="easyzoom easyzoom--overlay easyzoom-details">
+                            <a :href="'/storage/product/images/'+ 'big_'+image.path">
                                 <img :src="'/storage/product/images/'+ image.path" :alt="product['name_'+lang]">
                             </a>
                         </div>
@@ -37,7 +36,7 @@
                     <a class="mr-12" v-for="(image, mainIndex2) in product.images"  :href="'#pro-details'+mainIndex2" data-toggle="tab" role="tab" aria-selected="true">
                         <img :src="'/storage/product/images/thumbnail/'+ image.path" :alt="product['name_'+lang]">
                     </a>
-                    <a class="mr-12" v-for="(image, detailsIndex2) in images"  :href="'#pro-details'+detailsIndex2+imagesLength" data-toggle="tab" role="tab" aria-selected="true">
+                    <a class="mr-12" v-for="(image, detailsIndex2) in images"  :href="'#details'+detailsIndex2+imagesLength" data-toggle="tab" role="tab" aria-selected="true">
                         <img :src="'/storage/product/images/thumbnail/'+ image.path" :alt="product['name_'+lang]">
                     </a>
                 </div>
@@ -153,6 +152,7 @@
                 count:this.reviews,
                 url: window.location.href,
                 lang: window.App.lang,
+                easyZoom: null,
             }
         },
         mounted() {
@@ -253,8 +253,37 @@
                     flash( this.$options.filters.langJson('You should to login first') ,'warning');
                 }
 
+            },
+            easyZoomReload() {
+                /*
+                * Delay For
+                * [Vue warn]: You may have an infinite update loop in a component render function.
+                * */
+                setTimeout(function (){
+                    if (this.easyZoom){
+                        for (const [key, value] of Object.entries(this.easyZoom)) {
+                            if(typeof value == "number"){
+                                break;
+                            }
+                            $(value).easyZoom().data('easyZoom').teardown();
+                        }
+                    }
+                    this.easyZoom = $('.easyzoom-details').easyZoom();
+                }, 100);
+
             }
-        }
+        },
+        directives: {
+            forCallback(el, binding) {
+                let element = binding.value
+                if (element.key == element.array.length - 1){
+                    if (typeof element.callback === 'function') {
+                        element.callback()
+                    }
+                }
+
+            }
+        },
     };
 </script>
 <style>
